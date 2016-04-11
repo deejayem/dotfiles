@@ -147,7 +147,7 @@ fi
 do_interesting_prompt 2
 #do_boring_prompt
 
-# Change the window title of X terminals 
+# Change the window title of X terminals
 case $TERM in
     xterm*|rxvt*|Eterm)
         PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\007"'
