@@ -1,0 +1,14 @@
+defutf8 on
+encoding UTF-8
+vbell off
+defnonblock 5
+backtick 1 10 10 /home/djm/bin/showmail.sh
+
+hardstatus alwayslastline "%{=}%{g}[ %{B}%D%d/%m%{W}%c:%s %{g}][%=%{w}%?%-Lw%?%{r}(%{W}%n*%f%?(%u)%?%{r})%{w}%?%+Lw%?%?%=%{g}][%=%1` ]"
+
+
+
+#hardstatus alwayslastline "%{=}%{g}[%{B} %D %d/%m%{W}%c:%s %{g}][%= %{w}%?%-Lw%?%{r}(%{W}%n*%f %t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}]%=%1`"
+#hardstatus alwayslastline "%{=}%{g}[%{B} %D %d/%m%{W}%c:%s %{g}][%= %{w}%?%-Lw%?%{r}(%{W}%n*%f %t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][ %{W}:%l %{g}]"
+#hardstatus alwayslastline "%{= kw}%?%-Lw%?%{= kw}%n*%f %t%?(%u)%?%{= kw}%?%+Lw%?%{= kw} %=%1` %c %m/%d/%Y"
+
