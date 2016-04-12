@@ -339,10 +339,14 @@ function chdir()
 {
 
     if [ $# -eq 0 ]; then
-        cd -
+        #cd -
+        echo -n "popd: "
+        popd
     else
-        cd $@
-        pwd
+        #cd $@
+        #pwd
+        echo -n "pushd: "
+        pushd $@
     fi
 }
 
@@ -360,7 +364,7 @@ alias hadd='run_cmd $(history -p ^diff^add)'
 
 alias dogs='run_cmd docker ps; run_cmd docker logs -f $(docker ps|sed 1d|awk '"'"'{print $1;}'"'"')'
 alias undock='sudo umount `mount|grep -o "/var/lib/docker/aufs/mnt/[a-z0-9]*"`'
-alias gp="chdir ${VIEW_DIR} ; run_cmd git pull ; chdir"
+#alias gp="chdir ${VIEW_DIR} ; run_cmd git pull ; chdir"
 
 
 function esvapi()
