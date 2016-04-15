@@ -190,7 +190,7 @@ alias trunc="colrm 80"
 
 alias pc="${HOME}/bin/pocket-cli.py"
 
-[ -x "$(command -v wget)" ] || alias fetch="wget"
+[ ! -x "$(command -v fetch)" -a  -x "$(command -v wget)"  ] && alias fetch="wget"
 [ -f /etc/debian_version ] && alias psearch="apt-cache search"
 
 #alias esv='diatheke -b ESV -k'
