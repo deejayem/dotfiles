@@ -24,7 +24,7 @@ set sendmail="/home/djm/local/bin/msmtp"
 
 set use_from=yes
 set from="REDACTED"
-set realname="REDACTED"
+set realname="David Morgan"
 set use_envelope_from=yes
 
 set record="$HOME/Mail/sent"            #sent mail is saved here
@@ -55,7 +55,9 @@ mailboxes =debian-news
 mailboxes =debian-user
 mailboxes =london.pm
 mailboxes =london.pm_jobs
+mailboxes =pywm
 mailboxes =freebsd-security
+mailboxes =freebsd-python
 mailboxes =freebsd-announce
 mailboxes =freebsd-ports-announce
 mailboxes =freebsd-current

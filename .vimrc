@@ -106,7 +106,13 @@ if has('gui_running')
     colorscheme solarized
 else
     set t_Co=256
-    colorscheme solarized
+    colorscheme jellybeans
+    "colorscheme solarized
+    "colorscheme inkpot
+    "colorscheme zenburn
+    "colorscheme molokai
+    "colorscheme badwolf
+    "colorscheme bubblegum-256-dark
 endif
 "call togglebg#map("<F9>")
 
@@ -150,6 +156,9 @@ nmap <silent> <F4> :silent setlocal spell spelllang=en_gb<CR>
 imap <silent> <F4> <C-o>:silent setlocal spell spelllang=en_gb<CR>
 nmap <silent> <F5> :silent setlocal nospell<CR>
 imap <silent> <F5> <C-o>:silent setlocal nospell<CR>
+
+nmap <silent> <F2> :silent set diffopt+=iwhite<CR>
+imap <silent> <F2> <C-o>:silent set diffopt+=iwhite<CR>
 
 " on some systems this is not detected correcly
 set background=dark

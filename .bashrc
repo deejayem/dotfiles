@@ -359,7 +359,11 @@ function run_cmd()
 alias gitlog="git log --since=yesterday --name-only"
 alias gitlog1="git log -p -1"
 alias gitfp1="git format-patch --stdout -1"
-alias gitdiff="git diff origin/develop"
+alias gitvimdiff="git difftool --tool=vimdiff"
+alias gitgvimdiff="git difftool --tool=gvimdiff"
+# useful after commit, before push
+alias gitdevdiff="git diff origin/develop"
+alias gitmasterdiff="git diff origin/master"
 alias hadd='run_cmd $(history -p ^diff^add)'
 
 alias dogs='run_cmd docker ps; run_cmd docker logs -f $(docker ps|sed 1d|awk '"'"'{print $1;}'"'"')'
