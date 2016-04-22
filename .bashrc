@@ -88,13 +88,14 @@ do_boring_prompt() {
     export PS1='\n\d \t {\h}\n[\u@\h \w](\#)\$ '
 }
 
-if ! [ -x "$(command -v gdircolors)" ]; then
+if [ -x "$(command -v gdircolors)" ]; then
     dircolors=`type -p gdircolors`
 else
     dircolors=`type -p dircolors`
 fi
 
-if [ -z ${dircolors+x} ]; then
+#if [ -n "${dircolors+x}" ]; then
+if [ -n "${dircolors}" ]; then
     if [[ -f ~/.dir_colors ]]; then
         eval `$dircolors -b ~/.dir_colors`
     else
