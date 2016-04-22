@@ -521,6 +521,17 @@ function count_urls()
 #pgrep -f ecs || screen -S ecs -d -m ssh -X -R 6728:localhost:22221 m04dm@booth1.ecs.ox.ac.uk
 #pgrep -f crow || screen -S crow -d -m ssh -X -D 8080 wadh2045@crow.linux.ox.ac.uk
 
+
+# cygwin
+if [[ "x$OS" == "xWindows_NT" ]]; then
+    export nodosfilewarning=1
+    export C=/cygdrive/c
+    export WIN_HOME=$C/Users/davidmo
+
+    # eclipse :(
+    [[ -d $WIN_HOME/workspaces ]] && export WORKSPACES=$WIN_HOME/workspaces
+fi
+
 true
 
 # vim: set et ts=4 tw=120 :
