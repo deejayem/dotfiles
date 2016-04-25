@@ -50,6 +50,8 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'ciaranm/inkpot'
 Plugin 'nanotech/jellybeans.vim'
 Plugin 'baskerville/bubblegum'
+Plugin 'morhetz/gruvbox'
+Plugin 'w0ng/vim-hybrid'
 " Plugin 'chriskempson/base16-vim'
 
 " TODO: re-enable
