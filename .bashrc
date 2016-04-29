@@ -189,7 +189,8 @@ alias vidotclean="rm .*~"
 alias vibinclean="rm ~/bin/*~"
 alias trunc="colrm 80"
 
-alias pc="${HOME}/bin/pocket-cli.py"
+alias pc="pocket-cli.py"
+alias pp='pushbullet push "LGE Nexus 4" link "${1}" "${1}"'
 
 [ ! -x "$(command -v fetch)" -a  -x "$(command -v wget)"  ] && alias fetch="wget"
 [ -f /etc/debian_version ] && alias psearch="apt-cache search"
