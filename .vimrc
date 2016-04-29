@@ -118,6 +118,14 @@ else
 endif
 "call togglebg#map("<F9>")
 
+" override colours on some systems
+if hostname() =~ '^wolfman'
+    let g:gruvbox_termcolors=16
+    colorscheme gruvbox
+elseif hostname() =~ '^CHESTER'
+    colorscheme badwolf
+endif
+
 set number
 
 nmap <leader>t <ESC>:TagbarToggle<cr>
