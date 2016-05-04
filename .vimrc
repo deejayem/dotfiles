@@ -330,7 +330,7 @@ let g:syntastic_check_on_open = 0
 let g:syntastic_disabled_filetypes=['python'] " use jedi instead
 
 set colorcolumn=80
-"set cursorline
+set cursorline
 nnoremap <silent> <Leader>l ml:execute 'match Search /\%'.line('.').'l/'<CR>
 nnoremap <silent> <Leader>m ml:execute 'match'<CR>
 
