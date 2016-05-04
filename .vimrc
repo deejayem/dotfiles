@@ -52,6 +52,7 @@ Plugin 'nanotech/jellybeans.vim'
 Plugin 'baskerville/bubblegum'
 Plugin 'morhetz/gruvbox'
 Plugin 'w0ng/vim-hybrid'
+Plugin 'mitsuhiko/fruity-vim-colorscheme'
 " Plugin 'chriskempson/base16-vim'
 
 " TODO: re-enable
@@ -109,6 +110,7 @@ if has('gui_running')
 else
     set t_Co=256
     colorscheme jellybeans
+    "colorscheme fruity
     "colorscheme solarized
     "colorscheme inkpot
     "colorscheme zenburn
@@ -123,7 +125,7 @@ if hostname() =~ '^wolfman'
     let g:gruvbox_termcolors=16
     colorscheme gruvbox
 elseif hostname() =~ '^CHESTER'
-    colorscheme badwolf
+    colorscheme fruity
 endif
 
 set number
