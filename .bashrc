@@ -242,6 +242,7 @@ if ! [ -x "$(command -v tac)" ]; then
 fi
 
 shopt -s extglob
+shopt -s globstar
 
 set -o noclobber
 set -o vi
