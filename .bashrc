@@ -183,6 +183,8 @@ export PAGER=/usr/bin/less
 #export PERL5LIB="${HOME}/perl/share/perl/:${HOME}/lib/perl/:${HOME}/perl5/"
 export MOZ_NO_PANGO=1
 
+[ -x /usr/bin/lesspipe  ] && eval "$(SHELL=/bin/sh lesspipe)"
+
 alias y=yes
 alias s="sudo"
 alias svi="sudo vim"
