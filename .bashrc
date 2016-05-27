@@ -29,6 +29,7 @@ do_interesting_prompt() {
     tyr_col='\[\e[0;36m\]'
     basil_col='\[\e[0;33m\]'
     gendros_col='\[\e[1;37m\]'
+    raspi_col='\[\033[01;32m\]'
 
     host_col=$reset_col
     # TODO make all of these unique again
@@ -40,13 +41,16 @@ do_interesting_prompt() {
     [[ "x$HOST" == "xgendros" ]] && host_col=$gendros_col
     [[ "x$HOST" == "xCHESTER" ]] && host_col=$gendros_col
     [[ "x$HOST" == "xtriton" ]] && host_col=$gendros_col
+    [[ "x$HOST" == "xraspberrypi" ]] && host_col=$raspi_col
 
     djm_col='\[\e[0;32m\]'
+    pi_col='\[\e[1;37m\]'
     wiz_col='\[\e[1;32m\]'
     deejayem_col='\[\e[1;32m\]'
 
     user_col=$reset_col
     [[ "x$USER" == "xdjm" ]] && user_col=$djm_col
+    [[ "x$USER" == "xpi" ]] && user_col=$pi_col
     [[ "x$USER" == "xwizard" ]] && user_col=$wiz_col
     [[ "x$USER" == "xdeejayem" ]] && user_col=$deejayem_col
     [[ "x$USER" == "xdavidmo" ]] && user_col=$deejayem_col
