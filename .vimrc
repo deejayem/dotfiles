@@ -54,6 +54,9 @@ Plugin 'morhetz/gruvbox'
 Plugin 'w0ng/vim-hybrid'
 Plugin 'mitsuhiko/fruity-vim-colorscheme'
 " Plugin 'chriskempson/base16-vim'
+Plugin 'NLKNguyen/papercolor-theme'
+Plugin 'Lokaltog/vim-distinguished'
+Plugin 'blueshirts/darcula'
 
 " TODO: re-enable
 "Plugin 'scrooloose/syntastic'
