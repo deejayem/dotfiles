@@ -302,7 +302,7 @@ set lazyredraw
 set visualbell
 
 set wildmenu
-set wildignore+=*.o,*~,.lo
+set wildignore+=*.o,*~,.lo,.class,*/target/**
 set suffixes+=.in,.a
 
 set hidden
