@@ -8,6 +8,8 @@ if [[ $- != *i* ]]; then
 fi
 
 export HOSTNAME=${HOSTNAME:-$(hostname -s)}
+# need -s above for BSD, but that returns localhost on some linuxen
+[[ "x${HOSTNAME}"  == "xlocalhost" ]] && export HOSTNAME=$(hostname)
 export HOST=$HOSTNAME
 export USER=${USER:-$(whoami)}
 
@@ -29,7 +31,7 @@ do_interesting_prompt() {
     tyr_col='\[\e[0;36m\]'
     basil_col='\[\e[0;33m\]'
     gendros_col='\[\e[1;37m\]'
-    raspi_col='\[\033[01;32m\]'
+    mnason_col='\[\033[01;32m\]'
 
     host_col=$reset_col
     # TODO make all of these unique again
@@ -41,16 +43,14 @@ do_interesting_prompt() {
     [[ "x$HOST" == "xgendros" ]] && host_col=$gendros_col
     [[ "x$HOST" == "xCHESTER" ]] && host_col=$gendros_col
     [[ "x$HOST" == "xtriton" ]] && host_col=$gendros_col
-    [[ "x$HOST" == "xraspberrypi" ]] && host_col=$raspi_col
+    [[ "x$HOST" == "xmnason" ]] && host_col=$mnason_col
 
     djm_col='\[\e[0;32m\]'
-    pi_col='\[\e[1;37m\]'
     wiz_col='\[\e[1;32m\]'
     deejayem_col='\[\e[1;32m\]'
 
     user_col=$reset_col
     [[ "x$USER" == "xdjm" ]] && user_col=$djm_col
-    [[ "x$USER" == "xpi" ]] && user_col=$pi_col
     [[ "x$USER" == "xwizard" ]] && user_col=$wiz_col
     [[ "x$USER" == "xdeejayem" ]] && user_col=$deejayem_col
     [[ "x$USER" == "xdavidmo" ]] && user_col=$deejayem_col
@@ -175,8 +175,6 @@ set -C
 #export NNTPSERVER=news.individual.net
 #export NNTPSERVER=public.teranews.com
 #export NNTPSERVER=reader.news4all.se
-export HOSTNAME=`hostname -s`
-export HOST=$HOSTNAME
 [ -f /usr/bin/vim ] && export EDITOR=/usr/bin/vim
 [ -f /usr/local/bin/vim ] && export EDITOR=/usr/local/bin/vim
 export PAGER=/usr/bin/less
@@ -236,8 +234,7 @@ alias msearchfilename='mpc search filename'
 alias mupdate='mpc update'
 
 #source ~/bashmp.sh
-keychain ~/.ssh/id_dsa
-keychain ~/.ssh/id_rsa
+keychain ~/.ssh/id_dsa ~/.ssh/id_rsa
 #. ~/.keychain/${HOSTNAME}-sh-gpg
 . ~/.keychain/${HOSTNAME}-sh
 
