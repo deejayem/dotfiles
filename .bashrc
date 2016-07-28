@@ -374,7 +374,7 @@ alias hadd='run_cmd $(history -p ^diff^add)'
 
 alias dogs='run_cmd docker ps; run_cmd docker logs -f $(docker ps|sed 1d|awk '"'"'{print $1;}'"'"')'
 alias undock='sudo umount `mount|grep -o "/var/lib/docker/aufs/mnt/[a-z0-9]*"`'
-#alias gp="chdir ${VIEW_DIR} ; run_cmd git pull ; chdir"
+#alias gp="chdir ${VIEW_DIR} ; run_cmd git pull --rebase ; chdir"
 #alias gs="chdir ${VIEW_DIR} ; run_cmd git stash ; chdir"
 #alias gsp="chdir ${VIEW_DIR} ; run_cmd git stash pop ; chdir"
 #alias gstat="chdir ${VIEW_DIR} ; run_cmd git -c color.status=always status | less -RXF ; chdir"
