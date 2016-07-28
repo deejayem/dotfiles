@@ -538,6 +538,13 @@ if [[ "x$OS" == "xWindows_NT" ]]; then
     [[ -d $WIN_HOME/workspaces ]] && export WORKSPACES=$WIN_HOME/workspaces
 fi
 
+if [ -f ~/.fzf.bash  ]; then
+    . ~/.fzf.bash
+else
+    [ -f /usr/share/fzf/completion.bash  ] && . /usr/share/fzf/completion.bash
+    [ -f /usr/share/fzf/key-bindings.bash  ] && . /usr/share/fzf/key-bindings.bash
+fi
+
 true
 
 # vim: set et ts=4 tw=120 :
