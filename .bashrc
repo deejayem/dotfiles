@@ -194,7 +194,7 @@ alias vibinclean="rm ~/bin/*~"
 alias trunc="colrm 80"
 
 alias pc="pocket-cli.py"
-alias pp='pushbullet push "LGE Nexus 4" link "${1}" "${1}"'
+alias pp='pushbullet push "OnePlus" link "${1}" "${1}"'
 
 [ ! -x "$(command -v fetch)" -a  -x "$(command -v wget)"  ] && alias fetch="wget"
 [ -f /etc/debian_version ] && alias psearch="apt-cache search"
@@ -486,7 +486,7 @@ function check()
 {
     while read i ; do
         #wget --quiet -O- "${i}" | sed -n 's/<title>\([^|]*\).*/\1/p'
-        wget --quiet -O- "${i}" | sed -n 's/<title>\([^|<]*\).*/\1/p'
+        wget --quiet -O- "${i}" | sed -n 's/\s*<title>\([^|<]*\).*/\1/p'
     done < ${HOME}/urls.txt
 }
 
