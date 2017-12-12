@@ -585,8 +585,8 @@ if [ -f ~/.fzf.bash ]; then
 #    [ -f /usr/share/fzf/key-bindings.bash ] && . /usr/share/fzf/key-bindings.bash
 fi
 
-if [ -f . /usr/local/bin/tmuxp.bash ]
-    . . /usr/local/bin/tmuxp.bash
+if [ -f /usr/local/bin/tmuxp.bash ]; then
+    . /usr/local/bin/tmuxp.bash
 fi
 
 true
