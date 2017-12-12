@@ -57,6 +57,8 @@ Plugin 'mitsuhiko/fruity-vim-colorscheme'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'Lokaltog/vim-distinguished'
 Plugin 'blueshirts/darcula'
+Plugin 'joshdick/onedark.vim'
+Plugin 'ajmwagar/vim-dues'
 
 " TODO: re-enable
 "Plugin 'scrooloose/syntastic'

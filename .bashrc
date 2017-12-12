@@ -29,7 +29,7 @@ do_interesting_prompt() {
 
     sif_col='\[\e[0;35m\]'
     tyr_col='\[\e[0;36m\]'
-    basil_col='\[\e[0;33m\]'
+    gaius_col='\[\e[0;33m\]'
     gendros_col='\[\e[1;37m\]'
     mnason_col='\[\033[01;32m\]'
 
@@ -39,7 +39,7 @@ do_interesting_prompt() {
     [[ "x$HOST" == "xtyr" ]] && host_col=$tyr_col
     [[ "x$HOST" == "xsagacity" ]] && host_col=$tyr_col
     [[ "x$HOST" == "xwolfman" ]] && host_col=$tyr_col
-    [[ "x$HOST" == "xbasil" ]] && host_col=$basil_col
+    [[ "x$HOST" == "xgaius" ]] && host_col=$gaius_col
     [[ "x$HOST" == "xgendros" ]] && host_col=$gendros_col
     [[ "x$HOST" == "xCHESTER" ]] && host_col=$gendros_col
     [[ "x$HOST" == "xtriton" ]] && host_col=$gendros_col
@@ -134,18 +134,31 @@ if [[ -n "${PATH/*$HOME\/bin:*/}" ]] ; then
     export PATH="$HOME/bin:$PATH"
 fi
 
-## MANPATH
-if [[ -n "${MANPATH/*\/usr\/local\/mpi\/openmpi\/man:*/}" ]] ; then
-    export PATH="/usr/local/mpi/openmpi/man:$PATH"
+if [[ -n "${PATH/*$HOME\/bin:*/}" ]] ; then
+    export PATH="$HOME/bin:$PATH"
 fi
 
-if [[ -n "${MANPATH/*$HOME\/local\/man:*/}" ]] ; then
-    export PATH="$HOME/local/man:$PATH"
+if [[ -n "${PATH/*$HOME\/.cargo\/bin:*/}" ]] ; then
+    export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-if [[ -n "${MANPATH/*$HOME\/local\/share\/man:*/}" ]] ; then
-    export PATH="$HOME/local/share/man:$PATH"
-fi
+# MANPATH
+unset MANPATH
+#if [[ -n "${MANPATH/*\/usr\/local\/mpi\/openmpi\/man:*/}" ]] ; then
+#    export MANPATH="/usr/local/mpi/openmpi/man:$MANPATH"
+#fi
+
+#if [[ -n "${MANMANPATH/*$HOME\/local\/man:*/}" ]] ; then
+#    export MANPATH="$HOME/local/man:$MANPATH"
+#fi
+
+#if [[ -n "${MANMANPATH/*$HOME\/local\/share\/man:*/}" ]] ; then
+#    export MANPATH="$HOME/local/share/man:$MANPATH"
+#fi
+
+#if [[ -n "${MANMANPATH/*\/usr\/local\/man:*/}" ]] ; then
+#    export MANPATH="/usr/local/man:$MANPATH"
+#fi
 
 
 # Should test to see if we're capable of being interesting or not (TODO)
@@ -201,6 +214,14 @@ alias pp='pushbullet push "OnePlus" link "${1}" "${1}"'
 
 #alias esv='diatheke -b ESV -k'
 alias esv="bible esv"
+alias lxxm="bible -m lxx"
+alias lxxa="bible -a lxx"
+alias lxxma="bible -ma lxx"
+#alias gnt="bible Tisch"
+alias gnt="bible MorphGNT"
+alias gntm="bible -m MorphGNT"
+alias gnta="bible -a MorphGNT"
+alias gntma="bible -ma MorphGNT"
 alias asv="diatheke -b ASV -k"
 alias niv="diatheke -b NIV -k"
 alias tniv="diatheke -b TNIV -k"
@@ -234,7 +255,7 @@ alias msearchfilename='mpc search filename'
 alias mupdate='mpc update'
 
 #source ~/bashmp.sh
-keychain ~/.ssh/id_dsa ~/.ssh/id_rsa
+keychain --agents "gpg,ssh" ~/.ssh/id_rsa C171251002C200F2
 #. ~/.keychain/${HOSTNAME}-sh-gpg
 . ~/.keychain/${HOSTNAME}-sh
 
@@ -384,7 +405,7 @@ function esvapi()
 {
     ref=${@// /%20}
     #wget --quiet -O- "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=$ref"|lynx -dump -stdin|sed -n 's/\[[0-9]\+\] \?//g;/^Footnotes\|References/q;p'
-    wget --quiet -O- "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=$ref"|lynx -dump -stdin|sed -n '/^\s*$/d;s/\[[0-9]\+\] \?//g;p;/(ESV)$/q'
+    wget --quiet -O- "http://www.esvapi.org/v2/rest/passageQuery?key=IP&passage=$ref"|lynx -dump -stdin|gsed -n '/^\s*$/d;s/\[[0-9]\+\] \?//g;p;/(ESV)$/q'
 }
 
 function bgw()
@@ -392,7 +413,7 @@ function bgw()
     bv=${1}
     shift
     ref=${@// /%20}
-    wget --quiet -O- "http://www.biblegateway.com/passage/?search=${ref}&version=${bv}"|lynx -dump -stdin|sed -n "/^$@.*${bv}/,/^Footnotes/p"|grep -v "^Footnotes"
+    wget --quiet -O- "http://www.biblegateway.com/passage/?search=${ref}&version=${bv}"|lynx -dump -stdin|gsed -n "/^$@.*${bv}/,/^Footnotes/p"|grep -v "^Footnotes"
 }
 
 function dl()
@@ -453,10 +474,24 @@ function wlca()
 }
 
 bible() {
+    opt=""
+    if [ "x$1" == "x-m" ]
+    then
+        opt="-o m"
+        shift
+    elif [ "x$1" == "x-a" ]
+    then
+        opt="-o a"
+        shift
+    elif [ "x$1" == "x-am" -o "x$1" == "x-ma" ]
+    then
+        opt="-o am"
+        shift
+    fi
     book=$1
     shift
     case $book in
-    esv|niv|tniv|nasb|kjv|nkjv|nlt|hcsb|ylt|asv)
+    esv|niv|tniv|nasb|kjv|nkjv|nlt|hcsb|ylt|asv|lxx)
       book=${book^^*}
       ;;
     amp)
@@ -466,7 +501,7 @@ bible() {
       book=NETfree
       ;;
     esac
-    diatheke -b "${book}" -k "${*}"|grep -v '^$'|sed -e :a -e '/[0-9]: $/N;s/\([0-9][0-9]*\): \n/\1: /;ta'
+    diatheke -b "${book}" $opt -k "${*}"|grep -v '^$'|sed -e :a -e '/[0-9]: $/N;s/\([0-9][0-9]*\): \n/\1: /;ta'
 }
 
 pll() {
@@ -486,7 +521,7 @@ function check()
 {
     while read i ; do
         #wget --quiet -O- "${i}" | sed -n 's/<title>\([^|]*\).*/\1/p'
-        wget --quiet -O- "${i}" | sed -n 's/\s*<title>\([^|<]*\).*/\1/p'
+        wget --quiet -O- "${i}" | sed -n 's/ *<title>\([^|<]*\).*/\1/p'|col
     done < ${HOME}/urls.txt
 }
 
@@ -515,7 +550,7 @@ function add_urls()
 
 function remove_urls()
 {
-    sed -i ${1}d ${HOME}/urls.txt
+    gsed -i ${1}d ${HOME}/urls.txt
 }
 
 function count_urls()
@@ -540,9 +575,18 @@ fi
 
 if [ -f ~/.fzf.bash ]; then
     . ~/.fzf.bash
-else
-    [ -f /usr/share/fzf/completion.bash ] && . /usr/share/fzf/completion.bash
-    [ -f /usr/share/fzf/key-bindings.bash ] && . /usr/share/fzf/key-bindings.bash
+    export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    bind -x '"\C-p": vim $(fzf -m);'
+    #export FZF_ALT_C_COMMAND="cd ~/; bfs -type d -nohidden | sed s/^\./~/"
+    export FZF_ALT_C_COMMAND="rg --hidden --files --sort-files --null | xargs -0 dirname | sort -u"
+#else
+#    [ -f /usr/share/fzf/completion.bash ] && . /usr/share/fzf/completion.bash
+#    [ -f /usr/share/fzf/key-bindings.bash ] && . /usr/share/fzf/key-bindings.bash
+fi
+
+if [ -f . /usr/local/bin/tmuxp.bash ]
+    . . /usr/local/bin/tmuxp.bash
 fi
 
 true
