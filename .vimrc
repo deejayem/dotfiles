@@ -59,6 +59,7 @@ Plugin 'Lokaltog/vim-distinguished'
 Plugin 'blueshirts/darcula'
 Plugin 'joshdick/onedark.vim'
 Plugin 'ajmwagar/vim-dues'
+Plugin 'rakr/vim-one'
 
 " TODO: re-enable
 "Plugin 'scrooloose/syntastic'
