@@ -17,6 +17,14 @@ export EDITOR=vim
 export GOPATH=~/go
 export PATH=$GOPATH/bin:"${PATH}"
 
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -32,10 +40,12 @@ alias mv="mv -iv"
 alias mkdir="mkdir -v"
 alias vi="vim"
 alias pp='pushbullet push "Pixel" link "${1}" "${1}"'
-alias please='sudo !!'
 
 alias f='fasd -f'
 alias v='f -e vim'
+
+#autoload -Uz compinit
+compinit
 
 # non-prezto theme
 #promptinit
