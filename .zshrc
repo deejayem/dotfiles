@@ -60,29 +60,18 @@ alias gloga='git log --oneline --decorate --graph --all'
 #autoload -Uz compinit
 compinit
 
-# non-prezto theme
-#promptinit
-#prompt imp
-#prompt gnzh
-#source liquidprompt/liquidprompt
-
-#prompt djm
 #prompt sorin
 export PATH=$HOME/.cargo/bin:$PATH
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+eval "$(direnv hook zsh)"
 
 function google() {
     w3m 'https://www.google.co.uk/search?q='"${@}"
 }
 
-function crep() {
-    pattern=$1
-    shift
-    gawk '/'$1'/{c++} ENDFILE{if (c) print FILENAME":"c; c=0}' "${@}"
-}
-
-eval "$(direnv hook zsh)"
-export SDKMAN_DIR="/home/djm/.sdkman"
-[[ -s "/home/djm/.sdkman/bin/sdkman-init.sh" ]] && source "/home/djm/.sdkman/bin/sdkman-init.sh"
 #fpath=(~/.zsh.d/ $fpath)
 (( $+commands[doctl] )) && source <(doctl completion zsh)
+
+enable-fzf-tab
+

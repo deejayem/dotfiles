@@ -43,7 +43,8 @@ zstyle ':prezto:load' pmodule \
   'git' \
   'omz-git' \
   'ssh' \
-  'syntax-highlighting' \
+  'fzf-tab' \
+  'fast-syntax-highlighting' \
   'history-substring-search' \
   'autosuggestions' \
   'prompt'
@@ -68,7 +69,7 @@ zstyle ':prezto:load' pmodule \
 #
 
 # Set the key mapping style to 'emacs' or 'vi'.
-zstyle ':prezto:module:editor' key-bindings 'vi'
+zstyle ':prezto:module:editor' key-bindings 'emacs'
 
 # Auto convert .... to ../..
 # zstyle ':prezto:module:editor' dot-expansion 'yes'
@@ -88,7 +89,7 @@ zstyle ':prezto:module:editor' key-bindings 'vi'
 #
 
 # Set the command prefix on non-GNU systems.
-#zstyle ':prezto:module:gnu-utility' prefix 'g'
+# zstyle ':prezto:module:gnu-utility' prefix 'g'
 
 #
 # History Substring Search
@@ -124,10 +125,7 @@ zstyle ':prezto:module:history-substring-search' globbing-flags ''
 # Set the prompt theme to load.
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
-#zstyle ':prezto:module:prompt' theme 'powerlevel10k'
-zstyle ':prezto:module:prompt' theme 'djm'
-#zstyle ':prezto:module:prompt' theme 'gnzh'
-#zstyle ':prezto:module:prompt' theme 'imp'
+#zstyle ':prezto:module:prompt' theme 'sorin'
 
 # Set the working directory prompt display length.
 # By default, it is set to 'short'. Set it to 'long' (without '~' expansion)
@@ -170,7 +168,7 @@ zstyle ':prezto:module:prompt' theme 'djm'
 #
 
 # Set the SSH identities to load into the agent.
-#zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'id_rsa2' 'id_github'
+# zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'id_rsa2' 'id_github'
 zstyle ':prezto:module:ssh:load' identities 'id_rsa' 'id_ed25519'
 
 #
@@ -237,3 +235,15 @@ zstyle ':prezto:module:syntax-highlighting' highlighters \
 # before deleting or overwriting files. Set to 'no' to disable this safer
 # behavior.
 # zstyle ':prezto:module:utility' safe-ops 'yes'
+
+# fzf-tab
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
