@@ -15,9 +15,11 @@
         lsp-ui-sideline-show-code-actions nil
         lsp-modeline-code-actions-enable nil ;; TODO this causes errors in *Messages* if t
         lsp-modeline-diagnostics-enable nil
+        lsp-ui-doc-position 'top
         ;; user cider for indendation and completion instead
         lsp-enable-indentation nil
-        lsp-completion-enable nil))
+        lsp-completion-enable nil)
+  (key-chord-define-global "QQ" 'lsp-find-references)) ;; TODO?
 
 (provide 'init-lsp)
 

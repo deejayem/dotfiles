@@ -1,14 +1,24 @@
-(prelude-require-package 'doom-modeline)
-(use-package doom-modeline
-  :hook (after-init . doom-modeline-mode)
-  :config ;(add-hook 'after-init-hook #'doom-modeline-mode)
-  (setq doom-modeline-minor-modes t
-        doom-modeline-major-mode-icon t))
+(prelude-require-package 'simple-modeline)
 
-(prelude-require-package 'minions)
-(use-package minions
-  :hook (doom-modeline-mode . minions-mode))
+(use-package simple-modeline
+  :hook (after-init . simple-modeline-mode))
 
+(prelude-require-package 'flycheck-indicator)
+(use-package flycheck-indicator
+  :after flycheck
+  :hook (flycheck-mode . flycheck-indicator-mode)
+  :custom
+  (flycheck-indicator-icon-error 9632)
+  (flycheck-indicator-icon-info 9679)
+  (flycheck-indicator-icon-warning 9650)
+  (flycheck-indicator-status-icons
+   '((running . "◉")
+     (errored . "◙")
+     (finished . "●")
+     (interrupted . "◘")
+     (suspicious . "◘")
+     (no-checker . "○")
+     (not-checked . "○"))))
 
 (provide 'init-modeline)
 

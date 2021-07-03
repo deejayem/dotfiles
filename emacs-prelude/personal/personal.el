@@ -1,16 +1,19 @@
 (add-to-list 'load-path (expand-file-name "personal/lisp" user-emacs-directory))
 
-;; TODO persp/perspective/projectile-persp, dired/counsel-dired/..?, lsp-ivy
 (require 'init-use-package)
 (require 'init-prelude)
 (require 'init-ui)
 (require 'init-hydra)
 (require 'init-modeline)
-;(require 'init-dashboard)
+(require 'init-dashboard)
 (require 'init-completion)
+(require 'init-ivy)
 (require 'init-lisp)
 (require 'init-clojure)
 (require 'init-lsp)
+(require 'init-git)
+(require 'init-mac)
+(require 'init-misc)
 
 (global-unset-key (kbd "<left>"))
 (global-unset-key (kbd "<right>"))
