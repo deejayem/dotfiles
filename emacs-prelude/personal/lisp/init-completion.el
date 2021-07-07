@@ -198,9 +198,5 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-(use-package consult-projectile
-  :after (consult projectile)
-  :quelpa (consult-projectile :fetcher gitlab :repo "OlMon/consult-projectile"))
-
 (provide 'init-completion)
 
