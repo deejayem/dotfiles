@@ -3,6 +3,7 @@
   :init
   (setq dashboard-center-content t
         dashboard-set-footer nil
+        dashboard-projects-backend 'projectile
         dashboard-items '((recents  . 15)
                         (bookmarks . 5)
                         (projects . 5)

@@ -10,9 +10,6 @@
 (use-package whitespace
   :diminish)
 
-(use-package projectile
-  :diminish)
-
 (use-package smartparens
   :diminish)
 
@@ -26,9 +23,10 @@
     ((t (:foreground "white" :background "red"
          :weight bold :height 2.5 :box (:line-width 10 :color "red"))))))
 
-;; allow other things to use C-c s
-(define-key prelude-mode-map (kbd "C-c s") nil)
-(define-key prelude-mode-map (kbd "C-c S") 'crux-swap-windows)
+(use-package crux
+  ;; allow other things to use C-c s
+  :init (unbind-key "C-c s" prelude-mode-map)
+  :bind (:map prelude-mode-map ("C-c S" . crux-swap-windows)))
 
 (diminish 'prelude-mode)
 

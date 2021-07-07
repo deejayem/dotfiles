@@ -1,9 +1,10 @@
 (use-package lsp-mode
+  :diminish
+  :after key-chord
   :hook (clojure-mode . lsp)
   :config
   (setq gc-cons-threshold (* 100 1024 1024)
         read-process-output-max (* 1024 1024)
-        treemacs-space-between-root-nodes nil
         lsp-ui-doc-delay 1
         lsp-lens-enable nil
         lsp-ui-doc-enable t
@@ -13,13 +14,14 @@
         lsp-enable-symbol-highlighting t
         lsp-ui-sideline-show-diagnostics t
         lsp-ui-sideline-show-code-actions nil
-        lsp-modeline-code-actions-enable nil ;; TODO this causes errors in *Messages* if t
+        lsp-modeline-code-actions-enable nil
         lsp-modeline-diagnostics-enable nil
         lsp-ui-doc-position 'top
         ;; user cider for indendation and completion instead
         lsp-enable-indentation nil
         lsp-completion-enable nil)
-  (key-chord-define-global "QQ" 'lsp-find-references)) ;; TODO?
+  (key-chord-define-global "QQ" 'lsp-find-references)
+  (key-chord-define-global "GG" 'lsp-find-definition))
 
 (provide 'init-lsp)
 

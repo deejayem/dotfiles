@@ -9,6 +9,12 @@
   :config
   (rg-enable-default-bindings))
 
+(prelude-require-package 'restclient)
+(use-package restclient)
+
+(prelude-require-package 'es-mode)
+(use-package es-mode
+  :mode "\.es\'")
 
 (provide 'init-misc)
 

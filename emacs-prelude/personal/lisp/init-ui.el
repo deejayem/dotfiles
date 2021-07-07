@@ -6,17 +6,16 @@
 
 (prelude-require-package 'solarized-theme)
 (load-theme 'solarized-dark t)
-;(set-face-background 'hi-yellow "yellow")
 
 (setq whitespace-line-column 120)
 
 (require 'hi-lock)
-(defun toggle-highlight-symbol-at-point ()
+(defun my/toggle-highlight-symbol-at-point ()
   (interactive)
   (if hi-lock-interactive-patterns
       (unhighlight-regexp (car (car hi-lock-interactive-patterns)))
     (highlight-symbol-at-point)))
-(global-set-key (kbd "s-.") 'toggle-highlight-symbol-at-point)
+(global-set-key (kbd "s-.") 'my/toggle-highlight-symbol-at-point)
 
 (use-package paren
   :config
@@ -27,6 +26,11 @@
 (use-package miniedit
   :commands minibuffer-edit
   :init (miniedit-install))
+
+(prelude-require-package 'ctrlf)
+(use-package ctrlf
+  :config
+  (ctrlf-mode +1))
 
 (provide 'init-ui)
 

@@ -1,7 +1,17 @@
 (prelude-require-package 'simple-modeline)
 
 (use-package simple-modeline
-  :hook (after-init . simple-modeline-mode))
+  :hook (after-init . simple-modeline-mode)
+  :custom
+  (simple-modeline-segments
+   '((simple-modeline-segment-modified
+      simple-modeline-segment-buffer-name
+      simple-modeline-segment-position)
+     (simple-modeline-segment-minor-modes
+      simple-modeline-segment-vc
+      simple-modeline-segment-misc-info
+      simple-modeline-segment-process
+      simple-modeline-segment-major-mode))))
 
 (prelude-require-package 'flycheck-indicator)
 (use-package flycheck-indicator
