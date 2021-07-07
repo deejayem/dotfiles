@@ -1,9 +1,10 @@
-(use-package projectile
-  :diminish)
+(prelude-require-packages '(perspective persp-projectile ripgrep))
 
-(prelude-require-packages '(perspective persp-projectile))
 (use-package persp-projectile
   :init (persp-mode))
+
+(use-package projectile
+  :diminish)
 
 (provide 'init-projectile)
 
