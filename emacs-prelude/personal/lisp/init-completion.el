@@ -19,16 +19,54 @@
 (prelude-require-package 'orderless)
 (use-package orderless
   :bind (:map minibuffer-local-completion-map
-         ("C-l" . my/match-components-literally))
+              ("C-l" . my/match-components-literally))
+  :custom (orderless-component-separator 'orderless-escapable-split-on-space)
   :init
   (setq completion-styles '(orderless)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles . (partial-completion))))) ;; TODO initials instead of partial-completion?
+        completion-category-overrides '((file (styles . (partial-completion orderless)))))
+
   (defun my/match-components-literally ()
     "Components match literally for the rest of the session."
     (interactive)
     (setq-local orderless-matching-styles '(orderless-literal)
-                orderless-style-dispatchers nil)))
+                orderless-style-dispatchers nil))
+  :config
+  (defun flex-if-twiddle (pattern _index _total)
+    (when (string-suffix-p "~" pattern)
+      `(orderless-flex . ,(substring pattern 0 -1))))
+
+  (defun literal-if-hat (pattern _index _total)
+    (when (string-suffix-p "^" pattern)
+      `(orderless-literal . ,(substring pattern 0 -1))))
+
+  (defun literal-if-apostrophe (pattern _index _total)
+    (cond
+     ((equal "'" pattern)
+      '(orderless-literal . ""))
+     ((string-prefix-p "'" pattern)
+      `(orderless-literal . ,(substring pattern 1)))))
+
+  (defun initialism-if-comma (pattern _index _total)
+    (cond
+     ((equal "," pattern)
+      '(orderless-literal . ""))
+     ((string-prefix-p "," pattern)
+      `(orderless-initialism . ,(substring pattern 1)))))
+
+  (defun without-if-bang (pattern _index _total)
+    (cond
+     ((equal "!" pattern)
+      '(orderless-literal . ""))
+     ((string-prefix-p "!" pattern)
+      `(orderless-without-literal . ,(substring pattern 1)))))
+
+  (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-leading-initialism)
+        orderless-style-dispatchers '(flex-if-twiddle
+                                      literal-if-hat
+                                      literal-if-apostrophe
+                                      initialism-if-comma
+                                      without-if-bang)))
 
 (use-package savehist
   :init
@@ -79,7 +117,8 @@
          ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
          ("C-M-#" . consult-register)
          ;; Other custom bindings
-         ("C-S" . consult-line)
+         ("C-S-s" . consult-line)
+         ("s-s" . consult-line-symbol-at-point)
          ("M-y" . consult-yank-pop)                ;; orig. yank-pop
          ("<help> a" . consult-apropos)            ;; orig. apropos-command
          ;; M-g bindings (goto-map)
@@ -139,7 +178,7 @@
    consult-theme
    :preview-key '(:debounce 0.2 any)
    consult-ripgrep consult-git-grep consult-grep
-   consult-bookmark consult-recent-file consult-xref
+   consult-bookmark consult-recent-file consult-xref consult-buffer
    consult--source-file consult--source-project-file consult--source-bookmark
    :preview-key (kbd "M-."))
 
@@ -152,7 +191,15 @@
   ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
 
   (autoload 'projectile-project-root "projectile")
-  (setq consult-project-root-function #'projectile-project-root))
+  (setq consult-project-root-function #'projectile-project-root)
+
+  (defun find-fd (&optional dir initial)
+    (interactive "P")
+    (let ((consult-find-command "fd --color=never --full-path ARG OPTS"))
+      (consult-find dir initial)))
+  (defun consult-line-symbol-at-point ()
+    (interactive)
+    (consult-line (thing-at-point 'symbol))))
 
 (prelude-require-package 'consult-flycheck)
 (use-package consult-flycheck)
@@ -198,5 +245,15 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-(provide 'init-completion)
+;; async fuzzy finder (uses consult and orderless)
+(use-package affe
+  :after orderless
+  :config
+  ;; Configure Orderless
+  (setq affe-regexp-function #'orderless-pattern-compiler
+        affe-highlight-function #'orderless--highlight)
 
+  ;; Manual preview key for `affe-grep'
+  (consult-customize affe-grep :preview-key (kbd "M-.")))
+
+(provide 'init-completion)
