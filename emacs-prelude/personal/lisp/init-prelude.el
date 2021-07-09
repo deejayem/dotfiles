@@ -28,6 +28,12 @@
   :init (unbind-key "C-c s" prelude-mode-map)
   :bind (:map prelude-mode-map ("C-c S" . crux-swap-windows)))
 
+(use-package key-chord
+  :init
+  (key-chord-unset-global "jl")
+  (key-chord-define-global "LL" 'avy-goto-line)
+  (key-chord-define-global ",," 'avy-goto-char-in-line))
+
 (diminish 'prelude-mode)
 
 (provide 'init-prelude)

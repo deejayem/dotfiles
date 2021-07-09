@@ -5,6 +5,7 @@
   (setq tab-always-indent 'complete)
 
   ;; for vertico
+  ;; Do not allow the cursor in the minibuffer prompt
   (setq minibuffer-prompt-properties
         '(read-only t cursor-intangible t face minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
@@ -244,14 +245,17 @@
   (embark-collect-mode . consult-preview-at-point-mode))
 
 ;; async fuzzy finder (uses consult and orderless)
+(prelude-require-package 'affe)
 (use-package affe
   :after orderless
   :config
   ;; Configure Orderless
   (setq affe-regexp-function #'orderless-pattern-compiler
         affe-highlight-function #'orderless--highlight)
-
   ;; Manual preview key for `affe-grep'
-  (consult-customize affe-grep :preview-key (kbd "M-.")))
+  (consult-customize affe-grep :preview-key (kbd "M-."))
+  :bind
+  (("C-c c a g" . affe-grep)
+   ("C-c c a f" . affe-find)))
 
 (provide 'init-completion)
