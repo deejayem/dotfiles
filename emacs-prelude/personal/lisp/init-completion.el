@@ -106,6 +106,7 @@
          ;; C-x bindings (ctl-x-map)
          ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
          ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+         ("C-x B" . consult-buffer-no-preview)     ;; orig. switch-to-buffer
          ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
          ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
          ;; Custom M-# bindings for fast register access
@@ -129,11 +130,17 @@
          ("M-g I" . consult-project-imenu)
          ;; C-c c bindings (search-map)
          ("C-c c C-f" . consult-recent-file)
-         ("C-c c f" . consult-find)
+         ("C-c c f" . consult-fd)
+         ("C-c c F" . consult-find)
          ("C-c c L" . consult-locate)
          ("C-c c g" . consult-grep)
          ("C-c c G" . consult-git-grep)
-         ("C-c c r" . consult-ripgrep)
+         ("C-c c r" . consult-smart-ripgrep)
+         ("C-c c R" . consult-ripgrep-auto-preview)
+         ("C-c c C-M-r" . consult-iripgrep)
+         ("C-c c M-r" . consult-ripgrep-unrestricted)
+         ("C-c c C-r" . consult-ripgrep)
+         ("C-c c s" . consult-ripgrep-symbol-at-point)
          ("C-c c l" . consult-line)
          ("C-c c m" . consult-multi-occur)
          ("C-c c k" . consult-keep-lines)
@@ -177,7 +184,8 @@
    consult-theme
    :preview-key '(:debounce 0.2 any)
    consult-ripgrep consult-git-grep consult-grep
-   consult-bookmark consult-recent-file consult-xref consult-buffer
+   consult-smart-ripgrep consult-iripgrep consult-ripgrep-unrestricted
+   consult-bookmark consult-recent-file consult-xref consult-buffer-no-preview
    consult--source-file consult--source-project-file consult--source-bookmark
    :preview-key (kbd "M-."))
 
@@ -192,10 +200,33 @@
   (autoload 'projectile-project-root "projectile")
   (setq consult-project-root-function #'projectile-project-root)
 
-  (defun find-fd (&optional dir initial)
+  (defun consult-fd (&optional dir initial)
     (interactive "P")
     (let ((consult-find-command "fd --color=never --full-path ARG OPTS"))
       (consult-find dir initial)))
+  (defun consult-smart-ripgrep (&optional dir initial)
+    (interactive "P")
+    (let ((consult-ripgrep-command "rg -S --null --line-buffered --color=ansi --max-columns=1000   --no-heading --line-number . -e ARG OPTS"))
+      (consult-ripgrep dir initial)))
+  (defun consult-ripgrep-symbol-at-point (&optional dir initial)
+    (interactive
+      (list prefix-arg (when-let ((s (symbol-at-point)))
+                         (symbol-name s))))
+    (consult-smart-ripgrep dir initial))
+  (defun consult-ripgrep-auto-preview (&optional dir initial)
+    (interactive "P")
+    (consult-smart-ripgrep dir initial))
+  (defun consult-iripgrep (&optional dir initial)
+    (interactive "P")
+    (let ((consult-ripgrep-command "rg -i --null --line-buffered --color=ansi --max-columns=1000   --no-heading --line-number . -e ARG OPTS"))
+      (consult-ripgrep dir initial)))
+  (defun consult-ripgrep-unrestricted (&optional dir initial)
+    (interactive "P")
+    (let ((consult-ripgrep-command "rg -S -uu --null --line-buffered --color=ansi --max-columns=1000   --no-heading --line-number . -e ARG OPTS"))
+      (consult-ripgrep dir initial)))
+  (defun consult-buffer-no-preview ()
+    (interactive)
+    (consult-buffer))
   (defun consult-line-symbol-at-point ()
     (interactive)
     (consult-line (thing-at-point 'symbol))))
@@ -254,8 +285,14 @@
         affe-highlight-function #'orderless--highlight)
   ;; Manual preview key for `affe-grep'
   (consult-customize affe-grep :preview-key (kbd "M-."))
+  (defun my/affe-grep-symbol-at-point (&optional dir initial)
+    (interactive
+      (list prefix-arg (when-let ((s (symbol-at-point)))
+                         (symbol-name s))))
+    (affe-grep dir initial))
   :bind
   (("C-c c a g" . affe-grep)
-   ("C-c c a f" . affe-find)))
+   ("C-c c a f" . affe-find)
+   ("C-c c a s" . my/affe-grep-symbol-at-point)))
 
 (provide 'init-completion)
