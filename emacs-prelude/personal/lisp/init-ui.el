@@ -32,5 +32,11 @@
   :config
   (ctrlf-mode +1))
 
-(provide 'init-ui)
+(prelude-require-package 'buffer-move)
+(use-package buffer-move
+  :bind (("C-S-<up>" . buf-move-up)
+         ("C-S-<down>" . buf-move-down)
+         ("C-S-<left>" . buf-move-left)
+         ("C-S-<right>" . buf-move-right)))
 
+(provide 'init-ui)

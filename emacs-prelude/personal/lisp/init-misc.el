@@ -21,7 +21,7 @@
 (use-package multi-vterm
   :init (unbind-key "C-c t" prelude-mode-map)
   :bind (("C-c t" . multi-vterm-next)
-         ("C-c M-t" . multi-vterm)
+         ("C-c C-M-t" . multi-vterm)
          (:map vterm-mode-map
                ("C-a" . vterm-send-C-a) ; TODO the crux binding is taking precedence
                ("C-c C-a" . vterm-send-C-a)
@@ -29,4 +29,3 @@
                ("M-]" . multi-vterm-next))))
 
 (provide 'init-misc)
-
