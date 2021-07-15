@@ -33,9 +33,10 @@
         cider-repl-history-highlight-inserted-item t
         cider-repl-use-clojure-font-lock t
         cider-repl-use-pretty-printing t
+        cider-invert-insert-eval-p t
+        cider-switch-to-repl-on-insert nil
         clojure-toplevel-inside-comment-form t)
   (key-chord-define-global "??" 'cider-xref-fn-refs-select)
   (key-chord-define-global "qq" 'cider-xref-fn-refs))
 
 (provide 'init-clojure)
-

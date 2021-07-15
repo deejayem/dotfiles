@@ -93,7 +93,15 @@
 (use-package vertico
   :init
   (vertico-mode)
-  (setq vertico-cycle t))
+  (setq vertico-cycle t)
+  (advice-add #'vertico--format-candidate :around
+              (lambda (orig cand prefix suffix index)
+                (setq cand (funcall orig cand prefix suffix index))
+                (concat
+                 (if (= vertico--index index)
+                     (propertize "» " 'face 'vertico-current)
+                   "  ")
+                 cand))))
 
 (prelude-require-package 'consult)
 (use-package consult
@@ -184,7 +192,7 @@
    consult-theme
    :preview-key '(:debounce 0.2 any)
    consult-ripgrep consult-git-grep consult-grep
-   consult-smart-ripgrep consult-iripgrep consult-ripgrep-unrestricted
+   consult-smart-ripgrep consult-iripgrep consult-ripgrep-unrestricted consult-ripgrep-symbol-at-point
    consult-bookmark consult-recent-file consult-xref consult-buffer-no-preview
    consult--source-file consult--source-project-file consult--source-bookmark
    :preview-key (kbd "M-."))
