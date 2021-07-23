@@ -15,9 +15,6 @@
 (require 'init-mac)
 (require 'init-misc)
 
-(setenv "AM_PROFILE" "staging")
-;(setenv "JAVA_HOME" "/usr/local/opt/openjdk@8/")
-
 (global-unset-key (kbd "<left>"))
 (global-unset-key (kbd "<right>"))
 (global-unset-key (kbd "<up>"))

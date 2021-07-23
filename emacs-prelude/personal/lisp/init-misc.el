@@ -28,4 +28,9 @@
                ("M-[" . multi-vterm-prev)
                ("M-]" . multi-vterm-next))))
 
+(use-package dired
+  :ensure nil
+  :custom
+  (dired-kill-when-opening-new-dired-buffer t))
+
 (provide 'init-misc)

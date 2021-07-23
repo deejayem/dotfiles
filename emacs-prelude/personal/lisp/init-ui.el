@@ -17,6 +17,11 @@
     (highlight-symbol-at-point)))
 (global-set-key (kbd "s-.") 'my/toggle-highlight-symbol-at-point)
 
+(unless (eq system-type 'darwin)
+  (prelude-require-package 'idle-highlight-mode)
+  (use-package idle-highlight-mode
+    :hook (prog-mode . idle-highlight-mode)))
+
 (use-package paren
   :config
   (show-paren-mode +1))
@@ -30,7 +35,10 @@
 (prelude-require-package 'ctrlf)
 (use-package ctrlf
   :config
-  (ctrlf-mode +1))
+  (ctrlf-mode +1)
+  :bind
+  ("C-*" . ctrlf-forward-symbol-at-point)
+  ("M-s M-s" . ctrlf-toggle-symbol))
 
 (prelude-require-package 'buffer-move)
 (use-package buffer-move

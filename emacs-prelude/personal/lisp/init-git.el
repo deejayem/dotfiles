@@ -16,7 +16,8 @@
                 (vc-refresh-state)))))
   :config
   (key-chord-define-global "UU" 'my/magit-set-upstream)
-  (key-chord-define-global "RR" 'my/magit-refresh-state))
+  (key-chord-define-global "RR" 'my/magit-refresh-state)
+  :custom (magit-diff-refine-hunk 'all))
 
 (prelude-require-package 'forge)
 (use-package forge
@@ -33,4 +34,3 @@
   ("C-c j r" . git-gutter:revert-hunk))
 
 (provide 'init-git)
-

@@ -175,6 +175,7 @@
          ("C-c c g" . consult-grep)
          ("C-c c G" . consult-git-grep)
          ("C-c c r" . consult-smart-ripgrep)
+         ("C-c r" . consult-smart-ripgrep)
          ("C-c c R" . consult-ripgrep-auto-preview)
          ("C-c c C-M-r" . consult-iripgrep)
          ("C-c c M-r" . consult-ripgrep-unrestricted)
@@ -283,8 +284,6 @@
   :bind (("M-A" . marginalia-cycle)
          :map minibuffer-local-map
          ("M-A" . marginalia-cycle))
-  ;:custom
-  ;(marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
   :init
   (marginalia-mode))
 
@@ -330,8 +329,10 @@
                          (symbol-name s))))
     (affe-grep dir initial))
   :bind
-  (("C-c c a g" . affe-grep)
-   ("C-c c a f" . affe-find)
-   ("C-c c a s" . my/affe-grep-symbol-at-point)))
+  (("C-#" . affe-grep)
+   ("C-~" . my/affe-grep-symbol-at-point)
+   ("C-c z" . affe-find))
+  :custom
+  (affe-find-command "fd --color never -t f"))
 
 (provide 'init-completion)
