@@ -34,11 +34,12 @@
 
 (prelude-require-package 'ctrlf)
 (use-package ctrlf
-  :config
+  :init
   (ctrlf-mode +1)
   :bind
   ("C-*" . ctrlf-forward-symbol-at-point)
-  ("M-s M-s" . ctrlf-toggle-symbol))
+  ("M-s M-s" . ctrlf-toggle-symbol)
+  ("C-M-g" . ctrlf-cancel))
 
 (prelude-require-package 'buffer-move)
 (use-package buffer-move
@@ -46,5 +47,10 @@
          ("C-S-<down>" . buf-move-down)
          ("C-S-<left>" . buf-move-left)
          ("C-S-<right>" . buf-move-right)))
+
+(prelude-require-package 'smartscan)
+(use-package smartscan
+  :config
+  (global-smartscan-mode t))
 
 (provide 'init-ui)

@@ -83,10 +83,14 @@
   :init
   (corfu-global-mode))
 
-(use-package dabbrev
-  :bind (("M-/" . dabbrev-completion)
-         ("C-M-/" . dabbrev-expand)))
-
+;; (use-package dabbrev
+;;   :bind (("M-/" . dabbrev-completion)
+;;          ("C-M-/" . dabbrev-expand)))
+(prelude-require-package 'fancy-dabbrev)
+(use-package fancy-dabbrev
+  :diminish
+  :config
+  (global-fancy-dabbrev-mode))
 
 ;; minibuffer completion - vertico et al
 (prelude-require-package 'vertico)
@@ -129,10 +133,12 @@
       (select-window (active-minibuffer-window))))
 
   (key-chord-define-global "XX" 'to-and-fro-minibuffer)
-  (key-chord-define-global ">>" 'preview-from-outside)
+  ;(key-chord-define-global ">>" 'preview-from-outside)
   :bind (("C-M-<" . up-from-outside)
          ("C-M->" . down-from-outside)
-         ("M-+" . preview-from-outside)))
+         ("C-M-+" . preview-from-outside)
+         ("M-X" . to-and-fro-minibuffer)
+         ("C-M-S-g" . minibuffer-keyboard-quit)))
 
 (prelude-require-package 'consult)
 (use-package consult

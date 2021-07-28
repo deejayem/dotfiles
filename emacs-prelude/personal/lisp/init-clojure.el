@@ -38,6 +38,7 @@
         cider-repl-history-file "~/.emacs.d/cider-history"
         clojure-toplevel-inside-comment-form t)
   (key-chord-define-global "??" 'cider-xref-fn-refs-select)
-  (key-chord-define-global "qq" 'cider-xref-fn-refs))
+  (key-chord-define-global "qq" 'cider-xref-fn-refs)
+  :hook (cider-repl-mode . (lambda () (smartscan-mode -1))))
 
 (provide 'init-clojure)
