@@ -2,6 +2,7 @@
 (use-package dashboard
   :init
   (setq dashboard-center-content t
+        dashboard-startup-banner 'logo
         dashboard-set-footer nil
         dashboard-week-agenda t
         dashboard-projects-backend 'projectile
@@ -15,4 +16,3 @@
   (dashboard-setup-startup-hook))
 
 (provide 'init-dashboard)
-

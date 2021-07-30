@@ -39,7 +39,8 @@
   :bind
   ("C-*" . ctrlf-forward-symbol-at-point)
   ("M-s M-s" . ctrlf-toggle-symbol)
-  ("C-M-g" . ctrlf-cancel))
+  ("C-M-g" . ctrlf-cancel)
+  ("C-c o" . ctrlf-occur))
 
 (prelude-require-package 'buffer-move)
 (use-package buffer-move
@@ -52,5 +53,11 @@
 (use-package smartscan
   :config
   (global-smartscan-mode t))
+
+(prelude-require-package 'fullframe)
+ (use-package fullframe
+  :after magit
+   :config
+   (fullframe magit-status magit-mode-quit-window))
 
 (provide 'init-ui)

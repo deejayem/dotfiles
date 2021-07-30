@@ -24,10 +24,10 @@
          :weight bold :height 2.5 :box (:line-width 10 :color "red"))))))
 
 (use-package crux
-  ;; allow other things to use C-c s and C-c r
   :init
   (unbind-key "C-c s" prelude-mode-map)
   (unbind-key "C-c r" prelude-mode-map)
+  (unbind-key "C-c o" prelude-mode-map)
   :bind (:map prelude-mode-map
               (("C-c C-s" . crux-swap-windows)
                ("C-c C-r" . crux-rename-file-and-buffer))))

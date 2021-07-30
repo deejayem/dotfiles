@@ -33,4 +33,14 @@
   :custom
   (dired-kill-when-opening-new-dired-buffer t))
 
+(prelude-require-package 'eshell-z)
+(use-package eshell-z
+  :defer t
+  :hook (eshell-mode . (lambda () (require 'eshell-z))))
+
+(prelude-require-package 'tagedit)
+(use-package tagedit
+  :config (tagedit-add-paredit-like-keybindings)
+  :hook (html-mode . (lambda () (tagedit-mode 1))))
+
 (provide 'init-misc)
