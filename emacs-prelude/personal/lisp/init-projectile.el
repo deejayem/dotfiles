@@ -1,15 +1,13 @@
-;(prelude-require-packages '(perspective persp-projectile ripgrep))
+(prelude-require-packages '(perspective persp-projectile ripgrep))
 
-;(use-package perspective
-;  :init (persp-mode)
-;  ;; We could rely on projectile for the modes string instead
-;  ;:custom (persp-show-modestring nil)
-;  :custom (persp-modestring-short t))
+(use-package perspective
+ :init (persp-mode)
+ :custom (persp-modestring-short t))
 
-;(use-package persp-projectile)
+(use-package persp-projectile)
 
 (use-package projectile
-  ;:diminish
+  :diminish
   :config
   (def-projectile-commander-method ?B
     "consult-buffer"
@@ -25,8 +23,6 @@
           ((> (length (projectile-recentf-files)) 0) (projectile-recentf))
           (t (projectile-find-file))))
   :custom
-  ;; We could use this instead of relying on persp
-  (projectile-mode-line-function '(lambda () (format "[%s]" (projectile-project-name))))
   (projectile-switch-project-action 'projectile-commander))
 
 
