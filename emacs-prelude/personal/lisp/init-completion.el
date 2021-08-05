@@ -157,7 +157,7 @@
          ("C-M-#" . consult-register)
          ;; Other custom bindings
          ("C-S-s" . consult-line)
-         ("s-s" . consult-line-symbol-at-point)
+         ("C-M-S" . consult-line-symbol-at-point)
          ("M-y" . consult-yank-pop)                ;; orig. yank-pop
          ("<help> a" . consult-apropos)            ;; orig. apropos-command
          ;; M-g bindings (goto-map)
@@ -177,12 +177,10 @@
          ("C-c c L" . consult-locate)
          ("C-c c g" . consult-grep)
          ("C-c c G" . consult-git-grep)
-         ("C-c c r" . consult-smart-ripgrep)
-         ("C-c r" . consult-smart-ripgrep)
+         ("C-c c r" . consult-ripgrep)
+         ("C-c r" . consult-ripgrep)
          ("C-c c R" . consult-ripgrep-auto-preview)
-         ("C-c c C-M-r" . consult-iripgrep)
          ("C-c c M-r" . consult-ripgrep-unrestricted)
-         ("C-c c C-r" . consult-ripgrep)
          ("C-c c s" . consult-ripgrep-symbol-at-point)
          ("C-c c l" . consult-line)
          ("C-c c m" . consult-multi-occur)
@@ -227,7 +225,7 @@
    consult-theme
    :preview-key '(:debounce 0.2 any)
    consult-ripgrep consult-git-grep consult-grep
-   consult-smart-ripgrep consult-iripgrep consult-ripgrep-unrestricted consult-ripgrep-symbol-at-point
+   consult-ripgrep-unrestricted consult-ripgrep-symbol-at-point
    consult-bookmark consult-recent-file consult-xref consult-buffer-no-preview
    consult--source-file consult--source-project-file consult--source-bookmark
    :preview-key (kbd "M-."))
@@ -256,25 +254,17 @@
     (interactive "P")
     (let ((consult-find-command "fd --color=never --full-path ARG OPTS"))
       (consult-find dir initial)))
-  (defun consult-smart-ripgrep (&optional dir initial)
-    (interactive "P")
-    (let ((consult-ripgrep-command "rg -S --null --line-buffered --color=ansi --max-columns=1000   --no-heading --line-number . -e ARG OPTS"))
-      (consult-ripgrep dir initial)))
   (defun consult-ripgrep-symbol-at-point (&optional dir initial)
     (interactive
       (list prefix-arg (when-let ((s (symbol-at-point)))
                          (symbol-name s))))
-    (consult-smart-ripgrep dir initial))
+    (consult-ripgrep dir initial))
   (defun consult-ripgrep-auto-preview (&optional dir initial)
     (interactive "P")
-    (consult-smart-ripgrep dir initial))
-  (defun consult-iripgrep (&optional dir initial)
-    (interactive "P")
-    (let ((consult-ripgrep-command "rg -i --null --line-buffered --color=ansi --max-columns=1000   --no-heading --line-number . -e ARG OPTS"))
-      (consult-ripgrep dir initial)))
+    (consult-ripgrep dir initial))
   (defun consult-ripgrep-unrestricted (&optional dir initial)
     (interactive "P")
-    (let ((consult-ripgrep-command "rg -S -uu --null --line-buffered --color=ansi --max-columns=1000   --no-heading --line-number . -e ARG OPTS"))
+    (let ((consult-ripgrep-command "rg --null --line-buffered --color=ansi --max-columns=1000 --smart-case --no-heading -uu --line-number . -e ARG OPTS"))
       (consult-ripgrep dir initial)))
   (defun consult-buffer-no-preview ()
     (interactive)

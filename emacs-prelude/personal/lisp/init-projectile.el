@@ -16,7 +16,7 @@
       (consult-buffer)))
   (def-projectile-commander-method ?r
     "consult-ripgrep"
-    (consult-smart-ripgrep))
+    (consult-ripgrep))
   (def-projectile-commander-method ?p
     "DWIM"
     (cond ((> (length (projectile-project-buffer-names)) 4) (projectile-switch-to-buffer)) ;; TODO consult-buffer
