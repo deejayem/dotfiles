@@ -83,9 +83,6 @@
   :init
   (corfu-global-mode))
 
-;; (use-package dabbrev
-;;   :bind (("M-/" . dabbrev-completion)
-;;          ("C-M-/" . dabbrev-expand)))
 (prelude-require-package 'fancy-dabbrev)
 (use-package fancy-dabbrev
   :diminish
@@ -246,6 +243,15 @@
   (autoload 'projectile-project-root "projectile")
   (setq consult-project-root-function #'projectile-project-root)
 
+  (defvar consult-initial-narrow-config
+    '((consult-buffer . ?p)
+      (consult-buffer-no-preview . ?p)))
+  ;; Add initial narrowing hook
+  (defun consult-initial-narrow ()
+    (when-let (key (alist-get this-command consult-initial-narrow-config))
+      (setq unread-command-events (append unread-command-events (list key 32)))))
+  (add-hook 'minibuffer-setup-hook #'consult-initial-narrow)
+
   (defun consult-fd (&optional dir initial)
     (interactive "P")
     (let ((consult-find-command "fd --color=never --full-path ARG OPTS"))
@@ -291,7 +297,13 @@
          :map minibuffer-local-map
          ("M-A" . marginalia-cycle))
   :init
-  (marginalia-mode))
+  (marginalia-mode)
+  :config
+  ;; For Projectile
+  (add-to-list 'marginalia-prompt-categories '("Switch to project" . file))
+  (add-to-list 'marginalia-prompt-categories '("Find file" . project-file))
+  (add-to-list 'marginalia-prompt-categories '("Recently visited files" . project-file))
+  (add-to-list 'marginalia-prompt-categories '("Switch to buffer" . buffer)))
 
 (prelude-require-package 'embark)
 (use-package embark
@@ -299,7 +311,8 @@
   (("C-." . embark-act)
    ("C-;" . embark-dwim)
    ("C-c C-o" . embark-export)
-   ("C-h B" . embark-bindings))
+   ("C-h b" . embark-bindings)
+   ("C-h B" . describe-bindings))
   :init
   ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)

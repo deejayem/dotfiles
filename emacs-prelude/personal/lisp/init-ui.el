@@ -52,12 +52,22 @@
 (prelude-require-package 'smartscan)
 (use-package smartscan
   :config
-  (global-smartscan-mode t))
+  (global-smartscan-mode t)
+  :hook
+  (cider-repl-mode . (lambda () (smartscan-mode -1)))
+  (vterm-mode . (lambda () (smartscan-mode -1)))
+  (eshell-mode . (lambda () (smartscan-mode -1))))
 
-(prelude-require-package 'fullframe)
- (use-package fullframe
-  :after magit
-   :config
-   (fullframe magit-status magit-mode-quit-window))
+;;(prelude-require-package 'fullframe)
+;; (use-package fullframe
+;;   :after magit
+;;   :config
+;;   (fullframe magit-status magit-mode-quit-window))
+
+(smartrep-define-key global-map
+    "C-x" '(("}" . enlarge-window-horizontally)
+            ("{" . shrink-window-horizontally)
+            ("^" . enlarge-window)
+            ("-" . shrink-window-if-larger-than-buffer)))
 
 (provide 'init-ui)
