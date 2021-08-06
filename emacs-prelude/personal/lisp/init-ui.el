@@ -5,7 +5,11 @@
 (scroll-bar-mode -1)
 
 (prelude-require-package 'solarized-theme)
-(load-theme 'solarized-dark t)
+;(load-theme 'solarized-dark t)
+(prelude-require-package 'modus-themes)
+(setq modus-themes-syntax '(alt-syntax green-strings yellow-comments)
+      modus-themes-paren-match '(bold intense underline))
+(load-theme 'modus-vivendi t)
 
 (setq whitespace-line-column 120)
 
