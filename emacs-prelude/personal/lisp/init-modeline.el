@@ -31,4 +31,3 @@
      (not-checked . "○"))))
 
 (provide 'init-modeline)
-

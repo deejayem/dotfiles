@@ -3,7 +3,7 @@
   :after key-chord
   :hook (clojure-mode . lsp)
   :config
-  (setq gc-cons-threshold (* 100 1024 1024)
+  (setq ;gc-cons-threshold (* 100 1024 1024)
         read-process-output-max (* 1024 1024)
         lsp-ui-doc-delay 1
         lsp-lens-enable nil

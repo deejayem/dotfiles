@@ -15,6 +15,10 @@
 (require 'init-mac)
 (require 'init-misc)
 
+(add-hook 'after-init-hook '(lambda ()
+                              (setq gc-cons-threshold (* 100 1024 1024)
+                                    gc-cons-percentage 0.1)))
+
 (global-unset-key (kbd "<left>"))
 (global-unset-key (kbd "<right>"))
 (global-unset-key (kbd "<up>"))

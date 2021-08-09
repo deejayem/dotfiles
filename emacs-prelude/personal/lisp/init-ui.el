@@ -7,8 +7,11 @@
 (prelude-require-package 'solarized-theme)
 ;(load-theme 'solarized-dark t)
 (prelude-require-package 'modus-themes)
-(setq modus-themes-syntax '(alt-syntax green-strings yellow-comments)
-      modus-themes-paren-match '(bold intense underline))
+;(setq modus-themes-syntax '(alt-syntax green-strings yellow-comments)
+(setq modus-themes-syntax '(green-strings yellow-comments)
+      modus-themes-paren-match '(bold intense underline)
+      modus-themes-diffs '(desaturated)
+      modus-themes-lang-checkers '(text-also background))
 (load-theme 'modus-vivendi t)
 
 (setq whitespace-line-column 120)
