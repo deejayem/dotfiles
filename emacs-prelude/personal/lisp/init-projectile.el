@@ -25,5 +25,9 @@
   :custom
   (projectile-switch-project-action 'projectile-commander))
 
+(defun projectile-add-new-project (project-root)
+  (interactive (list (read-directory-name "Select project directory: " "~/src/"))) ;; TODO var
+  (projectile-add-known-project project-root)
+  (projectile-persp-switch-project project-root)) ;; TODO var
 
 (provide 'init-projectile)
