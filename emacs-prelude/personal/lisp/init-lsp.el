@@ -17,6 +17,7 @@
         lsp-modeline-code-actions-enable nil
         lsp-modeline-diagnostics-enable nil
         lsp-ui-doc-position 'top
+        lsp-treemacs-theme "Iconless"
         ;; user cider for indendation and completion instead
         lsp-enable-indentation nil
         lsp-completion-enable nil)
@@ -24,5 +25,7 @@
   (key-chord-define-global "PP" 'lsp-peek-find-references)
   (key-chord-define-global "GG" 'lsp-find-definition)
   (key-chord-define-global "DD" 'lsp-peek-find-definition))
+
+(use-package lsp-treemacs)
 
 (provide 'init-lsp)
