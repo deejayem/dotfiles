@@ -179,7 +179,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   (undo-tree-history-directory-alist `((".*" . ,temporary-file-directory)))
   (undo-tree-auto-save-history t))
 
-(use-package abbrev-mode
+(use-package abbrev
   :ensure nil
   :diminish
   :hook (text-mode . abbrev-mode))
