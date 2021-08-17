@@ -38,7 +38,8 @@
     (let ((ext-file (format "%s.el" extension)))
       (url-copy-file
        (format "https://raw.githubusercontent.com/minad/vertico/main/extensions/%s" ext-file)
-       (expand-file-name ext-file vertico-extensions-dir)))))
+       (expand-file-name ext-file vertico-extensions-dir)
+       t))))
 
 (unless (file-directory-p vertico-extensions-dir)
   (make-directory vertico-extensions-dir t)
