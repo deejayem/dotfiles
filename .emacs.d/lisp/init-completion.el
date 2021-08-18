@@ -35,7 +35,8 @@
   (setq minibuffer-prompt-properties
         '(read-only t cursor-intangible t face minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-  (setq enable-recursive-minibuffers t))
+  (setq enable-recursive-minibuffers t)
+  (minibuffer-depth-indicate-mode t))
 
 ;; orderless is used by corfu and vertico
 (use-package orderless
