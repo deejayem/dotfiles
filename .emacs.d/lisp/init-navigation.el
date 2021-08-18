@@ -45,9 +45,8 @@
       (list prefix-arg (when-let ((s (symbol-at-point)))
                          (symbol-name s))))
     (affe-find dir initial))
-  ;; TODO is this faster and/or more portable?
-  ;; :custom
-  ;; (affe-find-command "fd --color never -t f")
+  :custom
+  (affe-find-command "fd --color never -t f")
   :bind
   ("C-#" . affe-grep)
   ("C-c z" . affe-find)
@@ -56,6 +55,7 @@
 
 ;; TODO - which of these are useful?
 (use-package avy
+  :after key-chord
   :custom
   (avy-background t)
   (avy-style 'pre)
