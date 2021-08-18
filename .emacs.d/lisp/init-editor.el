@@ -126,9 +126,9 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   (recentf-mode +1)
   :custom
   (recentf-save-file (expand-file-name "recentf" save-dir))
-  (recentf-max-saved-items 1000)
-  (recentf-max-menu-items 30)
-  (recentf-auto-cleanup (* 5 60)))
+  (recentf-max-saved-items 300)
+  (recentf-max-menu-items 20)
+  (recentf-auto-cleanup (* 60 60)))
 
 (use-package flycheck
   :config
