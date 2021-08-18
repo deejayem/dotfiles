@@ -9,10 +9,6 @@
   ("C-x \\" . align-regexp)
   ("C-+" . text-scale-increase)
   ("C--" . text-scale-decrease)
-  ("C-x O" . (lambda ()
-               (interactive)
-               (other-window -1)))
-  ("C-x C-b" . ibuffer)
   :hook
   (after-save . executable-make-buffer-file-executable-if-script-p)
   ;; (text-mode . whitespace-cleanup)

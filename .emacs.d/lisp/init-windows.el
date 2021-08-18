@@ -3,6 +3,11 @@
 ;;; Code:
 
 (use-package emacs
+  :bind
+  ("C-x O" . (lambda ()
+               (interactive)
+               (other-window -1)))
+  ("C-x C-M-b" . ibuffer)
   :config
   (winner-mode +1)
   ;; From EmacsWiki
@@ -49,7 +54,9 @@
 
 (use-package ace-window
   :diminish
-  :bind ([remap other-window] . ace-window)
+  :bind
+  ([remap other-window] . ace-window)
+  ("C-<tab>" . ace-window)
   :custom-face
   (aw-leading-char-face
    ((t (:foreground "white" :background "red"

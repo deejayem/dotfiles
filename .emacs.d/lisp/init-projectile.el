@@ -49,6 +49,7 @@
 
 (use-package perspective
   :init (persp-mode)
+  :bind ("C-x C-b" . persp-ibuffer)
   :custom (persp-modestring-short t))
 
 (use-package persp-projectile)
