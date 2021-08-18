@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package crux
+  :after key-chord
   :config
   (key-chord-define-global "JJ" 'crux-switch-to-previous-buffer)
   :bind
