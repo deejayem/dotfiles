@@ -209,5 +209,9 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 ;;   (add-to-list 'auto-mode-alist '("\\.adoc\\'" . adoc-mode))
 ;;   (add-to-list 'auto-mode-alist '("\\.asciidoc\\'" . adoc-mode)))
 
+(use-package operate-on-number
+  :bind
+  ("C-c ." . operate-on-number-at-point))
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
