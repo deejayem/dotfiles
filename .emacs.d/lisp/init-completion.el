@@ -341,7 +341,9 @@
   (add-to-list 'marginalia-prompt-categories '("Switch to project" . file))
   (add-to-list 'marginalia-prompt-categories '("Find file" . project-file))
   (add-to-list 'marginalia-prompt-categories '("Recently visited files" . project-file))
-  (add-to-list 'marginalia-prompt-categories '("Switch to buffer" . buffer)))
+  (add-to-list 'marginalia-prompt-categories '("Switch to buffer" . buffer))
+  ;; For Crux
+  (add-to-list 'marginalia-prompt-categories '("Choose recent file" . file)))
 
 (use-package embark
   :bind
