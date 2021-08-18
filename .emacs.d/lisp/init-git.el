@@ -39,19 +39,10 @@
           (vc-refresh-state)))))
   (key-chord-define-global "UU" 'my/magit-set-upstream)
   (key-chord-define-global "RR" 'my/magit-refresh-state)
-  ;; :custom-face
-  ;; (diff-added ((t (:foreground "green4"))))
-  ;; (magit-diff-added ((t (:foreground "green4"))))
-  ;; (magit-diff-added-highlight ((t (:foreground "green4"))))
-  ;; (diff-removed ((t (:foreground "red3"))))
-  ;; (magit-diff-removed ((t (:foreground "red3"))))
-  ;; (magit-diff-removed-highlight ((t (:foreground "red3"))))
   :custom
   (magit-diff-refine-hunk 'all)
-  ;; (magit-diff-paint-whitespace t)
-  ;; (magit-diff-paint-whitespace-lines 'all)
-  (magit-diff-highlight-trailing t)
-  (magit-diff-highlight-indentation t))
+  (magit-diff-paint-whitespace-lines 'all)
+  (magit-diff-highlight-trailing t))
 
 (use-package forge
   :after magit)
