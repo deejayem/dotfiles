@@ -50,7 +50,7 @@
 (use-package fullframe
   :after (magit dashboard)
   :config
-  (fullframe magit-status magit-mode-quit-window))
+  (fullframe magit-status magit-mode-quit-window vc-annotate quit-window))
 
 (use-package ace-window
   :diminish
