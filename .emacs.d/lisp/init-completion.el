@@ -160,7 +160,7 @@
   :load-path "site-lisp/vertico-extensions/vertico-directory.el"
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
-              ("/" . vertico-directory-enter)
+              ;("/" . vertico-directory-enter)
               ("DEL" . vertico-directory-delete-char)
               ("M-DEL" . vertico-directory-delete-word))
   ;; Tidy shadowed file names

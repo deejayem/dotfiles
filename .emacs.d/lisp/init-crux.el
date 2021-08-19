@@ -31,7 +31,7 @@
   ("C-M-z" . curx-indent-defun)
   ("C-c C-u" . crux-view-url)
   ("C-c TAB" . crux-indent-rigidly-and-copy-to-clipboard)
-  ("C-c C-j" . crux-switch-to-previous-buffer)
+  ("C-c C-M-j" . crux-switch-to-previous-buffer)
   ("C-c x" . crux-reopen-as-root))
 
 (provide 'init-crux)

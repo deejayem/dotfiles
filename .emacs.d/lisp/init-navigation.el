@@ -67,6 +67,7 @@
   :bind
   ("C-:" . avy-goto-char)
   ("C-'" . avy-goto-char-2)
+  ("C-," . avy-goto-char-in-line)
   ("C-c C-v" . avy-goto-char-in-line)
   ("C-c v" . avy-goto-word-or-subword-1)
   ("M-g w" . avy-goto-word-1)
