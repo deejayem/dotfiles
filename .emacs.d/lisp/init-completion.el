@@ -157,10 +157,18 @@
 ;; See init-packages.el for fetching of Vertico Extenions
 ;; Required extensions must be in the vertico-extensions var
 (use-package vertico-directory
+  :config
+  (defun vertico-directory-slash ()
+    (interactive)
+    (if (and (>= vertico--index 0)
+             (string-suffix-p "/" (vertico--candidate))
+             (vertico-directory--completing-file-p))
+        (vertico-insert)
+      (insert "/")))
   :load-path vertico-extensions-dir
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
-              ;("/" . vertico-directory-enter)
+              ("/" . vertico-directory-slash)
               ("DEL" . vertico-directory-delete-char)
               ("M-DEL" . vertico-directory-delete-word))
   ;; Tidy shadowed file names
