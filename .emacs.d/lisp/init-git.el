@@ -42,6 +42,7 @@
   :custom
   (magit-diff-refine-hunk 'all)
   (magit-diff-paint-whitespace-lines 'all)
+  (magit-diff-refine-ignore-whitespace nil)
   (magit-diff-highlight-trailing t))
 
 (use-package forge
