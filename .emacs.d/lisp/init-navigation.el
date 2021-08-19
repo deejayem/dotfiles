@@ -13,6 +13,7 @@
   (ctrlf-default-search-style 'fuzzy-regexp)
   (ctrlf-alternate-search-style 'literal)
   :bind
+  ("C-M-g" . ctrlf-cancel) ;; always bind this in case we have left the minibuffer
   ("C-*" . ctrlf-forward-symbol-at-point))
 
 (use-package smartscan

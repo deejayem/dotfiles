@@ -1,4 +1,4 @@
-;;; init-completion.el --- Commpletion Configuration File -*- lexical-binding: t -*-
+;;; init-completion.el --- Completion Configuration File -*- lexical-binding: t -*-
 ;;; Commentary:
 ;; Config for completion-at-point (corfu) and minibuffer (vertico, embark, consult, etc)
 ;;; Code:
@@ -157,7 +157,7 @@
 ;; See init-packages.el for fetching of Vertico Extenions
 ;; Required extensions must be in the vertico-extensions var
 (use-package vertico-directory
-  :load-path "site-lisp/vertico-extensions/vertico-directory.el"
+  :load-path vertico-extensions-dir
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
               ;("/" . vertico-directory-enter)
@@ -167,7 +167,7 @@
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 (use-package vertico-repeat
-  :load-path "site-lisp/vertico-extensions/vertico-repeat.el"
+  :load-path vertico-extensions-dir
   :bind ("M-P" . vertico-repeat))
 
 (use-package consult
@@ -341,7 +341,9 @@
   (add-to-list 'marginalia-prompt-categories '("Switch to project" . file))
   (add-to-list 'marginalia-prompt-categories '("Find file" . project-file))
   (add-to-list 'marginalia-prompt-categories '("Recently visited files" . project-file))
-  (add-to-list 'marginalia-prompt-categories '("Switch to buffer" . buffer)))
+  (add-to-list 'marginalia-prompt-categories '("Switch to buffer" . buffer))
+  ;; For Crux
+  (add-to-list 'marginalia-prompt-categories '("Choose recent file" . file)))
 
 (use-package embark
   :bind
