@@ -196,7 +196,7 @@
          ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
          ("C-M-#" . consult-register)
          ;; Other custom bindings
-         ("C-S-s" . consult-line)
+         ("C-s" . consult-line)
          ("C-M-S" . consult-line-symbol-at-point)
          ("M-y" . consult-yank-pop)                ;; orig. yank-pop
          ("<help> a" . consult-apropos)            ;; orig. apropos-command
@@ -355,8 +355,8 @@
 
 (use-package embark
   :bind
-  (("C-." . embark-act)
-   ("C-;" . embark-dwim)
+  (("C-," . embark-act)
+   ("C-." . embark-dwim)
    ("C-c C-o" . embark-export)
    ("C-h b" . embark-bindings)
    ("C-h B" . describe-bindings))
