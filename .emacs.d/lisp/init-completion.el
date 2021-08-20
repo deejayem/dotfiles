@@ -165,10 +165,17 @@
              (vertico-directory--completing-file-p))
         (vertico-insert)
       (insert "/")))
+  (defun vertico-directory-home ()
+    (interactive)
+    (if (and (string-suffix-p "/" (vertico--candidate))
+             (vertico-directory--completing-file-p))
+        (insert "~/")
+      (insert "~")))
   :load-path vertico-extensions-dir
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter)
               ("/" . vertico-directory-slash)
+              ("~" . vertico-directory-home)
               ("DEL" . vertico-directory-delete-char)
               ("M-DEL" . vertico-directory-delete-word))
   ;; Tidy shadowed file names
