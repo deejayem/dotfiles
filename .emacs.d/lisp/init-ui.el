@@ -7,6 +7,7 @@
 (use-package emacs
   :config
   (toggle-frame-maximized)
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
   ;; https://github.com/rougier/elegant-emacs/blob/master/sanity.el
   (setq inhibit-startup-screen t
