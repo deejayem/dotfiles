@@ -14,10 +14,6 @@
  :config
  (envrc-global-mode))
 
-(use-package rg
-  :config
-  (rg-enable-default-bindings))
-
 (use-package restclient
   :mode (("\\.http\\'" . restclient-mode)))
 
