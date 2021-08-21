@@ -77,8 +77,9 @@
   ("M-g M-f" . avy-goto-line))
 
 (use-package rg
-  :config
-  (rg-enable-default-bindings))
+  :bind
+  ("C-c C-M-r" . rg-menu)
+  ("C-c C-M-R" . rg))
 
 (provide 'init-navigation)
 ;;; init-navigation.el ends here
