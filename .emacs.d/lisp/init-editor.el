@@ -85,6 +85,9 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 (use-package move-text
   :bind
+  ;; TODO don't need all of these?
+  ("M-S-<up>" . move-text-up)
+  ("C-S-<up>" . move-text-up)
   ("M-S-<down>" . move-text-down)
   ("C-S-<down>" . move-text-down))
 
