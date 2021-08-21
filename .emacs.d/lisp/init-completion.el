@@ -203,8 +203,8 @@
          ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
          ("C-M-#" . consult-register)
          ;; Other custom bindings
-         ("C-s" . consult-line)
-         ("C-M-S" . consult-line-symbol-at-point)
+         ("C-S-s" . consult-line)
+         ("M-*" . consult-line-symbol-at-point)
          ("M-y" . consult-yank-pop)                ;; orig. yank-pop
          ("<help> a" . consult-apropos)            ;; orig. apropos-command
          ;; M-g bindings (goto-map)
@@ -228,7 +228,8 @@
          ("C-c c R" . consult-ripgrep-auto-preview)
          ("C-c R" . consult-ripgrep-auto-preview)
          ("C-c c M-r" . consult-ripgrep-unrestricted)
-         ("C-c c s" . consult-ripgrep-symbol-at-point)
+         ("C-c c *" . consult-ripgrep-symbol-at-point)
+         ("C-c *" . consult-ripgrep-symbol-at-point)
          ("C-c c l" . consult-line)
          ("C-c c m" . consult-multi-occur)
          ("C-c c k" . consult-keep-lines)
