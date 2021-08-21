@@ -160,7 +160,10 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   (anzu-replace-to-string-separator " => ")
   :bind
   ([remap query-replace] . anzu-query-replace)
-  ([remap query-replace-regexp] . anzu-query-replace-regexp))
+  ([remap query-replace-regexp] . anzu-query-replace-regexp)
+  (:map isearch-mode-map
+        ([remap isearch-query-replace] . anzu-isearch-query-replace)
+        ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp)))
 
 (use-package midnight)
 
