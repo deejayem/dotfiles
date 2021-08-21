@@ -2,20 +2,29 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package ctrlf
-  :init
-  (ctrlf-mode +1)
-  :config
-  (add-to-list 'ctrlf-minibuffer-bindings '("C-M-g" . ctrlf-cancel))
-  (add-to-list 'ctrlf-minibuffer-bindings '("C-o o" . ctrlf-occur))
-  (add-to-list 'ctrlf-minibuffer-bindings '("C-o C-o" . ctrlf-occur))
+;; (use-package ctrlf
+;;   :init
+;;   (ctrlf-mode +1)
+;;   :config
+;;   (add-to-list 'ctrlf-minibuffer-bindings '("C-M-g" . ctrlf-cancel))
+;;   (add-to-list 'ctrlf-minibuffer-bindings '("C-o o" . ctrlf-occur))
+;;   (add-to-list 'ctrlf-minibuffer-bindings '("C-o C-o" . ctrlf-occur))
+;;   :custom
+;;   (ctrlf-default-search-style 'fuzzy-regexp)
+;;   (ctrlf-alternate-search-style 'literal)
+;;   :bind
+;;   ("C-S-s" . ctrlf-forward-default)
+;;   ("C-M-g" . ctrlf-cancel) ;; always bind this in case we have left the minibuffer
+;;   ("C-*" . ctrlf-forward-symbol-at-point))
+
+(use-package isearch
+  :ensure nil
   :custom
-  (ctrlf-default-search-style 'fuzzy-regexp)
-  (ctrlf-alternate-search-style 'literal)
+  (search-whitespace-regexp ".*\\b")
+  (isearch-lax-whitespace t)
+  :bind-keymap ("C-c s" . search-map) ;; M-s clashes with paredit/smartparens bindings
   :bind
-  ("C-S-s" . ctrlf-forward-default)
-  ("C-M-g" . ctrlf-cancel) ;; always bind this in case we have left the minibuffer
-  ("C-*" . ctrlf-forward-symbol-at-point))
+  ("C-*" . isearch-forward-symbol-at-point))
 
 (use-package smartscan
   :config
