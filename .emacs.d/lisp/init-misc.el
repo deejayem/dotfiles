@@ -6,7 +6,7 @@
   :custom
   (exec-path-from-shell-arguments '("-l"))
   :config
-  (when (memq window-system '(mac ns x))
+  (when (memq window-system '(mac ns))
     (exec-path-from-shell-initialize)))
 
 (use-package envrc
