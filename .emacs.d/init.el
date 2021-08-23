@@ -21,6 +21,7 @@
 (require 'init-compile)
 (require 'init-editor)
 (require 'init-crux)
+(require 'init-search)
 (require 'init-navigation)
 (require 'init-windows)
 (require 'init-projectile)
