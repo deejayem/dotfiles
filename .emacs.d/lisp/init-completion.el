@@ -173,7 +173,7 @@
       (insert "~")))
   :load-path vertico-extensions-dir
   :bind (:map vertico-map
-              ("RET" . vertico-directory-enter)
+              ;("RET" . vertico-directory-enter)
               ("/" . vertico-directory-slash)
               ("~" . vertico-directory-home)
               ("DEL" . vertico-directory-delete-char)
