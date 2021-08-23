@@ -103,11 +103,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   :config
   (savehist-mode +1))
 
-(use-package uniquify
-  :ensure nil
-  :custom
-  (uniquify-buffer-name-style 'forward))
-
 (use-package super-save
   :diminish
   :custom

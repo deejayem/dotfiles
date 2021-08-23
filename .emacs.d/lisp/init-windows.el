@@ -47,6 +47,11 @@
          ("C-S-<left>" . buf-move-left)
          ("C-S-<right>" . buf-move-right)))
 
+(use-package uniquify
+  :ensure nil
+  :custom
+  (uniquify-buffer-name-style 'forward))
+
 (use-package fullframe
   :after (magit dashboard)
   :config
