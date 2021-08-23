@@ -123,6 +123,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (use-package recentf
   :config
   (recentf-mode +1)
+  (add-to-list 'recentf-exclude (expand-file-name "elpa" user-emacs-directory))
   :custom
   (recentf-save-file (expand-file-name "recentf" save-dir))
   (recentf-max-saved-items 300)
