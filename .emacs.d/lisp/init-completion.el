@@ -1,6 +1,7 @@
 ;;; init-completion.el --- Completion Configuration File -*- lexical-binding: t -*-
 ;;; Commentary:
 ;; Config for completion-at-point (corfu) and minibuffer (vertico, embark, consult, etc)
+;; Most of it is taken from the READMEs and wikis of those packages
 ;;; Code:
 
 (use-package dabbrev
@@ -205,6 +206,10 @@
          ;; Other custom bindings
          ("C-S-s" . consult-line)
          ("M-*" . consult-line-symbol-at-point)
+         ("C-c f" . consult-recent-file)
+         ("C-c r" . consult-ripgrep)
+         ("C-c R" . consult-ripgrep-auto-preview)
+         ("C-c *" . consult-ripgrep-symbol-at-point)
          ("M-y" . consult-yank-pop)                ;; orig. yank-pop
          ("<help> a" . consult-apropos)            ;; orig. apropos-command
          ;; M-g bindings (goto-map)
@@ -217,30 +222,10 @@
          ("M-g k" . consult-global-mark)
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-project-imenu)
-         ;; (Mostly) C-c c bindings (search-map)
-         ("C-c f" . consult-recent-file)
-         ("C-c c f" . consult-find)
-         ("C-c c L" . consult-locate)
-         ("C-c c g" . consult-grep)
-         ("C-c c G" . consult-git-grep)
-         ("C-c c r" . consult-ripgrep)
-         ("C-c r" . consult-ripgrep)
-         ("C-c c R" . consult-ripgrep-auto-preview)
-         ("C-c R" . consult-ripgrep-auto-preview)
-         ("C-c c M-r" . consult-ripgrep-unrestricted)
-         ("C-c c *" . consult-ripgrep-symbol-at-point)
-         ("C-c *" . consult-ripgrep-symbol-at-point)
-         ("C-c c z" . consult-z-ripgrep)
-         ("C-c c l" . consult-line)
-         ("C-c c m" . consult-multi-occur)
-         ("C-c c k" . consult-keep-lines)
-         ("C-c c u" . consult-focus-lines)
-         ;; Isearch integration
-         ("C-c c e" . consult-isearch)
          :map isearch-mode-map
          ("M-e" . consult-isearch)                 ;; orig. isearch-edit-string
-         ("C-c c e" . consult-isearch)             ;; orig. isearch-edit-string
-         ("C-c c l" . consult-line))               ;; needed by consult-line to detect isearch
+         ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
+         ("M-s l" . consult-line))                 ;; needed by consult-line to detect isearch
 
   :init
 
@@ -262,6 +247,46 @@
         xref-show-definitions-function #'consult-xref)
 
   :config
+
+  (defun consult-ripgrep-symbol-at-point (&optional dir initial)
+    (interactive
+     (list prefix-arg (when-let ((s (symbol-at-point)))
+                        (symbol-name s))))
+    (consult-ripgrep dir initial))
+  (defun consult-ripgrep-auto-preview (&optional dir initial)
+    (interactive "P")
+    (consult-ripgrep dir initial))
+  (defun consult-ripgrep-unrestricted (&optional dir initial)
+    (interactive "P")
+    (let ((consult-ripgrep-args (replace-regexp-in-string "\\." "-uu ." consult-ripgrep-args)))
+      (consult-ripgrep dir initial)))
+  (defun consult-z-ripgrep (&optional dir initial)
+    (interactive "P")
+    (let ((consult-ripgrep-args (replace-regexp-in-string "\\." "-z ." consult-ripgrep-args)))
+      (consult-ripgrep dir initial)))
+  (defun consult-buffer-no-preview ()
+    (interactive)
+    (consult-buffer))
+  (defun consult-line-symbol-at-point ()
+    (interactive)
+    (consult-line (thing-at-point 'symbol)))
+
+  ;; Add these here, as we have two bindings for search map (M-s and C-c s)
+  (define-key search-map "f" 'consult-find)
+  (define-key search-map "F" 'consult-locate)
+  (define-key search-map "g" 'consult-grep)
+  (define-key search-map "G" 'consult-git-grep)
+  (define-key search-map "r" 'consult-ripgrep)
+  (define-key search-map "R" 'consult-ripgrep-auto-preview)
+  (define-key search-map "M-r" 'consult-ripgrep-unrestricted)
+  (define-key search-map "*" 'consult-ripgrep-symbol-at-point)
+  (define-key search-map "z" 'consult-z-ripgrep)
+  (define-key search-map "l" 'consult-line)
+  (define-key search-map "L" 'consult-line-multi)
+  (define-key search-map "m" 'consult-multi-occur)
+  (define-key search-map "k" 'consult-keep-lines)
+  (define-key search-map "u" 'consult-focus-lines)
+  (define-key search-map "e" 'consult-isearch)
 
   ;; Optionally configure preview. The default value
   ;; is 'any, such that any key triggers the preview.
@@ -307,36 +332,12 @@
     (cons
      (mapcar (lambda (r) (consult--convert-regexp r type)) input)
      (lambda (str) (orderless--highlight input str))))
-  ;; (setq consult--regexp-compiler #'consult--orderless-regexp-compiler)
   (defun consult--with-orderless (&rest args)
     (minibuffer-with-setup-hook
         (lambda ()
           (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
       (apply args)))
-  (advice-add #'consult-ripgrep :around #'consult--with-orderless)
-
-  (defun consult-ripgrep-symbol-at-point (&optional dir initial)
-    (interactive
-      (list prefix-arg (when-let ((s (symbol-at-point)))
-                         (symbol-name s))))
-    (consult-ripgrep dir initial))
-  (defun consult-ripgrep-auto-preview (&optional dir initial)
-    (interactive "P")
-    (consult-ripgrep dir initial))
-  (defun consult-ripgrep-unrestricted (&optional dir initial)
-    (interactive "P")
-    (let ((consult-ripgrep-args (replace-regexp-in-string "\\." "-uu ." consult-ripgrep-args)))
-      (consult-ripgrep dir initial)))
-  (defun consult-z-ripgrep (&optional dir initial)
-    (interactive "P")
-    (let ((consult-ripgrep-args (replace-regexp-in-string "\\." "-z ." consult-ripgrep-args)))
-      (consult-ripgrep dir initial)))
-  (defun consult-buffer-no-preview ()
-    (interactive)
-    (consult-buffer))
-  (defun consult-line-symbol-at-point ()
-    (interactive)
-    (consult-line (thing-at-point 'symbol))))
+  (advice-add #'consult-ripgrep :around #'consult--with-orderless))
 
 (use-package consult-flycheck)
 
@@ -369,6 +370,8 @@
 (use-package embark
   :bind
   (("C-," . embark-act)
+   ;; CIDER will override M-. so have two bindings for this
+   ("M-." . embark-dwim)
    ("C-." . embark-dwim)
    ("C-c C-o" . embark-export)
    ("C-h b" . embark-bindings)
