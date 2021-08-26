@@ -33,7 +33,7 @@
 (defvar vertico-extensions '("vertico-directory" "vertico-repeat"))
 
 (defun fetch-vertico-extensions ()
-  "Download the latest versions of the required vertico extensions into vertico-extensions-dir"
+  "Download the latest versions of the required vertico extensions into vertico-extensions-dir."
   (dolist (extension vertico-extensions)
     (let ((ext-file (format "%s.el" extension)))
       (url-copy-file
