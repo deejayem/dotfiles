@@ -186,6 +186,7 @@
         (insert "~/")
       (insert "~")))
   :load-path vertico-extensions-dir
+  :commands vertico-directory-enter
   :bind (:map vertico-map
               ("RET" . vertico-directory-enter-or-switch-project)
               ("/" . vertico-directory-slash)
