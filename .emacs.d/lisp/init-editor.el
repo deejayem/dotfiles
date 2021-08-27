@@ -152,7 +152,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   :after key-chord
   :config
   (global-undo-tree-mode)
-  (key-chord-define-global "uu" 'undo-tree-visualize)
   :custom
   (undo-tree-history-directory-alist `((".*" . ,temporary-file-directory)))
   (undo-tree-auto-save-history t))
