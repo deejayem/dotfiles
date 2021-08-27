@@ -158,6 +158,19 @@
 ;; See init-packages.el for fetching of Vertico Extenions
 ;; Required extensions must be in the vertico-extensions var
 (use-package vertico-directory
+  :init
+  (defvar switching-project nil)
+  (defun vertico-directory-enter-or-switch-project ()
+    "Wrapper around vertico-directory-enter that plays nicely with Projectile."
+    (interactive)
+    (if switching-project
+        (vertico-exit)
+      (vertico-directory-enter)))
+  (defun read-project (orig &rest args)
+    (let ((switching-project t))
+      (apply orig args)))
+  (advice-add 'projectile-completing-read :around
+              'read-project)
   :config
   (defun vertico-directory-slash ()
     (interactive)
@@ -174,7 +187,7 @@
       (insert "~")))
   :load-path vertico-extensions-dir
   :bind (:map vertico-map
-              ;("RET" . vertico-directory-enter)
+              ("RET" . vertico-directory-enter-or-switch-project)
               ("/" . vertico-directory-slash)
               ("~" . vertico-directory-home)
               ("DEL" . vertico-directory-delete-char)
