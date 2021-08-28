@@ -24,23 +24,6 @@
   :commands minibuffer-edit
   :init (miniedit-install))
 
-(use-package multi-vterm
-  :bind (("C-c t" . multi-vterm-next)
-         ("C-c C-M-t" . multi-vterm)
-         (:map vterm-mode-map
-               ("M-[" . multi-vterm-prev)
-               ("M-]" . multi-vterm-next))))
-
-(use-package eshell
-  :ensure nil
-  :bind ("C-x m " . eshell)
-  :custom
-  (eshell-directory-name (expand-file-name "eshell" save-dir)))
-
-(use-package eshell-z
-  :defer t
-  :hook (eshell-mode . (lambda () (require 'eshell-z))))
-
 (use-package json-mode)
 (use-package csv-mode)
 (use-package yaml-mode

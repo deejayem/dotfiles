@@ -40,6 +40,7 @@
 (require 'init-paredit-x)
 (require 'init-lsp)
 (require 'init-git)
+(require 'init-shell)
 (require 'init-org)
 ;;(require 'init-latex)
 (require 'init-xml)
