@@ -42,7 +42,10 @@
       "C-c p" '(("C-p" . projectile-previous-project-buffer)
                 ("C-n" . projectile-next-project-buffer)))
   :bind-keymap ("C-c p" . projectile-command-map)
-  :bind (:map projectile-mode-map ("C-c p n" . projectile-open-new-project))
+  :bind
+  (:map projectile-mode-map
+        ("C-c p n" . projectile-open-new-project)
+        ("C-x f" . projectile-recentf))
   :custom
   (projectile-switch-project-action 'projectile-commander)
   (projectile-cache-file (expand-file-name  "projectile.cache" save-dir)))
