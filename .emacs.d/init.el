@@ -30,6 +30,7 @@
 (require 'init-modeline)
 (require 'init-dashboard)
 (require 'init-completion)
+(require 'init-minibuffer)
 (require 'init-kill)
 (require 'init-dired)
 (require 'init-smartparens)
