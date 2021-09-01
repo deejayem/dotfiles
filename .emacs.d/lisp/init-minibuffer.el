@@ -305,8 +305,6 @@
 (use-package embark
   :bind
   (("C-," . embark-act)
-   ;; CIDER will override M-. so have two bindings for this
-   ("M-." . embark-dwim)
    ("C-." . embark-dwim)
    ("C-c C-o" . embark-export)
    ("C-h b" . embark-bindings)
