@@ -312,11 +312,20 @@
    ("C-." . embark-dwim)
    ("C-c C-o" . embark-export)
    ("C-h b" . embark-bindings)
-   ("C-h B" . describe-bindings))
+   ("C-h B" . describe-bindings)
+   (:map minibuffer-local-map
+         ("M-." . embark-preview)))
   :init
-  ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
   :config
+  ;; (define-key minibuffer-local-map (kbd "M-.") #'embark-preview)
+  (defun embark-preview ()
+    (interactive)
+    (unless (bound-and-true-p consult--preview-function) ;; Disable preview for Consult commands
+      (save-selected-window
+        (let ((embark-quit-after-action))
+          (embark-default-action)))))
+
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
