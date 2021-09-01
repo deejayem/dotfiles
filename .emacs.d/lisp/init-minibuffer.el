@@ -296,18 +296,12 @@
          ("C-x C-j" . consult-dir-jump-file)))
 
 (use-package marginalia
-  :bind (("M-A" . marginalia-cycle)
-         :map minibuffer-local-map
-         ("M-A" . marginalia-cycle))
   :init
   (marginalia-mode)
   :config
-  ;; For Projectile
-  (add-to-list 'marginalia-prompt-categories '("Switch to project" . file))
-  (add-to-list 'marginalia-prompt-categories '("Find file" . project-file))
-  (add-to-list 'marginalia-prompt-categories '("Recently visited files" . project-file))
+  ;; persp-switch-to-buffer / persp-switch-to-buffer*
   (add-to-list 'marginalia-prompt-categories '("Switch to buffer" . buffer))
-  ;; For Crux
+  ;; crux-recentf-find-file
   (add-to-list 'marginalia-prompt-categories '("Choose recent file" . file)))
 
 (use-package embark
