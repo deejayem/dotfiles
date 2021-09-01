@@ -6,6 +6,8 @@
   :config
   (require 'lsp-ui-imenu))
 
+(use-package lsp-treemacs)
+
 (use-package lsp-mode
   :diminish
   :hook (clojure-mode . lsp)
@@ -18,11 +20,12 @@
         lsp-ui-peek-enable t
         lsp-ui-peek-always-show t
         lsp-ui-doc-delay 1
-        lsp-lens-enable nil
+        lsp-lens-enable t
         lsp-ui-doc-enable t
         lsp-ui-doc-show-with-cursor t
         lsp-ui-doc-show-with-mouse t
-        lsp-headerline-breadcrumb-enable nil
+        lsp-headerline-breadcrumb-enable t
+        lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-enable-symbol-highlighting t
         lsp-ui-sideline-show-diagnostics t
         lsp-ui-sideline-show-code-actions nil
@@ -37,8 +40,6 @@
   (:map lsp-ui-mode-map
         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
         ([remap xref-find-references] . lsp-ui-peek-find-references)))
-
-(use-package lsp-treemacs)
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here
