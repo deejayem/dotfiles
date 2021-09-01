@@ -26,7 +26,7 @@
 (require 'init-search)
 (require 'init-navigation)
 (require 'init-windows)
-(require 'init-projectile)
+(require 'init-project)
 (require 'init-modeline)
 (require 'init-dashboard)
 (require 'init-completion)

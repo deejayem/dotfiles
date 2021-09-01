@@ -8,8 +8,8 @@
         dashboard-startup-banner 'logo
         dashboard-set-footer nil
         dashboard-week-agenda t
-        dashboard-projects-backend 'projectile
-        dashboard-projects-switch-function 'projectile-persp-switch-project
+        dashboard-projects-backend 'project-el
+        dashboard-projects-switch-function 'switch-project
         dashboard-items '((recents  . 15)
                         (bookmarks . 5)
                         (projects . 5)
