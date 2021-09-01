@@ -92,11 +92,9 @@
   :diminish
   :config (which-key-mode +1))
 
-;; Other key-chords defined with in the relevant use-package calls
 (use-package key-chord
   :config
-  (key-chord-mode +1)
-  (key-chord-define-global "xx" 'execute-extended-command))
+  (key-chord-mode +1))
 
 (use-package rainbow-delimiters
   :config

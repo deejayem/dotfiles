@@ -30,7 +30,6 @@
 
 (use-package cider
   :diminish
-  :after key-chord
   :config
   (setq cider-repl-pop-to-buffer-on-connect 'display-only
         cider-repl-display-help-banner nil
@@ -44,8 +43,6 @@
         cider-repl-history-file "~/.emacs.d/cider-history"
         nrepl-log-messages t
         clojure-toplevel-inside-comment-form t)
-  (key-chord-define-global "??" 'cider-xref-fn-refs-select)
-  (key-chord-define-global "qq" 'cider-xref-fn-refs)
   (unbind-key "C-c C-l" cider-mode-map)
   :bind (:map cider-mode-map ("C-c M-l" . cider-load-file))
   :hook

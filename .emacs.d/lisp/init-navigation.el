@@ -42,15 +42,9 @@
 
 ;; TODO - which of these are useful?
 (use-package avy
-  :after key-chord
   :custom
   (avy-background t)
   (avy-style 'pre)
-  :config
-  (key-chord-define-global "LL" 'avy-goto-line)
-  (key-chord-define-global ",," 'avy-goto-char-in-line)
-  (key-chord-define-global "jj" 'avy-goto-word-1)
-  (key-chord-define-global "jk" 'avy-goto-char)
   :bind
   ("C-:" . avy-goto-char)
   ("C-'" . avy-goto-char-2)

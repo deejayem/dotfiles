@@ -16,16 +16,13 @@
   :defer t
   :hook (eshell-mode . (lambda () (require 'eshell-z))))
 
-(use-package esh-autosuggest
-  :hook (eshell-mode . esh-autosuggest-mode))
-
 (use-package eshell-syntax-highlighting
   :after esh-mode
   :config
   (eshell-syntax-highlighting-global-mode +1))
 
 (use-package xterm-color
-  :after eshell
+  :after esh-mode
   :hook
   (eshell-before-prompt . (lambda ()
                             (setq xterm-color-preserve-properties t)))
@@ -36,6 +33,7 @@
 
 (use-package multi-vterm
   :bind (("C-c t" . multi-vterm-next)
+         ("C-x p t" . multi-vterm-project)
          ("C-c C-M-t" . multi-vterm)
          (:map vterm-mode-map
                ("M-[" . multi-vterm-prev)

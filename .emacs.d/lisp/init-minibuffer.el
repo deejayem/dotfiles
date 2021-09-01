@@ -52,8 +52,6 @@
         (select-window (minibuffer-selected-window))
       (select-window (active-minibuffer-window))))
 
-  (key-chord-define-global "XX" 'to-and-fro-minibuffer)
-  ;(key-chord-define-global ">>" 'preview-from-outside)
   :bind (("C-M-<" . up-from-outside)
          ("C-M->" . down-from-outside)
          ("C-M-+" . preview-from-outside)
@@ -66,7 +64,7 @@
   :init
   (defvar switching-project nil)
   (defun vertico-directory-enter-or-switch-project ()
-    "Wrapper around vertico-directory-enter that plays nicely with Projectile."
+    "Wrapper around vertico-directory-enter that plays nicely with adding projects."
     (interactive)
     (if switching-project
         (vertico-exit)
@@ -74,7 +72,7 @@
   (defun read-project (orig &rest args)
     (let ((switching-project t))
       (apply orig args)))
-  (advice-add 'projectile-completing-read :around
+  (advice-add 'project-prompt-project-dir :around
               'read-project)
   :config
   (defun vertico-directory-slash ()
@@ -106,7 +104,6 @@
   :bind ("M-P" . vertico-repeat))
 
 (use-package consult
-  :after projectile
   :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)
          ("C-c m" . consult-mode-command)
@@ -189,15 +186,39 @@
   (defun consult-line-symbol-at-point ()
     (interactive)
     (consult-line (thing-at-point 'symbol)))
+  (defvar consult--fd-command nil)
+  (defun consult--fd-builder (input)
+    (unless consult--fd-command
+      (setq consult--fd-command
+            (if (eq 0 (call-process-shell-command "fdfind"))
+                "fdfind"
+              "fd")))
+    (pcase-let* ((`(,arg . ,opts) (consult--command-split input))
+                 (`(,re . ,hl) (funcall consult--regexp-compiler
+                                        arg 'extended)))
+      (when re
+        (list :command (append
+                        (list consult--fd-command
+                              "--color=never" "--full-path"
+                              (consult--join-regexps re 'extended))
+                        opts)
+              :highlight hl))))
+
+  (defun consult-fd (&optional dir initial)
+    (interactive "P")
+    (let* ((prompt-dir (consult--directory-prompt "Fd" dir))
+           (default-directory (cdr prompt-dir)))
+      (find-file (consult--find (car prompt-dir) #'consult--fd-builder initial))))
 
   ;; Add these here, as we have two bindings for search map (M-s and C-c s)
-  (define-key search-map "f" 'consult-find)
-  (define-key search-map "F" 'consult-locate)
+  (define-key search-map "f" 'consult-fd)
+  (define-key search-map "F" 'consult-find)
+  (define-key search-map (kbd "M-f") 'consult-locate)
   (define-key search-map "g" 'consult-grep)
   (define-key search-map "G" 'consult-git-grep)
   (define-key search-map "r" 'consult-ripgrep)
   (define-key search-map "R" 'consult-ripgrep-auto-preview)
-  (define-key search-map "M-r" 'consult-ripgrep-unrestricted)
+  (define-key search-map (kbd "M-r") 'consult-ripgrep-unrestricted)
   (define-key search-map "*" 'consult-ripgrep-symbol-at-point)
   (define-key search-map "z" 'consult-z-ripgrep)
   (define-key search-map "l" 'consult-line)
@@ -231,20 +252,78 @@
   ;; You may want to use `embark-prefix-help-command' or which-key instead.
   ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
 
-  (autoload 'projectile-project-root "projectile")
-  (setq consult-project-root-function #'projectile-project-root)
+  (setq consult-project-root-function
+        (lambda ()
+          (when-let (project (project-current))
+            (car (project-roots project)))))
+
+  ;; Switch perspective when switching buffer if needed
+  (setq consult--display-buffer #'persp-switch-to-buffer)
 
   (defvar consult-initial-narrow-config
-    '((consult-buffer . ?p)
-      (consult-buffer-no-preview . ?p)))
+    '((consult-buffer . ?x)
+      (consult-buffer-no-preview . ?x)))
   ;; Add initial narrowing hook
   (defun consult-initial-narrow ()
     (when-let (key (alist-get this-command consult-initial-narrow-config))
       (setq unread-command-events (append unread-command-events (list key 32)))))
   (add-hook 'minibuffer-setup-hook #'consult-initial-narrow)
 
-  (when (and (eq system-type 'darwin) (string-match-p "^find" consult-find-command))
-    (setq consult-find-command (concat "g" consult-find-command)))
+  (when (and (eq system-type 'darwin) (string-match-p "^find" consult-find-args))
+    (setq consult-find-args (concat "g" consult-find-args)))
+
+  ;; Use fd that that we aren't just getting recentf, but also respect .gitignore
+  (setq consult--source-project-file
+        (plist-put consult--source-project-file
+                   :items '(lambda ()
+                             (let* ((root (consult--project-root))
+                                    (len (length root))
+                                    (inv-root (propertize root 'invisible t)))
+                               (mapcar (lambda (x)
+                                         (concat inv-root (substring x len)))
+                                       (split-string
+                                        (shell-command-to-string
+                                         (format  "fd --color never -t f -0 . %s" root))
+                                        "\0" t))))))
+
+  (defvar consult--source-perspective-buffer
+    `(:name     "Perspective Buffer"
+                :narrow   (?x . "Perspective")
+                :hidden   t
+                :category buffer
+                :face     consult-buffer
+                :history  buffer-name-history
+                :state    ,#'consult--buffer-state
+                :enabled  ,(lambda () persp-mode)
+                :items
+                ,(lambda ()
+                   (consult--buffer-query :sort 'visibility
+                                          :predicate #'persp-is-current-buffer
+                                          :as #'buffer-name)))
+    "Perspective buffer candidate source for `consult-buffer'.")
+  (add-to-list 'consult-buffer-sources 'consult--source-perspective-buffer t)
+
+  ;; Copy of consult--source-project-file to use with perspective narrowing (identical except for narrowing key)
+  (defvar consult--source-perspective-files
+    (plist-put (copy-sequence  consult--source-project-file) :narrow '(?x "Project Files")))
+  (add-to-list 'consult-buffer-sources 'consult--source-perspective-files t)
+
+  ;; Versions of consult--source-project-buffer and consult--source-project-file for use by consult-project-buffer
+  ;; They allow narrowing with b and f (instead of p)
+  (defvar consult--project-source-project-buffer
+    (plist-put (plist-put (copy-sequence consult--source-project-buffer)
+                          :hidden nil)
+               :narrow '(?b . "Project Buffer")))
+  (defvar consult--project-source-project-file
+    (plist-put (plist-put (copy-sequence consult--source-project-file)
+                          :hidden nil)
+               :narrow '(?f . "Project File")))
+
+  (defun consult-project-buffer ()
+    (interactive)
+    (let ((consult-buffer-sources '(consult--project-source-project-buffer
+                                    consult--project-source-project-file)))
+      (consult-buffer)))
 
   (defun consult--orderless-regexp-compiler (input type)
     (setq input (orderless-pattern-compiler input))
@@ -267,38 +346,34 @@
 (use-package consult-dir
   :ensure t
   :bind (("C-x C-d" . consult-dir)
-         :map vertico-map ;minibuffer-local-completion-map
+         :map vertico-map
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file)))
 
 (use-package marginalia
-  :bind (("M-A" . marginalia-cycle)
-         :map minibuffer-local-map
-         ("M-A" . marginalia-cycle))
   :init
-  (marginalia-mode)
-  :config
-  ;; For Projectile
-  (add-to-list 'marginalia-prompt-categories '("Switch to project" . file))
-  (add-to-list 'marginalia-prompt-categories '("Find file" . project-file))
-  (add-to-list 'marginalia-prompt-categories '("Recently visited files" . project-file))
-  (add-to-list 'marginalia-prompt-categories '("Switch to buffer" . buffer))
-  ;; For Crux
-  (add-to-list 'marginalia-prompt-categories '("Choose recent file" . file)))
+  (marginalia-mode))
 
 (use-package embark
   :bind
   (("C-," . embark-act)
-   ;; CIDER will override M-. so have two bindings for this
-   ("M-." . embark-dwim)
    ("C-." . embark-dwim)
    ("C-c C-o" . embark-export)
    ("C-h b" . embark-bindings)
-   ("C-h B" . describe-bindings))
+   ("C-h B" . describe-bindings)
+   (:map minibuffer-local-map
+         ("M-." . embark-preview)))
   :init
-  ;; Optionally replace the key help with a completing-read interface
   (setq prefix-help-command #'embark-prefix-help-command)
   :config
+  ;; (define-key minibuffer-local-map (kbd "M-.") #'embark-preview)
+  (defun embark-preview ()
+    (interactive)
+    (unless (bound-and-true-p consult--preview-function) ;; Disable preview for Consult commands
+      (save-selected-window
+        (let ((embark-quit-after-action))
+          (embark-default-action)))))
+
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"

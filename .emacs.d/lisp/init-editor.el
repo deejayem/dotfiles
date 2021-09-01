@@ -150,7 +150,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 (use-package undo-tree
   :diminish
-  :after key-chord
   :config
   (global-undo-tree-mode)
   :custom
