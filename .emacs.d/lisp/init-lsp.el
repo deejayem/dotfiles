@@ -8,7 +8,6 @@
 
 (use-package lsp-mode
   :diminish
-  :after key-chord
   :hook (clojure-mode . lsp)
   :config
   (if (eq system-type 'darwin)
@@ -34,10 +33,6 @@
         ;; user cider for indendation and completion instead
         lsp-enable-indentation nil
         lsp-completion-enable nil)
-  (key-chord-define-global "QQ" 'lsp-find-references)
-  (key-chord-define-global "PP" 'lsp-peek-find-references)
-  (key-chord-define-global "GG" 'lsp-find-definition)
-  (key-chord-define-global "DD" 'lsp-peek-find-definitions)
   :bind
   (:map lsp-ui-mode-map
         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)

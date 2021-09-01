@@ -4,10 +4,8 @@
 ;;; Code:
 
 (use-package browse-kill-ring
-  :after key-chord
   :config
-  (browse-kill-ring-default-keybindings)
-  (key-chord-define-global "yy" 'browse-kill-ring))
+  (browse-kill-ring-default-keybindings))
 
 (use-package easy-kill
   :bind

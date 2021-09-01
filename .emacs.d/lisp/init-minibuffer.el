@@ -52,8 +52,6 @@
         (select-window (minibuffer-selected-window))
       (select-window (active-minibuffer-window))))
 
-  (key-chord-define-global "XX" 'to-and-fro-minibuffer)
-  ;(key-chord-define-global ">>" 'preview-from-outside)
   :bind (("C-M-<" . up-from-outside)
          ("C-M->" . down-from-outside)
          ("C-M-+" . preview-from-outside)
