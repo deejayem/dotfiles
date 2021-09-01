@@ -289,18 +289,13 @@
 (use-package consult-dir
   :ensure t
   :bind (("C-x C-d" . consult-dir)
-         :map vertico-map ;minibuffer-local-completion-map
+         :map vertico-map
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file)))
 
 (use-package marginalia
   :init
-  (marginalia-mode)
-  :config
-  ;; persp-switch-to-buffer / persp-switch-to-buffer*
-  (add-to-list 'marginalia-prompt-categories '("Switch to buffer" . buffer))
-  ;; crux-recentf-find-file
-  (add-to-list 'marginalia-prompt-categories '("Choose recent file" . file)))
+  (marginalia-mode))
 
 (use-package embark
   :bind
