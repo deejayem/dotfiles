@@ -8,9 +8,7 @@
   (search-whitespace-regexp ".*\\b")
   (isearch-lax-whitespace t)
   (isearch-allow-scroll t)
-  ;; TODO
-  ;; (isearch-yank-on-move 'shift)
-  (isearch-yank-on-move t)
+  (isearch-yank-on-move 'shift)
   :bind-keymap ("C-c s" . search-map) ;; M-s clashes with paredit/smartparens bindings
   :bind
   ("C-*" . isearch-forward-symbol-at-point)
