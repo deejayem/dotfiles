@@ -16,15 +16,13 @@
   :defer t
   :hook (eshell-mode . (lambda () (require 'eshell-z))))
 
-(use-package esh-autosuggest
-  :hook (eshell-mode . esh-autosuggest-mode))
-
 (use-package eshell-syntax-highlighting
   :after esh-mode
   :config
   (eshell-syntax-highlighting-global-mode +1))
 
 (use-package xterm-color
+  :after esh-mode
   :hook
   (eshell-before-prompt . (lambda ()
                             (setq xterm-color-preserve-properties t)))
