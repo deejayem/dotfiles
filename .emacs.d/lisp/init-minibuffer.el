@@ -189,15 +189,39 @@
   (defun consult-line-symbol-at-point ()
     (interactive)
     (consult-line (thing-at-point 'symbol)))
+  (defvar consult--fd-command nil)
+  (defun consult--fd-builder (input)
+    (unless consult--fd-command
+      (setq consult--fd-command
+            (if (eq 0 (call-process-shell-command "fdfind"))
+                "fdfind"
+              "fd")))
+    (pcase-let* ((`(,arg . ,opts) (consult--command-split input))
+                 (`(,re . ,hl) (funcall consult--regexp-compiler
+                                        arg 'extended)))
+      (when re
+        (list :command (append
+                        (list consult--fd-command
+                              "--color=never" "--full-path"
+                              (consult--join-regexps re 'extended))
+                        opts)
+              :highlight hl))))
+
+  (defun consult-fd (&optional dir initial)
+    (interactive "P")
+    (let* ((prompt-dir (consult--directory-prompt "Fd" dir))
+           (default-directory (cdr prompt-dir)))
+      (find-file (consult--find (car prompt-dir) #'consult--fd-builder initial))))
 
   ;; Add these here, as we have two bindings for search map (M-s and C-c s)
-  (define-key search-map "f" 'consult-find)
-  (define-key search-map "F" 'consult-locate)
+  (define-key search-map "f" 'consult-fd)
+  (define-key search-map "F" 'consult-find)
+  (define-key search-map (kbd "M-f") 'consult-locate)
   (define-key search-map "g" 'consult-grep)
   (define-key search-map "G" 'consult-git-grep)
   (define-key search-map "r" 'consult-ripgrep)
   (define-key search-map "R" 'consult-ripgrep-auto-preview)
-  (define-key search-map "M-r" 'consult-ripgrep-unrestricted)
+  (define-key search-map (kbd "M-r") 'consult-ripgrep-unrestricted)
   (define-key search-map "*" 'consult-ripgrep-symbol-at-point)
   (define-key search-map "z" 'consult-z-ripgrep)
   (define-key search-map "l" 'consult-line)
