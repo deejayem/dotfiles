@@ -33,6 +33,7 @@
 
 (use-package multi-vterm
   :bind (("C-c t" . multi-vterm-next)
+         ("C-x p t" . multi-vterm-project)
          ("C-c C-M-t" . multi-vterm)
          (:map vterm-mode-map
                ("M-[" . multi-vterm-prev)

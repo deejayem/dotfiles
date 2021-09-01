@@ -64,7 +64,7 @@
   :init
   (defvar switching-project nil)
   (defun vertico-directory-enter-or-switch-project ()
-    "Wrapper around vertico-directory-enter that plays nicely with Projectile."
+    "Wrapper around vertico-directory-enter that plays nicely with adding projects."
     (interactive)
     (if switching-project
         (vertico-exit)
@@ -72,7 +72,7 @@
   (defun read-project (orig &rest args)
     (let ((switching-project t))
       (apply orig args)))
-  (advice-add 'projectile-completing-read :around
+  (advice-add 'project-prompt-project-dir :around
               'read-project)
   :config
   (defun vertico-directory-slash ()
@@ -104,7 +104,6 @@
   :bind ("M-P" . vertico-repeat))
 
 (use-package consult
-  :after projectile
   :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)
          ("C-c m" . consult-mode-command)
@@ -253,20 +252,78 @@
   ;; You may want to use `embark-prefix-help-command' or which-key instead.
   ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
 
-  (autoload 'projectile-project-root "projectile")
-  (setq consult-project-root-function #'projectile-project-root)
+  (setq consult-project-root-function
+        (lambda ()
+          (when-let (project (project-current))
+            (car (project-roots project)))))
+
+  ;; Switch perspective when switching buffer if needed
+  (setq consult--display-buffer #'persp-switch-to-buffer)
 
   (defvar consult-initial-narrow-config
-    '((consult-buffer . ?p)
-      (consult-buffer-no-preview . ?p)))
+    '((consult-buffer . ?x)
+      (consult-buffer-no-preview . ?x)))
   ;; Add initial narrowing hook
   (defun consult-initial-narrow ()
     (when-let (key (alist-get this-command consult-initial-narrow-config))
       (setq unread-command-events (append unread-command-events (list key 32)))))
   (add-hook 'minibuffer-setup-hook #'consult-initial-narrow)
 
-  (when (and (eq system-type 'darwin) (string-match-p "^find" consult-find-command))
-    (setq consult-find-command (concat "g" consult-find-command)))
+  (when (and (eq system-type 'darwin) (string-match-p "^find" consult-find-args))
+    (setq consult-find-args (concat "g" consult-find-args)))
+
+  ;; Use fd that that we aren't just getting recentf, but also respect .gitignore
+  (setq consult--source-project-file
+        (plist-put consult--source-project-file
+                   :items '(lambda ()
+                             (let* ((root (consult--project-root))
+                                    (len (length root))
+                                    (inv-root (propertize root 'invisible t)))
+                               (mapcar (lambda (x)
+                                         (concat inv-root (substring x len)))
+                                       (split-string
+                                        (shell-command-to-string
+                                         (format  "fd --color never -t f -0 . %s" root))
+                                        "\0" t))))))
+
+  (defvar consult--source-perspective-buffer
+    `(:name     "Perspective Buffer"
+                :narrow   (?x . "Perspective")
+                :hidden   t
+                :category buffer
+                :face     consult-buffer
+                :history  buffer-name-history
+                :state    ,#'consult--buffer-state
+                :enabled  ,(lambda () persp-mode)
+                :items
+                ,(lambda ()
+                   (consult--buffer-query :sort 'visibility
+                                          :predicate #'persp-is-current-buffer
+                                          :as #'buffer-name)))
+    "Perspective buffer candidate source for `consult-buffer'.")
+  (add-to-list 'consult-buffer-sources 'consult--source-perspective-buffer t)
+
+  ;; Copy of consult--source-project-file to use with perspective narrowing (identical except for narrowing key)
+  (defvar consult--source-perspective-files
+    (plist-put (copy-sequence  consult--source-project-file) :narrow '(?x "Project Files")))
+  (add-to-list 'consult-buffer-sources 'consult--source-perspective-files t)
+
+  ;; Versions of consult--source-project-buffer and consult--source-project-file for use by consult-project-buffer
+  ;; They allow narrowing with b and f (instead of p)
+  (defvar consult--project-source-project-buffer
+    (plist-put (plist-put (copy-sequence consult--source-project-buffer)
+                          :hidden nil)
+               :narrow '(?b . "Project Buffer")))
+  (defvar consult--project-source-project-file
+    (plist-put (plist-put (copy-sequence consult--source-project-file)
+                          :hidden nil)
+               :narrow '(?f . "Project File")))
+
+  (defun consult-project-buffer ()
+    (interactive)
+    (let ((consult-buffer-sources '(consult--project-source-project-buffer
+                                    consult--project-source-project-file)))
+      (consult-buffer)))
 
   (defun consult--orderless-regexp-compiler (input type)
     (setq input (orderless-pattern-compiler input))
