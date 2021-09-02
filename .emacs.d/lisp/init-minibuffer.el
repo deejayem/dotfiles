@@ -276,15 +276,15 @@
   (setq consult--source-project-file
         (plist-put consult--source-project-file
                    :items '(lambda ()
-                             (let* ((root (consult--project-root))
-                                    (len (length root))
-                                    (inv-root (propertize root 'invisible t)))
-                               (mapcar (lambda (x)
-                                         (concat inv-root (substring x len)))
-                                       (split-string
-                                        (shell-command-to-string
-                                         (format  "fd --color never -t f -0 . %s" root))
-                                        "\0" t))))))
+                             (when-let (root (consult--project-root))
+                               (let ((len (length root))
+                                     (inv-root (propertize root 'invisible t)))
+                                 (mapcar (lambda (x)
+                                           (concat inv-root (substring x len)))
+                                         (split-string
+                                          (shell-command-to-string
+                                           (format  "fd --color never -t f -0 . %s" root))
+                                          "\0" t)))))))
 
   (defvar consult--source-perspective-buffer
     `(:name     "Perspective Buffer"
