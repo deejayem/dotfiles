@@ -41,7 +41,8 @@
   ("C-x f" . project-recentf))
 
 (use-package perspective
-  :config (persp-mode)
+  :init (persp-mode)
+  :config
   (defun switch-project (proj)
     "Switch to project or already open project perspective."
     (interactive (list (project-prompt-project-dir)))
