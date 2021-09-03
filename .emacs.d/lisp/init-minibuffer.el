@@ -272,20 +272,6 @@
   (when (and (eq system-type 'darwin) (string-match-p "^find" consult-find-args))
     (setq consult-find-args (concat "g" consult-find-args)))
 
-  ;; Use fd that that we aren't just getting recentf, but also respect .gitignore
-  (setq consult--source-project-file
-        (plist-put consult--source-project-file
-                   :items '(lambda ()
-                             (when-let (root (consult--project-root))
-                               (let ((len (length root))
-                                     (inv-root (propertize root 'invisible t)))
-                                 (mapcar (lambda (x)
-                                           (concat inv-root (substring x len)))
-                                         (split-string
-                                          (shell-command-to-string
-                                           (format  "fd --color never -t f -0 . %s" root))
-                                          "\0" t)))))))
-
   (defvar consult--source-perspective-buffer
     `(:name     "Perspective Buffer"
                 :narrow   (?x . "Perspective")
@@ -304,9 +290,24 @@
   (add-to-list 'consult-buffer-sources 'consult--source-perspective-buffer t)
 
   ;; Copy of consult--source-project-file to use with perspective narrowing (identical except for narrowing key)
+  ;; Put before consult--source-project-file so we get recentf behaviour here
   (defvar consult--source-perspective-files
     (plist-put (copy-sequence  consult--source-project-file) :narrow '(?x "Project Files")))
   (add-to-list 'consult-buffer-sources 'consult--source-perspective-files t)
+
+  ;; Use fd that that we aren't just getting recentf, but also respect .gitignore
+  (setq consult--source-project-file
+        (plist-put consult--source-project-file
+                   :items '(lambda ()
+                             (when-let (root (consult--project-root))
+                               (let ((len (length root))
+                                     (inv-root (propertize root 'invisible t)))
+                                 (mapcar (lambda (x)
+                                           (concat inv-root (substring x len)))
+                                         (split-string
+                                          (shell-command-to-string
+                                           (format  "fd --color never -t f -0 . %s" root))
+                                          "\0" t)))))))
 
   ;; Versions of consult--source-project-buffer and consult--source-project-file for use by consult-project-buffer
   ;; They allow narrowing with b and f (instead of p)
