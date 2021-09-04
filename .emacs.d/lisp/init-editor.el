@@ -193,6 +193,9 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (use-package xref
   :ensure nil
   :config
+  ;; 'xref-prompt-for-identifier begins with not, so adding this prevents
+  ;; prompting for an identifier when calling xref-find-references, unless
+  ;; there is no value at point that can be used
   (add-to-list 'xref-prompt-for-identifier 'xref-find-references t))
 
 (provide 'init-editor)
