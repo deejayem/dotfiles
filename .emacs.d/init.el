@@ -38,7 +38,6 @@
 (require 'init-emacs-lisp)
 (require 'init-clojure)
 (require 'init-paredit)
-(require 'init-paredit-x)
 (require 'init-lsp)
 (require 'init-git)
 (require 'init-shell)

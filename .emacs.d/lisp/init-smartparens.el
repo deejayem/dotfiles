@@ -40,7 +40,9 @@
   (show-smartparens-global-mode)
   (require 'smartparens-config)
   (sp-use-paredit-bindings)
-  ;:bind (:map prog-mode-map ((")" . sp-close-round)))
+  (unbind-key "M-?" 'smartparens-mode-map)
+  (bind-key "C-M-?" 'sp-convolute-sexp 'smartparens-mode-map)
+  ;; :bind (:map smartparens-mode-map (")" . sp-close-round))
   )
 
 (provide 'init-smartparens)
