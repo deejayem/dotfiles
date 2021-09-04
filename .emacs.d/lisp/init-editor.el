@@ -190,5 +190,10 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   :bind
   ("C-c ." . operate-on-number-at-point))
 
+(use-package xref
+  :ensure nil
+  :config
+  (add-to-list 'xref-prompt-for-identifier 'xref-find-references t))
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
