@@ -11,11 +11,11 @@
 (use-package lsp-mode
   :diminish
   :hook (clojure-mode . lsp)
-  :init
+  :config
   (if (eq system-type 'darwin)
       (setq lsp-keymap-prefix "s-l")
     (setq lsp-keymap-prefix "C-c C-l"))
-  :config
+  (define-key lsp-mode-map (kbd lsp-keymap-prefix) lsp-command-map)
   (diminish 'lsp-lens-mode)
   (setq read-process-output-max (* 1024 1024)
         lsp-ui-sideline-enable t
