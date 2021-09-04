@@ -11,10 +11,12 @@
 (use-package lsp-mode
   :diminish
   :hook (clojure-mode . lsp)
-  :config
+  :init
   (if (eq system-type 'darwin)
       (setq lsp-keymap-prefix "s-l")
     (setq lsp-keymap-prefix "C-c C-l"))
+  :config
+  (diminish 'lsp-lens-mode)
   (setq read-process-output-max (* 1024 1024)
         lsp-ui-sideline-enable t
         lsp-ui-peek-enable t
@@ -24,8 +26,7 @@
         lsp-ui-doc-enable t
         lsp-ui-doc-show-with-cursor t
         lsp-ui-doc-show-with-mouse t
-        lsp-headerline-breadcrumb-enable t
-        lsp-headerline-breadcrumb-enable-diagnostics nil
+        lsp-headerline-breadcrumb-enable nil
         lsp-enable-symbol-highlighting t
         lsp-ui-sideline-show-diagnostics t
         lsp-ui-sideline-show-code-actions nil
@@ -35,11 +36,7 @@
         lsp-treemacs-theme "Iconless"
         ;; user cider for indendation and completion instead
         lsp-enable-indentation nil
-        lsp-completion-enable nil)
-  :bind
-  (:map lsp-ui-mode-map
-        ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-        ([remap xref-find-references] . lsp-ui-peek-find-references)))
+        lsp-completion-enable nil))
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here
