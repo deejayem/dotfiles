@@ -5,7 +5,10 @@
 
 (use-package org
   :ensure nil
-  :custom (org-log-done t)
+  :custom
+  (org-log-done t)
+  (org-special-ctrl-k t)
+  (org-special-ctrl-a t)
   :config
   (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
   :bind
