@@ -359,6 +359,7 @@
   :bind
   (("C-," . embark-act)
    ("C-." . embark-dwim)
+   ("M-." . embark-dwim)
    ("C-c C-o" . embark-export)
    ("C-h b" . embark-bindings)
    ("C-h B" . describe-bindings)
