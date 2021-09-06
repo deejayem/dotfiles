@@ -5,7 +5,9 @@
 ;;; Code:
 
 (use-package dabbrev
-  :diminish)
+  :diminish
+  :bind
+  ("M-/" . dabbrev-completion))
 
 (use-package hippie-expand
   :ensure nil
@@ -23,7 +25,7 @@
         try-complete-lisp-symbol-partially
         try-complete-lisp-symbol))
   :bind
-  ("M-/" . hippie-expand))
+  ("C-M-/" . hippie-expand))
 
 (use-package fancy-dabbrev
   :diminish
