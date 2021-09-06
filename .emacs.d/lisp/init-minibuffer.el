@@ -255,7 +255,7 @@
   (setq consult-project-root-function
         (lambda ()
           (when-let (project (project-current))
-            (car (project-roots project)))))
+            (project-root project))))
 
   ;; Switch perspective when switching buffer if needed
   (setq consult--display-buffer #'persp-switch-to-buffer)
@@ -371,7 +371,7 @@
     (unless (bound-and-true-p consult--preview-function) ;; Disable preview for Consult commands
       (save-selected-window
         (let ((embark-quit-after-action))
-          (embark-default-action)))))
+          (embark-dwim)))))
 
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
