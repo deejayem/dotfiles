@@ -22,7 +22,7 @@
   :after key-chord
   :bind
   ("C-c g" . magit-file-dispatch)
-  ("C-c C-g" . magit-dispatch)
+  ("C-c M-g" . magit-dispatch)
   :config
   (defun my/magit-set-upstream ()
     (interactive)
