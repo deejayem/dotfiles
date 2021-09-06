@@ -99,7 +99,7 @@
         (replace-paredit-binding (cdr commands) original-keys new-keys))))
   (defun paredit-commands-advice ()
     ;; Default paredit-convolute-sexp binding clashes with xref-find-references
-    (replace-paredit-binding paredit-commands "M-?" "C-M-?")
+    (replace-paredit-binding paredit-commands "M-?" "C-c M-?")
 
     (nconc paredit-commands
            '("Extreme Barfage & Slurpage"
@@ -127,7 +127,7 @@
              (("C-c M-)")
               paredit-wrap-round-from-behind
               ("(foo| bar baz" "((| foo) bar baz"))
-             (("C-c C-d")
+             (("C-c C-S-d")
               paredit-duplicate-after-point
               ("|(foo)" "(foo)\n|(foo)"))))
 
