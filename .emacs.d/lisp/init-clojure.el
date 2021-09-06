@@ -44,7 +44,9 @@
         nrepl-log-messages t
         clojure-toplevel-inside-comment-form t)
   (unbind-key "C-c C-l" cider-mode-map)
-  :bind (:map cider-mode-map ("C-c M-l" . cider-load-file))
+  :bind
+  (:map cider-mode-map ("C-c M-l" . cider-load-file))
+  (:map clojure-mode-map ("C-x p q" . project-clojure-test-switch))
   :hook
   (cider-repl-mode . (lambda ()
                        (display-line-numbers-mode -1)

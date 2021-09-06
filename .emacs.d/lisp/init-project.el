@@ -2,9 +2,29 @@
 ;;; Commentary:
 ;;; Code:
 
+(require 'subr-x)
+
 (use-package project
   :ensure nil
   :config
+  (defun project--clojure-switch-to-test (filename project-root)
+    (let* ((project-src-file (string-remove-prefix project-root filename))
+           (project-test-file (replace-regexp-in-string "\.clj$" "_test.clj"
+                                                (replace-regexp-in-string "^src/" "test/" project-src-file))))
+      (find-file (expand-file-name project-test-file project-root))))
+  (defun project--clojure-switch-to-src (test-filename project-root)
+    (let* ((project-test-file (string-remove-prefix project-root test-filename))
+           (project-src-file (replace-regexp-in-string "_test\.clj$" ".clj"
+                                                        (replace-regexp-in-string "^test/" "src/" project-test-file))))
+      (find-file (expand-file-name project-src-file project-root))))
+  (defun project-clojure-test-switch ()
+    (interactive)
+    (let ((filename (buffer-file-name))
+          (project-root (consult--project-root))) ;; TODO don't depend on consult
+      (cond ((string-match (concat "^" project-root "test/.*_test\.clj") filename)
+             (project--clojure-switch-to-src filename project-root))
+            ((string-match (concat "^" project-root "src/.*\.clj") filename)
+             (project--clojure-switch-to-test filename project-root)))))
   (defun project-recentf ()
     "Show a list of recently visited files in a project."
     (interactive)
