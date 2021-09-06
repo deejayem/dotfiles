@@ -295,30 +295,27 @@
     (plist-put (copy-sequence  consult--source-project-file) :narrow '(?x "Project Files")))
   (add-to-list 'consult-buffer-sources 'consult--source-perspective-files t)
 
-  ;; Use fd that that we aren't just getting recentf, but also respect .gitignore
-  (setq consult--source-project-file
-        (plist-put consult--source-project-file
-                   :items '(lambda ()
-                             (when-let (root (consult--project-root))
-                               (let ((len (length root))
-                                     (inv-root (propertize root 'invisible t)))
-                                 (mapcar (lambda (x)
-                                           (concat inv-root (substring x len)))
-                                         (split-string
-                                          (shell-command-to-string
-                                           (format  "fd --color never -t f -0 . %s" root))
-                                          "\0" t)))))))
-
   ;; Versions of consult--source-project-buffer and consult--source-project-file for use by consult-project-buffer
   ;; They allow narrowing with b and f (instead of p)
+  ;; The file version uses fd to find items, so that all files (rather than using recentf) are listed, respecing .gitignore
   (defvar consult--project-source-project-buffer
     (plist-put (plist-put (copy-sequence consult--source-project-buffer)
                           :hidden nil)
                :narrow '(?b . "Project Buffer")))
   (defvar consult--project-source-project-file
-    (plist-put (plist-put (copy-sequence consult--source-project-file)
-                          :hidden nil)
-               :narrow '(?f . "Project File")))
+    (plist-put (plist-put (plist-put (copy-sequence consult--source-project-file)
+                                     :hidden nil)
+                          :narrow '(?f . "Project File"))
+               :items '(lambda ()
+                         (when-let (root (consult--project-root))
+                           (let ((len (length root))
+                                 (inv-root (propertize root 'invisible t)))
+                             (mapcar (lambda (x)
+                                       (concat inv-root (substring x len)))
+                                     (split-string
+                                      (shell-command-to-string
+                                       (format  "fd --color never -t f -0 . %s" root))
+                                      "\0" t)))))))
 
   (defun consult-project-buffer ()
     (interactive)
