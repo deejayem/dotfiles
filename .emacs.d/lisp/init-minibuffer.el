@@ -295,7 +295,9 @@
   ;; Copy of consult--source-project-file to use with perspective narrowing (identical except for narrowing key)
   ;; Put before consult--source-project-file so we get recentf behaviour here
   (defvar consult--source-perspective-files
-    (plist-put (copy-sequence  consult--source-project-file) :narrow '(?x "Project Files")))
+    (plist-put (plist-put (copy-sequence  consult--source-project-file)
+                          :name "Project File")
+               :narrow '(?x . "Perspective")))
   (add-to-list 'consult-buffer-sources 'consult--source-perspective-files t)
 
   ;; Versions of consult--source-project-buffer and consult--source-project-file for use by consult-project-buffer
@@ -304,11 +306,11 @@
   (defvar consult--project-source-project-buffer
     (plist-put (plist-put (copy-sequence consult--source-project-buffer)
                           :hidden nil)
-               :narrow '(?b . "Project Buffer")))
+               :narrow '(?b . "Buffer")))
   (defvar consult--project-source-project-file
     (plist-put (plist-put (plist-put (copy-sequence consult--source-project-file)
                                      :hidden nil)
-                          :narrow '(?f . "Project File"))
+                          :narrow '(?f . "File"))
                :items '(lambda ()
                          (when-let (root (consult--project-root))
                            (let ((len (length root))
