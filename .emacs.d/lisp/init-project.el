@@ -61,7 +61,8 @@
   ("C-x f" . project-recentf))
 
 (use-package perspective
-  :init (persp-mode)
+  ;; Don't restart persp-mode when re-evaluating, as it clears the current persp list
+  :init (or persp-mode (persp-mode))
   :config
   (defun switch-project (proj)
     "Switch to project or already open project perspective."
