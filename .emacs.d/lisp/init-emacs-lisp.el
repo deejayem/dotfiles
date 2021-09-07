@@ -43,7 +43,12 @@ Start `ielm' if it's not already running."
   (:map emacs-lisp-mode-map
         (("C-c C-z" . visit-ielm)
          ("C-c C-c" . eval-defun)
-         ("C-c C-b" . eval-buffer))))
+         ("C-c C-b" . eval-buffer)
+         ("C-c e f" . emacs-lisp-byte-compile-and-load)
+         ("C-c e z" .  byte-recompile-directory)
+         ("C-c e c" . cancel-debug-on-entry)
+         ("C-c e d" . debug-on-entry)
+         ("C-c e e" . toggle-debug-on-error))))
 
 (provide 'init-emacs-lisp)
 ;;; init-emacs-lisp.el ends here
