@@ -141,7 +141,13 @@
          :map isearch-mode-map
          ("M-e" . consult-isearch)                 ;; orig. isearch-edit-string
          ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
-         ("M-s l" . consult-line))                 ;; needed by consult-line to detect isearch
+         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+         (:map vertico-map
+               ;; These are used for previewing with some consult commands (see consult-customize call below)
+               ("C-S-p" . vertico-previous)
+               ("C-S-n" . vertico-next)
+               ;; Toggle preview on/off without changing preview-key
+               ("M-P" . consult-toggle-preview)))
 
   :init
 
@@ -228,29 +234,26 @@
   (define-key search-map "u" 'consult-focus-lines)
   (define-key search-map "e" 'consult-isearch)
 
-  ;; Optionally configure preview. The default value
-  ;; is 'any, such that any key triggers the preview.
-  ;; (setq consult-preview-key 'any)
-  ;; (setq consult-preview-key (kbd "M-."))
-  ;; (setq consult-preview-key (list (kbd "<S-down>") (kbd "<S-up>")))
-  ;; For some commands and buffer sources it is useful to configure the
-  ;; :preview-key on a per-command basis using the `consult-customize' macro.
   (consult-customize
    consult-theme
    :preview-key '(:debounce 0.2 any)
+   ;; For these commands we can use C-S/C-P to scoll and preview, or M-. to preview
    consult-ripgrep consult-git-grep consult-grep
    consult-ripgrep-unrestricted consult-ripgrep-symbol-at-point
    consult-bookmark consult-recent-file consult-xref consult-buffer-no-preview
    consult--source-file consult--source-project-file consult--source-bookmark
-   :preview-key (kbd "M-."))
+   :preview-key (list (kbd "M-.") (kbd "C-S-n") (kbd "C-S-p")))
 
-  ;; Optionally configure the narrowing key.
-  ;; Both < and C-+ work reasonably well.
-  (setq consult-narrow-key "<") ;; (kbd "C-+")
+  (defun consult-toggle-preview ()
+    "Command to enable/disable preview."
+    (interactive)
+    (if consult-toggle-preview-orig
+        (setq consult--preview-function consult-toggle-preview-orig
+              consult-toggle-preview-orig nil)
+      (setq consult-toggle-preview-orig consult--preview-function
+            consult--preview-function #'ignore)))
 
-  ;; Optionally make narrowing help available in the minibuffer.
-  ;; You may want to use `embark-prefix-help-command' or which-key instead.
-  ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+  (setq consult-narrow-key "<")
 
   (setq consult-project-root-function
         (lambda ()
@@ -365,7 +368,6 @@
   :init
   (setq prefix-help-command #'embark-prefix-help-command)
   :config
-  ;; (define-key minibuffer-local-map (kbd "M-.") #'embark-preview)
   (defun embark-preview ()
     (interactive)
     (unless (bound-and-true-p consult--preview-function) ;; Disable preview for Consult commands
