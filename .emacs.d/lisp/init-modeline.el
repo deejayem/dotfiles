@@ -9,7 +9,7 @@
 (use-package which-func
   :ensure nil
   :config
-  (which-func-mode 1))
+  (which-function-mode 1))
 
 (use-package hl-todo
   :config
