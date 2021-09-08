@@ -27,6 +27,20 @@
                    "  ")
                  cand)))
   :config
+  (defun define-vertico-key (key &rest defs)
+    "Define KEY conditionally in the vertico keymap.
+DEFS is a plist associating completion categories to commands."
+    (let ((default-command (lookup-key vertico-map (kbd key))))
+      (define-key vertico-map (kbd key)
+        (list 'menu-item nil defs :filter
+              (lambda (d)
+                (or (plist-get d (completion-metadata-get
+                                  (completion-metadata (minibuffer-contents)
+                                                       minibuffer-completion-table
+                                                       minibuffer-completion-predicate)
+                                  'category))
+                    default-command))))))
+
   (defun down-from-outside ()
     "Move to next candidate in minibuffer, even when minibuffer isn't selected."
     (interactive)
@@ -61,11 +75,13 @@
 ;; See init-packages.el for fetching of Vertico Extenions
 ;; Required extensions must be in the vertico-extensions var
 (use-package vertico-directory
+  :after vertico
   :init
   (defvar switching-project nil)
-  (defun vertico-directory-enter-or-switch-project ()
-    "Wrapper around vertico-directory-enter that plays nicely with adding projects."
+  (defun vertico-directory-enter-or-select-project ()
+    "Wrapper around vertico-directory-enter that plays nicely with selecting new projects."
     (interactive)
+    ;; When selecting a project, use this to return, instead of entering the directory
     (if switching-project
         (vertico-exit)
       (vertico-directory-enter)))
@@ -74,14 +90,21 @@
       (apply orig args)))
   (advice-add 'project-prompt-project-dir :around
               'read-project)
+  (define-vertico-key "/"
+    'file #'vertico-directory-enter
+    'project-file #'vertico-directory-enter)
+  (define-vertico-key "RET"
+    'file #'vertico-directory-enter-or-select-project
+    'project-file #'vertico-directory-enter)
+  (define-vertico-key "~"
+    'file #'vertico-directory-home)
+  (define-vertico-key "DEL"
+    'file #'vertico-directory-delete-char
+    'project-file #'vertico-directory-delete-char)
+  (define-vertico-key "M-DEL"
+    'file #'vertico-directory-delete-word
+    'project-file #'vertico-directory-delete-word)
   :config
-  (defun vertico-directory-slash ()
-    (interactive)
-    (if (and (>= vertico--index 0)
-             (string-suffix-p "/" (vertico--candidate))
-             (vertico-directory--completing-file-p))
-        (vertico-insert)
-      (insert "/")))
   (defun vertico-directory-home ()
     (interactive)
     (if (and (string-suffix-p "/" (vertico--candidate))
@@ -90,12 +113,6 @@
       (insert "~")))
   :load-path vertico-extensions-dir
   :commands vertico-directory-enter
-  :bind (:map vertico-map
-              ("RET" . vertico-directory-enter-or-switch-project)
-              ("/" . vertico-directory-slash)
-              ("~" . vertico-directory-home)
-              ("DEL" . vertico-directory-delete-char)
-              ("M-DEL" . vertico-directory-delete-word))
   ;; Tidy shadowed file names
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
