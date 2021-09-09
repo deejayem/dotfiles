@@ -72,7 +72,9 @@
     "C-x" '(("}" . enlarge-window-horizontally)
             ("{" . shrink-window-horizontally)
             ("^" . enlarge-window)
-            ("-" . shrink-window-if-larger-than-buffer)))
+            ("-" . shrink-window)
+            ("<left>". previous-buffer)
+            ("<right>" . next-buffer)))
 
 (provide 'init-windows)
 ;;; init-windows.el ends here
