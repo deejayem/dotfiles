@@ -284,8 +284,8 @@ DEFS is a plist associating completion categories to commands."
           (when-let (project (project-current))
             (project-root project))))
 
-  ;; Switch perspective when switching buffer if needed
-  (setq consult--display-buffer #'persp-switch-to-buffer)
+  ;; Switch perspective when switching buffer if needed ;; TODO this doesn't work
+  ;; (setq consult--display-buffer #'persp-switch-to-buffer)
 
   (defvar consult-initial-narrow-config
     '((consult-buffer . ?x)
