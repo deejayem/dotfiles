@@ -91,8 +91,8 @@ DEFS is a plist associating completion categories to commands."
   (advice-add 'project-prompt-project-dir :around
               'read-project)
   (define-vertico-key "/"
-    'file #'vertico-directory-enter
-    'project-file #'vertico-directory-enter)
+    'file #'vertico-directory-slash
+    'project-file #'vertico-directory-slash)
   (define-vertico-key "RET"
     'file #'vertico-directory-enter-or-select-project
     'project-file #'vertico-directory-enter)
@@ -105,6 +105,13 @@ DEFS is a plist associating completion categories to commands."
     'file #'vertico-directory-delete-word
     'project-file #'vertico-directory-delete-word)
   :config
+  (defun vertico-directory-slash ()
+    (interactive)
+    (if (and (>= vertico--index 0)
+             (string-suffix-p "/" (vertico--candidate))
+             (vertico-directory--completing-file-p))
+        (vertico-insert)
+      (insert "/")))
   (defun vertico-directory-home ()
     (interactive)
     (if (and (string-suffix-p "/" (vertico--candidate))
