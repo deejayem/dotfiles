@@ -268,6 +268,7 @@ DEFS is a plist associating completion categories to commands."
    consult--source-file consult--source-project-file consult--source-bookmark
    :preview-key (list (kbd "M-.") (kbd "C-S-n") (kbd "C-S-p")))
 
+  (defvar-local consult-toggle-preview-orig nil)
   (defun consult-toggle-preview ()
     "Command to enable/disable preview."
     (interactive)
