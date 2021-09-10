@@ -77,7 +77,8 @@
           (project-switch-project proj)))))
   :bind
   ("C-x p p" . switch-project)
-  ("C-x x x" . persp-switch-quick))
+  ("C-x x x" . persp-switch-last)
+  ("C-x x ." . persp-switch-quick))
 
 (provide 'init-project)
 ;;; init-project.el ends here
