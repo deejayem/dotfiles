@@ -26,8 +26,9 @@
         lsp-ui-doc-enable t
         lsp-ui-doc-show-with-cursor t
         lsp-ui-doc-show-with-mouse t
-        lsp-headerline-breadcrumb-enable nil
+        lsp-headerline-breadcrumb-enable t
         lsp-enable-symbol-highlighting t
+        lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-ui-sideline-show-diagnostics t
         lsp-ui-sideline-show-code-actions nil
         lsp-modeline-code-actions-enable nil
