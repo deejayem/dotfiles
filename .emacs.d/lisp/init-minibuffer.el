@@ -285,8 +285,18 @@ DEFS is a plist associating completion categories to commands."
           (when-let (project (project-current))
             (project-root project))))
 
-  ;; Switch perspective when switching buffer if needed ;; TODO this doesn't work
-  ;; (setq consult--display-buffer #'persp-switch-to-buffer)
+  ;; Switches perspective if we select a buffer from another perspective, but note that previewing
+  ;; a buffer adds it to the current perspective, so preview should be disabled before removing
+  ;; perspective narrowing
+  (defun consult--persp-buffer-action (orig &rest args)
+    (when (not (cdr args)) ;; (cdr args) is norecord, which should distinguish preview/non-preview
+      (let ((buffer (window-normalize-buffer-to-switch-to (car args))))
+        (unless (persp-is-current-buffer buffer)
+          (let ((other-persp (persp-buffer-in-other-p buffer)))
+            (when (eq (car-safe other-persp) (selected-frame))
+              (persp-switch (cdr other-persp)))))))
+    (apply orig args))
+  (advice-add 'consult--buffer-action :around 'consult--persp-buffer-action)
 
   (defvar consult-initial-narrow-config
     '((consult-buffer . ?x)
