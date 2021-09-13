@@ -10,13 +10,17 @@
 
 (use-package lsp-mode
   :diminish
-  :hook (clojure-mode . lsp)
+  :hook
+  (clojure-mode . lsp)
+  (lsp-lens-mode . really-diminish-lsp-lens-mode)
   :config
+  (defun really-diminish-lsp-lens-mode ()
+    (diminish 'lsp-lens-mode)
+    (remove-hook 'lsp-lens-mode-hook 'really-diminish-lsp-lens-mode))
   (if (eq system-type 'darwin)
       (setq lsp-keymap-prefix "s-l")
     (setq lsp-keymap-prefix "C-c C-l"))
   (define-key lsp-mode-map (kbd lsp-keymap-prefix) lsp-command-map)
-  (diminish 'lsp-lens-mode)
   (setq read-process-output-max (* 1024 1024)
         lsp-ui-sideline-enable t
         lsp-ui-peek-enable t
