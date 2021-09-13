@@ -17,6 +17,8 @@
 (unless package-archive-contents
   (package-refresh-contents))
 
+(setq package-native-compile t)
+
 (unless (package-installed-p 'use-package)
    (package-install 'use-package))
 (require 'use-package)
