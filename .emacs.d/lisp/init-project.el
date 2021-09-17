@@ -64,6 +64,28 @@
   ;; Don't restart persp-mode when re-evaluating, as it clears the current persp list
   :init (or persp-mode (persp-mode))
   :config
+  ;; Based on jao-buffer-same-mode (https://jao.io/blog/2021-09-08-high-signal-to-noise-emacs-command.html)
+  (defun persp-switch-buffer-same-mode ()
+    "Switch to a buffer with the same major mode as the current buffer, respecting the current perspective."
+    (interactive)
+    (let* ((mode major-mode)
+           (pred (lambda (b)
+                   (let ((b (get-buffer (if (consp b) (car b) b))))
+                     (eq (buffer-local-value 'major-mode b) mode)))))
+      (pop-to-buffer (persp-read-buffer "Buffer: " nil t pred))))
+  (defun persp-previous-buffer-same-mode ()
+    "Switch to the previous buffer in the current perspective, with the same major mode as the current buffer (or do nothing)"
+    (interactive)
+    (let* ((persp-buffers (seq-filter 'persp-is-current-buffer (buffer-list)))
+           (mode major-mode)
+           (mode-pred (lambda (b)
+                        (let ((b (get-buffer (if (consp b) (car b) b))))
+                          (and (eq (buffer-local-value 'major-mode b) mode)
+                               (not (eq b (current-buffer)))
+                               (not (get-buffer-window b))))))
+           (persp-buffers-in-mode (seq-filter mode-pred persp-buffers)))
+      (when (not (seq-empty-p persp-buffers-in-mode))
+        (switch-to-buffer (car persp-buffers-in-mode)))))
   (defun switch-project (proj)
     "Switch to project or already open project perspective."
     (interactive (list (project-prompt-project-dir)))
@@ -77,6 +99,8 @@
           (project-switch-project proj)))))
   :bind
   ("C-x p p" . switch-project)
+  ("C-x C-b" . persp-previous-buffer-same-mode)
+  ("C-x C-S-b" . persp-switch-buffer-same-mode)
   ("C-x x x" . persp-switch-last)
   ("C-x x ." . persp-switch-quick))
 
