@@ -336,31 +336,37 @@ DEFS is a plist associating completion categories to commands."
   (add-to-list 'consult-buffer-sources 'consult--source-perspective-files t)
 
   ;; Versions of consult--source-project-buffer and consult--source-project-file for use by consult-project-buffer
-  ;; They allow narrowing with b and f (instead of p)
-  ;; The file version uses fd to find items, so that all files (rather than using recentf) are listed, respecing .gitignore
+  ;; They allow narrowing with b, f and a (instead of p)
+  ;; f is the recentf version provided by consult
+  ;; a is an "all files" version based on fd (respecting .gitignore, hidden by default)
   (defvar consult--project-source-project-buffer
     (plist-put (plist-put (copy-sequence consult--source-project-buffer)
                           :hidden nil)
                :narrow '(?b . "Buffer")))
-  (defvar consult--project-source-project-file
-    (plist-put (plist-put (plist-put (copy-sequence consult--source-project-file)
-                                     :hidden nil)
-                          :narrow '(?f . "File"))
+  (defvar consult--project-source-project-file-recentf
+    (plist-put (plist-put (copy-sequence consult--source-project-file)
+                          :hidden nil)
+               :narrow '(?f . "File (Recentf)")))
+  (defvar consult--project-source-project-file-all
+    (plist-put (plist-put (copy-sequence consult--source-project-file)
+                          :narrow '(?a . "File (All)"))
                :items '(lambda ()
-                         (when-let (root (consult--project-root))
-                           (let ((len (length root))
-                                 (inv-root (propertize root 'invisible t)))
-                             (mapcar (lambda (x)
-                                       (concat inv-root (substring x len)))
-                                     (split-string
-                                      (shell-command-to-string
-                                       (format  "fd --color never -t f -0 . %s" root))
-                                      "\0" t)))))))
+                         (when (eq 0 (call-process-shell-command "fd"))
+                           (when-let (root (consult--project-root))
+                             (let ((len (length root))
+                                   (inv-root (propertize root 'invisible t)))
+                               (mapcar (lambda (x)
+                                         (concat inv-root (substring x len)))
+                                       (split-string
+                                        (shell-command-to-string
+                                         (format  "fd --color never -t f -0 . %s" root))
+                                        "\0" t))))))))
 
   (defun consult-project-buffer ()
     (interactive)
     (let ((consult-buffer-sources '(consult--project-source-project-buffer
-                                    consult--project-source-project-file)))
+                                    consult--project-source-project-file-recentf
+                                    consult--project-source-project-file-all)))
       (consult-buffer)))
 
   (defun consult--orderless-regexp-compiler (input type)
