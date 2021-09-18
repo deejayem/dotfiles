@@ -282,8 +282,10 @@ DEFS is a plist associating completion categories to commands."
 
   (setq consult-project-root-function
         (lambda ()
-          (when-let (project (project-current))
-            (project-root project))))
+          (if-let (project (project-current))
+            (project-root project)
+            (when-let (persp (persp-name (persp-curr)))
+              (car (seq-filter (lambda (pr) (string-match-p persp pr)) (project-known-project-roots)))))))
 
   ;; Switches perspective if we select a buffer from another perspective, but note that previewing
   ;; a buffer adds it to the current perspective, so preview should be disabled before removing
