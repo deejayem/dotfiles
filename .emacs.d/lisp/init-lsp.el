@@ -23,17 +23,10 @@
   :hook
   (clojure-mode . lsp)
   (lsp-lens-mode . really-diminish-lsp-lens-mode)
-  (lsp-mode . xref-prefer-cider)
   :config
   (defun really-diminish-lsp-lens-mode ()
     (diminish 'lsp-lens-mode)
     (remove-hook 'lsp-lens-mode-hook 'really-diminish-lsp-lens-mode))
-  (defun xref-prefer-cider ()
-    (when (and lsp-mode
-               (eq 'lsp--xref-backend (car xref-backend-functions))
-               (memq 'cider--xref-backend xref-backend-functions))
-      (remove-hook 'xref-backend-functions 'cider--xref-backend 'local)
-      (add-hook 'xref-backend-functions 'cider--xref-backend nil 'local)))
   (if (eq system-type 'darwin)
       (setq lsp-keymap-prefix "s-l")
     (setq lsp-keymap-prefix "C-c C-l"))
