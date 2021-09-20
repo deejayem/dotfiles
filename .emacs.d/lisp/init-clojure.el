@@ -31,6 +31,14 @@
 (use-package cider
   :diminish
   :config
+  (defun set-project-repl-history ()
+    (let ((project-name (file-name-nondirectory (directory-file-name (project-root (project-current))))))
+      (when (> (length project-name) 0)
+        (setq-local cider-repl-history-file (expand-file-name (concat "cider-history-" project-name) user-emacs-directory)))))
+  (defun cider-repl-mode-hook-fn ()
+    (display-line-numbers-mode -1)
+    (subword-mode +1)
+    (set-project-repl-history))
   (setq cider-repl-pop-to-buffer-on-connect 'display-only
         cider-repl-display-help-banner nil
         cider-repl-history-highlight-current-entry t
@@ -40,7 +48,8 @@
         cider-save-file-on-load t
         ;; cider-invert-insert-eval-p t
         ;; cider-switch-to-repl-on-insert nil
-        cider-repl-history-file "~/.emacs.d/cider-history"
+        ;; Default cider-repl-history file
+        cider-repl-history-file (expand-file-name "cider-history" user-emacs-directory)
         nrepl-log-messages t
         clojure-toplevel-inside-comment-form t)
   (unbind-key "C-c C-l" cider-mode-map)
@@ -48,9 +57,7 @@
   (:map cider-mode-map ("C-c M-l" . cider-load-file))
   (:map clojure-mode-map ("C-x p q" . project-clojure-test-switch))
   :hook
-  (cider-repl-mode . (lambda ()
-                       (display-line-numbers-mode -1)
-                       (subword-mode +1)))
+  (cider-repl-mode . cider-repl-mode-hook-fn)
   (cider-mode . eldoc-mode))
 
 (provide 'init-clojure)
