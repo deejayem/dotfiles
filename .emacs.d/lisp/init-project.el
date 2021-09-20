@@ -41,10 +41,8 @@
       (message "recentf is not enabled")))
 
   (add-to-list 'project-switch-commands '(?h "Recentf" project-recentf) t)
-  (add-to-list 'project-switch-commands '(?b "Consult Project Buffer" consult-project-buffer) t)
-  (add-to-list 'project-switch-commands '(?r "Consult Ripgrep" consult-ripgrep) t)
   (add-to-list 'project-switch-commands '(?m "Magit" magit-status) t)
-  (add-to-list 'project-switch-commands '(?R "Replace Regexp" project-query-replace-regexp) t)
+  (add-to-list 'project-switch-commands '(?q "Replace Regexp" project-query-replace-regexp) t)
 
   ;; project-root and project-try-local copied/modified from https://github.com/karthink/project-x/blob/master/project-x.el
   (cl-defmethod project-root ((project (head local)))
