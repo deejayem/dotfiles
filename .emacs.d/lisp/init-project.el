@@ -90,11 +90,20 @@
     (let* ((persp-name (file-name-nondirectory (directory-file-name proj)))
            (persp (gethash persp-name (perspectives-hash))))
       (unless (equal persp (persp-curr))
-        ;; Create or switch to a perspective named after the project
-        (persp-switch persp-name)
-        ;; If the perspective did not exist, switch to the project
-        (when (not persp)
-          (project-switch-project proj)))))
+        (unwind-protect
+            (progn
+              ;; Create or switch to a perspective named after the project
+              (persp-switch persp-name)
+              ;; If the perspective did not exist, switch to the project
+              (when (not persp)
+                (project-switch-project proj)))
+          ;; If the only buffer is the persp scratch buffer, it's safe to kill the perspective if switching project was cancelled
+          (when (seq-empty-p
+                 (seq-filter
+                  (lambda (b) (not (equal (buffer-name b) (persp-scratch-buffer))))
+                  (persp-buffers (persp-curr))))
+            (persp-kill persp-name))))))
+
   :bind
   ("C-x p p" . switch-project)
   ("C-x C-b" . persp-previous-buffer-same-mode)
