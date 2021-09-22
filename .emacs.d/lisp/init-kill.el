@@ -7,11 +7,6 @@
   :config
   (browse-kill-ring-default-keybindings))
 
-(use-package easy-kill
-  :bind
-  ([remap kill-ring-save] . easy-kill)
-  ([remap mark-sexp] . easy-mark))
-
 (use-package emacs
   :config
   (defadvice exchange-point-and-mark (before deactivate-mark activate compile)
