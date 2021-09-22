@@ -3,31 +3,66 @@
 ;; add-hooks/add-lisp-hook based on https://github.com/bodil/emacs.d/blob/master/bodil/bodil-lisp.el
 ;;; Code:
 
-(defun add-hooks (modes func)
- (dolist (mode modes)
-  (add-hook (intern (concat (symbol-name mode) "-hook")) func)))
-
-(setq lisp-modes
+(defvar-local lisp-modes
  '(scheme-mode emacs-lisp-mode lisp-mode clojure-mode cider-repl-mode
    eval-expression-minibuffer-setup ielm-mode lisp-interaction-mode))
 
-(defun add-lisp-hook (func)
-  (add-hooks lisp-modes func))
+(use-package emacs
+  :config
+  (defun add-hooks (modes func)
+    (dolist (mode modes)
+      (add-hook (intern (concat (symbol-name mode) "-hook")) func)))
+  (defun add-lisp-hook (func)
+    (add-hooks lisp-modes func)))
 
 (use-package paredit
   :diminish
   :bind
   (:map paredit-mode-map
-        ([remap mark-sexp] . sp-mark-sexp)
-        ("M-[" . sp-wrap-square)
-        ("C-c M-{" . sp-wrap-curly)
-        ([remap paredit-wrap-round] . sp-wrap-round)
-        ([remap paredit-meta-doublequote] . sp-wrap-double-quotation-marks)
+        ("M-[" . paredit-smart-wrap-square)
+        ("C-c M-{" . paredit-smart-wrap-curly)
+        ("C-c M-<" . paredit-smart-wrap-angled)
+        ([remap paredit-wrap-round] . paredit-smart-wrap-round)
+        ([remap paredit-meta-doublequote] . paredit-smart-metadouble-quote)
         ("M-W" . paredit-copy-as-kill))
   :config
+  (defmacro define-paredit-smart-wrap (name)
+    `(defun ,(paredit-conc-name "paredit-smart-wrap-" name)
+         (&optional argument)
+       ,(concat "Wrap the following S-expression, from the beginning of the current symbol.
+See `paredit-wrap-sexp' for more details.
+Falls back to smartparens in comments and strings.")
+       (interactive "P")
+       (if (or (paredit-in-string-p)
+               (paredit-in-comment-p)
+               (paredit-in-char-p))
+           (,(intern (concat "sp-wrap-" name)))
+         (beginning-of-thing 'symbol)
+         (,(intern (concat "paredit-wrap-" name)) argument))))
+
+  (define-paredit-smart-wrap "round")
+  (define-paredit-smart-wrap "curly")
+  (define-paredit-smart-wrap "square")
+  (define-paredit-smart-wrap "angled")
+
   (defun sp-wrap-double-quotation-marks ()
     (interactive)
     (sp-wrap-with-pair "\""))
+
+  ;; paredit-meta-doublequote is not like the wrap functions (but can act as one)
+  (defun paredit-smart-metadouble-quote (&optional n)
+    "Move to the end of the string.
+If not in a string, act as `paredit-doublequote'; if not prefix argument
+ is specified and the region is not active or `transient-mark-mode' is
+ disabled, the default is to wrap one S-expression, however, not zero.
+If wrapping, move to the beginning of the symbol first.
+Falls back to smartparens in comments."
+    (interactive "P")
+    (if (paredit-in-comment-p)
+        (sp-wrap-double-quotation-marks)
+      (when (not (paredit-in-string-p))
+        (beginning-of-thing 'symbol))
+      (paredit-meta-doublequote n)))
 
   :init
   ;; From emacswiki - extreme barfage & slurpage
