@@ -19,6 +19,7 @@
   :diminish
   :bind
   (:map paredit-mode-map
+        ([remap mark-sexp] . sp-mark-sexp)
         ("M-[" . paredit-smart-wrap-square)
         ("C-c M-{" . paredit-smart-wrap-curly)
         ("C-c M-<" . paredit-smart-wrap-angled)
@@ -27,7 +28,7 @@
         ("M-W" . paredit-copy-as-kill))
   :config
   (defmacro define-paredit-smart-wrap (name)
-    `(defun ,(paredit-conc-name "paredit-smart-wrap-" name)
+    `(defun ,(intern (concat  "paredit-smart-wrap-" name))
          (&optional argument)
        ,(concat "Wrap the following S-expression, from the beginning of the current symbol.
 See `paredit-wrap-sexp' for more details.
