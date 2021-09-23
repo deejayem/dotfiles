@@ -54,5 +54,13 @@
   (cider-repl-mode . cider-repl-mode-hook-fn)
   (cider-mode . eldoc-mode))
 
+(use-package nix-sandbox
+  :config
+  (defun nix-shell-lein-command ()
+    (when (file-exists-p (expand-file-name "shell.nix" (project-root (project-current))))
+      (setq-local cider-lein-command (nix-executable-find (nix-current-sandbox) "lein"))))
+  :hook
+  (cider-mode . nix-shell-lein-command))
+
 (provide 'init-clojure)
 ;;; init-clojure.el ends here
