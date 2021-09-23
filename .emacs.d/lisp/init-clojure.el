@@ -22,11 +22,11 @@
   :config
   (cljr-add-keybindings-with-prefix "C-c C-m")
   (setq cljr-suppress-no-project-warning t)
+  (defun clj-refactor-hook-fn ()
+    (clj-refactor-mode 1)
+    (yas-minor-mode 1))
   :hook
-  (clojure-mode .
-    (lambda ()
-      (clj-refactor-mode 1)
-      (yas-minor-mode 1))))
+  (clojure-mode . clj-refactor-hook-fn))
 
 (use-package cider
   :diminish
