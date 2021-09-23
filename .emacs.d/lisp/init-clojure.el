@@ -31,14 +31,9 @@
 (use-package cider
   :diminish
   :config
-  (defun set-project-repl-history ()
-    (let ((project-name (file-name-nondirectory (directory-file-name (project-root (project-current))))))
-      (when (> (length project-name) 0)
-        (setq-local cider-repl-history-file (expand-file-name (concat "cider-history-" project-name) user-emacs-directory)))))
   (defun cider-repl-mode-hook-fn ()
     (display-line-numbers-mode -1)
-    (subword-mode +1)
-    (set-project-repl-history))
+    (subword-mode +1))
   (setq cider-repl-pop-to-buffer-on-connect 'display-only
         cider-repl-display-help-banner nil
         cider-repl-history-highlight-current-entry t
@@ -48,8 +43,7 @@
         cider-save-file-on-load t
         ;; cider-invert-insert-eval-p t
         ;; cider-switch-to-repl-on-insert nil
-        ;; Default cider-repl-history file
-        cider-repl-history-file (expand-file-name "cider-history" user-emacs-directory)
+        cider-repl-history-file ".cider-repl-history"
         nrepl-log-messages t
         clojure-toplevel-inside-comment-form t)
   (unbind-key "C-c C-l" cider-mode-map)
