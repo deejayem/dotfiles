@@ -201,6 +201,7 @@ alias ln="ln -iv"
 alias mkdir="mkdir -v"
 alias rm="rm -iv"
 alias pp='pushbullet push "Pixel" link "${1}" "${1}"'
+alias upgrade_emacs='emacs -Q --batch -L "$HOME/.emacs.d/lisp/" -l "init-packages.el" --eval "(my/upgrade-packages)"'
 
 if [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]] ; then
     source ~/.nix-profile/etc/profile.d/nix.sh
