@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package crux
+  :commands crux-start-or-switch-to
   :bind
   ("C-^" . crux-top-join-line)
   ("C-<backspace>" . crux-kill-line-backwards)
