@@ -310,9 +310,6 @@ DEFS is a plist associating completion categories to commands."
       (setq unread-command-events (append unread-command-events (list key 32)))))
   (add-hook 'minibuffer-setup-hook #'consult-initial-narrow)
 
-  (when (and (eq system-type 'darwin) (string-match-p "^find" consult-find-args))
-    (setq consult-find-args (concat "g" consult-find-args)))
-
   (defvar consult--source-perspective-buffer
     `(:name     "Perspective Buffer"
                 :narrow   (?x . "Perspective")

@@ -74,8 +74,6 @@ If a numeric prefix argument N is given, move back N instances of the last used 
   :after (consult orderless)
   :config
   (setq affe-grep-command (replace-regexp-in-string "\\." "-Suu ." affe-grep-command))
-  (when (and (eq system-type 'darwin) (string-match-p "^find" affe-find-command))
-    (setq affe-find-command (concat "g" affe-find-command)))
   ;; Configure Orderless
   (setq affe-regexp-function #'orderless-pattern-compiler
         affe-highlight-function #'orderless--highlight)
