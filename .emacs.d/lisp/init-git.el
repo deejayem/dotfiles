@@ -40,7 +40,6 @@
   (key-chord-define-global "UU" 'my/magit-set-upstream)
   (key-chord-define-global "RR" 'my/magit-refresh-state)
   :custom
-  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-topleft-v1)
   (magit-diff-refine-hunk 'all)
   (magit-diff-paint-whitespace-lines 'all)
   (magit-diff-refine-ignore-whitespace nil)
