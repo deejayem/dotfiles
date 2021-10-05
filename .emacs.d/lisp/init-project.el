@@ -84,6 +84,12 @@
            (persp-buffers-in-mode (seq-filter mode-pred persp-buffers)))
       (when (not (seq-empty-p persp-buffers-in-mode))
         (switch-to-buffer (car persp-buffers-in-mode)))))
+  (defun persp-current-project-root ()
+    "Return the current project root, falling back to finding it using the perpsective"
+    (if-let (project (project-current))
+        (project-root project)
+      (when-let (persp (persp-name (persp-curr)))
+        (car (seq-filter (lambda (pr) (string-match-p persp pr)) (project-known-project-roots))))))
   (defun switch-project (proj)
     "Switch to project or already open project perspective."
     (interactive (list (project-prompt-project-dir)))
