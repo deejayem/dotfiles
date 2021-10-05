@@ -49,10 +49,13 @@
 
 (use-package epl
   :config
+  (defvar my/system-packages '("vterm"))
   (defun my/upgrade-packages ()
     (interactive)
     (epl-refresh)
-    (epl-upgrade)
+    (when-let ((upgrades (seq-filter (lambda (p) (not (member (epl-package-name p) my/system-packages)))
+                                     (mapcar 'epl-upgrade-available (epl-find-upgrades)))))
+      (epl-upgrade upgrades))
     (fetch-vertico-extensions)
     (message "Package upgrade finished.")))
 
