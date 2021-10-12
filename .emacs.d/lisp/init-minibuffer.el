@@ -85,6 +85,19 @@ DEFS is a plist associating completion categories to commands."
     (if switching-project
         (vertico-exit)
       (vertico-directory-enter)))
+  (defun vertico-directory-slash ()
+    (interactive)
+    (if (and (>= vertico--index 0)
+             (string-suffix-p "/" (vertico--candidate))
+             (vertico-directory--completing-file-p))
+        (vertico-insert)
+      (insert "/")))
+  (defun vertico-directory-home ()
+    (interactive)
+    (if (and (string-suffix-p "/" (vertico--candidate))
+             (vertico-directory--completing-file-p))
+        (insert "~/")
+      (insert "~")))
   (defun read-project (orig &rest args)
     (let ((switching-project t))
       (apply orig args)))
@@ -105,21 +118,8 @@ DEFS is a plist associating completion categories to commands."
     'file #'vertico-directory-delete-word
     'project-file #'vertico-directory-delete-word)
   :config
-  (defun vertico-directory-slash ()
-    (interactive)
-    (if (and (>= vertico--index 0)
-             (string-suffix-p "/" (vertico--candidate))
-             (vertico-directory--completing-file-p))
-        (vertico-insert)
-      (insert "/")))
-  (defun vertico-directory-home ()
-    (interactive)
-    (if (and (string-suffix-p "/" (vertico--candidate))
-             (vertico-directory--completing-file-p))
-        (insert "~/")
-      (insert "~")))
   :load-path vertico-extensions-dir
-  :commands vertico-directory-enter
+  :commands (vertico-directory-enter vertico-directory-delete-word vertico-directory-delete-char)
   ;; Tidy shadowed file names
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
