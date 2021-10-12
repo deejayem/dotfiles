@@ -10,6 +10,9 @@
   (sp-hybrid-kill-entire-symbol t)
   (sp-hybrid-kill-excessive-whitespace t)
   :config
+  (defun sp-wrap-double-quotation-marks ()
+    (interactive)
+    (sp-wrap-with-pair "\""))
   ;; https://github.com/syl20bnr/spacemacs/blob/develop/layers/+spacemacs/spacemacs-editing/funcs.el (spacemacs/smart-closing-parenthesis)
   ;; TODO can make things unbalanced
   (defun sp-close-round ()
@@ -41,9 +44,11 @@
   (require 'smartparens-config)
   (sp-use-paredit-bindings)
   (unbind-key "M-?" 'smartparens-mode-map)
-  (bind-key "C-M-?" 'sp-convolute-sexp 'smartparens-mode-map)
-  ;; :bind (:map smartparens-mode-map (")" . sp-close-round))
-  )
+  :commands sp-local-pair
+  :bind (:map smartparens-mode-map
+              ("C-M-?" . sp-convolute-sexp)
+              ;; (")" . sp-close-round)
+              ("M-\"" . sp-wrap-double-quotation-marks)))
 
 (provide 'init-smartparens)
 ;;; init-smartparens.el ends here

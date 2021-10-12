@@ -25,6 +25,7 @@
         ("C-c M-<" . paredit-smart-wrap-angled)
         ([remap paredit-wrap-round] . paredit-smart-wrap-round)
         ([remap paredit-meta-doublequote] . paredit-smart-metadouble-quote)
+        ([remap paredit-splice-sexp] . paredit-smart-splice-sexp)
         ("M-W" . paredit-copy-as-kill))
   :config
   (defmacro define-paredit-smart-wrap (name)
@@ -46,10 +47,6 @@ Falls back to smartparens in comments and strings.")
   (define-paredit-smart-wrap "square")
   (define-paredit-smart-wrap "angled")
 
-  (defun sp-wrap-double-quotation-marks ()
-    (interactive)
-    (sp-wrap-with-pair "\""))
-
   ;; paredit-meta-doublequote is not like the wrap functions (but can act as one)
   (defun paredit-smart-metadouble-quote (&optional n)
     "Move to the end of the string.
@@ -64,6 +61,22 @@ Falls back to smartparens in comments."
       (when (not (paredit-in-string-p))
         (beginning-of-thing 'symbol))
       (paredit-meta-doublequote n)))
+
+  (defmacro define-paredit-smart-sexp (name)
+    `(defun ,(intern (concat  "paredit-smart-" name "-sexp"))
+         (&optional argument)
+       ,(concat "Wrap the following S-expression, from the beginning of the current symbol.
+See `paredit-wrap-sexp' for more details.
+Falls back to smartparens in comments and strings.")
+       (interactive "P")
+       (if (or (paredit-in-string-p)
+               (paredit-in-comment-p)
+               (paredit-in-char-p))
+           (,(intern (concat "sp-" name "-sexp")))
+         (beginning-of-thing 'symbol)
+         (,(intern (concat "paredit-" name "-sexp")) argument))))
+
+  (define-paredit-smart-sexp "splice")
 
   :init
   ;; From emacswiki - extreme barfage & slurpage
