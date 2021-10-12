@@ -32,7 +32,5 @@
   (yaml-mode . whitespace-mode)
   (yaml-mode . subword-mode))
 
-(use-package ovpn-mode)
-
 (provide 'init-misc)
 ;;; init-misc.el ends here
