@@ -37,6 +37,7 @@
   (add-to-list 'auto-mode-alist '("/\\(views\\|html\\|theme\\|templates\\)/.*\\.php\\'" . web-mode)))
 
 (use-package tagedit
+  :diminish
   :config (tagedit-add-paredit-like-keybindings)
   :hook (html-mode . (lambda () (tagedit-mode 1))))
 
