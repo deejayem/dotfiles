@@ -43,6 +43,7 @@
         cider-save-file-on-load t
         ;; cider-invert-insert-eval-p t
         ;; cider-switch-to-repl-on-insert nil
+        cider-xref-fn-depth 90
         cider-repl-history-file ".cider-repl-history"
         nrepl-log-messages t
         clojure-toplevel-inside-comment-form t)
