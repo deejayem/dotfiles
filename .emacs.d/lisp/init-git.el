@@ -14,7 +14,7 @@
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
 (use-package gitconfig)
-(use-package gitignore-mode)
+(use-package git-modes)
 (use-package gist)
 (use-package git-timemachine)
 
