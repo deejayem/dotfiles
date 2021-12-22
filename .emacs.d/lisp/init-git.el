@@ -19,11 +19,16 @@
 (use-package git-timemachine)
 
 (use-package magit
-  :after key-chord
   :bind
   ("C-c g" . magit-file-dispatch)
   ("C-c M-g" . magit-dispatch)
+  ("C-c C-g u" . my/magit-set-upstream)
+  ("C-c C-g r" . my/magit-refresh-state)
   :config
+  ;; Requires the following gitconfig:
+  ;; [alias]
+  ;;   upstream = !git push -u origin HEAD
+  ;; TODO - this is useful after setting push remote, but is there a better way?
   (defun my/magit-set-upstream ()
     (interactive)
     (magit-shell-command-topdir "git upstream"))
@@ -37,8 +42,6 @@
                  (file-in-directory-p (buffer-file-name buf) (magit-toplevel)))
         (with-current-buffer buf
           (vc-refresh-state)))))
-  (key-chord-define-global "UU" 'my/magit-set-upstream)
-  (key-chord-define-global "RR" 'my/magit-refresh-state)
   :custom
   (magit-diff-refine-hunk 'all)
   (magit-diff-paint-whitespace-lines 'all)

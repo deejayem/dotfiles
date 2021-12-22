@@ -92,10 +92,6 @@
   :diminish
   :config (which-key-mode +1))
 
-(use-package key-chord
-  :config
-  (key-chord-mode +1))
-
 (use-package rainbow-delimiters
   :config
   (rainbow-delimiters-mode +1))
