@@ -65,15 +65,13 @@ Falls back to smartparens in comments."
   (defmacro define-paredit-smart-sexp (name)
     `(defun ,(intern (concat  "paredit-smart-" name "-sexp"))
          (&optional argument)
-       ,(concat "Wrap the following S-expression, from the beginning of the current symbol.
-See `paredit-wrap-sexp' for more details.
-Falls back to smartparens in comments and strings.")
+       ,(concat "Splice the list that the point is on by removing its delimiters.
+This version falls back to the smartparens version in scenarios that paredit will not handle.")
        (interactive "P")
        (if (or (paredit-in-string-p)
                (paredit-in-comment-p)
                (paredit-in-char-p))
            (,(intern (concat "sp-" name "-sexp")))
-         (beginning-of-thing 'symbol)
          (,(intern (concat "paredit-" name "-sexp")) argument))))
 
   (define-paredit-smart-sexp "splice")
