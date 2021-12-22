@@ -161,8 +161,8 @@ DEFS is a plist associating completion categories to commands."
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
          :map isearch-mode-map
-         ("M-e" . consult-isearch)                 ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch)               ;; orig. isearch-edit-string
+         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
          ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
          (:map vertico-map
                ;; These are used for previewing with some consult commands (see consult-customize call below)
@@ -323,7 +323,7 @@ DEFS is a plist associating completion categories to commands."
   ;; Copy of consult--source-project-file to use with perspective narrowing (identical except for narrowing key)
   ;; Put before consult--source-project-file so we get recentf behaviour here
   (defvar consult--source-perspective-files
-    (plist-put (plist-put (copy-sequence  consult--source-project-file)
+    (plist-put (plist-put (copy-sequence  consult--source-project-recent-file)
                           :name "Project File")
                :narrow '(?x . "Perspective")))
   (add-to-list 'consult-buffer-sources 'consult--source-perspective-files t)
@@ -337,11 +337,11 @@ DEFS is a plist associating completion categories to commands."
                           :hidden nil)
                :narrow '(?b . "Buffer")))
   (defvar consult--project-source-project-file-recentf
-    (plist-put (plist-put (copy-sequence consult--source-project-file)
+    (plist-put (plist-put (copy-sequence consult--source-project-recent-file)
                           :hidden nil)
                :narrow '(?f . "File (Recentf)")))
   (defvar consult--project-source-project-file-all
-    (plist-put (plist-put (copy-sequence consult--source-project-file)
+    (plist-put (plist-put (copy-sequence consult--source-project-recent-file)
                           :narrow '(?a . "File (All)"))
                :items '(lambda ()
                          (when (eq 0 (call-process-shell-command "fd"))
