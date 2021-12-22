@@ -72,9 +72,8 @@ DEFS is a plist associating completion categories to commands."
          ("M-X" . to-and-fro-minibuffer)
          ("C-M-S-g" . minibuffer-keyboard-quit)))
 
-;; See init-packages.el for fetching of Vertico Extenions
-;; Required extensions must be in the vertico-extensions var
 (use-package vertico-directory
+  :ensure nil
   :after vertico
   :init
   (defvar switching-project nil)
@@ -118,13 +117,12 @@ DEFS is a plist associating completion categories to commands."
     'file #'vertico-directory-delete-word
     'project-file #'vertico-directory-delete-word)
   :config
-  :load-path vertico-extensions-dir
   :commands (vertico-directory-enter vertico-directory-delete-word vertico-directory-delete-char)
   ;; Tidy shadowed file names
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 (use-package vertico-repeat
-  :load-path vertico-extensions-dir
+  :ensure nil
   :bind ("M-P" . vertico-repeat))
 
 (use-package consult

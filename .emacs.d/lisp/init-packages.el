@@ -31,32 +31,23 @@
   :config
   (paradox-enable))
 
-(defvar vertico-extensions-dir (expand-file-name "site-lisp/vertico-extensions" user-emacs-directory))
-(defvar vertico-extensions '("vertico-directory" "vertico-repeat"))
-
-(defun fetch-vertico-extensions ()
-  "Download the latest versions of the required vertico extensions into vertico-extensions-dir."
-  (dolist (extension vertico-extensions)
-    (let ((ext-file (format "%s.el" extension)))
-      (url-copy-file
-       (format "https://raw.githubusercontent.com/minad/vertico/main/extensions/%s" ext-file)
-       (expand-file-name ext-file vertico-extensions-dir)
-       t))))
-
-(unless (file-directory-p vertico-extensions-dir)
-  (make-directory vertico-extensions-dir t)
-  (fetch-vertico-extensions))
-
 (use-package epl
   :config
+  ;; TODO make a copy of the built-in check for system packages work instead
   (defvar my/system-packages '("vterm"))
   (defun my/upgrade-packages ()
     (interactive)
     (epl-refresh)
-    (when-let ((upgrades (seq-filter (lambda (p) (not (member (epl-package-name p) my/system-packages)))
-                                     (mapcar 'epl-upgrade-available (epl-find-upgrades)))))
-      (epl-upgrade upgrades))
-    (fetch-vertico-extensions)
+    (when-let ((upgrades (seq-filter (lambda (u)
+                                       (not (member
+                                             (epl-package-name (epl-upgrade-available  u))
+                                             my/system-packages)))
+                                     (epl-find-upgrades))))
+      ;; TODO why doesn't this work?
+      ;; (epl-upgrade (mapcar 'epl-upgrade-available upgrades)
+      (dolist (upgrade upgrades)
+        (epl-package-install (epl-upgrade-available upgrade) 'force)
+        (epl-package-delete (epl-upgrade-installed upgrade))))
     (message "Package upgrade finished.")))
 
 (provide 'init-packages)
