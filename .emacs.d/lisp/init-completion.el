@@ -83,7 +83,9 @@
      ;; Flex matching
      ((string-prefix-p "~" pattern) `(orderless-flex . ,(substring pattern 1)))
      ((string-suffix-p "~" pattern) `(orderless-flex . ,(substring pattern 0 -1)))))
-  (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-leading-initialism)
+  ;; (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-leading-initialism)
+  ;;       orderless-style-dispatchers '(my/orderless-dispatch))
+  (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-initialism)
         orderless-style-dispatchers '(my/orderless-dispatch)))
 
 ;; code completion - corfu
