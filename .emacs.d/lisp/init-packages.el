@@ -34,13 +34,13 @@
 (use-package epl
   :config
   ;; TODO make a copy of the built-in check for system packages work instead
-  (defvar my/system-packages '("vterm"))
+  (defvar my/system-packages '(vterm))
   (defun my/upgrade-packages ()
     (interactive)
     (epl-refresh)
     (when-let ((upgrades (seq-filter (lambda (u)
                                        (not (member
-                                             (epl-package-name (epl-upgrade-available  u))
+                                             (epl-package-name (epl-upgrade-available u))
                                              my/system-packages)))
                                      (epl-find-upgrades))))
       ;; TODO why doesn't this work?
