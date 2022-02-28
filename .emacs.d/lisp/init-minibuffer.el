@@ -278,7 +278,7 @@ DEFS is a plist associating completion categories to commands."
 
   (setq consult-narrow-key "<")
 
-  (setq consult-project-root-function #'persp-current-project-root)
+  (setq consult-project-function (lambda (_) (persp-current-project-root)))
 
   ;; Switches perspective if we select a buffer from another perspective, but note that previewing
   ;; a buffer adds it to the current perspective, so preview should be disabled before removing
