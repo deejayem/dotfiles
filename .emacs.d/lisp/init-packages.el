@@ -11,7 +11,7 @@
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
                          ("elpa" . "https://elpa.gnu.org/packages/")))
-
+(setq package-pinned-packages '((cider . "melpa-stable")))
 (package-initialize)
 
 (unless package-archive-contents
