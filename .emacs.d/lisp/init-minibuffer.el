@@ -263,7 +263,7 @@ DEFS is a plist associating completion categories to commands."
    consult-ripgrep consult-git-grep consult-grep
    consult-ripgrep-unrestricted consult-ripgrep-symbol-at-point
    consult-bookmark consult-recent-file consult-xref consult-buffer-no-preview
-   consult--source-file consult--source-project-file consult--source-bookmark
+   consult--source-recent-file consult--source-project-recent-file consult--source-bookmark
    :preview-key (list (kbd "M-.") (kbd "C-S-n") (kbd "C-S-p")))
 
   (defvar-local consult-toggle-preview-orig nil)
