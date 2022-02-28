@@ -18,6 +18,8 @@
   (blink-cursor-mode -1)
 
   (setq whitespace-line-column 120)
+  (setq show-trailing-whitespace t)
+  (setq-default indicate-empty-lines t)
   (setq ring-bell-function 'ignore
         visible-bell t)
 
