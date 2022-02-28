@@ -39,6 +39,10 @@
                                project-recentf-files nil 'file-name-history nil)
                       project-root)))
       (message "recentf is not enabled")))
+  (defun project-switch-src-project ()
+    (interactive)
+    (let ((default-directory "~/src/"))
+      (call-interactively #'project-switch-project)))
 
   (add-to-list 'project-switch-commands '(?h "Recentf" project-recentf) t)
   (add-to-list 'project-switch-commands '(?m "Magit" magit-status) t)
@@ -55,7 +59,8 @@
   ;; Add this hook last so so that vc takes precedence over local
   (add-hook 'project-find-functions 'project-try-local 90)
   :bind
-  ("C-x p P" . project-switch-project)
+  ("C-x p P" . project-switch-src-project)
+  ("C-x p M-p" . project-switch-project)
   ("C-x f" . project-recentf))
 
 (use-package perspective
@@ -92,7 +97,8 @@
         (car (seq-filter (lambda (pr) (string-match-p persp pr)) (project-known-project-roots))))))
   (defun switch-project (proj)
     "Switch to project or already open project perspective."
-    (interactive (list (project-prompt-project-dir)))
+    (interactive (list (let ((default-directory "~/src/")) ;; TODO make this customisable
+                         (project-prompt-project-dir))))
     (let* ((persp-name (file-name-nondirectory (directory-file-name proj)))
            (persp (gethash persp-name (perspectives-hash))))
       (unless (equal persp (persp-curr))
