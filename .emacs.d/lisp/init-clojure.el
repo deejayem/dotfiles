@@ -41,6 +41,7 @@
         cider-repl-use-clojure-font-lock t
         cider-repl-use-pretty-printing t
         cider-save-file-on-load t
+        cider-test-show-report-on-success t
         ;; cider-invert-insert-eval-p t
         ;; cider-switch-to-repl-on-insert nil
         cider-xref-fn-depth 90
