@@ -101,5 +101,9 @@
   :init
   (corfu-global-mode))
 
+(use-package corfu-doc
+  :config
+  (add-hook 'corfu-mode-hook #'corfu-doc-mode))
+
 (provide 'init-completion)
 ;;; init-completion.el ends here
