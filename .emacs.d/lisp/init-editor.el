@@ -135,7 +135,8 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 ;  (text-mode . (lambda () (flyspell-mode +1)))
 ;  (prog-mode . (lambda () (flyspell-prog-mode))))
 
-(use-package expand-region)
+(use-package expand-region
+  :bind ("C-=" . er/expand-region))
 
 (use-package bookmark
   :custom
