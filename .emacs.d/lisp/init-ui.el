@@ -50,6 +50,7 @@
   ;; (setq modus-themes-syntax '(alt-syntax green-strings yellow-comments))
   (setq modus-themes-syntax '(green-strings yellow-comments)
         modus-themes-paren-match '(bold intense underline)
+        modus-themes-region '(accented)
         modus-themes-lang-checkers '(text-also background))
   (load-theme 'modus-vivendi t))
 
