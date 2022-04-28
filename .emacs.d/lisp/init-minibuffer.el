@@ -147,7 +147,7 @@ DEFS is a plist associating completion categories to commands."
          ("C-c f" . consult-recent-file)
          ("C-c r" . consult-ripgrep)
          ("C-c R" . consult-ripgrep-auto-preview)
-         ("C-c *" . consult-ripgrep-symbol-at-point)
+         ("C-c C-*" . consult-ripgrep-symbol-at-point)
          ("M-y" . consult-yank-pop)                ;; orig. yank-pop
          ("<help> a" . consult-apropos)            ;; orig. apropos-command
          ;; M-g bindings (goto-map)
