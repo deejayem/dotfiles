@@ -99,7 +99,7 @@
          ("S-TAB" . corfu-previous)
          ([backtab] . corfu-previous))
   :init
-  (corfu-global-mode))
+  (global-corfu-mode))
 
 (use-package corfu-doc
   :config
