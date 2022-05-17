@@ -21,9 +21,9 @@
 (use-package magit
   :bind
   ("C-c g" . magit-file-dispatch)
-  ("C-c M-g" . magit-dispatch)
-  ("C-c C-g u" . my/magit-set-upstream)
-  ("C-c C-g r" . my/magit-refresh-state)
+  ("C-c M-g g" . magit-dispatch)
+  ("C-c M-g u" . my/magit-set-upstream)
+  ("C-c M-g r" . my/magit-refresh-state)
   :config
   ;; Requires the following gitconfig:
   ;; [alias]
