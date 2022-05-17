@@ -394,6 +394,7 @@ DEFS is a plist associating completion categories to commands."
          ("C-x C-j" . consult-dir-jump-file)))
 
 (use-package consult-ls-git)
+(use-package consult-project-extra)
 
 (use-package marginalia
   :init
