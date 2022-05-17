@@ -48,20 +48,26 @@
   (add-to-list 'project-switch-commands '(?m "Magit" magit-status) t)
   (add-to-list 'project-switch-commands '(?q "Replace Regexp" project-query-replace-regexp) t)
 
+  ;; TODO remove this when happy with project-rootfile
   ;; project-root and project-try-local copied/modified from https://github.com/karthink/project-x/blob/master/project-x.el
-  (cl-defmethod project-root ((project (head local)))
-    "Return root directory of current PROJECT."
-    (cdr project))
-  (defun project-try-local (dir)
-    "Treat DIR as a project if it contains a .project file."
-    (if-let ((root (locate-dominating-file dir ".project")))
-        (cons 'local root)))
+  ;; (cl-defmethod project-root ((project (head local)))
+  ;;   "Return root directory of current PROJECT."
+  ;;   (cdr project))
+  ;; (defun project-try-local (dir)
+  ;;   "Treat DIR as a project if it contains a .project file."
+  ;;   (if-let ((root (locate-dominating-file dir ".project")))
+  ;;       (cons 'local root)))
   ;; Add this hook last so so that vc takes precedence over local
-  (add-hook 'project-find-functions 'project-try-local 90)
+  ;;(add-hook 'project-find-functions 'project-try-local 90)
   :bind
   ("C-x p P" . project-switch-src-project)
   ("C-x p M-p" . project-switch-project)
   ("C-x f" . project-recentf))
+
+(use-package project-rootfile
+  :after project
+  :config
+  (add-to-list 'project-find-functions #'project-rootfile-try-detect t))
 
 (use-package perspective
   ;; Don't restart persp-mode when re-evaluating, as it clears the current persp list
