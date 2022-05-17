@@ -146,7 +146,10 @@ DEFS is a plist associating completion categories to commands."
          ("M-*" . consult-line-symbol-at-point)
          ("C-c f" . consult-recent-file)
          ("C-c r" . consult-ripgrep)
-         ("C-c R" . consult-ripgrep-auto-preview)
+         ;; TODO find an alternative to C-c c?
+         ("C-c c r" . consult-ripgrep-auto-preview)
+         ("C-c c s" . consult-ripgrep-case-sensitive)
+         ("C-c c z" . consult-z-ripgrep)
          ("C-c C-*" . consult-ripgrep-symbol-at-point)
          ("M-y" . consult-yank-pop)                ;; orig. yank-pop
          ("<help> a" . consult-apropos)            ;; orig. apropos-command
@@ -207,6 +210,10 @@ DEFS is a plist associating completion categories to commands."
   (defun consult-z-ripgrep (&optional dir initial)
     (interactive "P")
     (let ((consult-ripgrep-args (replace-regexp-in-string "\\." "-z ." consult-ripgrep-args)))
+      (consult-ripgrep dir initial)))
+  (defun consult-ripgrep-case-sensitive (&optional dir initial)
+    (interactive "P")
+    (let ((consult-ripgrep-args (replace-regexp-in-string "\\." "-s ." consult-ripgrep-args)))
       (consult-ripgrep dir initial)))
   (defun consult-buffer-no-preview ()
     (interactive)
