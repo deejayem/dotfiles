@@ -230,7 +230,7 @@ DEFS is a plist associating completion categories to commands."
               "fd")))
     (pcase-let* ((`(,arg . ,opts) (consult--command-split input))
                  (`(,re . ,hl) (funcall consult--regexp-compiler
-                                        arg 'extended)))
+                                        arg 'extended t)))
       (when re
         (list :command (append
                         (list consult--fd-command
