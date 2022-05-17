@@ -78,7 +78,7 @@ DEFS is a plist associating completion categories to commands."
   :init
   (defvar switching-project nil)
   (defun vertico-directory-enter-or-select-project ()
-    "Wrapper around vertico-directory-enter that plays nicely with selecting new projects."
+    "vertico-directory-enter wrapper that plays nicely with selecting new projects."
     (interactive)
     ;; When selecting a project, use this to return, instead of entering the directory
     (if switching-project
