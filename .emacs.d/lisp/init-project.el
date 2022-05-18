@@ -76,7 +76,8 @@
   :config
   ;; Based on jao-buffer-same-mode (https://jao.io/blog/2021-09-08-high-signal-to-noise-emacs-command.html)
   (defun persp-switch-buffer-same-mode ()
-    "Switch to a buffer with the same major mode as the current buffer, respecting the current perspective."
+    "Switch to a buffer with the same major mode as the current buffer, respecting
+the current perspective."
     (interactive)
     (let* ((mode major-mode)
            (pred (lambda (b)
@@ -84,7 +85,8 @@
                      (eq (buffer-local-value 'major-mode b) mode)))))
       (pop-to-buffer (persp-read-buffer "Buffer: " nil t pred))))
   (defun persp-previous-buffer-same-mode ()
-    "Switch to the previous buffer in the current perspective, with the same major mode as the current buffer (or do nothing)"
+    "Switch to the previous buffer in the current perspective, with the same major
+mode as the current buffer (or do nothing)"
     (interactive)
     (let* ((persp-buffers (seq-filter 'persp-is-current-buffer (buffer-list)))
            (mode major-mode)
@@ -97,7 +99,7 @@
       (when (not (seq-empty-p persp-buffers-in-mode))
         (switch-to-buffer (car persp-buffers-in-mode)))))
   (defun persp-current-project-root ()
-    "Return the current project root, falling back to finding it using the perpsective"
+    "Return the current project root, falling back to finding it by the perpsective"
     (if-let (project (project-current))
         (project-root project)
       (when-let (persp (persp-name (persp-curr)))
