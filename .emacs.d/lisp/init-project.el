@@ -36,7 +36,7 @@
           (find-file (expand-file-name
                       (funcall project-read-file-name-function
                                "Find recent project files"
-                               project-recentf-files nil 'file-name-history nil)
+                               project-recentf-files)
                       project-root)))
       (message "recentf is not enabled")))
   (defun project-switch-src-project ()
