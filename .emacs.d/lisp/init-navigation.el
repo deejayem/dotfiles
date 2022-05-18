@@ -93,8 +93,6 @@ char."
       (list prefix-arg (when-let ((s (symbol-at-point)))
                          (symbol-name s))))
     (affe-find dir initial))
-  :custom
-  (affe-find-command "fd --color never -t f")
   :bind
   ("C-#" . affe-grep)
   ("C-c z" . affe-find)
