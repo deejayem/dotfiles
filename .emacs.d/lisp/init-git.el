@@ -20,10 +20,9 @@
 
 (use-package magit
   :bind
-  ("C-c g" . magit-file-dispatch)
-  ("C-c M-g g" . magit-dispatch)
-  ("C-c M-g u" . my/magit-set-upstream)
-  ("C-c M-g r" . my/magit-refresh-state)
+  ("C-c g g" . magit-dispatch) ;; magit-file-dispatch is C-c M-g
+  ("C-c g u" . my/magit-set-upstream)
+  ("C-c g r" . my/magit-refresh-state)
   :config
   ;; Requires the following gitconfig:
   ;; [alias]
