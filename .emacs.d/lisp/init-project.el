@@ -78,11 +78,12 @@ the current perspective."
                    (let ((b (get-buffer (if (consp b) (car b) b))))
                      (eq (buffer-local-value 'major-mode b) mode)))))
       (pop-to-buffer (persp-read-buffer "Buffer: " nil t pred))))
-  (defun persp-previous-buffer-same-mode ()
+  (defun persp-previous-buffer-same-mode (&optional switch-to-buffer-function)
     "Switch to the previous buffer in the current perspective, with the same major
-mode as the current buffer (or do nothing)"
+mode as the current buffer (or do nothing)."
     (interactive)
-    (let* ((persp-buffers (seq-filter 'persp-is-current-buffer (buffer-list)))
+    (let* ((switch-buffer-fn (or switch-to-buffer-function #'switch-to-buffer))
+           (persp-buffers (seq-filter 'persp-is-current-buffer (buffer-list)))
            (mode major-mode)
            (mode-pred (lambda (b)
                         (let ((b (get-buffer (if (consp b) (car b) b))))
@@ -91,7 +92,11 @@ mode as the current buffer (or do nothing)"
                                (not (get-buffer-window b))))))
            (persp-buffers-in-mode (seq-filter mode-pred persp-buffers)))
       (when (not (seq-empty-p persp-buffers-in-mode))
-        (switch-to-buffer (car persp-buffers-in-mode)))))
+        (funcall switch-buffer-fn (car persp-buffers-in-mode)))))
+  (defun persp-previous-buffer-same-mode-other-window ()
+    "Variant of persp-previous-buffer-same-mode, which opens in other window."
+    (interactive)
+    (persp-previous-buffer-same-mode #'switch-to-buffer-other-window))
   (defun persp-current-project-root ()
     "Return the current project root, falling back to finding it by the perpsective"
     (if-let (project (project-current))
@@ -122,6 +127,7 @@ mode as the current buffer (or do nothing)"
   :bind
   ("C-x p p" . switch-project)
   ("C-x C-b" . persp-previous-buffer-same-mode)
+  ("C-x 4 C-b" . persp-previous-buffer-same-mode-other-window)
   ("C-x C-S-b" . persp-switch-buffer-same-mode)
   ("C-c p p" . persp-switch-last)
   ("C-c p ." . persp-switch-quick))
