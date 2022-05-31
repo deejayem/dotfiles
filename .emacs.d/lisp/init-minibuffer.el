@@ -373,19 +373,7 @@ DEFS is a plist associating completion categories to commands."
     (let ((consult-buffer-sources '(consult--project-source-project-buffer
                                     consult--project-source-project-file-recentf
                                     consult--project-source-project-file-all)))
-      (consult-buffer)))
-
-  (defun consult--orderless-regexp-compiler (input type  &rest _config)
-    (setq input (orderless-pattern-compiler input))
-    (cons
-     (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-     (lambda (str) (orderless--highlight input str))))
-  (defun consult--with-orderless (&rest args)
-    (minibuffer-with-setup-hook
-        (lambda ()
-          (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
-      (apply args)))
-  (advice-add #'consult-ripgrep :around #'consult--with-orderless))
+      (consult-buffer))))
 
 (use-package consult-flycheck)
 
