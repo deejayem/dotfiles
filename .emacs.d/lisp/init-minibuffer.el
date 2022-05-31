@@ -66,11 +66,17 @@ DEFS is a plist associating completion categories to commands."
         (select-window (minibuffer-selected-window))
       (select-window (active-minibuffer-window))))
 
+  (defun minibuffer-really-quit ()
+    "Quit minibuffer session, even if it is not the selected window."
+    (interactive)
+    (with-selected-window (active-minibuffer-window)
+      (minibuffer-keyboard-quit)))
+
   :bind (("C-M-<" . up-from-outside)
          ("C-M->" . down-from-outside)
          ("C-M-+" . preview-from-outside)
          ("M-X" . to-and-fro-minibuffer)
-         ("C-M-S-g" . minibuffer-keyboard-quit)))
+         ("C-M-S-g" . minibuffer-really-quit)))
 
 (use-package vertico-directory
   :ensure nil
