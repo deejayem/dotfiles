@@ -129,7 +129,7 @@ mode as the current buffer (or do nothing)."
   ("C-x C-b" . persp-previous-buffer-same-mode)
   ("C-x 4 C-b" . persp-previous-buffer-same-mode-other-window)
   ("C-x C-S-b" . persp-switch-buffer-same-mode)
-  ("C-c p p" . persp-switch-last)
+  ("C-c p x" . persp-switch-last)
   ("C-c p ." . persp-switch-quick))
 
 (provide 'init-project)
