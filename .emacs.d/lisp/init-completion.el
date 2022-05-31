@@ -6,6 +6,7 @@
 
 (use-package dabbrev
   :diminish
+  :custom (dabbrev-case-fold-search nil)
   :bind
   ("M-/" . dabbrev-completion))
 
