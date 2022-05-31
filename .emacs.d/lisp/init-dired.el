@@ -6,8 +6,6 @@
   :ensure nil
   :config
   (put 'dired-find-alternate-file 'disabled nil)
-  (when (eq system-type 'darwin)
-    (setq insert-directory-program "/usr/local/bin/gls"))
   :custom
   (dired-use-ls-dired t)
   (dired-recursive-deletes 'always)
