@@ -26,7 +26,8 @@
         ([remap paredit-wrap-round] . paredit-smart-wrap-round)
         ([remap paredit-meta-doublequote] . paredit-smart-metadouble-quote)
         ([remap paredit-splice-sexp] . paredit-smart-splice-sexp)
-        ("M-W" . paredit-copy-as-kill))
+        ("M-W" . paredit-copy-as-kill)
+        ("C-S-k" . paredit-kill-region))
   :config
   (defmacro define-paredit-smart-wrap (name)
     `(defun ,(intern (concat  "paredit-smart-wrap-" name))
@@ -66,7 +67,8 @@ Falls back to smartparens in comments."
     `(defun ,(intern (concat  "paredit-smart-" name "-sexp"))
          (&optional argument)
        ,(concat "Splice the list that the point is on by removing its delimiters.
-This version falls back to the smartparens version in scenarios that paredit will not handle.")
+This version falls back to the smartparens version in scenarios that paredit will
+not handle.")
        (interactive "P")
        (if (or (paredit-in-string-p)
                (paredit-in-comment-p)
