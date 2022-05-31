@@ -375,7 +375,7 @@ DEFS is a plist associating completion categories to commands."
                                     consult--project-source-project-file-all)))
       (consult-buffer)))
 
-  (defun consult--orderless-regexp-compiler (input type)
+  (defun consult--orderless-regexp-compiler (input type  &rest _config)
     (setq input (orderless-pattern-compiler input))
     (cons
      (mapcar (lambda (r) (consult--convert-regexp r type)) input)
