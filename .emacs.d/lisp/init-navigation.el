@@ -72,6 +72,13 @@ char."
   (vterm-mode . (lambda () (smartscan-mode -1)))
   (eshell-mode . (lambda () (smartscan-mode -1))))
 
+(use-package symbol-overlay
+  :bind
+  ("C-c o" . symbol-overlay-put)
+  ("M-N" . symbol-overlay-switch-forward)
+  ("M-P" . symbol-overlay-switch-backward)
+  ("<f8>" . symbol-overlay-remove-all))
+
 (use-package affe
   :after (consult orderless)
   :config
