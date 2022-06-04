@@ -85,13 +85,13 @@ char."
   (consult-customize affe-grep :preview-key (kbd "M-."))
   (defun my/affe-grep-symbol-at-point (&optional dir initial)
     (interactive
-      (list prefix-arg (when-let ((s (symbol-at-point)))
-                         (symbol-name s))))
+     (list prefix-arg (when-let ((s (symbol-at-point)))
+                        (symbol-name s))))
     (affe-grep dir initial))
   (defun my/affe-find-symbol-at-point (&optional dir initial)
     (interactive
-      (list prefix-arg (when-let ((s (symbol-at-point)))
-                         (symbol-name s))))
+     (list prefix-arg (when-let ((s (symbol-at-point)))
+                        (symbol-name s))))
     (affe-find dir initial))
   :bind
   ("C-#" . affe-grep)
