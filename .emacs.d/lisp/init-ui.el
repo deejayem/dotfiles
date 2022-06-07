@@ -104,5 +104,14 @@
 
 (use-package smartrep)
 
+(use-package pulsar
+  :custom
+  (pulsar-pulse-on-window-change t)
+  (pulsar-pulse t)
+  (pulsar-face 'pulsar-green)
+  (pulsar-highlight-face 'pulsar-yellow)
+  :config
+  (pulsar-global-mode 1))
+
 (provide 'init-ui)
 ;;; init-ui.el ends here
