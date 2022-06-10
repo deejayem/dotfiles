@@ -40,9 +40,10 @@
         lsp-modeline-code-actions-enable nil
         lsp-modeline-diagnostics-enable nil
         lsp-treemacs-theme "Iconless"
-        ;; user cider for indendation and completion instead
+        ;; user cider for indendation, completion and eldoc instead
         lsp-enable-indentation nil
-        lsp-completion-enable nil))
+        lsp-completion-enable nil
+        lsp-eldoc-enable-hover nil))
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here
