@@ -92,7 +92,8 @@ DEFS is a plist associating completion categories to commands."
          ("C-M->" . down-from-outside)
          ("C-M-+" . preview-from-outside)
          ("M-X" . to-and-fro-minibuffer)
-         ("C-M-S-g" . minibuffer-really-quit)))
+         ("C-M-S-g" . minibuffer-really-quit)
+         (:map vertico-map ("M-RET" . minibuffer-force-complete-and-exit))))
 
 (use-package vertico-directory
   :ensure nil
