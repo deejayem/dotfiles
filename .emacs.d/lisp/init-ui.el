@@ -48,10 +48,13 @@
 
 (use-package modus-themes
   :init
-  ;; (setq modus-themes-syntax '(alt-syntax green-strings yellow-comments))
-  (setq modus-themes-syntax '(green-strings yellow-comments)
+  (setq modus-themes-syntax
+        (if (member (format-time-string "%a") '("Mon" "Fri"))
+            '(alt-syntax green-strings yellow-comments)
+          '(green-strings-yellow-comments))
         modus-themes-paren-match '(bold intense underline)
         modus-themes-region '(accented)
+        modus-themes-hl-line '(underline)
         modus-themes-lang-checkers '(text-also background))
   (load-theme 'modus-vivendi t))
 
