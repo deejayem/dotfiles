@@ -22,7 +22,6 @@
   (put 'erase-buffer 'disabled nil)
 
   (setq-default indent-tabs-mode nil)
-  (setq require-final-newline t)
   (setq comment-auto-fill-only-comments t)
   (setq large-file-warning-threshold 100000000)
   (setq create-lockfiles nil)
