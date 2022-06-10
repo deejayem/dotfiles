@@ -19,9 +19,11 @@
   :diminish
   :after yasnippet
   :bind ("C-c '" . hydra-cljr-help-menu/body)
+  :custom
+  (cljr-suppress-no-project-warning t)
+  (cljr-add-ns-to-blank-clj-files nil) ; disable clj-refactor adding ns to blank files
   :config
   (cljr-add-keybindings-with-prefix "C-c C-m")
-  (setq cljr-suppress-no-project-warning t)
   (defun clj-refactor-hook-fn ()
     (clj-refactor-mode 1)
     (yas-minor-mode 1))
