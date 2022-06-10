@@ -117,5 +117,9 @@
   :config
   (pulsar-global-mode 1))
 
+(use-package lin
+  :config
+  (lin-global-mode 1))
+
 (provide 'init-ui)
 ;;; init-ui.el ends here
