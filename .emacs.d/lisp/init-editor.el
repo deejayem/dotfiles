@@ -193,10 +193,16 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (use-package xref
   :ensure nil
   :config
+  (defun xref-find-references-other-window (identifier)
+    "Like `xref-find-references' but switch to the other window"
+    (interactive (list (xref--read-identifier "Find references of: ")))
+      (xref--find-xrefs identifier 'references identifier 'window))
+  (define-key ctl-x-4-map (kbd "M-?") 'xref-find-references-other-window)
   ;; 'xref-prompt-for-identifier begins with not, so adding this prevents
   ;; prompting for an identifier when calling xref-find-references, unless
   ;; there is no value at point that can be used
-  (add-to-list 'xref-prompt-for-identifier 'xref-find-references t))
+  (add-to-list 'xref-prompt-for-identifier 'xref-find-references t)
+  (add-to-list 'xref-prompt-for-identifier 'xref-find-references-other-window t))
 
 (provide 'init-editor)
 ;;; init-editor.el ends here
