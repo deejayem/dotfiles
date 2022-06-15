@@ -55,6 +55,8 @@
         modus-themes-paren-match '(bold intense underline)
         modus-themes-region '(accented)
         modus-themes-hl-line '(underline)
+        modus-themes-bold-constructs t
+        modus-themes-italic-constructs t
         modus-themes-lang-checkers '(text-also background))
   (load-theme 'modus-vivendi t))
 
