@@ -49,7 +49,7 @@
               ("C-l" . my/orderless-match-components-literally))
   :custom (orderless-component-separator 'orderless-escapable-split-on-space)
   :init
-  (setq completion-styles '(orderless basic)
+  (setq completion-styles '(orderless partial-completion basic)
         completion-category-defaults nil
         completion-category-overrides '((file (styles . (partial-completion orderless)))))
 
