@@ -128,6 +128,16 @@
   (pulsar-global-mode 1))
 
 (use-package lin
+  :custom
+  (lin-mode-hooks '(dired-mode-book
+                    proced-mode-hook
+                    magit-mode
+                    magit-log-mode
+                    log-view-mode-hook
+                    mu4e-headers-mode
+                    ibuffer-mode-hook
+                    grep-mode-hook
+                    occur-mode-hook))
   :config
   (lin-global-mode 1))
 
