@@ -49,6 +49,7 @@
         cider-xref-fn-depth 90
         cider-repl-history-file ".cider-repl-history"
         nrepl-log-messages t
+        cider-connection-message-fn nil
         clojure-toplevel-inside-comment-form t)
   (unbind-key "C-c C-l" cider-mode-map)
   :bind
