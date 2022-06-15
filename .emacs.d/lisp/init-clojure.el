@@ -54,7 +54,9 @@
   (unbind-key "C-c C-l" cider-mode-map)
   :bind
   (:map cider-mode-map ("C-c M-l" . cider-load-file))
-  (:map clojure-mode-map ("C-x p q" . project-clojure-test-switch))
+  (:map clojure-mode-map
+        ("C-x p q" . project-clojure-test-switch)
+        ("C->" . cider-find-dwim-other-window))
   :hook
   (cider-repl-mode . cider-repl-mode-hook-fn)
   (cider-mode . eldoc-mode))
