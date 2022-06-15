@@ -112,8 +112,18 @@
   :custom
   (pulsar-pulse-on-window-change t)
   (pulsar-pulse t)
-  (pulsar-face 'pulsar-green)
-  (pulsar-highlight-face 'pulsar-yellow)
+  (pulsar-iterations 80)
+  (pulsar-face 'pulsar-red)
+  (pulsar-pulse-functions '(recenter-top-bottom
+                            move-to-window-line-top-bottom
+                            reposition-window
+                            forward-page
+                            backward-page
+                            scroll-up-command
+                            scroll-down-command))
+  :hook
+  (isearch-update-post-hook . pulsar-pulse-line)
+  (consult-after-jump-hook . pulsar-pulse-line)
   :config
   (pulsar-global-mode 1))
 
