@@ -36,6 +36,11 @@
   (define-org-wrap "verbatim" ?=)
   (define-org-wrap "code" ?~)
   (define-org-wrap "strike-through" ?+)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((shell . t)
+     (elasticsearch . t)
+     (sql . t)))
   :bind
   ("C-c l" . org-store-link)
   ("C-c a" . org-agenda)
@@ -44,6 +49,9 @@
   ;("C-c r" . org-refile)
   ;("C-c c" . org-capture)
   )
+
+(use-package ob-async
+  :ensure t)
 
 (provide 'init-org)
 ;;; init-org.el ends here
