@@ -23,10 +23,14 @@
   :hook
   (clojure-mode . lsp)
   (lsp-lens-mode . really-diminish-lsp-lens-mode)
+  (lsp-completion-mode . my/lsp-mode-setup-completion)
   :config
   (defun really-diminish-lsp-lens-mode ()
     (diminish 'lsp-lens-mode)
     (remove-hook 'lsp-lens-mode-hook 'really-diminish-lsp-lens-mode))
+  (defun my/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(orderless)))
   (if (eq system-type 'darwin)
       (setq lsp-keymap-prefix "s-l")
     (setq lsp-keymap-prefix "C-c C-l"))
@@ -40,9 +44,10 @@
         lsp-modeline-code-actions-enable nil
         lsp-modeline-diagnostics-enable nil
         lsp-treemacs-theme "Iconless"
+        lsp-completion-provider :none ;; use corfu
         ;; user cider for indendation, completion and eldoc instead
         lsp-enable-indentation nil
-        lsp-completion-enable nil
+        ;;lsp-completion-enable nil
         lsp-eldoc-enable-hover nil))
 
 (provide 'init-lsp)
