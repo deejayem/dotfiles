@@ -127,7 +127,8 @@
   :hook
   (isearch-update-post-hook . pulsar-pulse-line)
   (consult-after-jump-hook . pulsar-pulse-line)
-  :config
+  :bind ("C-c c p" . pulsar-pulse-line)
+  :init
   (pulsar-global-mode 1))
 
 (use-package lin
@@ -141,7 +142,7 @@
                     ibuffer-mode-hook
                     grep-mode-hook
                     occur-mode-hook))
-  :config
+  :init
   (lin-global-mode 1))
 
 (provide 'init-ui)
