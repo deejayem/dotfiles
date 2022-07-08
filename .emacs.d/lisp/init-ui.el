@@ -102,8 +102,9 @@
   :config (which-key-mode +1))
 
 (use-package rainbow-delimiters
-  :config
-  (rainbow-delimiters-mode +1))
+  :hook
+  (text-mode . (lambda () (rainbow-delimiters-mode +1)))
+  (prog-mode . (lambda () (rainbow-delimiters-mode +1))))
 
 (use-package rainbow-mode
   :diminish)
