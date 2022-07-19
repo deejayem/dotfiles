@@ -101,6 +101,17 @@
   :diminish
   :config (which-key-mode +1))
 
+(use-package hl-todo
+  :bind
+  (:map hl-todo-mode-map
+        ("C-c c t p" . hl-todo-previous)
+        ("C-c c t n" . hl-todo-next)
+        ("C-c c t o" . hl-todo-occur)
+        ("C-c c t r" . hl-todo-rgrep)
+        ("C-c c t i" . hl-todo-insert))
+  :config
+  (global-hl-todo-mode 1))
+
 (use-package rainbow-delimiters
   :hook
   (text-mode . (lambda () (rainbow-delimiters-mode +1)))

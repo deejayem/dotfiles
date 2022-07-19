@@ -11,10 +11,6 @@
   :config
   (which-function-mode 1))
 
-(use-package hl-todo
-  :config
-  (global-hl-todo-mode 1))
-
 (use-package simple-modeline
   :hook (after-init . simple-modeline-mode)
   :custom
