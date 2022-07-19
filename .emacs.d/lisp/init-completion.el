@@ -6,9 +6,10 @@
 
 (use-package dabbrev
   :diminish
-  :custom (dabbrev-case-fold-search nil)
-  :bind
-  ("M-/" . dabbrev-completion))
+  :custom
+  (setq dabbrev-case-distinction nil)
+  (setq dabbrev-case-fold-search t)
+  (setq dabbrev-case-replace nil))
 
 (use-package hippie-expand
   :ensure nil
@@ -37,7 +38,8 @@
 (use-package fancy-dabbrev
   :diminish
   :config
-  (global-fancy-dabbrev-mode))
+  (global-fancy-dabbrev-mode)
+  :bind ("M-/" . fancy-dabbrev-expand))
 
 (use-package emacs
   :init
