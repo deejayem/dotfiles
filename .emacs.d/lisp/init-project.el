@@ -45,6 +45,8 @@
       (call-interactively #'project-switch-project)))
 
   (add-to-list 'project-switch-commands '(?h "Recentf" project-recentf) t)
+  (add-to-list 'project-switch-commands '(?r "consult-ripgrep" consult-ripgrep) t)
+  (add-to-list 'project-switch-commands '(?p "consult-project-extra-find" consult-project-extra-find) t)
   (add-to-list 'project-switch-commands '(?m "Magit" magit-status) t)
   (add-to-list 'project-switch-commands '(?q "Replace Regexp" project-query-replace-regexp) t)
 
