@@ -24,6 +24,7 @@
   (clojure-mode . lsp)
   (lsp-lens-mode . really-diminish-lsp-lens-mode)
   (lsp-completion-mode . my/lsp-mode-setup-completion)
+  (sql-mode . lsp)
   :config
   (defun really-diminish-lsp-lens-mode ()
     (diminish 'lsp-lens-mode)
@@ -35,6 +36,7 @@
       (setq lsp-keymap-prefix "s-l")
     (setq lsp-keymap-prefix "C-c C-l"))
   (define-key lsp-mode-map (kbd lsp-keymap-prefix) lsp-command-map)
+  (setq lsp-sqls-workspace-config-path nil)
   (setq read-process-output-max (* 1024 1024)
         lsp-log-io nil
         lsp-lens-enable t
