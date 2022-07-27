@@ -50,6 +50,10 @@
                       (js2-imenu-extras-mode +1)
                       (subword-mode +1))))
 
+(use-package mustache-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . mustache-mode)))
+
 (use-package scss-mode
  :custom
  (scss-compile-at-save nil))
