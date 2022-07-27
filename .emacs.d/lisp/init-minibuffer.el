@@ -323,7 +323,8 @@ DEFS is a plist associating completion categories to commands."
   (defvar consult-initial-narrow-config
     '((consult-buffer . ?x)
       (consult-buffer-no-preview . ?x)
-      (consult-buffer-other-window . ?x)))
+      (consult-buffer-other-window . ?x)
+      (consult-project-extra-find . ?f)))
   ;; Add initial narrowing hook
   (defun consult-initial-narrow ()
     (when-let (key (alist-get this-command consult-initial-narrow-config))

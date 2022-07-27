@@ -43,10 +43,15 @@
     (interactive)
     (let ((default-directory "~/src/"))
       (call-interactively #'project-switch-project)))
+  (defun project-switch-consult-project-extra-find ()
+    (interactive)
+    (progn
+      (setq unread-command-events (listify-key-sequence "f "))
+      (consult-project-extra-find)))
 
   (add-to-list 'project-switch-commands '(?h "Recentf" project-recentf) t)
   (add-to-list 'project-switch-commands '(?r "consult-ripgrep" consult-ripgrep) t)
-  (add-to-list 'project-switch-commands '(?p "consult-project-extra-find" consult-project-extra-find) t)
+  (add-to-list 'project-switch-commands '(?p "consult-project-extra-find" project-switch-consult-project-extra-find) t)
   (add-to-list 'project-switch-commands '(?m "Magit" magit-status) t)
   (add-to-list 'project-switch-commands '(?q "Replace Regexp" project-query-replace-regexp) t)
 
