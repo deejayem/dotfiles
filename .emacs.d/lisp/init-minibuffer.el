@@ -407,7 +407,9 @@ DEFS is a plist associating completion categories to commands."
 
 (use-package marginalia
   :init
-  (marginalia-mode))
+  ;; crux-recentf-find-file
+  (marginalia-mode)
+  (add-to-list 'marginalia-prompt-categories '("Choose recent file" . file)))
 
 (use-package embark
   :bind
