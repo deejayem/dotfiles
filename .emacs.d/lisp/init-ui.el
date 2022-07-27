@@ -102,6 +102,7 @@
   :config (which-key-mode +1))
 
 (use-package hl-todo
+  :after modus-themes
   :bind
   (:map hl-todo-mode-map
         ("C-c c t p" . hl-todo-previous)
@@ -109,6 +110,18 @@
         ("C-c c t o" . hl-todo-occur)
         ("C-c c t r" . hl-todo-rgrep)
         ("C-c c t i" . hl-todo-insert))
+  :custom
+  (hl-todo-keyword-faces
+   '(("TODO"   . "red")
+     ("djm"    . "green")
+     ("FIXME"  . "red")
+     ("DEBUG"  . "#A020F0")
+     ("GOTCHA" . "#FF4500")
+     ("HACK" . "#FF4500")
+     ("STUB"   . "#1E90FF")
+     ("FAIL"   . "red")
+     ("NOTE"   . "DarkOrange2")
+     ("DEPRECATED" . "yellow")))
   :config
   (global-hl-todo-mode 1))
 
