@@ -32,6 +32,10 @@
   (defun my/lsp-mode-setup-completion ()
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
           '(orderless)))
+  (defun lsp--make-reference-params-exclude-declaration (orig &optional td-position exclude-declaration)
+    (funcall orig td-position t))
+
+  (advice-add 'lsp--make-reference-params :around 'lsp--make-reference-params-exclude-declaration)
   (if (eq system-type 'darwin)
       (setq lsp-keymap-prefix "s-l")
     (setq lsp-keymap-prefix "C-c C-l"))
