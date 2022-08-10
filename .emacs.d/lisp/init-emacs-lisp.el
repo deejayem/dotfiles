@@ -14,6 +14,12 @@
 
 (use-package emacs
   :config
+  (defun eval-region-or-defun (edebug-it)
+    "Call eval-region, if one is selected, or eval-defun otherwise."
+    (interactive "P")
+    (if (use-region-p)
+        (eval-region (region-beginning) (region-end))
+      (eval-defun edebug-it)))
   ;; Based on prelude-emacs-lisp.el
   (defun recompile-init-lisp ()
     (when (and
@@ -42,7 +48,8 @@ Start `ielm' if it's not already running."
   :bind
   (:map emacs-lisp-mode-map
         (("C-c C-z" . visit-ielm)
-         ("C-c C-c" . eval-defun)
+         ("C-M-x" . eval-region-or-defun)
+         ("C-c C-c" . eval-region-or-defun)
          ("C-c C-b" . eval-buffer)
          ("C-c e f" . emacs-lisp-byte-compile-and-load)
          ("C-c e z" .  byte-recompile-directory)
