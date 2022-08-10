@@ -39,6 +39,12 @@
   :diminish
   :config
   (global-fancy-dabbrev-mode)
+  (defun fancy-dabbrev-popup-advice (_next)
+    (local-set-key (kbd "C-M-/") #'fancy-dabbrev-backward))
+  (defun fancy-dabbrev-popup-exit-advice ()
+    (local-unset-key (kbd "C-M-/")))
+  (advice-add #'fancy-dabbrev--expand-again :before #'fancy-dabbrev-popup-advice)
+  (advice-add #'fancy-dabbrev--on-exit :after #'fancy-dabbrev-popup-exit-advice)
   :bind ("M-/" . fancy-dabbrev-expand))
 
 (use-package emacs
