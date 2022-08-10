@@ -20,7 +20,7 @@
   ("C-c F" . crux-recentf-find-file)
   ("C-x 4 s" . crux-swap-windows)
   ("C-x M-o" . crux-other-window-or-switch-buffer)
-  ("C-c e r" . crux-eval-and-replace)
+  ("C-c C-M-x" . crux-eval-and-replace)
   ("C-c M-k" . crux-kill-other-buffers)
   ("C-c C-r" . crux-rename-buffer-and-file)
   ("C-c D" . crux-delete-file-and-buffer)
