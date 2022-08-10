@@ -18,6 +18,10 @@
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+(add-hook 'after-init-hook #'(lambda ()
+                               (setq gc-cons-threshold (* 100 1024 1024)
+                                     gc-cons-percentage 0.1)))
+
 (require 'init-packages)
 (require 'init-ui)
 (require 'init-compile)
@@ -49,7 +53,4 @@
 (require 'init-tramp)
 (require 'init-local nil t)
 
-(add-hook 'after-init-hook '(lambda ()
-                              (setq gc-cons-threshold (* 100 1024 1024)
-                                    gc-cons-percentage 0.1)))
 ;;; init.el ends here
