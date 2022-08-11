@@ -35,6 +35,7 @@
   :config
   ;; TODO make a copy of the built-in check for system packages work instead
   (defvar my/system-packages '(vterm))
+  ;; emacs -Q --batch -L "~/.emacs.d/lisp/" -l "init-packages.el" -f "my/upgrade-packages"
   (defun my/upgrade-packages ()
     (interactive)
     (epl-refresh)
@@ -48,7 +49,9 @@
       (dolist (upgrade upgrades)
         (epl-package-install (epl-upgrade-available upgrade) 'force)
         (epl-package-delete (epl-upgrade-installed upgrade))))
-    (message "Package upgrade finished.")))
+    (message "Package upgrade finished.")
+    ;; TODO does this help async native-comp to finish when called from the command line?
+    (sit-for 30)))
 
 (provide 'init-packages)
 ;;; init-packages.el ends here
