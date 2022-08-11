@@ -3,6 +3,8 @@
 ;;; Code:
 
 (use-package emacs
+  :custom
+  (switch-to-buffer-obey-display-actions t)
   :bind
   ("C-x O" . (lambda ()
                (interactive)
