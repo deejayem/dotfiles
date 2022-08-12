@@ -1,15 +1,7 @@
-;;; init-ui.el --- Web Configuration File -*- lexical-binding: t -*-
+;;; init-web.el --- Web Configuration File -*- lexical-binding: t -*-
 ;;; Commentary:
 ;; Some parts copied from prelude-web.el, prelude-js.el and prelude-css.el
 ;;; Code:
-
-(use-package css-mode
-  :custom
-  (css-indent-offset 2)
-  :config
-  (rainbow-mode +1))
-
-(use-package sass-mode)
 
 (use-package web-mode
   :custom
@@ -36,6 +28,20 @@
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("/\\(views\\|html\\|theme\\|templates\\)/.*\\.php\\'" . web-mode)))
 
+(use-package css-mode
+  :custom
+  (css-indent-offset 2)
+  :config
+  (rainbow-mode +1))
+
+(use-package scss-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+  :custom
+  (scss-compile-at-save nil))
+
+(use-package sass-mode)
+
 (use-package tagedit
   :diminish
   :config (tagedit-add-paredit-like-keybindings)
@@ -44,6 +50,8 @@
 (use-package js2-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  :custom
+  (js-indent-level 2)
   :hook (js2-mode . (lambda ()
                       (setq-local electric-layout-rules '((?\; . after)))
                       (setq mode-name "JS2")
@@ -53,10 +61,6 @@
 (use-package mustache-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . mustache-mode)))
-
-(use-package scss-mode
- :custom
- (scss-compile-at-save nil))
 
 (provide 'init-web)
 ;;; init-web.el ends here
