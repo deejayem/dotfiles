@@ -1,4 +1,4 @@
-;;; init-ui.el --- Org-Mode Configuration File -*- lexical-binding: t -*-
+;;; init-org.el --- Org-Mode Configuration File -*- lexical-binding: t -*-
 ;;; Commentary:
 ;; Some parts copied from prelude-org.el
 ;;; Code:
