@@ -112,17 +112,17 @@
         ("C-c c t i" . hl-todo-insert))
   :custom
   (hl-todo-keyword-faces
-   '(("TODO"   . "red")
+   '(("TODO"   . "red3")
      ("djm"    . "green")
-     ("FIXME"  . "red")
+     ("FIXME"  . "red3")
      ("DEBUG"  . "#A020F0")
      ("GOTCHA" . "#FF4500")
      ("HACK" . "#FF4500")
      ("STUB"   . "#1E90FF")
-     ("FAIL"   . "red")
+     ("FAIL"   . "red3")
      ("NOTE"   . "DarkOrange2")
      ("DEPRECATED" . "yellow")))
-  :config
+  :init
   (global-hl-todo-mode 1))
 
 (use-package rainbow-delimiters
