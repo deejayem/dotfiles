@@ -48,20 +48,56 @@
 
 (use-package modus-themes
   :init
-  (setq modus-themes-syntax
-        (if (member (format-time-string "%a") '("Mon" "Fri"))
-            '(alt-syntax green-strings yellow-comments)
-          '(green-strings-yellow-comments))
+  (setq modus-themes-syntax '(green-strings yellow-comments)
         modus-themes-paren-match '(bold intense underline)
-        modus-themes-region '(accented)
-        modus-themes-hl-line '(underline)
         modus-themes-bold-constructs t
         modus-themes-italic-constructs t
-        modus-themes-lang-checkers '(text-also background))
-  (load-theme 'modus-vivendi t))
+        modus-themes-lang-checkers '(text-also))
+  (load-theme 'modus-vivendi t)
+
+  ;; Use less magenta
+  (custom-set-faces
+   `(font-lock-builtin-face ((t (:foreground "LawnGreen"))))
+   `(font-lock-keyword-face ((t (:foreground "gold"))))
+   `(font-lock-function-name-face ((t (:foreground "cyan"))))
+   `(font-lock-variable-name-face ((t (:foreground "gold3"))))
+   `(font-lock-constant-face ((t (:foreground "DeepSkyBlue2"))))
+   `(font-lock-type-face ((t (:foreground "PaleGreen2"))))
+   `(font-lock-string-face ((t (:foreground "SpringGreen3"))))
+   `(font-lock-comment-face ((t (:foreground "burlywood"))))
+   `(font-lock-doc-face ((t :foreground "LightCyan3"))) ;; "#bfebe0""LightCyan3""PaleTurquoise2""PaleTurquoise3""LightCyan2""LightSteelBlue3""pale turquoise""LightSteelBlue" "wheat" "burlywood3" "LightCyan"
+   `(region ((t (:background "firebrick"))))
+   `(secondary-selection ((t (:background "firebrick4")))) ;; coral tomato
+   `(idle-highlight ((t (:background "grey50" :foreground "white"))))
+   `(isearch ((t (:background "coral2"))))
+   `(lazy-highlight ((t (:background "coral4"))))
+   `(match ((t (:background "gray35" :foreground "grey85"))))
+   `(lsp-face-highlight-textual ((t (:background "DimGrey"))))
+   `(whitespace-empty ((t (:background "gray10"))))
+   `(hl-line ((t :background "gray15" :underline "gray35" :inherit nil)))
+   `(simple-modeline-status-modified ((t :foreground "DeepSkyBlue")))
+   `(consult-async-split ((t :foreground "LightCoral")))
+   `(orderless-match-face-0 ((t :foreground "tomato")))
+   `(orderless-match-face-1 ((t :foreground "SpringGreen2")))
+   `(orderless-match-face-2 ((t :foreground "gold")))
+   `(orderless-match-face-3 ((t :foreground "cyan")))
+   `(flycheck-fringe-warning ((t :foreground "white" :background "gold3")))
+   `(flycheck-fringe-error ((t :foreground "white" :background "red2")))
+   `(flycheck-fringe-info ((t :foreground "white" :background "RoyalBlue3")))
+   `(alt-font-lock-keyword-face ((t :foreground "LightSkyBlue" :weight bold)))
+   `(alt-hl-line-face ((t :underline "gray50" :weight bold))))
+  :config
+  (defun use-alt-font-lock-keyword-face ()
+    "Remap font-lock-keyword-face to the alternate one, in the current buffer"
+    (face-remap-add-relative 'font-lock-keyword-face 'alt-font-lock-keyword-face))
+  (defun use-alt-hl-line-face ()
+    "Remap hl-line face to the alternate one, in the current buffer"
+    (face-remap-add-relative 'hl-line 'alt-hl-line-face))
+  :hook
+  (cider-inspector-mode . use-alt-font-lock-keyword-face)
+  (magit-mode . use-alt-hl-line-face))
 
 (use-package whitespace
-  :ensure nil
   :diminish
   :custom
   (whitespace-line-column 120)
