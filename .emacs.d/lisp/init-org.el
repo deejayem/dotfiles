@@ -40,6 +40,9 @@
    'org-babel-load-languages
    '((shell . t)
      (elasticsearch . t)
+     (clojure . t)
+     (restclient . t)
+     (verb . t)
      (sql . t)))
   :bind
   ("C-c l" . org-store-link)
