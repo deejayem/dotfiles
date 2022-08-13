@@ -16,7 +16,9 @@
 (use-package gitconfig)
 (use-package git-modes)
 (use-package gist)
-(use-package git-timemachine)
+(use-package git-timemachine
+  :bind
+  ("C-x v t" . git-timemachine-toggle))
 
 (use-package magit
   :bind
