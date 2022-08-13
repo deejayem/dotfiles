@@ -133,7 +133,16 @@
 (use-package rainbow-mode
   :diminish)
 
-(use-package smartrep)
+(use-package repeat
+  :config
+  (repeat-mode +1)
+  (defvar buffer-repeat-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "<left>") #'previous-buffer)
+      (define-key map (kbd "<right>") #'next-buffer)
+      map))
+  (dolist (cmd '(previous-buffer next-buffer))
+    (put cmd 'repeat-map 'buffer-repeat-map)))
 
 (use-package pulsar
   :custom

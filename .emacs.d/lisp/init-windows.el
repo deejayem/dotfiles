@@ -70,13 +70,6 @@
    ((t (:foreground "white" :background "red"
                     :weight bold :height 2.5 :box (:line-width 10 :color "red"))))))
 
-(smartrep-define-key global-map
-    "C-x" '(("}" . enlarge-window-horizontally)
-            ("{" . shrink-window-horizontally)
-            ("^" . enlarge-window)
-            ("-" . shrink-window)
-            ("<left>". previous-buffer)
-            ("<right>" . next-buffer)))
 
 (provide 'init-windows)
 ;;; init-windows.el ends here
