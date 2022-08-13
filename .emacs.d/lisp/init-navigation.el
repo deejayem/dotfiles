@@ -30,7 +30,7 @@ If a numeric prefix argument N is given, move back N instances of char."
     (goto-char--move-backward arg))
 
   (defun goto-char-backward-repeat-last (arg)
-    "Move backward in line to char last qused in a goto-char command.
+    "Move backward in line to char last used in a goto-char command.
 If a C-u prefix argument is given, it is not restricted to the current line.
 If a numeric prefix argument N is given, move back N instances of the last used
 char."
