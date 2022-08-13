@@ -63,6 +63,21 @@ char."
   ("C-@" . goto-char-forward-repeat-last)
   ("C-:" . goto-char-backward-repeat-last))
 
+(use-package avy
+  :config
+  ;; https://karthinks.com/software/avy-can-do-anything/#avy-plus-embark-any-action-anywhere
+  (defun avy-action-embark (pt)
+    (unwind-protect
+        (save-excursion
+          (goto-char pt)
+          (embark-act))
+      (select-window
+       (cdr (ring-ref avy-ring 0))))
+    t)
+  (add-to-list 'avy-dispatch-alist '(111 . avy-action-embark))
+  :bind
+  ("M-`" . avy-goto-char-timer))
+
 (use-package smartscan
   :config
   (global-smartscan-mode t)
