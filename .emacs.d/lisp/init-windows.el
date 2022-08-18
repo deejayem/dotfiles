@@ -11,7 +11,6 @@
                (other-window -1)))
   ("C-x C-M-b" . ibuffer)
   :config
-  (winner-mode +1)
   ;; From EmacsWiki
   (defun toggle-window-split ()
     (interactive)
@@ -39,6 +38,16 @@
             (if this-win-2nd (other-window 1))))))
   (define-key ctl-x-4-map "t" 'toggle-window-split))
 
+(use-package winner
+  :config
+  (winner-mode +1)
+  (defvar winner-repeat-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "<left>") #'winner-undo)
+      (define-key map (kbd "<right>") #'winner-redo)
+      map))
+  (dolist (cmd '(winner-undo winner-redo))
+    (put cmd 'repeat-map 'winner-repeat-map)))
 
 (use-package windmove
   :init (windmove-default-keybindings))
