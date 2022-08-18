@@ -53,8 +53,9 @@
   ;("C-c c" . org-capture)
   )
 
-(use-package ob-async
-  :ensure t)
+(use-package ob-restclient)
+
+(use-package ob-async)
 
 (provide 'init-org)
 ;;; init-org.el ends here
