@@ -51,6 +51,7 @@
 (require 'init-web)
 (require 'init-misc)
 (require 'init-tramp)
+(require 'init-sql)
 (require 'init-local nil t)
 
 ;;; init.el ends here
