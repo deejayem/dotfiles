@@ -85,7 +85,8 @@ char."
   (cider-repl-mode . (lambda () (smartscan-mode -1)))
   (ielm-mode . (lambda () (smartscan-mode -1)))
   (vterm-mode . (lambda () (smartscan-mode -1)))
-  (eshell-mode . (lambda () (smartscan-mode -1))))
+  (eshell-mode . (lambda () (smartscan-mode -1)))
+  (sql-interactive-mode . (lambda () (smartscan-mode -1))))
 
 (use-package symbol-overlay
   :bind
