@@ -27,7 +27,16 @@
     (PATCH 2)
     (rfn 2)
     (let-routes 1)
-    (context 2)))
+    (context 2))
+
+  ;; Always show more of the path in clj buffer names.
+  ;; Using setq-local in clojure-mode-hook is not enough, as it runs too late
+  (defun clj-uniquify-get-proposed-name (orig base dirname &optional depth original-dirname)
+    (when (and (string= ".clj" (substring base -4))
+               (not (string= "project.clj" base)))
+      (setq-local uniquify-min-dir-content 3))
+    (funcall orig base dirname depth original-dirname))
+  (advice-add 'uniquify-get-proposed-name :around 'clj-uniquify-get-proposed-name))
 
 (use-package hydra)
 (use-package clj-refactor
