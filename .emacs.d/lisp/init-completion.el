@@ -67,6 +67,15 @@
     (setq-local orderless-matching-styles '(orderless-literal)
                 orderless-style-dispatchers nil))
   :config
+  (defun orderless-strict-leading-initialism (component)
+    "Match a component as a strict leading initialism.
+This means the characters in COMPONENT must occur in the
+candidate, in that order, at the beginning of words, with
+no words in between, beginning with the first word."
+    (orderless--separated-by '(seq (zero-or-more word) (zero-or-more punct))
+      (cl-loop for char across component collect `(seq word-start ,char))
+      '(seq string-start)))
+
   ;; Recognizes the following patterns:
   ;; * ~flex flex~
   ;; * =literal literal=
@@ -90,17 +99,15 @@
      ((string-prefix-p "!" pattern) `(orderless-without-literal . ,(substring pattern 1)))
      ((string-suffix-p "!" pattern) `(orderless-without-literal . ,(substring pattern 0 -1)))
      ;; Initialism matching
-     ((string-prefix-p "`" pattern) `(orderless-initialism . ,(substring pattern 1)))
-     ((string-suffix-p "`" pattern) `(orderless-initialism . ,(substring pattern 0 -1)))
+     ((string-prefix-p "`" pattern) `(orderless-strict-leading-initialism . ,(substring pattern 1)))
+     ((string-suffix-p "`" pattern) `(orderless-strict-leading-initialism . ,(substring pattern 0 -1)))
      ;; Literal matching
      ((string-prefix-p "=" pattern) `(orderless-literal . ,(substring pattern 1)))
      ((string-suffix-p "=" pattern) `(orderless-literal . ,(substring pattern 0 -1)))
      ;; Flex matching
      ((string-prefix-p "~" pattern) `(orderless-flex . ,(substring pattern 1)))
      ((string-suffix-p "~" pattern) `(orderless-flex . ,(substring pattern 0 -1)))))
-  ;; (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-leading-initialism)
-  ;;       orderless-style-dispatchers '(my/orderless-dispatch))
-  (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-initialism)
+  (setq orderless-matching-styles '(orderless-literal orderless-prefixes orderless-regexp orderless-strict-leading-initialism)
         orderless-style-dispatchers '(my/orderless-dispatch)))
 
 ;; code completion - corfu
