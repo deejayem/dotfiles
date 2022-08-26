@@ -79,6 +79,19 @@
    ((t (:foreground "white" :background "red"
                     :weight bold :height 2.5 :box (:line-width 10 :color "red"))))))
 
+(use-package popper
+  :bind (("<f5>"   . popper-toggle-latest)
+         ("<f6>"   . popper-cycle)
+         ("<f7>" . popper-toggle-type))
+  :init
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$"
+          "\\*Async Shell Command\\*"
+          help-mode
+          compilation-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1))
 
 (provide 'init-windows)
 ;;; init-windows.el ends here
