@@ -12,7 +12,22 @@
 (use-package clojure-mode
   :config
   (require 'flycheck-clj-kondo)
-  (subword-mode +1))
+  (subword-mode +1)
+
+  ;; https://github.com/weavejester/compojure/wiki/Emacs-indentation
+  (define-clojure-indent
+    (defroutes 'defun)
+    (GET 2)
+    (POST 2)
+    (PUT 2)
+    (DELETE 2)
+    (HEAD 2)
+    (ANY 2)
+    (OPTIONS 2)
+    (PATCH 2)
+    (rfn 2)
+    (let-routes 1)
+    (context 2)))
 
 (use-package hydra)
 (use-package clj-refactor
