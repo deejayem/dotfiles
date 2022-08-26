@@ -5,6 +5,8 @@
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
 
+(setq load-prefer-newer nil)
+
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
@@ -21,5 +23,21 @@
 (setq package-enable-at-startup nil)
 
 ; (setq comp-deferred-compilation nil)
+
+;; Some optimizations from doom.el (some of these probably don't belong here!)
+(setq auto-mode-case-fold nil)
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
+(setq-default cursor-in-non-selected-windows nil)
+(setq highlight-nonselected-windows nil)
+(setq fast-but-imprecise-scrolling t)
+(setq ffap-machine-p-known 'reject)
+(setq idle-update-delay 1.0)
+(setq inhibit-compacting-font-caches t)
+(setq redisplay-skip-fontification-on-input t)
+
+(define-advice load-file (:override (file) silence)
+  (load file nil :nomessage))
 
 ;;; early-init.el ends here
