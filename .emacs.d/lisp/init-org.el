@@ -5,6 +5,7 @@
 
 (use-package org
   :ensure nil
+  :defer t
   :init
   ;; TODO - can we do this with sp-wrap-with-pair?
   (defmacro define-org-wrap (name char)
@@ -53,9 +54,13 @@
   ;("C-c c" . org-capture)
   )
 
-(use-package ob-restclient)
+(use-package ob-restclient
+  :after org
+  :defer t)
 
-(use-package ob-async)
+(use-package ob-async
+  :after org
+  :defer t)
 
 (provide 'init-org)
 ;;; init-org.el ends here

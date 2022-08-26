@@ -27,10 +27,6 @@
 
 (use-package diminish)
 
-(use-package paradox
-  :config
-  (paradox-enable))
-
 (use-package epl
   :config
   ;; TODO make a copy of the built-in check for system packages work instead

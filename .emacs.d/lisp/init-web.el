@@ -4,6 +4,7 @@
 ;;; Code:
 
 (use-package web-mode
+  :defer t
   :custom
   (web-mode-enable-auto-pairing nil)
   :config
@@ -29,6 +30,7 @@
   (add-to-list 'auto-mode-alist '("/\\(views\\|html\\|theme\\|templates\\)/.*\\.php\\'" . web-mode)))
 
 (use-package css-mode
+  :defer t
   :custom
   (css-indent-offset 2)
   :config
@@ -40,7 +42,8 @@
   :custom
   (scss-compile-at-save nil))
 
-(use-package sass-mode)
+(use-package sass-mode
+  :defer t)
 
 (use-package tagedit
   :diminish

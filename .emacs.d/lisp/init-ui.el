@@ -110,17 +110,6 @@
   (vterm-mode . (lambda () (whitespace-mode -1)))
   (eshell-mode . (lambda () (whitespace-mode -1))))
 
-(use-package hi-lock
-  :diminish
-  :config
-  (when (eq system-type 'darwin)
-    (defun my/toggle-highlight-symbol-at-point ()
-      (interactive)
-      (if hi-lock-interactive-patterns
-          (unhighlight-regexp (car (car hi-lock-interactive-patterns)))
-        (highlight-symbol-at-point)))
-    (global-set-key (kbd "s-.") 'my/toggle-highlight-symbol-at-point)))
-
 (use-package volatile-highlights
   :diminish
   :config
@@ -199,10 +188,6 @@
   :bind ("C-c c p" . pulsar-pulse-line)
   :init
   (pulsar-global-mode 1))
-
-(use-package lin
-  :init
-  (lin-global-mode 1))
 
 (provide 'init-ui)
 ;;; init-ui.el ends here
