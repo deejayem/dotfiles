@@ -18,6 +18,12 @@
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "%s packages loaded in %0.1f seconds"
+                     (length package-activated-list)
+                     (string-to-number (emacs-init-time)))))
+
 (add-hook 'after-init-hook #'(lambda ()
                                (setq gc-cons-threshold (* 100 1024 1024)
                                      gc-cons-percentage 0.1)))
@@ -32,7 +38,6 @@
 (require 'init-windows)
 (require 'init-project)
 (require 'init-modeline)
-(require 'init-dashboard)
 (require 'init-completion)
 (require 'init-minibuffer)
 (require 'init-kill)
