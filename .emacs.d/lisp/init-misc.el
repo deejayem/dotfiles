@@ -3,11 +3,11 @@
 ;;; Code:
 
 (use-package exec-path-from-shell
+  :if (memq window-system '(mac ns))
   :custom
   (exec-path-from-shell-arguments '("-l"))
   :config
-  (when (memq window-system '(mac ns))
-    (exec-path-from-shell-initialize)))
+  (exec-path-from-shell-initialize))
 
 (use-package envrc
  :diminish
