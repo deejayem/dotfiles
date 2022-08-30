@@ -29,6 +29,8 @@
 (use-package diminish)
 
 (use-package epl
+  :if noninteractive
+  :demand t
   :config
   ;; TODO make a copy of the built-in check for system packages work instead
   (defvar my/system-packages '(vterm))
