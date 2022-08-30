@@ -38,7 +38,6 @@
     (funcall orig base dirname depth original-dirname))
   (advice-add 'uniquify-get-proposed-name :around 'clj-uniquify-get-proposed-name))
 
-(use-package hydra)
 (use-package clj-refactor
   :diminish
   :after yasnippet
