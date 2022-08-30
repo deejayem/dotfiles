@@ -114,10 +114,6 @@
 
 (use-package midnight)
 
-(use-package re-builder
-  :custom
-  (reb-re-syntax 'string))
-
 (use-package undo-tree
   :diminish
   :config
