@@ -1,13 +1,11 @@
 ;;; init-ui.el --- UI Configuration File -*- lexical-binding: t -*-
 ;;; Commentary:
 ;; Some parts copied from prelude-ui.el and prelude-editor.el
-;; {menu,tool,scoll}-bar-mode disabled in early-init.el, rather than here
+;; Frame customisations, and disabling of {menu,tool,scoll}-bar-mode done in early-init.el, rather than here
 ;;; Code:
 
 (use-package emacs
   :config
-  (toggle-frame-maximized)
-  (add-to-list 'default-frame-alist '(fullscreen . maximized))
   (set-face-attribute 'default nil :font "iosevka comfy")
 
   ;; https://github.com/rougier/elegant-emacs/blob/master/sanity.el

@@ -15,14 +15,15 @@
 
 (setq frame-inhibit-implied-resize t)
 
+(toggle-frame-maximized)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (horizontal-scroll-bar-mode -1)
 
 (setq package-enable-at-startup nil)
-
-; (setq comp-deferred-compilation nil)
 
 ;; Some optimizations from doom.el (some of these probably don't belong here!)
 (setq auto-mode-case-fold nil)
