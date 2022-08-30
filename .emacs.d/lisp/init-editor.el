@@ -53,34 +53,6 @@
   (set-selection-coding-system 'utf-8)
   (prefer-coding-system 'utf-8)
   (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-
-  (defadvice set-buffer-major-mode (after set-major-mode activate compile)
-    "Set buffer major mode according to `auto-mode-alist'."
-    (let* ((name (buffer-name buffer))
-           (mode (assoc-default name auto-mode-alist 'string-match)))
-      (when (and mode (consp mode))
-        (setq mode (car mode)))
-      (with-current-buffer buffer (if mode (funcall mode)))))
-
-  (defadvice server-visit-files (before parse-numbers-in-lines (files proc &optional nowait) activate)
-    "Open file with emacsclient with cursors positioned on requested line.
-Most of console-based utilities prints filename in format
-'filename:linenumber'.  So you may wish to open filename in that format.
-Just call:
-
-  emacsclient filename:linenumber
-
-and file 'filename' will be opened and cursor set on line 'linenumber'"
-    (ad-set-arg 0
-                (mapcar (lambda (fn)
-                          (let ((name (car fn)))
-                            (if (string-match "^\\(.*?\\):\\([0-9]+\\)\\(?::\\([0-9]+\\)\\)?$" name)
-                                (cons
-                                 (match-string 1 name)
-                                 (cons (string-to-number (match-string 2 name))
-                                       (string-to-number (or (match-string 3 name) ""))))
-                              fn))) files)))
-
   (set-default 'imenu-auto-rescan t))
 
 (use-package move-text
