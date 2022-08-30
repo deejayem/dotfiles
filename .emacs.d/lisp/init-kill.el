@@ -4,6 +4,7 @@
 ;;; Code:
 
 (use-package browse-kill-ring
+  :defer 5
   :config
   (browse-kill-ring-default-keybindings))
 

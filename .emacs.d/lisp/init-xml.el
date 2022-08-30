@@ -5,7 +5,7 @@
 
 (use-package nxml-mode
   :ensure nil
-  :defer t
+  :defer 5
   :config
   (push '("<\\?xml" . nxml-mode) magic-mode-alist)
   ;; pom files should be treated as xml files

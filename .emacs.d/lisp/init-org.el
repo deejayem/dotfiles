@@ -5,7 +5,6 @@
 
 (use-package org
   :ensure nil
-  :defer t
   :init
   ;; TODO - can we do this with sp-wrap-with-pair?
   (defmacro define-org-wrap (name char)
@@ -43,7 +42,6 @@
      (elasticsearch . t)
      (clojure . t)
      (restclient . t)
-     (verb . t)
      (sql . t)))
   :bind
   ("C-c l" . org-store-link)
@@ -55,12 +53,10 @@
   )
 
 (use-package ob-restclient
-  :after org
-  :defer t)
+  :after org)
 
 (use-package ob-async
-  :after org
-  :defer t)
+  :after org)
 
 (provide 'init-org)
 ;;; init-org.el ends here

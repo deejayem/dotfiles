@@ -13,7 +13,6 @@
   (setenv "PAGER" "cat"))
 
 (use-package eshell-z
-  :defer t
   :hook (eshell-mode . (lambda () (require 'eshell-z))))
 
 (use-package eshell-syntax-highlighting

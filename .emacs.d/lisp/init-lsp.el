@@ -3,7 +3,7 @@
 ;;; Code:
 
 (use-package lsp-ui
-  :defer t
+  :defer 5
   :config
   (require 'lsp-ui-imenu)
   (setq lsp-ui-sideline-enable t
@@ -18,9 +18,10 @@
         lsp-ui-doc-position 'at-point))
 
 (use-package lsp-treemacs
-  :defer t)
+  :defer 5)
 
 (use-package lsp-mode
+  :defer 5
   :diminish
   :hook
   (clojure-mode . lsp)

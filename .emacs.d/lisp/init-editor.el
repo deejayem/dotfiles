@@ -83,6 +83,7 @@
   (add-to-list 'super-save-hook-triggers 'find-file-hook))
 
 (use-package recentf
+  :defer 10
   :config
   (recentf-mode +1)
   (add-to-list 'recentf-exclude (expand-file-name "elpa" user-emacs-directory))
@@ -115,6 +116,7 @@
 (use-package midnight)
 
 (use-package undo-tree
+  :defer 5
   :diminish
   :config
   (global-undo-tree-mode)
@@ -123,6 +125,7 @@
   (undo-tree-auto-save-history t))
 
 (use-package abbrev
+  :defer 5
   :ensure nil
   :diminish
   :hook (text-mode . abbrev-mode))

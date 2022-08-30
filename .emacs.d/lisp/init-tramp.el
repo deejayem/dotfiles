@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package tramp
+  :defer 5
   :ensure nil
   :custom
   (tramp-default-method "ssh")

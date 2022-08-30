@@ -39,6 +39,7 @@
   (define-key ctl-x-4-map "t" 'toggle-window-split))
 
 (use-package winner
+  :defer 5
   :config
   (winner-mode +1)
   (defvar winner-repeat-map

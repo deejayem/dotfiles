@@ -13,10 +13,14 @@
   (dired-mode . diff-hl-dired-mode)
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
-(use-package gitconfig)
-(use-package git-modes)
-(use-package gist)
+(use-package gitconfig
+  :defer 5)
+
+(use-package git-modes
+  :defer 5)
+
 (use-package git-timemachine
+  :defer 5
   :bind
   ("C-x v t" . git-timemachine-toggle))
 

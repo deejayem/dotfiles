@@ -4,7 +4,6 @@
 ;;; Code:
 
 ;; (use-package auctex
-;;   :defer t
 ;;   :config
 ;;   (require 'smartparens-latex)
 ;;   (setq-default TeX-master nil)
