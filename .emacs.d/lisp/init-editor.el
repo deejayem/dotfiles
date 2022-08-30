@@ -66,6 +66,7 @@
   ("M-Z" . zop-to-char))
 
 (use-package savehist
+  :defer 3
   :custom
   (savehist-additional-variables '(search-ring regexp-search-ring))
   (savehist-autosave-interval 60)
