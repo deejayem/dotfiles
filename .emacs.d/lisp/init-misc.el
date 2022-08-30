@@ -30,7 +30,6 @@
 (use-package csv-mode)
 
 (use-package yaml-mode
-  :defer 5
   :diminish
   :hook
   (yaml-mode . whitespace-mode)

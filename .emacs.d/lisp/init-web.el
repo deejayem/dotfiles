@@ -4,7 +4,6 @@
 ;;; Code:
 
 (use-package web-mode
-  :defer 5
   :custom
   (web-mode-enable-auto-pairing nil)
   :config
@@ -30,30 +29,25 @@
   (add-to-list 'auto-mode-alist '("/\\(views\\|html\\|theme\\|templates\\)/.*\\.php\\'" . web-mode)))
 
 (use-package css-mode
-  :defer 5
   :custom
   (css-indent-offset 2)
   :config
   (rainbow-mode +1))
 
 (use-package scss-mode
-  :defer 5
   :config
   (add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
   :custom
   (scss-compile-at-save nil))
 
-(use-package sass-mode
-  :defer 5)
+(use-package sass-mode)
 
 (use-package tagedit
-  :defer 5
   :diminish
   :config (tagedit-add-paredit-like-keybindings)
   :hook (html-mode . (lambda () (tagedit-mode 1))))
 
 (use-package js2-mode
-  :defer 5
   :config
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
   :custom
@@ -65,7 +59,6 @@
                       (subword-mode +1))))
 
 (use-package mustache-mode
-  :defer 5
   :config
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . mustache-mode)))
 

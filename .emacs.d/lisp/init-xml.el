@@ -5,10 +5,8 @@
 
 (use-package nxml-mode
   :ensure nil
-  :defer 5
   :config
   (push '("<\\?xml" . nxml-mode) magic-mode-alist)
-  ;; pom files should be treated as xml files
   (add-to-list 'auto-mode-alist '("\\.pom\\'" . nxml-mode))
   :custom
   (nxml-child-indent 4)
