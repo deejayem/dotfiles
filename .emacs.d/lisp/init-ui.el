@@ -95,6 +95,31 @@
   (cider-inspector-mode . use-alt-font-lock-keyword-face)
   (magit-mode . use-alt-hl-line-face))
 
+(use-package hl-todo
+  :defer 5
+  :after modus-themes
+  :bind
+  (:map hl-todo-mode-map
+        ("C-c c t p" . hl-todo-previous)
+        ("C-c c t n" . hl-todo-next)
+        ("C-c c t o" . hl-todo-occur)
+        ("C-c c t r" . hl-todo-rgrep)
+        ("C-c c t i" . hl-todo-insert))
+  :custom
+  (hl-todo-keyword-faces
+   '(("TODO"   . "red3")
+     ("djm"    . "green")
+     ("FIXME"  . "red3")
+     ("DEBUG"  . "#A020F0")
+     ("GOTCHA" . "#FF4500")
+     ("HACK" . "#FF4500")
+     ("STUB"   . "#1E90FF")
+     ("FAIL"   . "red3")
+     ("NOTE"   . "DarkOrange2")
+     ("DEPRECATED" . "yellow")))
+  :config
+  (global-hl-todo-mode 1))
+
 (use-package whitespace
   :diminish
   :custom
