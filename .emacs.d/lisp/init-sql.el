@@ -4,6 +4,7 @@
 
 (use-package sql
   :ensure nil
+  :commands add-sql-connection
   :config
   ;; partially inspired by https://dev.to/viglioni/emacs-as-sql-client-with-lsp-143l (but currently only works for postgres)
   (defun add-sql-connection (name product port server user password database extra)

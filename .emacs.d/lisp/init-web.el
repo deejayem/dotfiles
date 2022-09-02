@@ -44,6 +44,7 @@
 
 (use-package tagedit
   :diminish
+  :commands tagedit-mode
   :config (tagedit-add-paredit-like-keybindings)
   :hook (html-mode . (lambda () (tagedit-mode 1))))
 
