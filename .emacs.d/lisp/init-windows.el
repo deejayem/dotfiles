@@ -87,6 +87,7 @@
   :init
   (setq popper-reference-buffers
         '("\\*Messages\\*"
+          "\\*HTTP Response\\*"
           "Output\\*$"
           "\\*Async Shell Command\\*"
           help-mode
