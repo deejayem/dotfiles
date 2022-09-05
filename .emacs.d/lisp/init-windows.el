@@ -65,7 +65,7 @@
   (uniquify-buffer-name-style 'forward))
 
 (use-package fullframe
-  :after (magit dashboard)
+  :after magit
   :config
   (fullframe magit-status magit-mode-quit-window)
   (fullframe vc-annotate quit-window))
