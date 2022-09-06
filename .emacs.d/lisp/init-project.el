@@ -65,6 +65,7 @@
         (cons 'local root)))
   ;; Add this hook last so so that vc takes precedence over local
   (add-hook 'project-find-functions 'project-try-local 90)
+  :commands project-prompt-project-dir
   :bind
   ("C-x p P" . project-switch-src-project)
   ("C-x p M-p" . project-switch-project)
