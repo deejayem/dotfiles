@@ -52,15 +52,5 @@
 (use-package forge
   :after magit)
 
-(use-package git-gutter
-  :diminish
-  :bind
-  ("C-c j g" . git-gutter-mode)
-  ("C-c j S-g" . git-gutter)
-  ("C-c j n" . git-gutter:next-hunk)
-  ("C-c j p" . git-gutter:previous-hunk)
-  ("C-c j r" . git-gutter:revert-hunk)
-  ("C-c j d" . git-gutter:popup-hunk))
-
 (provide 'init-git)
 ;;; init-git.el ends here
