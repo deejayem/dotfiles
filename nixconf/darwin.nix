@@ -1,0 +1,36 @@
+{ config, pkgs, ... }:
+{
+  imports = [
+    ./clojure.nix
+  ];
+
+  home.packages = with pkgs; [
+    awscli2
+    coreutils
+    curl
+    diffutils
+    ((emacsPackagesFor emacsMacport).emacsWithPackages(ps: [ ps.vterm ]))
+    findutils
+    gh
+    #gnused
+    #adoptopenjdk-hotspot-bin-8
+    #lima
+    mpv
+    mu
+    nix # on darwin we are not using nixos (duh)
+    openvpn
+    pinentry_mac
+    pgcli
+    pgformatter
+    postgresql
+    #python310Packages.sqlparse
+    sqls
+    wget
+  ];
+
+  programs.java = {
+    enable = true;
+    #package = (pkgs.jdk8.overrideAttrs (_: { postPatch = "ln -nsf ../zulu-8.jdk/Contents/Home/man man"; }));
+  };
+}
+
