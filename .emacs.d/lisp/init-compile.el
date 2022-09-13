@@ -4,7 +4,6 @@
 ;;; Code:
 
 (use-package compile
-  :ensure nil
   :custom
   (compilation-ask-about-save nil)
   (compilation-always-kill t)
