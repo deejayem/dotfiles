@@ -33,6 +33,10 @@
       save = 100000;
     };
 
+    envExtra = ''
+      export LSP_USE_PLISTS=true
+      export LESS=-iRXF
+    '';
     profileExtra = ''
       [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]] && . ~/.nix-profile/etc/profile.d/nix.sh
       path=(~/bin
