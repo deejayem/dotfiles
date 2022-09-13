@@ -8,6 +8,7 @@
   home.packages = with pkgs; [
     bat
     bottom
+    broot
     curl
     difftastic
     #docker
@@ -26,6 +27,7 @@
     isync
     jq
     lscolors
+    lsd
     lynx
     mopidy
     mopidy-ytmusic
@@ -34,6 +36,8 @@
     mu
     neovim
     nix-info
+    nix-prefetch-git
+    nix-prefetch-github
     #pinentry
     #procs
     libqalculate
@@ -44,7 +48,7 @@
     ugrep
     vim
     w3m
-    #zenith
+    zenith
   ];
 
   programs.gpg.enable = true;
