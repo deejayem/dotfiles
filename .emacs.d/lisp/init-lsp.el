@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+(setenv "LSP_USE_PLISTS" "true")
+
 (use-package lsp-ui
   :config
   (require 'lsp-ui-imenu)
