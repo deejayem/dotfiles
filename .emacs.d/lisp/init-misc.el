@@ -27,6 +27,7 @@
   :init (miniedit-install))
 
 (use-package json-mode)
+(use-package jq-format)
 (use-package csv-mode)
 
 (use-package yaml-mode
