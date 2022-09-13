@@ -162,6 +162,7 @@
 
 (use-package xref
   :ensure nil
+  :custom (xref-search-program 'ripgrep)
   :config
   (defun xref-find-references-other-window (identifier)
     "Like `xref-find-references' but switch to the other window"
