@@ -19,9 +19,10 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(horizontal-scroll-bar-mode -1)
+(when window-system
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+  (horizontal-scroll-bar-mode -1))
 
 (setq package-enable-at-startup nil)
 
