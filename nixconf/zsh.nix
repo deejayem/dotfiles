@@ -49,7 +49,7 @@
       mv = "mv -iv";
       mkdir = "mkdir -v";
       pp = "pushbullet push \"Pixel\" link \"\${1}\" \"\${1}\"";
-      upgrade_emacs = "emacs -Q --batch -L \"~/.emacs.d/lisp/\" -l \"init-packages.el\" --eval \"(my/upgrade-packages)\"";
+      upgrade_emacs = "emacs -Q --batch -L \"~/.emacs.d/lisp/\" -l \"init-packages.el\" -f \"my/upgrade-packages\"";
 
       # Git log aliases from the omz git plugin
       gl = "git pull";
