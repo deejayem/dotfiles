@@ -6,7 +6,11 @@
 
 (use-package emacs
   :config
-  (set-face-attribute 'default nil :font "iosevka comfy")
+  (cond
+   ((find-font (font-spec :name "iosevka comfy"))
+    (set-face-attribute 'default nil :font "iosevka comfy"))
+   ((find-font (font-spec :name "iosevka"))
+    (set-face-attribute 'default nil :font "iosevka")))
 
   ;; https://github.com/rougier/elegant-emacs/blob/master/sanity.el
   (setq inhibit-startup-screen t
