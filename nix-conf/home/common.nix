@@ -6,6 +6,10 @@
   ];
 
   home.packages = with pkgs; [
+    aspell
+    aspellDicts.en
+    aspellDicts.en-computers
+    aspellDicts.en-science
     bat
     bottom
     broot
@@ -24,6 +28,7 @@
     gopass
     gopass-jsonapi
     heroku
+    ispell
     isync
     jq
     lscolors
@@ -38,7 +43,7 @@
     nix-info
     nix-prefetch-git
     nix-prefetch-github
-    #pinentry
+    pinentry
     #procs
     libqalculate
     ripgrep
