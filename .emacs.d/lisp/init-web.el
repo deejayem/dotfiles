@@ -17,16 +17,9 @@
     (sp-local-tag "%" "<% "  " %>")
     (sp-local-tag "=" "<%= " " %>")
     (sp-local-tag "#" "<%# " " %>"))
-  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.hbs\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.blade\\.php\\'" . web-mode))
+  :init
   (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("/\\(views\\|html\\|theme\\|templates\\)/.*\\.php\\'" . web-mode)))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode)))
 
 (use-package css-mode
   :custom
@@ -49,7 +42,7 @@
   :hook (html-mode . (lambda () (tagedit-mode 1))))
 
 (use-package js2-mode
-  :config
+  :init
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
   :custom
   (js-indent-level 2)
@@ -60,7 +53,7 @@
                       (subword-mode +1))))
 
 (use-package mustache-mode
-  :config
+  :init
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . mustache-mode)))
 
 (provide 'init-web)

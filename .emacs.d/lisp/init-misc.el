@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package exec-path-from-shell
+  :defer 5
   :if (memq window-system '(mac ns))
   :custom
   (exec-path-from-shell-arguments '("-l"))
@@ -11,7 +12,7 @@
 
 (use-package envrc
  :diminish
- :config
+ :init
  (envrc-global-mode))
 
 (use-package restclient

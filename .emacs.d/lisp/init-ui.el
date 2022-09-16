@@ -138,8 +138,12 @@
   (eshell-mode . (lambda () (whitespace-mode -1))))
 
 (use-package volatile-highlights
+  :defer 10
   :diminish
   :config
+  (vhl/define-extension 'undo-tree 'undo-tree-yank 'undo-tree-move)
+  (vhl/install-extension 'undo-tree)
+  :init
   (volatile-highlights-mode t))
 
 (use-package idle-highlight-mode
@@ -163,6 +167,7 @@
   :diminish)
 
 (use-package repeat
+  :defer 5
   :config
   (repeat-mode +1)
   (defvar buffer-repeat-map
@@ -174,23 +179,16 @@
     (put cmd 'repeat-map 'buffer-repeat-map)))
 
 (use-package pulsar
+  :defer 5
   :custom
-  (pulsar-pulse-on-window-change t)
   (pulsar-pulse t)
   (pulsar-iterations 80)
   (pulsar-face 'pulsar-red)
-  (pulsar-pulse-functions '(recenter-top-bottom
-                            move-to-window-line-top-bottom
-                            reposition-window
-                            forward-page
-                            backward-page
-                            scroll-up-command
-                            scroll-down-command))
   :hook
   (isearch-update-post-hook . pulsar-pulse-line)
   (consult-after-jump-hook . pulsar-pulse-line)
   :bind ("C-c c p" . pulsar-pulse-line)
-  :init
+  :config
   (pulsar-global-mode 1))
 
 (provide 'init-ui)
