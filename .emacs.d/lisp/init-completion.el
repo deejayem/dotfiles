@@ -53,7 +53,7 @@
   (setq tab-always-indent 'complete))
 
 (use-package orderless
-  :bind (:map minibuffer-local-completion-map
+  :bind (:map minibuffer-local-map
               ("C-l" . my/orderless-match-components-literally))
   :custom (orderless-component-separator 'orderless-escapable-split-on-space)
   :init
