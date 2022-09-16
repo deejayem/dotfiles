@@ -127,5 +127,28 @@ char."
   ("C-c C-M-r" . rg-menu)
   ("C-c C-M-R" . rg))
 
+(use-package gumshoe
+  :defer 5
+  :after perspective
+  :diminish global-gumshoe-persp-mode
+  :custom (gumshoe-show-footprints-p nil)
+  :config
+  (global-gumshoe-persp-mode +1)
+  (defvar gumshoe-repeat-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "]") #'gumshoe-buf-backtrack-forward)
+      (define-key map (kbd "[") #'gumshoe-buf-backtrack-back)
+      (define-key map (kbd "}") #'gumshoe-persp-backtrack-forward)
+      (define-key map (kbd "{") #'gumshoe-persp-backtrack-back)
+      map))
+  (dolist (cmd '(gumshoe-buf-backtrack-forward gumshoe-buf-backtrack-back gumshoe-persp-backtrack-forward gumshoe-persp-backtrack-back))
+    (put cmd 'repeat-map 'gumshoe-repeat-map))
+  :bind
+  ("C-c ]" . gumshoe-buf-backtrack-forward)
+  ("C-c [" . gumshoe-buf-backtrack-back)
+  ("C-c }" . gumshoe-persp-backtrack-forward)
+  ("C-c {" . gumshoe-persp-backtrack-back)
+  ("C-c '" . gumshoe-peruse-in-persp))
+
 (provide 'init-navigation)
 ;;; init-navigation.el ends here
