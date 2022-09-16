@@ -2,67 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(defvar-local goto-char--last-char nil)
-(use-package emacs
-  :config
-  (defun goto-char-forward (arg char)
-    "Move forward to char in line.
-If a C-u prefix argument is given, it is not restricted to the current line.
-If a numeric prefix argument N is given, move forward N instances of char."
-    (interactive "P\ncGo to char: ")
-    (setq goto-char--last-char char)
-    (goto-char--move-forward arg))
-
-  (defun goto-char-forward-repeat-last (arg)
-    "Move forward in line to char last used in a goto-char command.
-If a C-u prefix argument is given, it is not restricted to the current line.
-If a numeric prefix argument N is given, move forward N instances of the last
-used char."
-    (interactive "P")
-    (goto-char--move-forward arg))
-
-  (defun goto-char-backward (arg char)
-    "Move forward to char in line.
-If a C-u prefix argument is given, it is not restricted to the current line.
-If a numeric prefix argument N is given, move back N instances of char."
-    (interactive "P\ncGo to char (backward):")
-    (setq goto-char--last-char char)
-    (goto-char--move-backward arg))
-
-  (defun goto-char-backward-repeat-last (arg)
-    "Move backward in line to char last used in a goto-char command.
-If a C-u prefix argument is given, it is not restricted to the current line.
-If a numeric prefix argument N is given, move back N instances of the last used
-char."
-    (interactive "P")
-    (goto-char--move-backward arg))
-
-  (defun goto-char--move-forward (arg)
-    (when goto-char--last-char
-      (let ((count (if (consp arg)
-                       2 ;; C-u -> 2 (i.e. first match on any line)
-                       (if (equal (char-after) goto-char--last-char)
-                           (1+ (or arg 1)) ;; skip over the char after the cursor, if needed
-                         arg)))
-            (end-position (unless (consp arg)
-                            (line-end-position))))
-        (when (search-forward (string goto-char--last-char) end-position t count)
-          (backward-char)))))
-
-  (defun goto-char--move-backward (arg)
-    (when goto-char--last-char
-      (let ((count (unless (consp arg)
-                     arg))
-            (start-position (unless (consp arg)
-                              (line-beginning-position))))
-        (search-backward (string goto-char--last-char) start-position t count))))
-
-  :bind
-  ("C-'" . goto-char-forward)
-  ("C-;" . goto-char-backward)
-  ("C-@" . goto-char-forward-repeat-last)
-  ("C-:" . goto-char-backward-repeat-last))
-
 (use-package avy
   :config
   ;; https://karthinks.com/software/avy-can-do-anything/#avy-plus-embark-any-action-anywhere
@@ -76,7 +15,8 @@ char."
     t)
   (add-to-list 'avy-dispatch-alist '(111 . avy-action-embark))
   :bind
-  ("M-`" . avy-goto-char-timer))
+  ("C-'" . avy-goto-char-timer)
+  ("C-;" . avy-goto-char-in-line))
 
 (use-package smartscan
   :config
