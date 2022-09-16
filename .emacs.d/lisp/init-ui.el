@@ -67,12 +67,12 @@
    `(font-lock-type-face ((t (:foreground "PaleGreen2"))))
    `(font-lock-string-face ((t (:foreground "SpringGreen3"))))
    `(font-lock-comment-face ((t (:foreground "burlywood"))))
-   `(font-lock-doc-face ((t :foreground "LightCyan3"))) ;; "#bfebe0""LightCyan3""PaleTurquoise2""PaleTurquoise3""LightCyan2""LightSteelBlue3""pale turquoise""LightSteelBlue" "wheat" "burlywood3" "LightCyan"
+   `(font-lock-doc-face ((t :foreground "LightCyan3")))
    `(region ((t (:background "firebrick"))))
-   `(secondary-selection ((t (:background "firebrick4")))) ;; coral tomato
+   `(secondary-selection ((t (:background "firebrick4"))))
    `(idle-highlight ((t (:background "grey50" :foreground "white"))))
    `(isearch ((t (:background "coral2"))))
-   `(lazy-highlight ((t (:background "coral4"))))
+   `(lazy-highlight ((t (:background "LightSteelBlue2" :foreground "black"))))
    `(match ((t (:background "gray35" :foreground "grey85"))))
    `(lsp-face-highlight-textual ((t (:background "DimGrey"))))
    `(whitespace-empty ((t (:background "gray10"))))
@@ -112,7 +112,6 @@
   :custom
   (hl-todo-keyword-faces
    '(("TODO"   . "red3")
-     ("djm"    . "green")
      ("FIXME"  . "red3")
      ("DEBUG"  . "#A020F0")
      ("GOTCHA" . "#FF4500")
