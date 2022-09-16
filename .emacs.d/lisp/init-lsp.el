@@ -43,6 +43,7 @@
         lsp-log-io nil
         lsp-lens-enable t
         lsp-headerline-breadcrumb-enable t
+        lsp-idle-delay 1.000
         lsp-enable-symbol-highlighting t
         lsp-headerline-breadcrumb-enable-diagnostics nil
         lsp-modeline-code-actions-enable nil
