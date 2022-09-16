@@ -23,10 +23,6 @@
 (use-package es-mode
   :mode "\.es\'")
 
-(use-package miniedit
-  :commands minibuffer-edit
-  :init (miniedit-install))
-
 (use-package json-mode)
 (use-package jq-format)
 (use-package csv-mode)
