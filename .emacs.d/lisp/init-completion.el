@@ -84,39 +84,51 @@ candidate, in that order, at the beginning of words, with
 no words in between, beginning with the first word."
     (orderless-strict-initialism component t))
 
+  ;; based on https://github.com/minad/consult/wiki#minads-orderless-configuration
+  (defvar +orderless-dispatch-alist
+    '((?% . char-fold-to-regexp)
+      (?! . orderless-without-literal)
+      (?` . orderless-strict-initialism)
+      (?= . orderless-literal)
+      (?_ . orderless-prefix)
+      (?~ . orderless-flex)))
+
+  (defun +orderless--suffix-regexp ()
+    (if (and (boundp 'consult--tofu-char) (boundp 'consult--tofu-range))
+        (format "[%c-%c]*$"
+                consult--tofu-char
+                (+ consult--tofu-char consult--tofu-range -1))
+      "$"))
+
   ;; Recognizes the following patterns:
   ;; * ~flex flex~
   ;; * =literal literal=
+  ;; * _prefix prefix_
   ;; * %char-fold char-fold%
-  ;; * `initialism initialism`
+  ;; * `strict-initialism strict-initialism`
   ;; * !without-literal without-literal!
   ;; * .ext (file extension)
   ;; * regexp$ (regexp matching at end)
-  (defun my/orderless-dispatch (pattern _index _total)
+  (defun +orderless-dispatch (word _index _total)
     (cond
      ;; Ensure that $ works with Consult commands, which add disambiguation suffixes
-     ((string-suffix-p "$" pattern) `(orderless-regexp . ,(concat (substring pattern 0 -1) "[\x100000-\x10FFFD]*$")))
+     ((string-suffix-p "$" word)
+      `(orderless-regexp . ,(concat (substring word 0 -1) (+orderless--suffix-regexp))))
      ;; File extensions
-     ((string-match-p "\\`\\.." pattern) `(orderless-regexp . ,(concat "\\." (substring pattern 1) "[\x100000-\x10FFFD]*$")))
+     ((and (or minibuffer-completing-file-name
+               (derived-mode-p 'eshell-mode))
+           (string-match-p "\\`\\.." word))
+      `(orderless-regexp . ,(concat "\\." (substring word 1) (+orderless--suffix-regexp))))
      ;; Ignore single !
-     ((string= "!" pattern) `(orderless-literal . ""))
-     ;; Character folding
-     ((string-prefix-p "%" pattern) `(char-fold-to-regexp . ,(substring pattern 1)))
-     ((string-suffix-p "%" pattern) `(char-fold-to-regexp . ,(substring pattern 0 -1)))
-     ;; Without literal
-     ((string-prefix-p "!" pattern) `(orderless-without-literal . ,(substring pattern 1)))
-     ((string-suffix-p "!" pattern) `(orderless-without-literal . ,(substring pattern 0 -1)))
-     ;; Initialism matching
-     ((string-prefix-p "`" pattern) `(orderless-strict-leading-initialism . ,(substring pattern 1)))
-     ((string-suffix-p "`" pattern) `(orderless-strict-leading-initialism . ,(substring pattern 0 -1)))
-     ;; Literal matching
-     ((string-prefix-p "=" pattern) `(orderless-literal . ,(substring pattern 1)))
-     ((string-suffix-p "=" pattern) `(orderless-literal . ,(substring pattern 0 -1)))
-     ;; Flex matching
-     ((string-prefix-p "~" pattern) `(orderless-flex . ,(substring pattern 1)))
-     ((string-suffix-p "~" pattern) `(orderless-flex . ,(substring pattern 0 -1)))))
-  (setq orderless-matching-styles '(orderless-literal orderless-prefixes orderless-regexp orderless-strict-leading-initialism)
-        orderless-style-dispatchers '(my/orderless-dispatch)))
+     ((equal "!" word) `(orderless-literal . ""))
+     ;; Prefix and suffix
+     ((if-let (x (assq (aref word 0) +orderless-dispatch-alist))
+          (cons (cdr x) (substring word 1))
+        (when-let (x (assq (aref word (1- (length word))) +orderless-dispatch-alist))
+          (cons (cdr x) (substring word 0 -1)))))))
+
+  (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-leading-initialism)
+        orderless-style-dispatchers '(+orderless-dispatch)))
 
 ;; code completion - corfu
 (use-package corfu
