@@ -67,14 +67,22 @@
     (setq-local orderless-matching-styles '(orderless-literal)
                 orderless-style-dispatchers nil))
   :config
+  (defun orderless-strict-initialism (component &optional leading)
+    "Match a component as a strict leading initialism.
+This means the characters in COMPONENT must occur in the
+candidate, in that order, at the beginning of words, with
+no words in between. If LEADING is non-nil, anchor to the
+first word."
+    (orderless--separated-by '(seq (zero-or-more word) (zero-or-more punct))
+      (cl-loop for char across component collect `(seq word-start ,char))
+      (when leading '(seq buffer-start))))
+
   (defun orderless-strict-leading-initialism (component)
     "Match a component as a strict leading initialism.
 This means the characters in COMPONENT must occur in the
 candidate, in that order, at the beginning of words, with
 no words in between, beginning with the first word."
-    (orderless--separated-by '(seq (zero-or-more word) (zero-or-more punct))
-      (cl-loop for char across component collect `(seq word-start ,char))
-      '(seq string-start)))
+    (orderless-strict-initialism component t))
 
   ;; Recognizes the following patterns:
   ;; * ~flex flex~
