@@ -40,6 +40,7 @@
     mpv
     mu
     neovim
+    nixfmt
     nix-info
     nix-prefetch-git
     nix-prefetch-github
