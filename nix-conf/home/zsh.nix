@@ -108,14 +108,9 @@
       
       set -o noclobber append_history share_history
 
-      test -e "~/.iterm2_shell_integration.zsh" && source "~/.iterm2_shell_integration.zsh" || true
-      
-      if [ "$(uname 2> /dev/null)" = "Darwin" ]; then
-        #colima status 2>/dev/null || ( nohup colima start & ) >/dev/null 2>&1
-	pgrep -q openvpn || ( pushd ~/otm-vpn ; nohup sudo -C 20 openvpn --config otm.ovpn --auth-user-pass <(gpg -qd ~/otm-vpn/vpn_creds.txt.gpg) & ; popd ) >/dev/null 2>&1
-      fi
-
       function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
+
+      [[ ! -f ~/.zsh.local ]] || source ~/.zsh.local
 
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
     '';
