@@ -118,7 +118,10 @@
   :bind
   (:map cider-mode-map ("C-c M-l" . cider-load-file))
   (:map clojure-mode-map
+        ("C-c C-r C-m" . run-main)
+        ("C-c M-j" . cider-jack-in-and-run-main)
         ("C-x p q" . project-clojure-test-switch)
+        ("C-c C-M-c" . (lambda () (interactive) (cider-clear-compilation-highlights t)))
         ("C->" . cider-find-dwim-other-window))
   :hook
   (cider-repl-mode . cider-repl-mode-hook-fn)
