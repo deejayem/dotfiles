@@ -42,6 +42,7 @@
 
 
 (use-package sqlup-mode
+  :diminish
   :hook
   (sql-mode . sqlup-mode)
   (sql-interactive-mode . sqlup-mode)
