@@ -66,13 +66,11 @@
   ("M-Z" . zop-to-char))
 
 (use-package savehist
-  :defer 3
   :custom
   (savehist-additional-variables '(search-ring regexp-search-ring))
   (savehist-autosave-interval 60)
   (savehist-file (expand-file-name "savehist" save-dir))
-  :config
-  (savehist-mode +1))
+  :hook (after-init . savehist-mode))
 
 (use-package super-save
   :defer 5
@@ -85,15 +83,14 @@
   (add-to-list 'super-save-hook-triggers 'find-file-hook))
 
 (use-package recentf
-  :defer 10
   :config
-  (recentf-mode +1)
   (add-to-list 'recentf-exclude (expand-file-name "elpa" user-emacs-directory))
   :custom
   (recentf-save-file (expand-file-name "recentf" save-dir))
   (recentf-max-saved-items 300)
   (recentf-max-menu-items 20)
-  (recentf-auto-cleanup (* 60 60)))
+  (recentf-auto-cleanup (* 60 60))
+  :hook (after-init . recentf-mode))
 
 (use-package flycheck
   :config

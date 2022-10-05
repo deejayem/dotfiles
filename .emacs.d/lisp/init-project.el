@@ -72,8 +72,6 @@
   ("C-x f" . project-recentf))
 
 (use-package perspective
-  ;; Don't restart persp-mode when re-evaluating, as it clears the current persp list
-  :init (or persp-mode (persp-mode))
   :custom (persp-mode-prefix-key (kbd "C-c x"))
   :config
   ;; Based on jao-buffer-same-mode (https://jao.io/blog/2021-09-08-high-signal-to-noise-emacs-command.html)
@@ -138,7 +136,8 @@ mode as the current buffer (or do nothing)."
   ("C-x 4 C-b" . persp-previous-buffer-same-mode-other-window)
   ("C-x C-S-b" . persp-switch-buffer-same-mode)
   ("C-c x x" . persp-switch-last)
-  ("C-c x ." . persp-switch-quick))
+  ("C-c x ." . persp-switch-quick)
+  :hook (after-init . persp-mode))
 
 (provide 'init-project)
 ;;; init-project.el ends here
