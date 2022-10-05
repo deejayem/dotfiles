@@ -242,7 +242,7 @@ DEFS is a plist associating completion categories to commands."
   (defun consult-line-symbol-at-point ()
     (interactive)
     (consult-line (thing-at-point 'symbol)))
-  (defun consult-parent-ripgrep (&optional initial)
+  (defun consult-ripgrep-parent (&optional initial)
     (interactive "P")
     (consult-ripgrep (file-name-directory (directory-file-name (persp-current-project-root))) initial))
   (defvar consult--fd-command nil)
