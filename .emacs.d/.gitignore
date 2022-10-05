@@ -31,3 +31,6 @@ var/
 .lsp-session*
 lisp/init-local.el
 site-lisp
+straight
+elpa
+eln-cache
