@@ -4,7 +4,6 @@
 ;;; Code:
 
 (use-package org
-  :ensure nil
   :init
   ;; TODO - can we do this with sp-wrap-with-pair?
   (defmacro define-org-wrap (name char)
