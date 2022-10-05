@@ -19,6 +19,7 @@
         initial-scratch-message nil)
 
   (blink-cursor-mode -1)
+  (setq-default cursor-type 'bar)
 
   (setq whitespace-line-column 120)
   (setq show-trailing-whitespace t)
