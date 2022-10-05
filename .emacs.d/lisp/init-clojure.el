@@ -66,9 +66,23 @@
 (use-package cider
   :diminish
   :config
+  (defvar cider-main-function "-main")
   (defun cider-repl-mode-hook-fn ()
     (display-line-numbers-mode -1)
     (subword-mode +1))
+  (defun run-and-unhook ()
+    (remove-hook 'cider-connected-hook 'run-and-unhook)
+    (run-main))
+  (defun run-main ()
+    (interactive)
+    (cider-insert-in-repl (concat "(" cider-main-function ")") t))
+  (defun cider-jack-in-and-run-main (arg &rest params)
+    (interactive "P")
+    (if (equal current-prefix-arg '(4))
+        (progn
+          (add-hook 'cider-connected-hook 'run-and-unhook)
+          (cider-jack-in params))
+      (cider-jack-in params)))
   (define-abbrev-table 'cider-repl-mode-abbrev-table
     '(("scl" "(eval `(sc.api/defsc ~(sc.api/last-ep-id)))" cider-repl-return)
       ("scs" "(sc.api/defsc*)" cider-repl-return)
