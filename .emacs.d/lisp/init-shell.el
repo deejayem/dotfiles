@@ -7,6 +7,7 @@
   :bind ("C-x m " . eshell)
   :hook
   (eshell-pre-command . eshell-save-some-history)
+  (eshell-mode-hook . (lambda () (setenv "TERM" "xterm-256color")))
   :custom
   (eshell-directory-name (expand-file-name "eshell" save-dir))
   :config
