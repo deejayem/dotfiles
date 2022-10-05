@@ -424,7 +424,10 @@ DEFS is a plist associating completion categories to commands."
    ("C-h b" . embark-bindings)
    ("C-h B" . describe-bindings)
    (:map minibuffer-local-map
-         ("M-." . embark-preview)))
+         ("M-." . embark-preview))
+   (:map embark-become-file+buffer-map
+         ("e" . consult-project-extra-find)
+         ("E" . project-switch-consult-project-extra-find)))
   :init
   (setq prefix-help-command #'embark-prefix-help-command)
   :config
@@ -446,6 +449,10 @@ DEFS is a plist associating completion categories to commands."
   :demand t ; only necessary if you have the hook below
   ;; if you want to have consult previews as you move around an
   ;; auto-updating embark collect buffer
+  :bind
+  (:map embark-consult-async-search-map
+        ("^" . consult-ripgrep-parent)
+        ("R" . consult-ripgrep-unrestricted))
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
