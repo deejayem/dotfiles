@@ -3,7 +3,25 @@
 ;;; Code:
 
 (use-package crux
+  :defer 5
   :commands crux-start-or-switch-to
+  :config
+  (defmacro crux-with-region-or-sexp-or-line (func)
+    "When called with no active region, call FUNC on current sexp."
+    `(defadvice ,func (before with-region-or-sexp-or-line activate compile)
+       (interactive
+        (cond
+         (mark-active (list (region-beginning) (region-end)))
+         ((in-string-p) (flatten-list (bounds-of-thing-at-point 'string)))
+         ((thing-at-point 'list) (flatten-list (bounds-of-thing-at-point 'list)))
+         (t (list (line-beginning-position) (line-beginning-position 2)))))))
+
+  (crux-with-region-or-sexp-or-line sp-kill-region)
+  (crux-with-region-or-sexp-or-line paredit-kill-region)
+  (crux-with-region-or-buffer shell-command-on-region)
+  (crux-with-region-or-buffer indent-region)
+  (crux-with-region-or-buffer untabify)
+  (crux-with-region-or-line comment-or-uncomment-region)
   :bind
   ("C-^" . crux-top-join-line)
   ("C-<backspace>" . crux-kill-line-backwards)
