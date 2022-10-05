@@ -129,7 +129,10 @@
   :defer 5
   :ensure nil
   :diminish
-  :hook (text-mode . abbrev-mode))
+  :hook
+  (text-mode . abbrev-mode)
+  (prog-mode . abbrev-mode)
+  (cider-repl-mode . abbrev-mode))
 
 (use-package tabify
   :ensure nil
