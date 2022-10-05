@@ -75,6 +75,7 @@
   (savehist-mode +1))
 
 (use-package super-save
+  :defer 5
   :diminish
   :custom
   (super-save-remote-files nil)
