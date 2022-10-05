@@ -65,9 +65,9 @@
   (uniquify-buffer-name-style 'forward))
 
 (use-package fullframe
-  :after magit
+  :defer 8
   :config
-  (fullframe magit-status magit-mode-quit-window)
+  (fullframe magit-status magit-mode-bury-buffer)
   (fullframe vc-annotate quit-window))
 
 (use-package ace-window
