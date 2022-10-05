@@ -134,19 +134,6 @@
   (prog-mode . abbrev-mode)
   (cider-repl-mode . abbrev-mode))
 
-(use-package tabify
-  :ensure nil
-  :config
-  (defmacro with-region-or-buffer (func)
-    "When called with no active region, call FUNC on current buffer."
-    `(defadvice ,func (before with-region-or-buffer activate compile)
-       (interactive
-        (if mark-active
-            (list (region-beginning) (region-end))
-          (list (point-min) (point-max))))))
-  (with-region-or-buffer indent-region)
-  (with-region-or-buffer untabify))
-
 (use-package subword
   :diminish)
 
