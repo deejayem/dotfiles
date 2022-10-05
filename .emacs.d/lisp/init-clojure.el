@@ -13,6 +13,14 @@
   :config
   (require 'flycheck-clj-kondo)
   (subword-mode +1)
+  (define-abbrev-table 'clojure-mode-abbrev-table
+    '(("scs" "#sc/spy")
+      ("scp" "#spy/p")
+      ("scd" "#spy/d")
+      ("sct" "#spy/t")
+      ("ms" "(miracle.save/save)" backward-char)
+      ("ddb" "#d/dbg")
+      ("dbn" "#d/dbgn")))
 
   ;; https://github.com/weavejester/compojure/wiki/Emacs-indentation
   (define-clojure-indent
@@ -59,6 +67,21 @@
   (defun cider-repl-mode-hook-fn ()
     (display-line-numbers-mode -1)
     (subword-mode +1))
+  (define-abbrev-table 'cider-repl-mode-abbrev-table
+    '(("scl" "(eval `(sc.api/defsc ~(sc.api/last-ep-id)))" cider-repl-return)
+      ("scs" "(sc.api/defsc*)" cider-repl-return)
+      ("scd" "(sc.api/defsc)" backward-char)
+      ("ms" "(use 'miracle.save)" cider-repl-return)
+      ("ld" "(ld)" backward-char)
+      ("ps" "(print-saves)" backward-char)
+      ("sv" "(save-var*)" backward-char)
+      ("usv" "(unsave-var*)" backward-char)
+      ("sn" "(save-ns*)" backward-char)
+      ("usn" "(unsave-ns*)" backward-char)
+      ("fs" "@f-saves")
+      ("ldf" "(ld)" backward-char)
+      ("pfs" "(print-f-saves)" backward-char)
+      ("scr" "(use 'spyscope.repl)" cider-repl-return)))
   (setq cider-repl-pop-to-buffer-on-connect 'display-only
         cider-repl-display-help-banner nil
         cider-repl-history-highlight-current-entry t
