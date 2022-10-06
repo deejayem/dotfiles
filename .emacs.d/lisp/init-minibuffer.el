@@ -33,7 +33,8 @@
 (use-package vertico
   :init
   (vertico-mode)
-  (setq vertico-cycle t)
+  :custom (vertico-cycle t)
+  :config
   (advice-add #'vertico--format-candidate :around
               (lambda (orig cand prefix suffix index start)
                 (setq cand (funcall orig cand prefix suffix index start))
@@ -42,7 +43,6 @@
                      (propertize "» " 'face 'vertico-current)
                    "  ")
                  cand)))
-  :config
   (defun define-vertico-key (key &rest defs)
     "Define KEY conditionally in the vertico keymap.
 DEFS is a plist associating completion categories to commands."
