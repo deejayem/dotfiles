@@ -169,7 +169,8 @@
 (use-package repeat
   :defer 5
   :config
-  (repeat-mode +1)
+  (let ((inhibit-message t))
+    (repeat-mode +1))
   (defvar buffer-repeat-map
     (let ((map (make-sparse-keymap)))
       (define-key map (kbd "<left>") #'previous-buffer)
