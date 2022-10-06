@@ -6,9 +6,6 @@
   :custom
   (switch-to-buffer-obey-display-actions t)
   :bind
-  ("C-x O" . (lambda ()
-               (interactive)
-               (other-window -1)))
   ("C-x C-M-b" . ibuffer)
   :config
   ;; From EmacsWiki
