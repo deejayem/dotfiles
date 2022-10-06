@@ -184,13 +184,22 @@
   :custom
   (pulsar-pulse t)
   (pulsar-iterations 80)
-  (pulsar-face 'pulsar-red)
+  (pulsar-face 'pulsar-yellow)
   :hook
   (isearch-update-post-hook . pulsar-pulse-line)
   (consult-after-jump-hook . pulsar-pulse-line)
-  :bind ("C-c c p" . pulsar-pulse-line)
-  :config
-  (pulsar-global-mode 1))
+  :bind ("C-c c p" . pulsar-pulse-line))
+
+(use-package beacon
+ :defer 5
+ :diminish
+ :custom
+ (beacon-blink-duration 0.5)
+ (beacon-blink-delay 0.4)
+ (beacon-color "yellow")
+ :bind ("C-c c b" . beacon-blink)
+ :config
+ (beacon-mode 1))
 
 (provide 'init-ui)
 ;;; init-ui.el ends here
