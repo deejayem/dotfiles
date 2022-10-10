@@ -2,9 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package tramp
+(use-feature tramp
   :defer 5
-  :ensure nil
   :custom
   (tramp-default-method "ssh")
   (vc-ignore-dir-regexp

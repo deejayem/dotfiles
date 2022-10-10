@@ -5,7 +5,6 @@
 (require 'subr-x)
 
 (use-package project
-  :ensure nil
   :config
   (defun project--clojure-switch-to-test (filename project-root)
     (let* ((project-src-file (string-remove-prefix project-root filename))

@@ -11,8 +11,7 @@
   (setq dabbrev-case-fold-search t)
   (setq dabbrev-case-replace nil))
 
-(use-package hippie-expand
-  :ensure nil
+(use-feature hippie-expand
   :init
   (setq hippie-expand-try-functions-list
       '(;yas-hippie-try-expand

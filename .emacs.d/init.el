@@ -21,7 +21,8 @@
 (add-hook 'emacs-startup-hook
           (lambda ()
             (message "%s packages loaded in %0.1f seconds"
-                     (length package-activated-list)
+                     ;;(length package-activated-list)
+                     (hash-table-count straight--profile-cache)
                      (string-to-number (emacs-init-time)))))
 
 (add-hook 'after-init-hook #'(lambda ()

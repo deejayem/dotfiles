@@ -6,8 +6,7 @@
 (column-number-mode t)
 ;(size-indication-mode t) ; TODO
 
-(use-package which-func
-  :ensure nil
+(use-feature which-func
   :config
   (which-function-mode 1))
 

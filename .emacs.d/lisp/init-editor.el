@@ -4,7 +4,6 @@
 ;;; Code:
 
 (use-package emacs
-  :ensure nil
   :bind
   ("C-x \\" . align-regexp)
   ("C-+" . text-scale-increase)
@@ -123,9 +122,8 @@
   (undo-tree-history-directory-alist `((".*" . ,temporary-file-directory)))
   (undo-tree-auto-save-history t))
 
-(use-package abbrev
+(use-feature abbrev
   :defer 5
-  :ensure nil
   :diminish
   :hook
   (text-mode . abbrev-mode)
@@ -148,8 +146,7 @@
   :bind
   ("C-c ." . operate-on-number-at-point))
 
-(use-package xref
-  :ensure nil
+(use-feature xref
   :custom (xref-search-program 'ripgrep)
   :config
   (defun xref-find-references-other-window (identifier)

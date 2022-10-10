@@ -3,8 +3,7 @@
 ;; Based on prelude-xml.el
 ;;; Code:
 
-(use-package nxml-mode
-  :ensure nil
+(use-feature nxml-mode
   :config
   (push '("<\\?xml" . nxml-mode) magic-mode-alist)
   (add-to-list 'auto-mode-alist '("\\.pom\\'" . nxml-mode))

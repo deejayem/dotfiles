@@ -2,8 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package dired
-  :ensure nil
+(use-feature dired
   :config
   (put 'dired-find-alternate-file 'disabled nil)
   :custom
@@ -14,8 +13,7 @@
   (dired-kill-when-opening-new-dired-buffer t)
   (wdired-use-dired-vertical-movement 'sometimes))
 
-(use-package dired-x
-  :ensure nil)
+(use-feature dired-x)
 
 (use-package dired-subtree
   :config

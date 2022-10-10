@@ -56,8 +56,7 @@
          ("C-S-<left>" . buf-move-left)
          ("C-S-<right>" . buf-move-right)))
 
-(use-package uniquify
-  :ensure nil
+(use-feature uniquify
   :custom
   (uniquify-buffer-name-style 'forward))
 

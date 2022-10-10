@@ -2,8 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package sql
-  :ensure nil
+(use-feature sql
   :commands add-sql-connection
   :config
   ;; partially inspired by https://dev.to/viglioni/emacs-as-sql-client-with-lsp-143l (but currently only works for postgres)

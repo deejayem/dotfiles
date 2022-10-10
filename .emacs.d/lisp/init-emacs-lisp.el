@@ -5,8 +5,7 @@
 
 (require 'init-lisp)
 
-(use-package eldoc
-  :ensure nil
+(use-feature eldoc
   :diminish)
 
 (use-package elisp-slime-nav

@@ -2,8 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package isearch
-  :ensure nil
+(use-feature isearch
   :custom
   (search-whitespace-regexp ".*\\b")
   (isearch-lax-whitespace t)

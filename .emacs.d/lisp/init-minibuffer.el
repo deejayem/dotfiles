@@ -31,6 +31,8 @@
         #'command-completion-default-include-p))
 
 (use-package vertico
+  :straight (vertico :files (:defaults "extensions/*")
+                     :includes (vertico-directory vertico-repeat))
   :init
   (vertico-mode)
   :custom (vertico-cycle t)
@@ -95,8 +97,7 @@ DEFS is a plist associating completion categories to commands."
          ("C-M-S-g" . minibuffer-really-quit)
          (:map vertico-map ("M-RET" . minibuffer-force-complete-and-exit))))
 
-(use-package vertico-directory
-  :ensure nil
+(use-feature vertico-directory
   :after vertico
   :init
   (defvar switching-project nil)
@@ -144,8 +145,7 @@ DEFS is a plist associating completion categories to commands."
   ;; Tidy shadowed file names
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
-(use-package vertico-repeat
-  :ensure nil
+(use-feature vertico-repeat
   :bind ("M-P" . vertico-repeat))
 
 (use-package consult
