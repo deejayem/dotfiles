@@ -2,8 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(defvar initial-features features)
-
 (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                          ("melpa-stable" . "https://stable.melpa.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
@@ -47,7 +45,7 @@
   "Safely run straight lockfile-related function `FUNC'.
 This will set `features' back the value it had before loading straight, to ensure
 that everything loaded by `require' or `use-package' is re-loaded."
-  (setq features initial-features)
+  (setq features (seq-filter '(lambda (elt) (not (string-prefix-p "init-" (prin1-to-string elt)))) features))
   (funcall func))
 
 (defun my/upgrade-packages ()
@@ -56,7 +54,7 @@ that everything loaded by `require' or `use-package' is re-loaded."
   (straight-pull-recipe-repositories) ;; TODO is this needed?
   (straight-x-fetch-all)
   (straight-merge-all)
-  (straight-check-all)
+  (run-straight-lock-file-function 'straight-check-all)
   ;; Do this automatically, as we can always revert and thaw
   (run-straight-lock-file-function 'straight-freeze-versions))
 
