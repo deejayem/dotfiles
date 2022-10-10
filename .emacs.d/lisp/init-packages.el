@@ -48,6 +48,7 @@ that everything loaded by `require' or `use-package' is re-loaded."
   (setq features (seq-filter '(lambda (elt) (not (string-prefix-p "init-" (prin1-to-string elt)))) features))
   (funcall func))
 
+;; emacs --batch -l "~/.emacs.d/init.el" -f "my/upgrade-packages"
 (defun my/upgrade-packages ()
   "Upgrade all packages installed with straight."
   (interactive)
@@ -58,6 +59,7 @@ that everything loaded by `require' or `use-package' is re-loaded."
   ;; Do this automatically, as we can always revert and thaw
   (run-straight-lock-file-function 'straight-freeze-versions))
 
+;; emacs --batch -l "~/.emacs.d/init.el" -f "my/thaw-packages"
 (defun my/thaw-packages ()
   "Restore all packages to the versions in the straight lockfile."
   (interactive)
