@@ -84,6 +84,7 @@
 (use-package recentf
   :config
   (add-to-list 'recentf-exclude (expand-file-name "elpa" user-emacs-directory))
+  (add-to-list 'recentf-exclude (expand-file-name "straight" user-emacs-directory))
   :custom
   (recentf-save-file (expand-file-name "recentf" save-dir))
   (recentf-max-saved-items 300)
