@@ -39,5 +39,12 @@
         ([remap isearch-query-replace] . anzu-isearch-query-replace)
         ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp)))
 
+(use-package rg
+  :bind
+  ("C-c C-M-S-r" . rg-menu)
+  ("C-c C-M-r" . rg))
+
+(use-package deadgrep)
+
 (provide 'init-search)
 ;;; init-search.el ends here

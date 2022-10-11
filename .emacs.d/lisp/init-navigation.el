@@ -62,11 +62,6 @@
   ("C-c Z" . my/affe-find-symbol-at-point)
   ("C-~" . my/affe-grep-symbol-at-point))
 
-(use-package rg
-  :bind
-  ("C-c C-M-r" . rg-menu)
-  ("C-c C-M-R" . rg))
-
 (use-package gumshoe
   :defer 5
   :after perspective
