@@ -2,8 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package eshell
-  :ensure nil
+(use-feature eshell
   :bind ("C-x m " . eshell)
   :hook
   (eshell-pre-command . eshell-save-some-history)
