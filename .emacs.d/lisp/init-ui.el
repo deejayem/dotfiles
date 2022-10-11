@@ -201,5 +201,14 @@
  :config
  (beacon-mode 1))
 
+(use-package helpful
+  :bind (("C-h f" . helpful-callable)
+         ("C-h F" . helpful-function)
+         ("C-h C-f" . helpful-command)
+         ("C-h v" . helpful-variable)
+         ("C-h k" . helpful-key)
+         ("C-h o" . helpful-symbol)
+         ("C-h C-." . helpful-at-point)))
+
 (provide 'init-ui)
 ;;; init-ui.el ends here
