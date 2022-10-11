@@ -48,6 +48,10 @@ that everything loaded by `require' or `use-package' is re-loaded."
   (setq features (seq-filter '(lambda (elt) (not (string-prefix-p "init-" (prin1-to-string elt)))) features))
   (funcall func))
 
+(defun reload-init ()
+  "Reload `user-init-file', ensuring that requires are reloaded."
+  (run-straight-lock-file-function #'(lambda () (load (or user-init-file "~/.emacs.d/init.el") nil 'nomessage))))
+
 ;; emacs --batch -l "~/.emacs.d/init.el" -f "my/upgrade-packages"
 (defun my/upgrade-packages ()
   "Upgrade all packages installed with straight."
@@ -55,7 +59,8 @@ that everything loaded by `require' or `use-package' is re-loaded."
   (straight-pull-recipe-repositories) ;; TODO is this needed?
   (straight-x-fetch-all)
   (straight-merge-all)
-  (run-straight-lock-file-function 'straight-check-all)
+  (reload-init)
+  (straight-check-all)
   ;; Do this automatically, as we can always revert and thaw
   (run-straight-lock-file-function 'straight-freeze-versions))
 
