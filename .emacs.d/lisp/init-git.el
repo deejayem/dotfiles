@@ -49,6 +49,8 @@
   (magit-diff-refine-ignore-whitespace nil)
   (magit-diff-highlight-trailing t))
 
+(use-package magit-todos)
+
 (use-package forge
   :after magit)
 
