@@ -21,12 +21,14 @@
       (eval-defun edebug-it)))
   ;; Based on prelude-emacs-lisp.el
   (defun recompile-init-lisp ()
+    "Recompile elisp files in `user-emacs-directory/lisp'."
+    (interactive)
     (when (and
            (string-prefix-p (expand-file-name "lisp" user-emacs-directory) (file-truename buffer-file-name))
            (file-exists-p (byte-compile-dest-file buffer-file-name)))
       (emacs-lisp-byte-compile)))
   (defun recompile-init-lisp-on-save ()
-    "Recompile your elc when saving an elisp file. (Adds buffer-local hook)"
+    "Recompile your elc when saving an elisp file. (Adds buffer-local hook)."
     (add-hook 'after-save-hook 'recompile-init-lisp nil t))
   ;; From prelude-emacs-lisp.el
   (defun visit-ielm ()
