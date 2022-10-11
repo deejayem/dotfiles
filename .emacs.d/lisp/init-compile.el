@@ -17,5 +17,8 @@
                             (let ((inhibit-read-only t))
                               (ansi-color-apply-on-region (point-min) (point-max)))))))
 
+(use-package winnow
+  :hook (compilation-mode . winnow-mode))
+
 (provide 'init-compile)
 ;;; init-compile.el ends here
