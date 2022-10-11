@@ -67,7 +67,7 @@
       glog = "git log --oneline --decorate --graph";
       gloga = "git log --oneline --decorate --graph --all";
     };
-         
+
     initExtra = ''
       # Taken from prezto tmux plugin
       if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && -z "$SSH_TTY" ]]; then
@@ -87,7 +87,7 @@
         source ~/fzf-git/functions.sh
         source ~/fzf-git/key-binding.zsh
       fi
-      
+
       autopair-init
       enable-fzf-tab
       bindkey '^[[A' history-substring-search-up
@@ -105,7 +105,7 @@
       zstyle ''\':fzf-tab:complete:cd:*''\' fzf-preview ''\'exa -1 --color=always ''$realpath''\'
       # switch group using `,` and `.`
       zstyle ''\':fzf-tab:*''\' switch-group ''\',''\' ''\'.''\'
-      
+
       set -o noclobber append_history share_history
 
       function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
@@ -128,18 +128,18 @@
       }
       {
         name = "zsh-fast-syntax-highlighting";
-	src = zsh-fast-syntax-highlighting;
-	file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
+        src = zsh-fast-syntax-highlighting;
+        file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
       }
       {
         name = "zsh-powerlevel10k";
         src = zsh-powerlevel10k;
-	file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
       }
       {
         name = "zsh-history-substring-search";
-	src = zsh-history-substring-search;
-	file = "share/zsh-history-substring-search/zsh-history-substring-search.zsh";
+        src = zsh-history-substring-search;
+        file = "share/zsh-history-substring-search/zsh-history-substring-search.zsh";
       }
       {
         name = "forgit";
