@@ -3,8 +3,6 @@
 ;; Based on prelude-emacs-lisp.el
 ;;; Code:
 
-(require 'init-lisp)
-
 (use-feature eldoc
   :diminish)
 

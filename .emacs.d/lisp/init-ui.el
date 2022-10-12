@@ -210,5 +210,14 @@
          ("C-h o" . helpful-symbol)
          ("C-h C-." . helpful-at-point)))
 
+;; From https://github.com/jwiegley/dot-emacs/blob/master/init.el
+(use-package eval-expr
+  :bind ("M-:" . eval-expr)
+  :config
+  (defun eval-expr-minibuffer-setup ()
+    (local-set-key (kbd "<tab>") #'lisp-complete-symbol)
+    (set-syntax-table emacs-lisp-mode-syntax-table)
+    (paredit-mode)))
+
 (provide 'init-ui)
 ;;; init-ui.el ends here

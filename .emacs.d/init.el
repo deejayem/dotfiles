@@ -42,7 +42,6 @@
 (require 'init-kill)
 (require 'init-dired)
 (require 'init-smartparens)
-(require 'init-lisp)
 (require 'init-emacs-lisp)
 (require 'init-clojure)
 (require 'init-paredit)
