@@ -40,6 +40,8 @@
 (setq redisplay-skip-fontification-on-input t)
 
 (define-advice load-file (:override (file) silence)
-  (load file nil :nomessage))
+  (load file nil 'nomessage))
+(define-advice startup--load-user-init-file (:before (&rest _) undo-silence)
+  (advice-remove #'load-file #'load-file@silence))
 
 ;;; early-init.el ends here
