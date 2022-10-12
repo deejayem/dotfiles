@@ -20,18 +20,22 @@
 
 (use-package smartscan
   :config
-  (global-smartscan-mode t)
+  (defvar-local smartscan-exclude-modes '(cider-repl-mode
+                                          ielm-mode
+                                          vterm-mode
+                                          term-mode
+                                          ansi-term-mode
+                                          eshell-mode
+                                          shell-mode
+                                          sql-interactive-mode
+                                          compilation-mode
+                                          deadgrep-mode))
+  (defun turn-off-smartscan-mode ()
+    (smartscan-mode -1))
+  (dolist (mode smartscan-exclude-modes)
+    (add-hook (intern (concat (symbol-name mode) "-hook")) #'turn-off-smartscan-mode))
   :hook
-  (cider-repl-mode . (lambda () (smartscan-mode -1)))
-  (ielm-mode . (lambda () (smartscan-mode -1)))
-  (vterm-mode . (lambda () (smartscan-mode -1)))
-  (term-mode . (lambda () (smartscan-mode -1)))
-  (ansi-term-mode . (lambda () (smartscan-mode -1)))
-  (eshell-mode . (lambda () (smartscan-mode -1)))
-  (shell-mode . (lambda () (smartscan-mode -1)))
-  (sql-interactive-mode . (lambda () (smartscan-mode -1)))
-  (compilation-mode . (lambda () (smartscan-mode -1)))
-  (deadgrep-mode . (lambda () (smartscan-mode -1))))
+  (after-init . global-smartscan-mode))
 
 (use-package symbol-overlay
   :bind
