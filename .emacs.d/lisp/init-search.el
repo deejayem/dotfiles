@@ -46,5 +46,32 @@
 
 (use-package deadgrep)
 
+(use-package affe
+  :after (consult orderless)
+  :config
+  (setq affe-grep-command (replace-regexp-in-string "\\." "-Suu ." affe-grep-command))
+  ;; Configure Orderless
+  (defun affe-orderless-regexp-compiler (input _type _ignorecase)
+    (setq input (orderless-pattern-compiler input))
+    (cons input (lambda (str) (orderless--highlight input str))))
+  (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
+  ;; Manual preview key for `affe-grep'
+  (consult-customize affe-grep :preview-key (kbd "M-."))
+  (defun my/affe-grep-symbol-at-point (&optional dir initial)
+    (interactive
+     (list prefix-arg (when-let ((s (symbol-at-point)))
+                        (symbol-name s))))
+    (affe-grep dir initial))
+  (defun my/affe-find-symbol-at-point (&optional dir initial)
+    (interactive
+     (list prefix-arg (when-let ((s (symbol-at-point)))
+                        (symbol-name s))))
+    (affe-find dir initial))
+  :bind
+  ("C-#" . affe-grep)
+  ("C-c z" . affe-find)
+  ("C-c Z" . my/affe-find-symbol-at-point)
+  ("C-~" . my/affe-grep-symbol-at-point))
+
 (provide 'init-search)
 ;;; init-search.el ends here
