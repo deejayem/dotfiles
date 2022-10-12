@@ -194,9 +194,8 @@
  :defer 5
  :diminish
  :custom
- (beacon-blink-duration 0.5)
- (beacon-blink-delay 0.4)
  (beacon-color "yellow")
+ (beacon-push-mark 20)
  :bind ("C-c c b" . beacon-blink)
  :config
  (beacon-mode 1))
