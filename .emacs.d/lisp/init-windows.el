@@ -80,16 +80,18 @@
   :bind (("<f5>"   . popper-toggle-latest)
          ("<f6>"   . popper-cycle)
          ("<f7>" . popper-toggle-type))
-  :init
-  (setq popper-reference-buffers
-        '("\\*Messages\\*"
-          "\\*HTTP Response\\*"
-          "Output\\*$"
-          "\\*Async Shell Command\\*"
-          help-mode
-          compilation-mode))
-  (popper-mode +1)
-  (popper-echo-mode +1))
+  :custom
+  (popper-reference-buffers
+   '("\\*Messages\\*"
+     "\\*HTTP Response\\*"
+     "Output\\*$"
+     "\\*Async Shell Command\\*"
+     help-mode
+     helpful-mode
+     compilation-mode))
+  :hook (emacs-startup . (lambda ()
+                           (popper-mode +1)
+                           (popper-echo-mode +1))))
 
 (provide 'init-windows)
 ;;; init-windows.el ends here
