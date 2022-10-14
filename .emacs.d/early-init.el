@@ -5,8 +5,6 @@
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
 
-(setq load-prefer-newer nil)
-
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
@@ -34,7 +32,6 @@
 (setq-default cursor-in-non-selected-windows nil)
 (setq highlight-nonselected-windows nil)
 (setq fast-but-imprecise-scrolling t)
-(setq ffap-machine-p-known 'reject)
 (setq idle-update-delay 1.0)
 (setq inhibit-compacting-font-caches t)
 (setq redisplay-skip-fontification-on-input t)

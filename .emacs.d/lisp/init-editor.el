@@ -40,8 +40,9 @@
   (setq save-interprogram-paste-before-kill t
         apropos-do-all t
         mouse-yank-at-point t
-        require-final-newline t
-        load-prefer-newer t)
+        require-final-newline t)
+
+  (setq ffap-machine-p-known 'reject)
 
   ;; https://github.com/natecox/dotfiles/blob/master/workspaces/shared/symlinks/emacs/.emacs.d/nathancox.org
   (setq sentence-end-double-space nil)
