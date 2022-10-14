@@ -47,7 +47,6 @@
 (use-package deadgrep)
 
 (use-package affe
-  :after (consult orderless)
   :config
   (setq affe-grep-command (replace-regexp-in-string "\\." "-Suu ." affe-grep-command))
   ;; Configure Orderless

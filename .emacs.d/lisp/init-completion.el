@@ -12,7 +12,7 @@
   (dabbrev-case-replace nil))
 
 (use-feature hippie-expand
-  :init
+  :config
   (setq hippie-expand-try-functions-list
       '(;yas-hippie-try-expand
         try-expand-dabbrev
@@ -25,7 +25,6 @@
         try-expand-line
         try-complete-lisp-symbol-partially
         try-complete-lisp-symbol))
-  :config
   ;; https://www.emacswiki.org/emacs/HippieExpand#h5o-9
   (defadvice he-substitute-string (after he-paredit-fix)
     "Remove extra paren when expanding line in paredit."
@@ -52,20 +51,23 @@
   (setq tab-always-indent 'complete))
 
 (use-package orderless
+  :defer 2
   :bind (:map minibuffer-local-map
               ("C-l" . my/orderless-match-components-literally))
-  :custom (orderless-component-separator 'orderless-escapable-split-on-space)
-  :init
-  (setq completion-styles '(orderless partial-completion basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles . (partial-completion orderless)))))
-
+  :custom
+  (orderless-component-separator 'orderless-escapable-split-on-space)
+  (completion-styles '(orderless partial-completion basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles . (partial-completion orderless)))))
+  (orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-leading-initialism))
+  (orderless-style-dispatchers '(+orderless-dispatch))
+  :config
   (defun my/orderless-match-components-literally ()
     "Components match literally for the rest of the session."
     (interactive)
     (setq-local orderless-matching-styles '(orderless-literal)
                 orderless-style-dispatchers nil))
-  :config
+
   (defun orderless-strict-initialism (component &optional leading)
     "Match a component as a strict leading initialism.
 This means the characters in COMPONENT must occur in the
@@ -124,10 +126,7 @@ no words in between, beginning with the first word."
      ((if-let (x (assq (aref word 0) +orderless-dispatch-alist))
           (cons (cdr x) (substring word 1))
         (when-let (x (assq (aref word (1- (length word))) +orderless-dispatch-alist))
-          (cons (cdr x) (substring word 0 -1)))))))
-
-  (setq orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-leading-initialism)
-        orderless-style-dispatchers '(+orderless-dispatch)))
+          (cons (cdr x) (substring word 0 -1))))))))
 
 ;; code completion - corfu
 (use-package corfu
@@ -139,12 +138,11 @@ no words in between, beginning with the first word."
          ([tab] . corfu-next)
          ("S-TAB" . corfu-previous)
          ([backtab] . corfu-previous))
-  :init
-  (global-corfu-mode))
+  :hook (emacs-startup . global-corfu-mode))
 
 (use-package corfu-doc
-  :config
-  (add-hook 'corfu-mode-hook #'corfu-doc-mode))
+  :hook
+  (corfu-mode . corfu-doc-mode))
 
 (use-package cape
   :bind (("C-c p p" . completion-at-point) ;; capf

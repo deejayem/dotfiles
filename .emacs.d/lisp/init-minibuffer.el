@@ -5,8 +5,12 @@
 ;; Relies on orderless config in init-completion.el
 ;;; Code:
 
-(use-package emacs
-  :init
+(use-package vertico
+  :straight (vertico :files (:defaults "extensions/*")
+                     :includes (vertico-directory vertico-repeat))
+  :hook (emacs-startup . vertico-mode)
+  :custom (vertico-cycle t)
+  :config
   ;; Do not allow the cursor in the minibuffer prompt
   (setq minibuffer-prompt-properties
         '(read-only t cursor-intangible t face minibuffer-prompt))
@@ -28,15 +32,8 @@
   ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
   ;; Vertico commands are hidden in normal buffers.
   (setq read-extended-command-predicate
-        #'command-completion-default-include-p))
+        #'command-completion-default-include-p)
 
-(use-package vertico
-  :straight (vertico :files (:defaults "extensions/*")
-                     :includes (vertico-directory vertico-repeat))
-  :init
-  (vertico-mode)
-  :custom (vertico-cycle t)
-  :config
   (advice-add #'vertico--format-candidate :around
               (lambda (orig cand prefix suffix index start)
                 (setq cand (funcall orig cand prefix suffix index start))
@@ -99,7 +96,7 @@ DEFS is a plist associating completion categories to commands."
 
 (use-feature vertico-directory
   :after vertico
-  :init
+  :config
   (defvar switching-project nil)
   (defun vertico-directory-enter-or-select-project ()
     "vertico-directory-enter wrapper that plays nicely with selecting new projects."
@@ -140,13 +137,12 @@ DEFS is a plist associating completion categories to commands."
   (define-vertico-key "M-DEL"
     'file #'vertico-directory-delete-word
     'project-file #'vertico-directory-delete-word)
-  :config
   :commands (vertico-directory-enter vertico-directory-delete-word vertico-directory-delete-char)
   ;; Tidy shadowed file names
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 (use-feature vertico-repeat
-  :bind ("M-P" . vertico-repeat))
+  :bind ("<f9>" . vertico-repeat))
 
 (use-package consult
   :bind (;; C-c bindings (mode-specific-map)
@@ -198,7 +194,7 @@ DEFS is a plist associating completion categories to commands."
                ;; Toggle preview on/off without changing preview-key
                ("M-P" . consult-toggle-preview)))
 
-  :init
+  :config
 
   ;; Optionally configure the register formatting. This improves the register
   ;; preview for `consult-register', `consult-register-load',
@@ -213,8 +209,6 @@ DEFS is a plist associating completion categories to commands."
   ;; Use Consult to select xref locations with preview
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
-
-  :config
 
   (defun consult-ripgrep-symbol-at-point (&optional dir initial)
     (interactive
@@ -410,9 +404,9 @@ DEFS is a plist associating completion categories to commands."
 (use-package consult-project-extra)
 
 (use-package marginalia
-  :init
+  :hook (emacs-startup . marginalia-mode)
+  :config
   ;; crux-recentf-find-file
-  (marginalia-mode)
   (add-to-list 'marginalia-prompt-categories '("Choose recent file" . file)))
 
 (use-package embark
@@ -428,8 +422,8 @@ DEFS is a plist associating completion categories to commands."
    (:map embark-become-file+buffer-map
          ("e" . consult-project-extra-find)
          ("E" . project-switch-consult-project-extra-find)))
-  :init
-  (setq prefix-help-command #'embark-prefix-help-command)
+  :custom
+  (prefix-help-command 'embark-prefix-help-command)
   :config
   (defun embark-preview ()
     (interactive)
@@ -446,9 +440,9 @@ DEFS is a plist associating completion categories to commands."
 
 (use-package embark-consult
   :after (embark consult)
-  :demand t ; only necessary if you have the hook below
-  ;; if you want to have consult previews as you move around an
-  ;; auto-updating embark collect buffer
+  ;; demand, combined with after means that this will load after embark and consult
+  ;; See https://github.com/oantolin/embark/commit/47daded610b245caf01a97d74c940aff91fe14e2#r46010972
+  :demand t
   :bind
   (:map embark-consult-async-search-map
         ("^" . consult-ripgrep-parent)
