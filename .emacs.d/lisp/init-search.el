@@ -42,9 +42,17 @@
 (use-package rg
   :bind
   ("C-c C-M-S-r" . rg-menu)
-  ("C-c C-M-r" . rg))
+  ("C-c C-M-r" . rg)
+  ("C-z" . rg-dwim))
 
-(use-package deadgrep)
+(use-package deadgrep
+  :config
+  (defun deadgrep-symbol-at-point ()
+    (interactive)
+    (deadgrep (thing-at-point 'symbol)))
+  :bind
+  ("C-S-z" . deadgrep-symbol-at-point)
+  ("C-c c d" . deadgrep))
 
 (use-package affe
   :config
