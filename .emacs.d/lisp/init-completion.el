@@ -4,12 +4,12 @@
 ;; Most of it is taken from the READMEs and wikis of those packages
 ;;; Code:
 
-(use-package dabbrev
+(use-feature dabbrev
   :diminish
   :custom
-  (setq dabbrev-case-distinction nil)
-  (setq dabbrev-case-fold-search t)
-  (setq dabbrev-case-replace nil))
+  (dabbrev-case-distinction nil)
+  (dabbrev-case-fold-search t)
+  (dabbrev-case-replace nil))
 
 (use-feature hippie-expand
   :init
