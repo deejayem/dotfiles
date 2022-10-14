@@ -7,7 +7,7 @@
 
 (use-package vertico
   :straight (vertico :files (:defaults "extensions/*")
-                     :includes (vertico-directory vertico-repeat))
+                     :includes (vertico-directory vertico-repeat vertico-indexed vertico-quick))
   :hook (emacs-startup . vertico-mode)
   :custom (vertico-cycle t)
   :config
@@ -142,7 +142,22 @@ DEFS is a plist associating completion categories to commands."
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 (use-feature vertico-repeat
-  :bind ("<f9>" . vertico-repeat))
+  :bind ("<f9>" . vertico-repeat)
+  :hook (minibuffer-setup . vertico-repeat-save)
+  :config
+  (add-to-list 'savehist-additional-variables 'vertico-repeat-history))
+
+(use-feature vertico-indexed
+  :after vertico
+  :demand t
+  :config (vertico-indexed-mode 1))
+
+(use-feature vertico-quick
+  :after vertico
+  :demand t
+  :bind (:map vertico-map
+              ("C-;" . vertico-quick-insert)
+              ("C-'" . vertico-quick-exit)))
 
 (use-package consult
   :bind (;; C-c bindings (mode-specific-map)
