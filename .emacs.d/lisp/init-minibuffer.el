@@ -143,7 +143,9 @@ DEFS is a plist associating completion categories to commands."
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
 (use-feature vertico-repeat
-  :bind ("<f9>" . vertico-repeat)
+  :bind
+  ("C-\\" . vertico-repeat)
+  ("C-|" . vertico-repeat-select)
   :hook (minibuffer-setup . vertico-repeat-save)
   :config
   (add-to-list 'savehist-additional-variables 'vertico-repeat-history))
