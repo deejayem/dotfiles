@@ -42,6 +42,7 @@
                      (propertize "» " 'face 'vertico-current)
                    "  ")
                  cand)))
+
   (defun define-vertico-key (key &rest defs)
     "Define KEY conditionally in the vertico keymap.
 DEFS is a plist associating completion categories to commands."
@@ -147,14 +148,10 @@ DEFS is a plist associating completion categories to commands."
   :config
   (add-to-list 'savehist-additional-variables 'vertico-repeat-history))
 
-(use-feature vertico-indexed
-  :after vertico
-  :demand t
+(use-extension vertico vertico-indexed
   :config (vertico-indexed-mode 1))
 
-(use-feature vertico-quick
-  :after vertico
-  :demand t
+(use-extension vertico vertico-quick
   :bind (:map vertico-map
               ("C-;" . vertico-quick-insert)
               ("C-'" . vertico-quick-exit)))

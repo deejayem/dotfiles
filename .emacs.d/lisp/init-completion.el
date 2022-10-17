@@ -130,15 +130,39 @@ no words in between, beginning with the first word."
 
 ;; code completion - corfu
 (use-package corfu
-  ;; Optional customizations
+  :straight (corfu :files (:defaults "extensions/*")
+                   :includes (corfu-indexed corfu-quick corfu-history corfu-info))
   :custom
-  (corfu-cycle t)            ;; Enable cycling for `corfu-next/previous'
+  (corfu-cycle t)
   :bind (:map corfu-map
-         ("TAB" . corfu-next)
-         ([tab] . corfu-next)
-         ("S-TAB" . corfu-previous)
-         ([backtab] . corfu-previous))
+              ("TAB" . corfu-next)
+              ([tab] . corfu-next)
+              ("S-TAB" . corfu-previous)
+              ([backtab] . corfu-previous))
   :hook (emacs-startup . global-corfu-mode))
+
+(defmacro use-extension (pkg name &rest args)
+  "Like `use-package', but for a package extension.
+`PKG' is the name of the package, `NAME' and `ARGS' are as with `use-package'"
+  (declare (indent defun))
+  `(use-package ,name
+     :straight nil
+     :after pkg
+     :demand t
+     ,@args))
+
+(use-extension corfu corfu-indexed
+  :config (corfu-indexed-mode 1))
+
+(use-extension corfu corfu-quick
+  :bind (:map corfu-map
+              ("C-;" . corfu-quick-insert)
+              ("C-'" . corfu-quick-exit)))
+
+(use-extension corfu corfu-history
+  :config
+  (corfu-history-mode 1)
+  (add-to-list 'savehist-additional-variables 'corfu-history))
 
 (use-package corfu-doc
   :hook
