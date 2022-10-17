@@ -54,8 +54,7 @@
 
 (defun run-straight-lock-file-function (func)
   "Safely run straight lockfile-related function `FUNC'.
-This will set `features' back the value it had before loading straight, to ensure
-that everything loaded by `require' or `use-package' is re-loaded."
+This will remove all init-* files from `features', so that they are reloaded."
   (setq features (seq-filter '(lambda (elt) (not (string-prefix-p "init-" (prin1-to-string elt)))) features))
   (funcall func))
 
