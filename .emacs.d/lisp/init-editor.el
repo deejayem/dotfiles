@@ -168,5 +168,8 @@
   (add-to-list 'xref-prompt-for-identifier 'xref-find-references-other-window t)
   (add-to-list 'xref-prompt-for-identifier 'xref-find-references-other-frame t))
 
+(use-package ws-butler
+  :hook (prog-mode . ws-butler-mode))
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
