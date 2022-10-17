@@ -169,6 +169,7 @@
   (add-to-list 'xref-prompt-for-identifier 'xref-find-references-other-frame t))
 
 (use-package ws-butler
+  :diminish
   :hook (prog-mode . ws-butler-mode))
 
 (provide 'init-editor)
