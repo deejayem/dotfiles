@@ -425,8 +425,7 @@ DEFS is a plist associating completion categories to commands."
 
 (use-package embark
   :bind
-  (("C-," . embark-act)
-   ("C-." . embark-dwim)
+  (("C-." . embark-act)
    ("M-." . embark-dwim)
    ("C-c C-o" . embark-export)
    ("C-h b" . embark-bindings)
