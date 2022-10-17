@@ -27,16 +27,12 @@
     gnupg
     gopass
     gopass-jsonapi
-    heroku
     ispell
     isync
     jq
     lscolors
     lsd
     lynx
-    mopidy
-    mopidy-ytmusic
-    mopidy-scrobbler
     mpv
     mu
     neovim
@@ -45,6 +41,7 @@
     nix-prefetch-git
     nix-prefetch-github
     pinentry
+    pass
     #procs
     libqalculate
     ripgrep
