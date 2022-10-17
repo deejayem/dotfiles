@@ -165,14 +165,14 @@ DEFS is a plist associating completion categories to commands."
          ("C-c b" . consult-bookmark)
          ("C-c k" . consult-kmacro)
          ;; C-x bindings (ctl-x-map)
-         ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
-         ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
-         ("C-x B" . consult-buffer-no-preview)     ;; orig. switch-to-buffer
+         ("C-x M-:" . consult-complex-command) ;; orig. repeat-complex-command
+         ("C-x b" . consult-buffer) ;; orig. switch-to-buffer
+         ("C-x B" . consult-buffer-no-preview) ;; orig. switch-to-buffer
          ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
-         ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+         ("C-x 5 b" . consult-buffer-other-frame) ;; orig. switch-to-buffer-other-frame
          ;; Custom M-# bindings for fast register access
          ("M-#" . consult-register-load)
-         ("M-'" . consult-register-store)          ;; orig. abbrev-prefix-mark (unrelated)
+         ("M-'" . consult-register-store) ;; orig. abbrev-prefix-mark (unrelated)
          ("C-M-#" . consult-register)
          ;; Other custom bindings
          ("C-S-s" . consult-line)
@@ -185,22 +185,22 @@ DEFS is a plist associating completion categories to commands."
          ("C-c c z" . consult-z-ripgrep)
          ("C-c C-*" . consult-ripgrep-symbol-at-point)
          ("C-c C-^" . consult-ripgrep-parent)
-         ("M-y" . consult-yank-pop)                ;; orig. yank-pop
-         ("<help> a" . consult-apropos)            ;; orig. apropos-command
+         ("M-y" . consult-yank-pop)     ;; orig. yank-pop
+         ("<help> a" . consult-apropos) ;; orig. apropos-command
          ;; M-g bindings (goto-map)
          ("M-g e" . consult-compile-error)
          ("M-g f" . consult-flycheck)
-         ("M-g g" . consult-goto-line)             ;; orig. goto-line
-         ("M-g M-g" . consult-goto-line)           ;; orig. goto-line
-         ("M-g o" . consult-outline)               ;; Alternative: consult-org-heading
+         ("M-g g" . consult-goto-line)   ;; orig. goto-line
+         ("M-g M-g" . consult-goto-line) ;; orig. goto-line
+         ("M-g o" . consult-outline) ;; Alternative: consult-org-heading
          ("M-g m" . consult-mark)
          ("M-g k" . consult-global-mark)
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
          :map isearch-mode-map
-         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
-         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+         ("M-e" . consult-isearch-history) ;; orig. isearch-edit-string
+         ("M-s e" . consult-isearch-history) ;; orig. isearch-edit-string
+         ("M-s l" . consult-line) ;; needed by consult-line to detect isearch
          (:map vertico-map
                ;; These are used for previewing with some consult commands (see consult-customize call below)
                ("C-S-p" . vertico-previous)
@@ -285,7 +285,7 @@ DEFS is a plist associating completion categories to commands."
   (define-key search-map (kbd "M-f") 'consult-locate)
   (define-key search-map "g" 'consult-grep)
   (define-key search-map "G" 'consult-git-grep)
-  (define-key search-map "r" 'consult-ripgrep)
+  (define-key search-map "r" 'consult-ripgrep) ;; TODO doesn't work in isearch mode (but maybe that's okay)
   (define-key search-map "R" 'consult-ripgrep-auto-preview)
   (define-key search-map (kbd "M-r") 'consult-ripgrep-unrestricted)
   (define-key search-map "*" 'consult-ripgrep-symbol-at-point)
