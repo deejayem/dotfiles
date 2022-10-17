@@ -224,6 +224,8 @@ DEFS is a plist associating completion categories to commands."
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
 
+  (add-to-list 'consult-mode-histories '(cider-repl-mode cider-repl-input-history))
+
   (defun consult-ripgrep-symbol-at-point (&optional dir initial)
     (interactive
      (list prefix-arg (when-let ((s (symbol-at-point)))
