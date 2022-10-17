@@ -39,14 +39,14 @@
 (use-feature straight-x
   :commands (straight-x-fetch-all))
 
-;; useful for corfu and vertico extenions
+;; useful for corfu and vertico extensions
 (defmacro use-extension (pkg name &rest args)
   "Like `use-package', but for a package extension.
 `PKG' is the name of the package, `NAME' and `ARGS' are as with `use-package'"
   (declare (indent defun))
   `(use-package ,name
      :straight nil
-     :after pkg
+     :after ,pkg
      :demand t
      ,@args))
 
