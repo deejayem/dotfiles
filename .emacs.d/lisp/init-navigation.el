@@ -41,11 +41,18 @@
               ("C-M-'" . smartscan-symbol-replace)))
 
 (use-package symbol-overlay
+  :config
+  (defun symbol-overlay-put-or-clear (arg)
+    "Toggle all overlays of symbol at point.
+Or remove all highlighted symbols in the current buffer (with`ARG')."
+    (interactive "P")
+    (if arg
+        (symbol-overlay-remove-all)
+      (symbol-overlay-put)))
   :bind
-  ("C-c o" . symbol-overlay-put)
+  ("C-c o" . symbol-overlay-put-or-clear)
   ("M-N" . symbol-overlay-switch-forward)
-  ("M-P" . symbol-overlay-switch-backward)
-  ("<f8>" . symbol-overlay-remove-all))
+  ("M-P" . symbol-overlay-switch-backward))
 
 (use-package gumshoe
   :defer 5
