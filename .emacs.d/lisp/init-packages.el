@@ -39,6 +39,17 @@
 (use-feature straight-x
   :commands (straight-x-fetch-all))
 
+;; useful for corfu and vertico extenions
+(defmacro use-extension (pkg name &rest args)
+  "Like `use-package', but for a package extension.
+`PKG' is the name of the package, `NAME' and `ARGS' are as with `use-package'"
+  (declare (indent defun))
+  `(use-package ,name
+     :straight nil
+     :after pkg
+     :demand t
+     ,@args))
+
 (use-package diminish)
 
 (defun run-straight-lock-file-function (func)

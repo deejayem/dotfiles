@@ -141,16 +141,6 @@ no words in between, beginning with the first word."
               ([backtab] . corfu-previous))
   :hook (emacs-startup . global-corfu-mode))
 
-(defmacro use-extension (pkg name &rest args)
-  "Like `use-package', but for a package extension.
-`PKG' is the name of the package, `NAME' and `ARGS' are as with `use-package'"
-  (declare (indent defun))
-  `(use-package ,name
-     :straight nil
-     :after pkg
-     :demand t
-     ,@args))
-
 (use-extension corfu corfu-indexed
   :config (corfu-indexed-mode 1))
 
