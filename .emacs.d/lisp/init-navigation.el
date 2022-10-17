@@ -20,6 +20,7 @@
 
 (use-package smartscan
   :config
+  (unbind-key "M-'" smartscan-map)
   (defvar-local smartscan-exclude-modes '(cider-repl-mode
                                           ielm-mode
                                           vterm-mode
@@ -35,7 +36,9 @@
   (dolist (mode smartscan-exclude-modes)
     (add-hook (intern (concat (symbol-name mode) "-hook")) #'turn-off-smartscan-mode))
   :hook
-  (after-init . global-smartscan-mode))
+  (after-init . global-smartscan-mode)
+  :bind (:map smartscan-map
+              ("C-M-'" . smartscan-symbol-replace)))
 
 (use-package symbol-overlay
   :bind
