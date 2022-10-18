@@ -51,7 +51,7 @@
     (interactive)
     (deadgrep (thing-at-point 'symbol)))
   :bind
-  ("C-S-z" . deadgrep-symbol-at-point)
+  ("C-," . deadgrep-symbol-at-point)
   ("C-c c d" . deadgrep))
 
 (use-package affe
