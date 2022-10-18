@@ -77,9 +77,9 @@
                     :weight bold :height 2.5 :box (:line-width 10 :color "red"))))))
 
 (use-package popper
-  :bind (("<f5>"   . popper-toggle-latest)
-         ("<f6>"   . popper-cycle)
-         ("<f7>" . popper-toggle-type))
+  :bind (("M-`" . popper-toggle-latest)
+         ("M-¬" . popper-cycle)
+         ("C-`" . popper-toggle-type))
   :custom
   (popper-reference-buffers
    '("\\*Messages\\*"
