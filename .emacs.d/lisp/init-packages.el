@@ -52,33 +52,25 @@
 
 (use-package diminish)
 
-(defun run-straight-lock-file-function (func)
-  "Safely run straight lockfile-related function `FUNC'.
-This will remove all init-* files from `features', so that they are reloaded."
-  (setq features (seq-filter '(lambda (elt) (not (string-prefix-p "init-" (prin1-to-string elt)))) features))
-  (funcall func))
-
-(defun reload-init ()
-  "Reload `user-init-file', ensuring that requires are reloaded."
-  (run-straight-lock-file-function #'(lambda () (load (or user-init-file "~/.emacs.d/init.el") nil 'nomessage))))
-
 ;; emacs --batch -l "~/.emacs.d/init.el" -f "my/upgrade-packages"
 (defun my/upgrade-packages ()
   "Upgrade all packages installed with straight."
   (interactive)
-  (straight-pull-recipe-repositories) ;; TODO is this needed?
+  (setq-local force-reload t)
+  (straight-pull-recipe-repositories)
   (straight-x-fetch-all)
+  (while straight-x-running
+    (sleep-for 1))
   (straight-merge-all)
-  (reload-init)
   (straight-check-all)
-  ;; Do this automatically, as we can always revert and thaw
-  (run-straight-lock-file-function 'straight-freeze-versions))
+  (straight-freeze-versions))
 
 ;; emacs --batch -l "~/.emacs.d/init.el" -f "my/thaw-packages"
 (defun my/thaw-packages ()
   "Restore all packages to the versions in the straight lockfile."
   (interactive)
-  (run-straight-lock-file-function 'straight-thaw-versions))
+  (setq-local force-reload t)
+  (straight-thaw-versions))
 
 (provide 'init-packages)
 ;;; init-packages.el ends here
