@@ -18,7 +18,9 @@
 (use-package restclient
   :mode (("\\.http\\'" . restclient-mode)))
 
-(use-extension restclient restclient-jq)
+(use-package restclient-jq
+  :after restclient
+  :demand t)
 
 (use-package es-mode
   :mode "\.es\'")
