@@ -93,5 +93,51 @@
                            (popper-mode +1)
                            (popper-echo-mode +1))))
 
+(use-package frog-jump-buffer
+  :config
+  (defun frog-jump-buffer-filter-buffer-ring (buffer)
+    "Check if a BUFFER is in current buffer ring."
+    (let ((bfr-ring (buffer-ring-current-ring)))
+      (when bfr-ring
+        (let ((ring (buffer-ring-ring-ring bfr-ring)))
+          (unless (dynaring-empty-p ring)
+            (dynaring-contains-p ring (buffer-ring--parse-buffer buffer)))))))
+  (defun frog-jump-buffer-filter-buffer-ring-or-same-mode (buffer)
+    (let* ((bfr-ring (buffer-ring-current-ring))
+           (ring (buffer-ring-ring-ring bfr-ring)))
+      (if (dynaring-empty-p ring)
+          (frog-jump-buffer-filter-same-mode buffer)
+        (frog-jump-buffer-filter-buffer-ring buffer))))
+  ;;(setq frog-jump-buffer-default-filter 'frog-jump-buffer-filter-same-mode)
+  (setq frog-jump-buffer-default-filter 'frog-jump-buffer-filter-buffer-ring-or-same-mode)
+  (setq frog-jump-buffer-filter-actions
+        '(("R" "[Ring]" frog-jump-buffer-filter-buffer-ring)))
+  (set-face-background 'frog-menu-posframe-background-face "black")
+  :bind
+  ("C-," . frog-jump-buffer)
+  ("C-x 4 C-," . frog-jump-buffer-other-window))
+
+;; TODO perspective integration
+(use-package buffer-ring
+  :diminish
+  :hook (emacs-startup . buffer-ring-mode)
+  :bind
+  ("C-<" . buffer-ring-prev-buffer)
+  ("C->" . buffer-ring-next-buffer))
+
+;; TODO C-c ./C-c , C-c >/C-c < , available (but the first two currently clash with other bindings)
+;; C-<left> and C-<right> can be used
+(use-package cbm
+  :bind
+  ("C-c C-b <" . cbm-cycle)
+  ("C-c C-b C-b" . cbm-switch-buffer))
+
+(use-package buffer-flip
+  :bind  (("C-c C-<left>" . buffer-flip)
+          (:map buffer-flip-map
+                ( "C-<left>" .   buffer-flip-forward)
+                ( "C-<right>" . buffer-flip-backward)
+                ( "C-g" . buffer-flip-abort))))
+
 (provide 'init-windows)
 ;;; init-windows.el ends here

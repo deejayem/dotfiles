@@ -55,7 +55,7 @@
   (define-key search-map "d" 'deadgrep)
   (define-key search-map "D" 'deadgrep-symbol-at-point)
   :bind
-  ("C-," . deadgrep-symbol-at-point)
+  ("C-S-z" . deadgrep-symbol-at-point)
   ("C-c c d" . deadgrep))
 
 (use-package affe

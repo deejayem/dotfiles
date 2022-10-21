@@ -81,5 +81,30 @@ Or remove all highlighted symbols in the current buffer (with`ARG')."
   ("C-c {" . gumshoe-persp-backtrack-back)
   ("C-c '" . gumshoe-peruse-in-persp))
 
+(use-package goto-chg
+  :config
+  (defvar goto-chg-repeat-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "C-(") #'goto-last-change)
+      (define-key map (kbd "C-)") #'goto-last-change-reverse)
+      map))
+  (dolist (cmd '(goto-last-change goto-last-change-reverse))
+    (put cmd 'repeat-map 'goto-chg-repeat-map))
+  :bind
+  ("C-c C-(" . goto-last-change)
+  ("C-c C-)" . goto-last-change-reverse))
+
+(use-package goto-last-point
+  :diminish
+  :custom (goto-last-point-max-length 100)
+  :hook (emacs-startup . goto-last-point-mode)
+  :config
+  (defvar goto-last-point-repeat-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "<") #'goto-last-point)
+      map))
+  (put 'goto-last-point 'repeat-map 'goto-last-point-repeat-map)
+  :bind ("C-c <" . goto-last-point))
+
 (provide 'init-navigation)
 ;;; init-navigation.el ends here

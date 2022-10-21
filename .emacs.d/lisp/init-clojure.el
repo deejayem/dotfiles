@@ -115,8 +115,16 @@
         cider-show-error-buffer 'except-in-repl
         clojure-toplevel-inside-comment-form t)
   (unbind-key "C-c C-l" cider-mode-map)
+  (unbind-key "C-c C-b" cider-mode-map)
+  (unbind-key "C-c C-b" cider-repl-mode-map)
   :bind
-  (:map cider-mode-map ("C-c M-l" . cider-load-file))
+  (:map cider-mode-map
+        ("C-c M-l" . cider-load-file)
+        ("C-c M-b" . cider-interrupt))
+  (:map cider-repl-mode-map
+        ("C-c M-b" . cider-interrupt))
+  (:map cider-start-map
+        ("C-c M-j" . cider-jack-in-and-run-main))
   (:map clojure-mode-map
         ("C-c C-r C-m" . run-main)
         ("C-c M-j" . cider-jack-in-and-run-main)
