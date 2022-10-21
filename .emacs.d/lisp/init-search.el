@@ -40,6 +40,8 @@
         ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp)))
 
 (use-package rg
+  :config
+  (define-key search-map "s" 'rg)
   :bind
   ("C-c C-M-S-r" . rg-menu)
   ("C-c C-M-r" . rg)
@@ -50,6 +52,8 @@
   (defun deadgrep-symbol-at-point ()
     (interactive)
     (deadgrep (thing-at-point 'symbol)))
+  (define-key search-map "d" 'deadgrep)
+  (define-key search-map "D" 'deadgrep-symbol-at-point)
   :bind
   ("C-," . deadgrep-symbol-at-point)
   ("C-c c d" . deadgrep))
@@ -74,6 +78,10 @@
      (list prefix-arg (when-let ((s (symbol-at-point)))
                         (symbol-name s))))
     (affe-find dir initial))
+  (define-key search-map "#" 'affe-grep)
+  (define-key search-map "~" 'my/affe-grep-symbol-at-point)
+  (define-key search-map "M-z" 'affe-find)
+  (define-key search-map "M-Z" 'my/affe-find-symbol-at-point)
   :bind
   ("C-#" . affe-grep)
   ("C-c z" . affe-find)
