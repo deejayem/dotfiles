@@ -59,7 +59,10 @@ Or remove all highlighted symbols in the current buffer (with`ARG')."
   :defer 5
   :after perspective
   :diminish global-gumshoe-persp-mode
-  :custom (gumshoe-show-footprints-p nil)
+  :custom
+  (gumshoe-show-footprints-p nil)
+  (gumshoe-idle-time 5)
+  (gumshoe-follow-distance 5)
   :config
   (global-gumshoe-persp-mode +1)
   (defvar gumshoe-repeat-map
