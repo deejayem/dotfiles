@@ -290,6 +290,7 @@ DEFS is a plist associating completion categories to commands."
   (define-key search-map (kbd "M-r") 'consult-ripgrep-unrestricted)
   (define-key search-map "*" 'consult-ripgrep-symbol-at-point)
   (define-key search-map "z" 'consult-z-ripgrep)
+  (define-key search-map "^" 'consult-ripgrep-parent)
   (define-key search-map "l" 'consult-line)
   (define-key search-map "L" 'consult-line-multi)
   (define-key search-map "m" 'consult-multi-occur)
