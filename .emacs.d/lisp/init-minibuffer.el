@@ -180,7 +180,7 @@ DEFS is a plist associating completion categories to commands."
          ("C-c f" . consult-recent-file)
          ("C-c r" . consult-ripgrep)
          ;; TODO find an alternative to C-c c?
-         ("C-c c r" . consult-ripgrep-auto-preview)
+         ("C-c c r" . consult-ripgrep-no-preview)
          ("C-c c s" . consult-ripgrep-case-sensitive)
          ("C-c c z" . consult-z-ripgrep)
          ("C-c C-*" . consult-ripgrep-symbol-at-point)
@@ -231,7 +231,7 @@ DEFS is a plist associating completion categories to commands."
      (list prefix-arg (when-let ((s (symbol-at-point)))
                         (symbol-name s))))
     (consult-ripgrep dir initial))
-  (defun consult-ripgrep-auto-preview (&optional dir initial)
+  (defun consult-ripgrep-no-preview (&optional dir initial)
     (interactive "P")
     (consult-ripgrep dir initial))
   (defun consult-ripgrep-unrestricted (&optional dir initial)
@@ -285,8 +285,8 @@ DEFS is a plist associating completion categories to commands."
   (define-key search-map (kbd "M-f") 'consult-locate)
   (define-key search-map "g" 'consult-grep)
   (define-key search-map "G" 'consult-git-grep)
-  (define-key search-map "r" 'consult-ripgrep) ;; TODO doesn't work in isearch mode (but maybe that's okay)
-  (define-key search-map "R" 'consult-ripgrep-auto-preview)
+  (define-key search-map "r" 'consult-ripgrep)
+  (define-key search-map "R" 'consult-ripgrep) ;; can't use r in isearch-mode, so add R too
   (define-key search-map (kbd "M-r") 'consult-ripgrep-unrestricted)
   (define-key search-map "*" 'consult-ripgrep-symbol-at-point)
   (define-key search-map "z" 'consult-z-ripgrep)
@@ -302,8 +302,9 @@ DEFS is a plist associating completion categories to commands."
    consult-theme
    :preview-key '(:debounce 0.2 any)
    ;; For these commands we can use C-S/C-P to scroll and preview, or M-. to preview
-   consult-ripgrep-parent consult-git-grep consult-grep
-   consult-ripgrep-unrestricted consult-ripgrep-symbol-at-point
+   consult-git-grep consult-grep
+   consult-ripgrep-parent consult-ripgrep-no-preview
+   consult-ripgrep-unrestricted consult-z-ripgrep
    consult-bookmark consult-recent-file consult-xref consult-buffer-no-preview
    consult--source-recent-file consult--source-project-recent-file consult--source-bookmark
    :preview-key (list (kbd "M-.") (kbd "C-S-n") (kbd "C-S-p")))
