@@ -80,8 +80,8 @@
     (affe-find dir initial))
   (define-key search-map "#" 'affe-grep)
   (define-key search-map "~" 'my/affe-grep-symbol-at-point)
-  (define-key search-map "M-z" 'affe-find)
-  (define-key search-map "M-Z" 'my/affe-find-symbol-at-point)
+  (define-key search-map "a" 'affe-find)
+  (define-key search-map "A" 'my/affe-find-symbol-at-point)
   :bind
   ("C-#" . affe-grep)
   ("C-c z" . affe-find)
