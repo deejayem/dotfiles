@@ -29,6 +29,7 @@
                                           eshell-mode
                                           shell-mode
                                           sql-interactive-mode
+                                          magit-status-mode
                                           compilation-mode
                                           deadgrep-mode))
   (defun turn-off-smartscan-mode ()
