@@ -2,11 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("melpa-stable" . "https://stable.melpa.org/packages/")
-                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
-
 (setq straight-use-package-by-default t
       straight-vc-git-default-clone-depth 1
       straight-check-for-modifications '(find-when-checking check-on-save)
