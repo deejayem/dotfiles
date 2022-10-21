@@ -301,8 +301,8 @@ DEFS is a plist associating completion categories to commands."
   (consult-customize
    consult-theme
    :preview-key '(:debounce 0.2 any)
-   ;; For these commands we can use C-S/C-P to scoll and preview, or M-. to preview
-   consult-ripgrep consult-git-grep consult-grep
+   ;; For these commands we can use C-S/C-P to scroll and preview, or M-. to preview
+   consult-ripgrep-parent consult-git-grep consult-grep
    consult-ripgrep-unrestricted consult-ripgrep-symbol-at-point
    consult-bookmark consult-recent-file consult-xref consult-buffer-no-preview
    consult--source-recent-file consult--source-project-recent-file consult--source-bookmark
