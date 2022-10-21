@@ -20,7 +20,8 @@
   (put 'downcase-region 'disabled nil)
   (put 'erase-buffer 'disabled nil)
 
-  (setq-default indent-tabs-mode nil)
+  (setq-default indent-tabs-mode nil
+                tab-width 4)
   (setq comment-auto-fill-only-comments t)
   (setq large-file-warning-threshold 100000000)
   (setq create-lockfiles nil)
@@ -28,6 +29,7 @@
   (setq global-auto-revert-non-file-buffers t)
   (global-auto-revert-mode t)
 
+  (setq backup-by-copying t)
   (setq backup-directory-alist
         `((".*" . ,temporary-file-directory))
         auto-save-file-name-transforms
