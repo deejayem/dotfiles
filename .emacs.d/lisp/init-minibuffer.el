@@ -155,8 +155,8 @@ DEFS is a plist associating completion categories to commands."
 
 (use-extension vertico vertico-quick
   :bind (:map vertico-map
-              ("C-;" . vertico-quick-insert)
-              ("C-'" . vertico-quick-exit)))
+              ("M-;" . vertico-quick-insert)
+              ("M-'" . vertico-quick-exit)))
 
 (use-package consult
   :bind (;; C-c bindings (mode-specific-map)
