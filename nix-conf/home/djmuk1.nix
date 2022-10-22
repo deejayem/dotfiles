@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   imports = [ 
-    ./linux-server.nix
+    ./includes/linux-server.nix
   ];
 
   # Let Home Manager install and manage itself.

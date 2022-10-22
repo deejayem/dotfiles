@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   imports = [ 
-    ./darwin.nix
+    ./includes/darwin.nix
   ];
 
   # Let Home Manager install and manage itself.
