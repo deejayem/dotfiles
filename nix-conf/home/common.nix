@@ -15,8 +15,6 @@
     broot
     curl
     difftastic
-    #docker
-    #docker-compose
     duf
     du-dust
     elinks
@@ -26,16 +24,12 @@
     git
     gnupg
     gopass
-    gopass-jsonapi
     ispell
     isync
     jq
     lscolors
     lsd
     lynx
-    mpv
-    mu
-    neovim
     nixfmt
     nix-info
     nix-prefetch-git
@@ -55,17 +49,5 @@
   ];
 
   programs.gpg.enable = true;
-  programs.tmux = {
-    enable = true;
-    terminal = "screen-256color";
-    #tmuxp.enable = true;
-    extraConfig = ''
-      set-option -g status-bg '#666666'
-      set-option -g status-fg '#aaaaaa'
-      set-option -g status-left-length 50
-      set-option -g status-right " #(date ''\'+%a, %b %d - %I:%M''\') "
-    '';
-  };
-
 }
 

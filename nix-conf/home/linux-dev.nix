@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   imports = [
-    ./clojure.nix
+    ./dev-common.nix
   ];
   #services.emacs.package = pkgs.emacsUnstable;
 

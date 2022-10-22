@@ -1,12 +1,16 @@
 { config, pkgs, ... }:
 {
-
-  home.packages = with pkgs; [
-    bitlbee
-    bitlbee-discord
-    emacs-nox
-    irssi
+  imports = [
+    ./common.nix
   ];
 
+  home.packages = with pkgs; [
+    emacs-nox
+    irssi
+    msmtp
+    neomutt
+  ];
+
+  ## TODO tmux
 }
 
