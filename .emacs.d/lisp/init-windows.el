@@ -102,29 +102,66 @@
         (let ((ring (buffer-ring-ring-ring bfr-ring)))
           (unless (dynaring-empty-p ring)
             (dynaring-contains-p ring (buffer-ring--parse-buffer buffer)))))))
-  (defun frog-jump-buffer-filter-buffer-ring-or-same-mode (buffer)
+
+  (defun frog-jump-buffer-filter-same-mode-in-persp (buffer)
+    "Check if a BUFFER is the same as the current major mode and perspective."
+    (let ((current-mode major-mode))
+      (and
+       (with-current-buffer buffer
+         (eq major-mode current-mode))
+       (persp-is-current-buffer buffer))))
+
+  (defun frog-jump-buffer-filter-persp-buffer-ring-or-same-mode (buffer)
+    "Check if a BUFFER is in the current buffer-ring, else same major mode and perspective."
     (let* ((bfr-ring (buffer-ring-current-ring))
            (ring (buffer-ring-ring-ring bfr-ring)))
       (if (dynaring-empty-p ring)
-          (frog-jump-buffer-filter-same-mode buffer)
+          (frog-jump-buffer-filter-same-mode-in-persp buffer)
         (frog-jump-buffer-filter-buffer-ring buffer))))
-  ;;(setq frog-jump-buffer-default-filter 'frog-jump-buffer-filter-same-mode)
-  (setq frog-jump-buffer-default-filter 'frog-jump-buffer-filter-buffer-ring-or-same-mode)
-  (setq frog-jump-buffer-filter-actions
-        '(("R" "[Ring]" frog-jump-buffer-filter-buffer-ring)))
+
   (set-face-background 'frog-menu-posframe-background-face "black")
-  (setq frog-jump-buffer-include-current-buffer nil)
+
+  (setq frog-jump-buffer-include-current-buffer nil
+        frog-jump-buffer-default-filter 'frog-jump-buffer-filter-persp-buffer-ring-or-same-mode
+        frog-jump-buffer-use-default-filter-actions t
+        frog-jump-buffer-filter-actions '((("A" "[all]" frog-jump-buffer-filter-all)
+                                           ("M" "[mode]" frog-jump-buffer-filter-same-mode-in-persp)
+                                           ("F" "[files]" frog-jump-buffer-filter-file-buffers)
+                                           ("R" "[recentf]" frog-jump-buffer-filter-recentf)
+                                           ("B" "[Ring]" frog-jump-buffer-filter-buffer-ring)
+                                           ("P" "[project]" frog-jump-buffer-filter-same-project)
+                                           ("S" "[similar]" frog-jump-buffer-filter-similar-name))))
   :bind
   ("C-," . frog-jump-buffer)
   ("C-x 4 C-," . frog-jump-buffer-other-window))
 
-;; TODO perspective integration
 (use-package buffer-ring
   :diminish
-  :hook (emacs-startup . buffer-ring-mode)
+  :config
+  (defun persp-buffer-ring-create-and-switch ()
+    "Create and switch to the buffer-ring for the current perspective."
+    ;; Creating a ring automatically switches to it
+    (buffer-ring-torus--create-ring (persp-current-name)))
+
+  (defun persp-buffer-ring-switch ()
+    "Switch to the buffer-ring for the current perspective."
+    (buffer-ring-torus-switch-to-ring (persp-current-name)))
+
+  ;; This is mostly just a convenience, to stop buffer-ring from prompting for the ring to use
+  (defun persp-buffer-ring-add-buffer ()
+    "Add the current buffer to ring for the current perspective."
+    (interactive)
+    (let ((inhibit-message t))
+      (buffer-ring-add (persp-current-name))))
+  :hook
+  (emacs-startup . buffer-ring-mode)
+  (persp-created . persp-buffer-ring-create-and-switch)
+  (persp-switch . persp-buffer-ring-switch)
   :bind
-  ("C-<" . buffer-ring-prev-buffer)
-  ("C->" . buffer-ring-next-buffer))
+  (:map buffer-ring-mode-map
+        ("C-c C-b a" . persp-buffer-ring-add-buffer)
+        ("C-<" . buffer-ring-prev-buffer)
+        ("C->" . buffer-ring-next-buffer)))
 
 (use-package cbm
   :config
