@@ -197,10 +197,28 @@ DEFS is a plist associating completion categories to commands."
          ("M-g k" . consult-global-mark)
          ("M-g i" . consult-imenu)
          ("M-g I" . consult-imenu-multi)
-         :map isearch-mode-map
-         ("M-e" . consult-isearch-history) ;; orig. isearch-edit-string
-         ("M-s e" . consult-isearch-history) ;; orig. isearch-edit-string
-         ("M-s l" . consult-line) ;; needed by consult-line to detect isearch
+         (:map isearch-mode-map
+               ("M-e" . consult-isearch-history) ;; orig. isearch-edit-string
+               ("M-s e" . consult-isearch-history) ;; orig. isearch-edit-string
+               ("M-s l" . consult-line)) ;; needed by consult-line to detect isearch
+         (:map search-map
+               ("f" . consult-fd)
+               ("F" . consult-find)
+               ("M-f" . consult-locate)
+               ("g" . consult-grep)
+               ("G" . consult-git-grep)
+               ("r" . consult-ripgrep)
+               ("R" . consult-ripgrep) ;; can't use r in isearch-mode, so add R too
+               ("M-r" . consult-ripgrep-unrestricted)
+               ("*" . consult-ripgrep-symbol-at-point)
+               ("z" . consult-z-ripgrep)
+               ("^" . consult-ripgrep-parent)
+               ("l" . consult-line)
+               ("L" . consult-line-multi)
+               ("m" . consult-multi-occur)
+               ("k" . consult-keep-lines)
+               ("u" . consult-focus-lines)
+               ("e" . consult-isearch))
          (:map vertico-map
                ;; These are used for previewing with some consult commands (see consult-customize call below)
                ("C-S-p" . vertico-previous)
@@ -278,25 +296,6 @@ DEFS is a plist associating completion categories to commands."
     (let* ((prompt-dir (consult--directory-prompt "Fd" dir))
            (default-directory (cdr prompt-dir)))
       (find-file (consult--find (car prompt-dir) #'consult--fd-builder initial))))
-
-  ;; Add these here, as we have two bindings for search map (M-s and C-c s)
-  (define-key search-map "f" 'consult-fd)
-  (define-key search-map "F" 'consult-find)
-  (define-key search-map (kbd "M-f") 'consult-locate)
-  (define-key search-map "g" 'consult-grep)
-  (define-key search-map "G" 'consult-git-grep)
-  (define-key search-map "r" 'consult-ripgrep)
-  (define-key search-map "R" 'consult-ripgrep) ;; can't use r in isearch-mode, so add R too
-  (define-key search-map (kbd "M-r") 'consult-ripgrep-unrestricted)
-  (define-key search-map "*" 'consult-ripgrep-symbol-at-point)
-  (define-key search-map "z" 'consult-z-ripgrep)
-  (define-key search-map "^" 'consult-ripgrep-parent)
-  (define-key search-map "l" 'consult-line)
-  (define-key search-map "L" 'consult-line-multi)
-  (define-key search-map "m" 'consult-multi-occur)
-  (define-key search-map "k" 'consult-keep-lines)
-  (define-key search-map "u" 'consult-focus-lines)
-  (define-key search-map "e" 'consult-isearch)
 
   (consult-customize
    consult-theme
