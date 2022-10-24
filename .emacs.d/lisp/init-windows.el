@@ -126,9 +126,13 @@
   ("C-<" . buffer-ring-prev-buffer)
   ("C->" . buffer-ring-next-buffer))
 
-;; TODO C-c ./C-c , C-c >/C-c < , available (but the first two currently clash with other bindings)
-;; C-<left> and C-<right> can be used
 (use-package cbm
+  :config
+  (defvar cbm-repeat-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "<") #'cbm-cycle)
+      map))
+  (put 'cbm-cycle 'repeat-map 'cbm-repeat-map)
   :bind
   ("C-c C-b <" . cbm-cycle)
   ("C-c C-b C-b" . cbm-switch-buffer))
