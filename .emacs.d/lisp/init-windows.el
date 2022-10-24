@@ -113,6 +113,7 @@
   (setq frog-jump-buffer-filter-actions
         '(("R" "[Ring]" frog-jump-buffer-filter-buffer-ring)))
   (set-face-background 'frog-menu-posframe-background-face "black")
+  (setq frog-jump-buffer-include-current-buffer nil)
   :bind
   ("C-," . frog-jump-buffer)
   ("C-x 4 C-," . frog-jump-buffer-other-window))
