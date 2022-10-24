@@ -41,10 +41,10 @@
 
 (use-package rg
   :bind
-  (:map search-map ("s" . rg))
   ("C-c C-M-S-r" . rg-menu)
   ("C-c C-M-r" . rg)
-  ("C-z" . rg-dwim))
+  ("C-z" . rg-dwim)
+  (:map search-map ("s" . rg)))
 
 (use-package deadgrep
   :config
@@ -52,11 +52,11 @@
     (interactive)
     (deadgrep (thing-at-point 'symbol)))
   :bind
+  ("C-S-z" . deadgrep-symbol-at-point)
+  ("C-c c d" . deadgrep)
   (:map search-map
         ("d" . deadgrep)
-        ("D" . deadgrep-symbol-at-point))
-  ("C-S-z" . deadgrep-symbol-at-point)
-  ("C-c c d" . deadgrep))
+        ("D" . deadgrep-symbol-at-point)))
 
 (use-package affe
   :config
@@ -79,15 +79,15 @@
                         (symbol-name s))))
     (affe-find dir initial))
   :bind
+  ("C-#" . affe-grep)
+  ("C-c z" . affe-find)
+  ("C-c Z" . my/affe-find-symbol-at-point)
+  ("C-~" . my/affe-grep-symbol-at-point)
   (:map search-map
         ("#" . affe-grep)
         ("~" . my/affe-grep-symbol-at-point)
         ("a" . affe-find)
-        ("A" . my/affe-find-symbol-at-point))
-  ("C-#" . affe-grep)
-  ("C-c z" . affe-find)
-  ("C-c Z" . my/affe-find-symbol-at-point)
-  ("C-~" . my/affe-grep-symbol-at-point))
+        ("A" . my/affe-find-symbol-at-point)))
 
 (provide 'init-search)
 ;;; init-search.el ends here
