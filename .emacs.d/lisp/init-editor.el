@@ -10,6 +10,14 @@
   ("C--" . text-scale-decrease)
   :hook
   (after-save . executable-make-buffer-file-executable-if-script-p)
+  (emacs-startup . (lambda ()
+                     (save-place-mode 1)
+                     (delete-selection-mode t)
+                     (global-auto-revert-mode 1)
+                     (set-terminal-coding-system 'utf-8)
+                     (set-keyboard-coding-system 'utf-8)
+                     (set-selection-coding-system 'utf-8)
+                     (prefer-coding-system 'utf-8)))
   ;; (text-mode . whitespace-cleanup)
 
   :config
@@ -25,10 +33,7 @@
   (setq comment-auto-fill-only-comments t)
   (setq large-file-warning-threshold 100000000)
   (setq create-lockfiles nil)
-  (delete-selection-mode t)
   (setq global-auto-revert-non-file-buffers t)
-  (global-auto-revert-mode t)
-
   (setq backup-by-copying t)
   (setq backup-directory-alist
         `((".*" . ,temporary-file-directory))
@@ -36,8 +41,6 @@
         `((".*" ,temporary-file-directory t)))
 
   (setq save-place-file (expand-file-name "saveplace" save-dir))
-  (save-place-mode 1)
-
   ;; https://git.sr.ht/~technomancy/better-defaults/tree/master/item/better-defaults.el
   (setq save-interprogram-paste-before-kill t
         apropos-do-all t
@@ -50,10 +53,6 @@
   (setq sentence-end-double-space nil)
   (set-charset-priority 'unicode)
   (setq locale-coding-system 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (set-selection-coding-system 'utf-8)
-  (prefer-coding-system 'utf-8)
   (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
   (set-default 'imenu-auto-rescan t))
 
