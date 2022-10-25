@@ -123,14 +123,14 @@
 
   (setq frog-jump-buffer-include-current-buffer nil
         frog-jump-buffer-default-filter 'frog-jump-buffer-filter-persp-buffer-ring-or-same-mode
-        frog-jump-buffer-use-default-filter-actions t
-        frog-jump-buffer-filter-actions '((("A" "[all]" frog-jump-buffer-filter-all)
-                                           ("M" "[mode]" frog-jump-buffer-filter-same-mode-in-persp)
-                                           ("F" "[files]" frog-jump-buffer-filter-file-buffers)
-                                           ("R" "[recentf]" frog-jump-buffer-filter-recentf)
-                                           ("B" "[Ring]" frog-jump-buffer-filter-buffer-ring)
-                                           ("P" "[project]" frog-jump-buffer-filter-same-project)
-                                           ("S" "[similar]" frog-jump-buffer-filter-similar-name))))
+        frog-jump-buffer-use-default-filter-actions nil
+        frog-jump-buffer-filter-actions '(("A" "[all]" frog-jump-buffer-filter-all)
+                                          ("M" "[mode]" frog-jump-buffer-filter-same-mode-in-persp)
+                                          ("F" "[files]" frog-jump-buffer-filter-file-buffers)
+                                          ("R" "[recentf]" frog-jump-buffer-filter-recentf) ;; TODO filter/replace frog-jump-buffer-recentf-buffers
+                                          ("B" "[ring]" frog-jump-buffer-filter-buffer-ring)
+                                          ("P" "[project]" frog-jump-buffer-filter-same-project)
+                                          ("S" "[similar]" frog-jump-buffer-filter-similar-name)))
   :bind
   ("C-," . frog-jump-buffer)
   ("C-x 4 C-," . frog-jump-buffer-other-window))
