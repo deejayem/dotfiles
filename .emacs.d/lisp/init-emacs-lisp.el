@@ -49,7 +49,7 @@ Start `ielm' if it's not already running."
         (("C-c C-z" . visit-ielm)
          ("C-M-x" . eval-region-or-defun)
          ("C-c C-c" . eval-region-or-defun)
-         ("C-c C-b" . eval-buffer)
+         ("C-c C-k" . eval-buffer)
          ("C-c e f" . emacs-lisp-byte-compile-and-load)
          ("C-c e z" .  byte-recompile-directory)
          ("C-c e c" . cancel-debug-on-entry)
