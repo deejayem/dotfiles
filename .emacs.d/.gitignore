@@ -18,6 +18,7 @@ places
 savefile/
 projectile-bookmarks.eld
 projects
+.projects
 session*
 .cask
 tramp
@@ -31,6 +32,7 @@ var/
 .lsp-session*
 lisp/init-local.el
 site-lisp
-straight
+.emacs.d/straight/
+!.emacs.d/straight/versions
 elpa
 eln-cache
