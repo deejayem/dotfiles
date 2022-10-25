@@ -123,6 +123,7 @@
   :config
   (global-undo-tree-mode)
   :custom
+  (undo-tree-enable-undo-in-region true)
   (undo-tree-history-directory-alist `((".*" . ,temporary-file-directory)))
   (undo-tree-auto-save-history t))
 
