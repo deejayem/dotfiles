@@ -4,37 +4,12 @@
 ;;; Code:
 
 (use-package org
-  :init
-  ;; TODO - can we do this with sp-wrap-with-pair?
-  (defmacro define-org-wrap (name char)
-    (let ((cmd (intern (concat "org-" name))))
-      `(defun ,cmd
-           ()
-         (interactive)
-         (if (use-region-p)
-             (let ((re (region-end))
-                   (rb (region-beginning)))
-               (goto-char re)
-               (insert ,char)
-               (goto-char rb)
-               (insert ,char))
-           (beginning-of-thing 'symbol)
-           (insert ,char)
-           (end-of-thing 'symbol)
-           (insert ,char)))
-      `(bind-key ,(concat "C-c " (char-to-string char)) ',cmd org-mode-map)))
   :custom
   (org-log-done t)
   (org-special-ctrl-k t)
   (org-special-ctrl-a t)
   :config
   (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-  (define-org-wrap "underline" ?_)
-  (define-org-wrap "bold" ?*)
-  (define-org-wrap "italic" ?/)
-  (define-org-wrap "verbatim" ?=)
-  (define-org-wrap "code" ?~)
-  (define-org-wrap "strike-through" ?+)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((shell . t)
