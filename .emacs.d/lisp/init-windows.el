@@ -112,7 +112,7 @@
        (persp-is-current-buffer buffer))))
 
   (defun frog-jump-buffer-filter-persp-buffer-ring-or-same-mode (buffer)
-    "Check if a BUFFER is in the current buffer-ring, else same major mode and perspective."
+    "Check if BUFFER is in the buffer-ring, falling back to persp + major mode."
     (let* ((bfr-ring (buffer-ring-current-ring))
            (ring (buffer-ring-ring-ring bfr-ring)))
       (if (dynaring-empty-p ring)
