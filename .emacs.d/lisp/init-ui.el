@@ -131,13 +131,14 @@
   :custom
   (whitespace-line-column 120)
   (whitespace-style '(face tabs empty trailing lines-tail))
+  :config
+  (defun turn-off-whitespace-mode ()
+    (whitespace-mode -1))
+  (defvar-local whitespace-disabled-modes '(cider-repl-mode ielm-mode vterm-mode eshell-mode shell-mode term-mode ansi-term-mode))
+  (dolist (mode whitespace-disabled-modes)
+    (add-hook (intern (concat (symbol-name mode) "-hook")) #'turn-off-whitespace-mode))
   :hook
   (text-mode . (lambda () (whitespace-mode +1)))
-  (prog-mode . (lambda () (whitespace-mode +1)))
-  (cider-repl-mode . (lambda () (whitespace-mode -1)))
-  (ielm-mode . (lambda () (whitespace-mode -1)))
-  (vterm-mode . (lambda () (whitespace-mode -1)))
-  (eshell-mode . (lambda () (whitespace-mode -1))))
 
 (use-package volatile-highlights
   :defer 10
