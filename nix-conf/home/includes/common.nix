@@ -34,6 +34,7 @@
     nix-info
     nix-prefetch-git
     nix-prefetch-github
+    nvd
     pinentry
     pass
     #procs
