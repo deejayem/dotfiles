@@ -139,6 +139,7 @@
     (add-hook (intern (concat (symbol-name mode) "-hook")) #'turn-off-whitespace-mode))
   :hook
   (text-mode . (lambda () (whitespace-mode +1)))
+  (prog-mode . (lambda () (whitespace-mode +1))))
 
 (use-package volatile-highlights
   :defer 10
