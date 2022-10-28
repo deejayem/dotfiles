@@ -1,4 +1,8 @@
 { config, pkgs, ... }:
+let
+  hcr = pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
+  scr = pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; };
+in
 {
 
   imports = [
@@ -6,6 +10,9 @@
   ];
 
   home.packages = with pkgs; [
+    hcr
+    scr
+
     aspell
     aspellDicts.en
     aspellDicts.en-computers
