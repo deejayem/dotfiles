@@ -23,6 +23,7 @@
     keys = [ "id_rsa" "id_ed25519" "C171251002C200F2" ];
   #  extraFlags = [ "--quiet" "--ignore-missing" ];
   };
+  programs.command-not-found.enable = false;
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -69,6 +70,8 @@
     };
 
     initExtra = ''
+      source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
+
       # Taken from prezto tmux plugin
       if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && -z "$SSH_TTY" ]]; then
         tmux start-server

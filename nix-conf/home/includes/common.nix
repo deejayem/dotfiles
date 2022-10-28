@@ -50,5 +50,6 @@
   ];
 
   programs.gpg.enable = true;
+  programs.nix-index.enable = true;
 }
 
