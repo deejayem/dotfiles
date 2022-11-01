@@ -15,9 +15,11 @@
     #gnused
     #adoptopenjdk-hotspot-bin-8
     #lima
+    minikube
     mpv
     mu
     nix # on darwin we are not using nixos (duh)
+    node
     openvpn
     pinentry_mac
     pgcli
