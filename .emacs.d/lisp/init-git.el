@@ -207,6 +207,64 @@
        (get-buffer-create name)
        `("git" "--no-pager" "diff" "--ext-diff" ,@(when arg (list arg))))))
 
+  (require 'ansi-color)
+  ;; https://tsdh.org/posts/2022-07-20-using-eldoc-with-magit-async.html
+  ;; https://tsdh.org/posts/2021-06-21-using-eldoc-with-magit.html
+  (defvar my/eldoc-git-show-stat--process nil)
+  (defun my/eldoc-git-show-stat (callback commit)
+    "Compute diffstat for COMMIT asynchronously, then call CALLBACK with it."
+    ;; Kill the possibly still running old process and its buffer.
+    (when (processp my/eldoc-git-show-stat--process)
+      (let ((buf (process-buffer my/eldoc-git-show-stat--process)))
+        (when (process-live-p my/eldoc-git-show-stat--process)
+          (let (confirm-kill-processes)
+            (kill-process my/eldoc-git-show-stat--process)))
+        (when (buffer-live-p buf)
+          (kill-buffer buf))))
+
+    ;; Spawn a new "git show" process.
+    (let* ((cmd (list "git" "--no-pager" "show"
+                      "--no-color"
+                      ;; Author Name <author@email.com>, <date-and-time>
+                      "--format=format:%an <%ae>, %aD"
+                      "--stat=80"
+                      commit)))
+      ;; An async eldoc-documentation-function must also return a non-nil,
+      ;; non-string result if it's applicable for computing a documentation
+      ;; string, so we set and return the new process here.
+      (setq my/eldoc-git-show-stat--process
+            (make-process
+             :name "eldoc-git-show"
+             :buffer (generate-new-buffer " *git-show-stat*")
+             :noquery t
+             :command cmd
+             :sentinel (lambda (proc event)
+                         (when (eq (process-status proc) 'exit)
+                           (with-current-buffer (process-buffer proc)
+                             (goto-char (point-min))
+                             (put-text-property (point-min)
+                                                (line-end-position)
+                                                'face 'bold)
+                             (funcall callback (buffer-string)))))))))
+
+  (defvar my/magit-eldoc-last-commit nil)
+  (defun my/magit-eldoc-for-commit (callback)
+    (let ((commit (magit-commit-at-point)))
+      (when (and commit
+                 (not (equal commit my/magit-eldoc-last-commit)))
+        (setq my/magit-eldoc-last-commit commit)
+        (my/eldoc-git-show-stat callback commit))))
+
+  (defun my/magit-eldoc-setup ()
+    (add-hook 'eldoc-documentation-functions
+              #'my/magit-eldoc-for-commit nil t))
+
+  (add-hook 'magit-status-mode-hook #'my/magit-eldoc-setup)
+  (add-hook 'magit-log-mode-hook #'my/magit-eldoc-setup)
+
+  (eldoc-add-command 'magit-next-line)
+  (eldoc-add-command 'magit-previous-line)
+
   ;; Based on https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html
   (transient-define-prefix my/magit-extra-commands ()
     "Extra magit commands."
