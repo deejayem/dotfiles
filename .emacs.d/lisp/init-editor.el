@@ -171,6 +171,19 @@
   :diminish
   :hook (prog-mode . ws-butler-mode))
 
+(use-package aggressive-indent
+  :diminish
+  :config
+  (unbind-key "C-c C-q" aggressive-indent-mode-map)
+  ;; don't indent lisp comments
+  (add-to-list 'aggressive-indent-dont-indent-if
+               '(and (derived-mode-p 'prog-mode)
+                     (string-match "^\s*;"
+                                   (thing-at-point 'line))))
+  :hook
+  (emacs-lisp . aggressive-indent-mode)
+  (clojure-mode . aggressive-indent-mode))
+
 (use-package hungry-delete
   :diminish
   :hook (prog-mode . turn-on-hungry-delete-mode))
