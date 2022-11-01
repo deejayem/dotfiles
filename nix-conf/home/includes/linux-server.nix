@@ -5,10 +5,13 @@
   ];
 
   home.packages = with pkgs; [
+    duplicity
     emacs-nox
     irssi
     msmtp
     neomutt
+    protonmail-bridge
+    restic
   ];
 
   ## TODO programs.tmux.prefix newSession plugins etc
