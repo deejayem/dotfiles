@@ -19,7 +19,7 @@
     mpv
     mu
     nix # on darwin we are not using nixos (duh)
-    node
+    nodejs
     openvpn
     pinentry_mac
     pgcli
