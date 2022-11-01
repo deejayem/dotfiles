@@ -106,9 +106,6 @@
 ;  (text-mode . (lambda () (flyspell-mode +1)))
 ;  (prog-mode . (lambda () (flyspell-prog-mode))))
 
-(use-package expand-region
-  :bind ("C-=" . er/expand-region))
-
 (use-package bookmark
   :custom
   (bookmark-default-file (expand-file-name "bookmarks" save-dir))

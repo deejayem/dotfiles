@@ -11,7 +11,9 @@
 (use-package easy-kill
   :bind
   ([remap kill-ring-save] . easy-kill)
-  ("C-M-S-SPC" . easy-mark))
+  ;; emulate expand-region
+  ("C-=" . easy-mark)
+  (:map easy-kill-base-map ("C-=" . easy-kill-expand)))
 
 (use-package emacs
   :hook
