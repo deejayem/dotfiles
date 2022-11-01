@@ -26,7 +26,6 @@
   ("C-^" . crux-top-join-line)
   ("C-<backspace>" . crux-kill-line-backwards)
   ([remap kill-whole-line] . crux-kill-whole-line)
-  ("C-a" . crux-move-beginning-of-line)
   ;; TODO don't need all of these
   ("C-<return>" . crux-smart-open-line)
   ("S-<return>" . crux-smart-open-line)
