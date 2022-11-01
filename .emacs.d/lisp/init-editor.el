@@ -171,6 +171,10 @@
   :diminish
   :hook (prog-mode . ws-butler-mode))
 
+(use-package hungry-delete
+  :diminish
+  :hook (prog-mode . turn-on-hungry-delete-mode))
+
 (use-package mwim
   :bind
   ("C-a" . mwim-beginning)
