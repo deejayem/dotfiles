@@ -73,6 +73,7 @@
      `(font-lock-doc-face ((t :foreground "LightCyan3")))
      `(region ((t (:background "firebrick"))))
      `(secondary-selection ((t (:background "firebrick4"))))
+     `(highlight ((t (:background "grey30"))))
      `(idle-highlight ((t (:background "grey50" :foreground "white"))))
      `(isearch ((t (:background "coral2"))))
      `(lazy-highlight ((t (:background "LightSteelBlue2" :foreground "black"))))
