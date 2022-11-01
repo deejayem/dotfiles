@@ -50,7 +50,6 @@
 
 (use-package clj-refactor
   :diminish
-  :after yasnippet
   :bind ("C-c @" . hydra-cljr-help-menu/body)
   :custom
   (cljr-suppress-no-project-warning t)
