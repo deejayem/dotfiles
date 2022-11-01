@@ -17,7 +17,6 @@
          (t (list (line-beginning-position) (line-beginning-position 2)))))))
 
   (crux-with-region-or-sexp-or-line sp-kill-region)
-  (crux-with-region-or-sexp-or-line paredit-kill-region)
   (crux-with-region-or-buffer shell-command-on-region)
   (crux-with-region-or-buffer indent-region)
   (crux-with-region-or-buffer untabify)

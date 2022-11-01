@@ -52,7 +52,6 @@
 (require! 'init-smartparens)
 (require! 'init-emacs-lisp)
 (require! 'init-clojure)
-(require! 'init-paredit)
 (require! 'init-crux)
 (require! 'init-lsp)
 (require! 'init-git)

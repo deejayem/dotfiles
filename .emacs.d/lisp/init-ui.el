@@ -220,8 +220,7 @@
   :config
   (defun eval-expr-minibuffer-setup ()
     (local-set-key (kbd "<tab>") #'lisp-complete-symbol)
-    (set-syntax-table emacs-lisp-mode-syntax-table)
-    (paredit-mode)))
+    (set-syntax-table emacs-lisp-mode-syntax-table)))
 
 (provide 'init-ui)
 ;;; init-ui.el ends here
