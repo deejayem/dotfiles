@@ -184,26 +184,15 @@
   (dolist (cmd '(previous-buffer next-buffer))
     (put cmd 'repeat-map 'buffer-repeat-map)))
 
-(use-package pulsar
-  :defer 5
-  :custom
-  (pulsar-pulse t)
-  (pulsar-iterations 80)
-  (pulsar-face 'pulsar-yellow)
-  :hook
-  (isearch-update-post-hook . pulsar-pulse-line)
-  (consult-after-jump-hook . pulsar-pulse-line)
-  :bind ("C-c c p" . pulsar-pulse-line))
-
 (use-package beacon
- :defer 5
- :diminish
- :custom
- (beacon-color "yellow")
- (beacon-push-mark 20)
- :bind ("C-c c b" . beacon-blink)
- :config
- (beacon-mode 1))
+  :defer 5
+  :diminish
+  :custom
+  (beacon-color "yellow")
+  (beacon-push-mark 20)
+  :bind ("C-c c b" . beacon-blink)
+  :config
+  (beacon-mode 1))
 
 (use-package helpful
   :bind (("C-h f" . helpful-callable)
