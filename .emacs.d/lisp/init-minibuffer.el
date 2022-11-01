@@ -441,11 +441,12 @@ DEFS is a plist associating completion categories to commands."
   :custom
   (prefix-help-command 'embark-prefix-help-command)
   :config
-  (defun embark-preview ()
+  (defun my-embark-preview ()
+    "Previews candidate in vertico buffer, unless it's a consult command"
     (interactive)
-    (unless (bound-and-true-p consult--preview-function) ;; Disable preview for Consult commands
+    (unless (bound-and-true-p consult--preview-function)
       (save-selected-window
-        (let ((embark-quit-after-action))
+        (let ((embark-quit-after-action nil))
           (embark-dwim)))))
 
   ;; Hide the mode line of the Embark live/completions buffers
