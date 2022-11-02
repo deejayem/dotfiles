@@ -10,7 +10,6 @@
     irssi
     msmtp
     neomutt
-    protonmail-bridge
     restic
   ];
 

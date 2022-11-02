@@ -26,7 +26,6 @@
     mu
     notmuch
     nix
-    protonmail-bridge
     protonvpn-cli
     youtube-dl
   ];
