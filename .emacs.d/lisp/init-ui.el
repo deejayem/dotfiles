@@ -80,7 +80,7 @@
      `(match ((t (:background "gray35" :foreground "grey85"))))
      `(lsp-face-highlight-textual ((t (:background "DimGrey"))))
      `(whitespace-empty ((t (:background "gray10"))))
-     `(hl-line ((t :background "gray15" :underline "gray35" :inherit nil)))
+     `(hl-line ((t :background "gray20" :underline "gray40" :inherit nil)))
      `(simple-modeline-status-modified ((t :foreground "DeepSkyBlue")))
      `(consult-async-split ((t :foreground "LightCoral")))
      `(orderless-match-face-0 ((t :foreground "tomato")))
