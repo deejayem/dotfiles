@@ -151,7 +151,38 @@ DEFS is a plist associating completion categories to commands."
   (add-to-list 'savehist-additional-variables 'vertico-repeat-history))
 
 (use-extension vertico vertico-indexed
-  :config (vertico-indexed-mode 1))
+  ;; TODO why doesn't bind-key/define-key work in the macro
+  :bind (:map vertico-map
+              ("C-0" . vertico-indexed-choose-0)
+              ("C-1" . vertico-indexed-choose-1)
+              ("C-2" . vertico-indexed-choose-2)
+              ("C-3" . vertico-indexed-choose-3)
+              ("C-4" . vertico-indexed-choose-4)
+              ("C-5" . vertico-indexed-choose-5)
+              ("C-6" . vertico-indexed-choose-6)
+              ("C-7" . vertico-indexed-choose-7)
+              ("C-8" . vertico-indexed-choose-8)
+              ("C-9" . vertico-indexed-choose-9))
+  :config
+  (defmacro def-choose (n)
+    `(defun ,(intern (format "vertico-indexed-choose-%s" n)) ()
+       ,(message "Exit minibuffer with candidate %s" n)
+       (interactive)
+       (let ((current-prefix-arg ,n))
+         (message "%s" current-prefix-arg)
+         (funcall-interactively 'vertico-exit))))
+  ;; TODO why doens't this work in dotimes
+  (def-choose 0)
+  (def-choose 1)
+  (def-choose 2)
+  (def-choose 3)
+  (def-choose 4)
+  (def-choose 5)
+  (def-choose 6)
+  (def-choose 7)
+  (def-choose 8)
+  (def-choose 9)
+  (vertico-indexed-mode 1))
 
 (use-extension vertico vertico-quick
   :bind (:map vertico-map
