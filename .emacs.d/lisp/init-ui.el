@@ -184,14 +184,20 @@
   (dolist (cmd '(previous-buffer next-buffer))
     (put cmd 'repeat-map 'buffer-repeat-map)))
 
+
 (use-package beacon
   :defer 5
   :diminish
   :custom
   (beacon-color "yellow")
   (beacon-push-mark 20)
+  (beacon-blink-duration 0.4)
+  (beacon-size 45)
+  ;; (beacon-blink-when-point-moves-vertically t) ;; TODO why does this cause errors?
+  (beacon-blink-when-focused t)
   :bind ("C-c c b" . beacon-blink)
   :config
+  (add-to-list 'beacon-dont-blink-major-modes 'cider-repl-mode t)
   (beacon-mode 1))
 
 (use-package helpful
