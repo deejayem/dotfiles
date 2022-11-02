@@ -193,5 +193,17 @@
   ("C-a" . mwim-beginning)
   ("C-e" . mwim-end))
 
+(use-package auto-yasnippet
+  :bind
+  ("C-c C-y w" . aya-create)
+  ("C-c C-y TAB" . aya-expand)
+  ("C-c C-y SPC" . aya-expand-from-history)
+  ("C-c C-y d" . aya-delete-from-history)
+  ("C-c C-y c" . aya-clear-history)
+  ("C-c C-y n" . aya-next-in-history)
+  ("C-c C-y p" . aya-previous-in-history)
+  ("C-c C-y s" . aya-persist-snippet)
+  ("C-c C-y o" . aya-open-line))
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
