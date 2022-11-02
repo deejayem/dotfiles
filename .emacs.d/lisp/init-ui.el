@@ -215,7 +215,8 @@
   :config
   (defun eval-expr-minibuffer-setup ()
     (local-set-key (kbd "<tab>") #'lisp-complete-symbol)
-    (set-syntax-table emacs-lisp-mode-syntax-table)))
+    (set-syntax-table emacs-lisp-mode-syntax-table)
+    (smartparens-strict-mode)))
 
 (provide 'init-ui)
 ;;; init-ui.el ends here
