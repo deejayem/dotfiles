@@ -169,7 +169,6 @@ DEFS is a plist associating completion categories to commands."
        ,(message "Exit minibuffer with candidate %s" n)
        (interactive)
        (let ((current-prefix-arg ,n))
-         (message "%s" current-prefix-arg)
          (funcall-interactively 'vertico-exit))))
   ;; TODO why doens't this work in dotimes
   (def-choose 0)
