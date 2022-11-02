@@ -3,7 +3,11 @@
 ;;; Code:
 
 (use-package paredit
-  :commands (paredit-semicolon paredit-comment-dwim))
+  :commands (paredit-semicolon
+             paredit-comment-dwim
+             paredit-close-round
+             paredit-close-square
+             paredit-close-curly))
 
 (use-package smartparens
   :diminish
@@ -54,7 +58,7 @@
   :bind (:map smartparens-mode-map
               ("C-M-?" . sp-convolute-sexp)
               ([remap mark-sexp] . sp-mark-sexp)
-              ("M-[" . paredit-smart-wrap-square)
+              ("M-[" . sp-wrap-square)
               ("C-c M-{" . sp-wrap-curly)
               ("M-W" . sp-copy-sexp)
               (")" . paredit-close-round)
