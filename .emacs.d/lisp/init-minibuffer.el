@@ -464,7 +464,8 @@ DEFS is a plist associating completion categories to commands."
    ("C-h b" . embark-bindings)
    ("C-h B" . describe-bindings)
    (:map minibuffer-local-map
-         ("M-." . embark-preview))
+         ("M-." . embark-preview)
+         ("C-," . embark-become))
    (:map embark-become-file+buffer-map
          ("e" . consult-project-extra-find)
          ("E" . project-switch-consult-project-extra-find)))
