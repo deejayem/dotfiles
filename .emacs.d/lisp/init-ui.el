@@ -192,8 +192,7 @@
   (beacon-color "yellow")
   (beacon-push-mark 20)
   (beacon-blink-duration 0.4)
-  (beacon-size 45)
-  ;; (beacon-blink-when-point-moves-vertically t) ;; TODO why does this cause errors?
+  (beacon-blink-when-point-moves-vertically 10)
   (beacon-blink-when-focused t)
   :bind ("C-c c b" . beacon-blink)
   :config
