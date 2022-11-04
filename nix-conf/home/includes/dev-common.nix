@@ -23,7 +23,7 @@
       set-option -g status-bg '#666666'
       set-option -g status-fg '#aaaaaa'
       set-option -g status-left-length 50
-      set-option -g status-right " #(date ''\'+%a, %b %d - %I:%M''\') "
+      set-option -g status-right " %a, %b %d - %H:%M "
     '';
   };
 
