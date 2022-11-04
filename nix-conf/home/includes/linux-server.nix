@@ -5,7 +5,6 @@
   ];
 
   home.packages = with pkgs; [
-    duplicity
     emacs-nox
     irssi
     msmtp
