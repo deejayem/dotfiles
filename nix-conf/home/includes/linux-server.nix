@@ -12,6 +12,11 @@
     restic
   ];
 
+  services.gpg-agent = {
+    enable = true;
+    pinentryFlavor = "curses";
+  };
+
   ## TODO programs.tmux.prefix newSession plugins etc
   programs.tmux = {
     enable = true;
