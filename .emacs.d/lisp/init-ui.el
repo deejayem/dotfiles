@@ -142,14 +142,14 @@
   (text-mode . (lambda () (whitespace-mode +1)))
   (prog-mode . (lambda () (whitespace-mode +1))))
 
-(use-package volatile-highlights
-  :defer 10
+(use-package goggles
   :diminish
+  :custom
+  (goggles-pulse-delay 0.1)
+  (goggles-pulse-iterations 10)
+  :hook ((prog-mode text-mode) . goggles-mode)
   :config
-  (vhl/define-extension 'undo-tree 'undo-tree-yank 'undo-tree-move)
-  (vhl/install-extension 'undo-tree)
-  :init
-  (volatile-highlights-mode t))
+  (set-face-background 'goggles-removed "red4"))
 
 (use-package idle-highlight-mode
   :hook (prog-mode . idle-highlight-mode))
