@@ -57,6 +57,10 @@ in
   ];
 
   programs.gpg.enable = true;
-  programs.nix-index.enable = true;
+  programs.nix-index = {
+    enable = true;
+    enableZshIntegration = false;
+    enableBashIntegration = false;
+  };
 }
 
