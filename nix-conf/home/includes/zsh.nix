@@ -29,6 +29,7 @@
     enableCompletion = true;
     enableAutosuggestions = true;
     defaultKeymap = "emacs";
+    expireDuplicatesFirst = true;
     history = {
       size = 100000;
       save = 100000;
