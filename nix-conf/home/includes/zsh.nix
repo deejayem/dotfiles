@@ -97,7 +97,7 @@
 
       # make home and end work
       [[ -z "$terminfo[khome]" ]] || bindkey -M emacs "$terminfo[khome]" beginning-of-line
-      [[ -z "$terminfo[khome]" ]] || bindkey -M emacs "$terminfo[khome]" beginning-of-line
+      [[ -z "$terminfo[kend]" ]] || bindkey -M emacs "$terminfo[kend]" end-of-line
 
       # disable sort when completing `git checkout`
       zstyle ''\':completion:*:git-checkout:*''\' sort false
