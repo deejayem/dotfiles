@@ -18,6 +18,7 @@
   programs.tmux = {
     enable = true;
     terminal = "screen-256color";
+    prefix = "C-x";
     #tmuxp.enable = true;
     extraConfig = ''
       set-option -g status-bg '#666666'
