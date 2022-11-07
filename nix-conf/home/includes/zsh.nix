@@ -95,7 +95,6 @@
       bindkey '^[[A' history-substring-search-up
       bindkey '^[[B' history-substring-search-down
 
-      # TODO should we use something based on ~/.zkbd/$TERM-${${DISPLAY:t}:-$VENDOR-$OSTYPE} ?
       # make home and end work
       [[ -z "$terminfo[khome]" ]] || bindkey -M emacs "$terminfo[khome]" beginning-of-line
       [[ -z "$terminfo[khome]" ]] || bindkey -M emacs "$terminfo[khome]" beginning-of-line
