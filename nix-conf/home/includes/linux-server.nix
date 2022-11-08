@@ -15,6 +15,8 @@
   services.gpg-agent = {
     enable = true;
     pinentryFlavor = "curses";
+    defaultCacheTtl = 34560000;
+    maxCacheTtl = 34560000;
   };
 
   ## TODO newSession plugins etc
