@@ -27,6 +27,7 @@
     notmuch
     nix
     protonvpn-cli
+    xsel
     youtube-dl
   ];
 
