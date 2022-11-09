@@ -44,7 +44,6 @@ in
     nvd
     pinentry
     pass
-    #procs
     libqalculate
     ripgrep
     rlwrap
@@ -53,7 +52,6 @@ in
     ugrep
     vim
     w3m
-    zenith
   ];
 
   programs.gpg.enable = true;
