@@ -12,5 +12,7 @@ nix-shell '<home-manager>' -A install
 ln -sf ~/dotfiles/.p10k.zsh ~/
 ln -sf ~/dotfiles/.emacs.d ~/
 
+echo "extra-experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
+
 home-manager switch
 
