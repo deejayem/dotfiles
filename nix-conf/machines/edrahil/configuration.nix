@@ -1,6 +1,7 @@
 { config, pkgs,... }: {
   imports = [
     ./hardware-configuration.nix
+    ./network-configuration.nix
   ];
 
   boot.cleanTmpDir = true;
@@ -11,16 +12,6 @@
     enable = true;
     allowedTCPPorts = [ 113 2222 ];
   };
-  networking = {
-  interfaces.ens3.ipv6.addresses = [{
-    address = "2a01:4f8:c0c:2be9::1";
-    prefixLength = 64;
-  }];
-  defaultGateway6 = {
-    address = "fe80::1";
-    interface = "ens3";
-  };
-};
 
   services.openssh = {
     enable = true;
