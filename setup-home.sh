@@ -8,7 +8,8 @@ nix-channel --update
 export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
 nix-shell '<home-manager>' -A install
 
-[ -f ~/dotfiles/nix-conf/home/$HOST.nix ] && ln -sf ~/dotfiles/nix-conf/home/$HOST.nix ~/.config/nixpkgs/home.nix
+HOME_CONF="$HOME/dotfiles/nix-conf/home/${CONF:-${HOST}}.nix"
+[ -f $HOME_CONF ] && ln -sf $HOME_CONF ~/.config/nixpkgs/home.nix
 ln -sf ~/dotfiles/.p10k.zsh ~/
 ln -sf ~/dotfiles/.emacs.d ~/
 
