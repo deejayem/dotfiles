@@ -1,6 +1,6 @@
 #!/bin/sh
 
-git clone git@codeberg.org:djm/dotfiles.git
+[ -e ~/dotfiles ] || git clone git@codeberg.org:djm/dotfiles.git
 
 nix-channel --add https://github.com/nix-community/home-manager/archive/release-$(nixos-version | cut -d. -f1-2).tar.gz home-manager
 nix-channel --update
