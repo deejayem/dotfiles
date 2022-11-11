@@ -198,9 +198,9 @@
   (beacon-mode 1))
 
 (use-package helpful
-  :bind (("C-h f" . helpful-callable)
-         ("C-h F" . helpful-function)
-         ("C-h C-f" . helpful-command)
+  :bind (("C-h f" . helpful-function)
+         ("C-h F" . helpful-callable)
+         ("C-h x" . helpful-command)
          ("C-h v" . helpful-variable)
          ("C-h k" . helpful-key)
          ("C-h o" . helpful-symbol)
