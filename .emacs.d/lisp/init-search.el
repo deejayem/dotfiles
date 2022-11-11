@@ -65,7 +65,7 @@
 
 (use-package affe
   :config
-  (setq affe-grep-command (replace-regexp-in-string "\\." "-Suu ." affe-grep-command))
+  (setq affe-grep-command (replace-regexp-in-string "rg" "rg -Suu" affe-grep-command))
   ;; Configure Orderless
   (defun affe-orderless-regexp-compiler (input _type _ignorecase)
     (setq input (orderless-pattern-compiler input))
