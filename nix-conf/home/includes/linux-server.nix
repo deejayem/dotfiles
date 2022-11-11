@@ -19,14 +19,14 @@
     maxCacheTtl = 34560000;
   };
 
-  ## TODO newSession plugins etc
   programs.tmux = {
     enable = true;
     #terminal = "screen-256color";
     prefix = "C-a";
     #tmuxp.enable = true;
     extraConfig = ''
-      tmux bind-key R run-shell ' \
+      unbind-key R
+      bind-key R run-shell ' \
         tmux source-file ~/.config/tmux/tmux.conf > /dev/null; \
         tmux display-message "Sourced .config/tmux/tmux.conf!"'
       bind-key C-a last-window
