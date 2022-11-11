@@ -12,6 +12,8 @@ HOME_CONF="$HOME/dotfiles/nix-conf/home/${CONF:-${HOST}}.nix"
 [ -f $HOME_CONF ] && ln -sf $HOME_CONF ~/.config/nixpkgs/home.nix
 ln -sf ~/dotfiles/.p10k.zsh ~/
 ln -sf ~/dotfiles/.emacs.d ~/
+# TODO can this be included in zsh.nix?
+ln -s ~/dotfiles/fzf-git ~/
 
 mkdir ~/.config/nix
 echo "extra-experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
