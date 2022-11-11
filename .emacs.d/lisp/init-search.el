@@ -51,11 +51,16 @@
   (defun deadgrep-symbol-at-point ()
     (interactive)
     (deadgrep (thing-at-point 'symbol)))
+  (defun deadgrep-current-directory (search-term)
+    (interactive (list (deadgrep--read-search-term)))
+    (deadgrep search-term (file-name-directory buffer-file-name)))
   :bind
-  ("C-S-z" . deadgrep-symbol-at-point)
   ("C-c c d" . deadgrep)
+  ("C-S-z" . deadgrep-symbol-at-point)
+  ("C-c c C-d" . deadgrep-current-directory)
   (:map search-map
         ("d" . deadgrep)
+        ("C-d" . deadgrep-current-directory)
         ("D" . deadgrep-symbol-at-point)))
 
 (use-package affe
