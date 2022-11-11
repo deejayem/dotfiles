@@ -146,7 +146,7 @@
   :diminish
   :custom
   (goggles-pulse-delay 0.1)
-  (goggles-pulse-iterations 10)
+  (goggles-pulse-iterations 15)
   :hook ((prog-mode text-mode) . goggles-mode)
   :config
   (set-face-background 'goggles-removed "red4"))
@@ -184,14 +184,12 @@
   (dolist (cmd '(previous-buffer next-buffer))
     (put cmd 'repeat-map 'buffer-repeat-map)))
 
-
 (use-package beacon
   :defer 5
   :diminish
   :custom
   (beacon-color "yellow")
   (beacon-push-mark 20)
-  (beacon-blink-duration 0.4)
   (beacon-blink-when-point-moves-vertically 10)
   (beacon-blink-when-focused t)
   :bind ("C-c c b" . beacon-blink)
