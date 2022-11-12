@@ -18,6 +18,11 @@ in
     aspellDicts.en-computers
     aspellDicts.en-science
     bat
+    bat-extras.batdiff
+    bat-extras.batgrep
+    bat-extras.batman
+    bat-extras.batwatch
+    #bat-extras.batpipe # wait for 22.11
     bottom
     broot
     curl
@@ -25,6 +30,7 @@ in
     duf
     du-dust
     elinks
+    entr
     exa
     fd
     fzf
