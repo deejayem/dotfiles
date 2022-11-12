@@ -51,7 +51,7 @@
       mv = "mv -iv";
       mkdir = "mkdir -v";
       pp = "pushbullet push \"Pixel\" link \"\${1}\" \"\${1}\"";
-      upgrade_emacs = "cp ~/.emacs.d/straight/versions/default.el straight-versions-default-`date \"+%Y-%m-%d-%H%M%S\"`.el && emacs --batch -l \"~/.emacs.d/init.el\" -f \"my/upgrade-packages\"";
+      upgrade_emacs = "cp ~/.emacs.d/straight/versions/default.el ~/straight-versions-default-`date \"+%Y-%m-%d-%H%M%S\"`.el && emacs --batch -l \"~/.emacs.d/init.el\" -f \"my/upgrade-packages\"";
       diff_emacs = "difft --color always --context 0 $(ls -d1v ~/straight-versions-default-*.el | tail -1) ~/.emacs.d/straight/versions/default.el | grep '\\[9[12]' | egrep -v '(gnu-elpa-mirror|nongnu-elpa|melpa|emacsmirror-mirror)'";
       nix-up = "git -C ~/dotfiles pull && doas nix-channel --update && doas nixos-rebuild switch && nix-channel --update && home-manager switch && system-changes-report && hm-changes-report";
       home-up = "git -C ~/dotfiles pull && nix-channel --update && home-manager switch && hm-changes-report";
