@@ -12,6 +12,7 @@
     ((emacsPackagesFor emacsMacport).emacsWithPackages(ps: [ ps.vterm ]))
     findutils
     gh
+    gh-dash
     #gnused
     #adoptopenjdk-hotspot-bin-8
     #lima
