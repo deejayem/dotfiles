@@ -56,7 +56,6 @@ in
     sd
     tealdeer
     ugrep
-    vim
     w3m
   ];
 
@@ -65,6 +64,40 @@ in
     enable = true;
     enableZshIntegration = false;
     enableBashIntegration = false;
+  };
+
+  programs.vim = {
+    enable = true;
+    extraConfig = ''
+      " molokayo doesn't load properly without this"
+      colorscheme molokai
+      colorscheme molokayo
+      " highlight doesn't work properly without this"
+      syntax enable
+      highlight Normal ctermfg=white ctermbg=black
+      set hlsearch
+      set showmatch
+    '';
+    plugins = [ pkgs.vimPlugins.sensible
+                pkgs.vimPlugins.auto-pairs
+                pkgs.vimPlugins.awesome-vim-colorschemes
+                pkgs.vimPlugins.ctrlp
+                pkgs.vimPlugins.inkpot
+                pkgs.vimPlugins.surround
+                pkgs.vimPlugins.vim-lastplace
+                pkgs.vimPlugins.vim-pasta
+                pkgs.vimPlugins.vim-sleuth
+    ];
+    settings = {
+      background = "dark";
+      copyindent = true;
+      expandtab = true;
+      ignorecase = true;
+      number = true;
+      shiftwidth = 4;
+      smartcase = true;
+      tabstop = 4;
+    };
   };
 }
 
