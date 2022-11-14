@@ -99,5 +99,67 @@ in
       tabstop = 4;
     };
   };
+
+  programs.ssh = {
+    enable = true;
+    extraConfig = ''
+      Host *
+        AddKeysToAgent yes
+        IgnoreUnknown UseKeychain
+        UseKeychain yes
+    '';
+    includes = [ "~/.ssh/config_local" ];
+    matchBlocks = {
+      "djm.ovh" = {
+        hostname = "v.djm.ovh";
+        port = 2222;
+      };
+      "devio" = {
+         hostname = "devio.us";
+         user = "deejayem";
+         port = 2222;
+      };
+      "sdf" = {
+        hostname = "sdf.org";
+        user = "deejayem";
+      };
+      "sdfeu" = {
+        hostname = "sdf-eu.org";
+        user = "deejayem";
+      };
+      "grex" = {
+        hostname = "grex.org";
+        user = "deejayem";
+      };
+      "blinkenshell" = {
+         hostname = "ssh.blinkenshell.org";
+         port = 2222;
+      };
+      "hashbang" = {
+        hostname = "de1.hashbang.sh";
+      };
+      "o1" = {
+        hostname = "130.162.163.108";
+      };
+      "o2" = {
+        hostname = "143.47.239.39";
+      };
+      "tilde.institute" = {
+        hostname = "tilde.institute";
+      };
+      "tilde.team" = {
+        hostname = "tilde.team";
+      };
+      "ctrl-c.club" = {
+        hostname = "ctrl-c.club";
+      };
+      "github.com" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "~/.ssh/id_ed25519";
+        identitiesOnly = true;
+      };
+    };
+  };
 }
 

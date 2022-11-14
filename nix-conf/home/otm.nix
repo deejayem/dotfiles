@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
   imports = [ 
     ./includes/darwin.nix
@@ -11,6 +11,21 @@
   # paths it should manage.
   home.username = "djm";
   home.homeDirectory = "/Users/djm";
+
+  programs.ssh.matchBlocks = {
+    "github.com" = lib.mkForce {
+      hostname = "github.com";
+      user = "git";
+      identityFile = "~/.ssh/id_rsa";
+      identitiesOnly = true;
+    };
+    "github.com-personal" = {
+      hostname = "github.com";
+      user = "git";
+      identityFile = "~/.ssh/id_ed25519";
+      identitiesOnly = true;
+    };
+  };
   
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
