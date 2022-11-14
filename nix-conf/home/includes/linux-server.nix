@@ -47,5 +47,6 @@
     '';
   };
 
+  programs.vim.packageConfigurable = pkgs.vim;
 }
 
