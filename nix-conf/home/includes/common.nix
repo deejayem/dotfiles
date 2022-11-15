@@ -33,13 +33,16 @@ in
     entr
     exa
     fd
+    file
     fzf
     git
     gnupg
     gopass
+    inetutils
     ispell
     isync
     jq
+    libqalculate
     lscolors
     lsd
     lynx
@@ -50,12 +53,12 @@ in
     nvd
     pinentry
     pass
-    libqalculate
     ripgrep
     rlwrap
     sd
     tealdeer
     ugrep
+    uni
     w3m
   ];
 
