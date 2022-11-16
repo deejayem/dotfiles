@@ -81,9 +81,9 @@ in
     '';
     plugins = [ pkgs.vimPlugins.sensible
                 pkgs.vimPlugins.auto-pairs
-                pkgs.vimPlugins.awesome-vim-colorschemes
                 pkgs.vimPlugins.ctrlp
                 pkgs.vimPlugins.inkpot
+                pkgs.vimPlugins.molokai
                 pkgs.vimPlugins.surround
                 pkgs.vimPlugins.vim-lastplace
                 pkgs.vimPlugins.vim-pasta
