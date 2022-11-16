@@ -72,10 +72,8 @@ in
   programs.vim = {
     enable = true;
     extraConfig = ''
-      " molokayo doesn't load properly without this"
       colorscheme molokai
-      colorscheme molokayo
-      " highlight doesn't work properly without this"
+      " highlight doesn't work properly without this
       syntax enable
       highlight Normal ctermfg=white ctermbg=black
       set hlsearch
