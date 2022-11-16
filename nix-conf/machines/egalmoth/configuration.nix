@@ -181,6 +181,8 @@ in
     enableSSHSupport = true;
   };
 
+  programs.vim.defaultEditor = true;
+
   services.openssh.enable = true;
 
   system.stateVersion = "21.05"; # Did you read the comment?

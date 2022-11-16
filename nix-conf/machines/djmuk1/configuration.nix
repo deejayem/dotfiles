@@ -54,12 +54,13 @@
      extraRules = [ { users = [ "djm" ]; noPass = true; keepEnv = true; } ];
    };
 
+   programs.vim.defaultEditor = true;
+
    environment.systemPackages = with pkgs; [
      #procmail
      vim
      wget
    ];
-   environment.variables = { EDITOR = "vim"; VISUAL = "vim"; };
 
    nix.trustedUsers = [ "root" "djm" ];
 
