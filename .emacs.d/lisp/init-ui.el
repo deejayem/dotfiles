@@ -90,6 +90,7 @@
      `(flycheck-fringe-warning ((t :foreground "white" :background "gold3")))
      `(flycheck-fringe-error ((t :foreground "white" :background "red2")))
      `(flycheck-fringe-info ((t :foreground "white" :background "RoyalBlue3")))
+     `(cider-debug-code-overlay-face ((t :background "gray45")))
      `(alt-font-lock-keyword-face ((t :foreground "LightSkyBlue" :weight bold)))
      `(alt-hl-line-face ((t :underline "gray50" :weight bold))))
 
