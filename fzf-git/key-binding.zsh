@@ -13,5 +13,7 @@ bind-git-helper() {
     eval "bindkey '^g^$c' fzf-g$c-widget"
   done
 }
+bindkey -r "^g"
+bindkey "^g^g" send-break
 bind-git-helper f b t r h
 unset -f bind-git-helper

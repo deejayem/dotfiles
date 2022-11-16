@@ -68,7 +68,7 @@
       glgg = "git log --graph";
       glgga = "git log --graph --decorate --all";
       glgm = "git log --graph --max-count=10";
-      glo = "git log --oneline --decorate";
+      glo_ = "git log --oneline --decorate";
       glol = "git log --graph --pretty=\"%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset\"";
       glols = "git log --graph --pretty=\"%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset\" --stat";
       glod = "git log --graph --pretty=\"%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset\"";
@@ -93,7 +93,7 @@
       export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
       export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
       export FZF_ALT_C_COMMAND="rg --hidden --files --sort-files --null | xargs -0 dirname | sort -u"
-      if [ -d "~/fzf-git" ]; then
+      if [ -d ~/fzf-git ]; then
         source ~/fzf-git/functions.sh
         source ~/fzf-git/key-binding.zsh
       fi
