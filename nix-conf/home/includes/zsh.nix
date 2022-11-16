@@ -177,8 +177,8 @@
         src = fetchFromGitHub {
           owner = "wfxr";
           repo = "forgit";
-          rev = "810735294107ef1b1de66cf1cdfc358fc14049ac";
-          sha256 = "11mydkl8psic57qzkzyjlff9wl6inwx9hn3a0vqyfr78pv6vk23y";
+          rev = "fe4ac0f9f2490ff0762cfee8f9d8d6df778b826b";
+          sha256 = "9OAwZMawUgkNd4Ib22hNH/khf+qPVXXAbna92nLxGBI=";
         };
         file = "forgit.plugin.zsh";
       }
