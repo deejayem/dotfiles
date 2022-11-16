@@ -53,6 +53,18 @@
     (sp-wrap-round)
     (insert " ")
     (forward-char -1))
+  (defun kill-around-sexp ()
+    "Kill everything in the current list, except the current expression.
+Equivalent to raising then wrapping."
+    (interactive)
+    (let ((paren-char (save-excursion
+                        (sp-backward-up-sexp)
+                        (following-char))))
+      (sp-raise-sexp)
+      (cond ((= paren-char ?\() (sp-wrap-round))
+            ((= paren-char ?\{) (sp-wrap-curly))
+            ((= paren-char ?\[) (sp-wrap-square))
+            (t (error "Not in a list")))))
   (unbind-key "M-?" 'smartparens-mode-map)
   (unbind-key "M-?" 'sp-keymap)
   :bind (:map smartparens-mode-map
@@ -68,6 +80,7 @@
               ("M-;" . paredit-comment-dwim)
               ("M-q" . sp-indent-defun)
               ("C-j" . sp-newline)
+              ("M-R" . kill-around-sexp)
               ("C-c C-S-d" . duplicate-sexp-after-point)
               ("C-c M-(" . wrap-round-from-behind)))
 
