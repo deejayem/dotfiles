@@ -22,6 +22,11 @@
       ("ddb" "#d/dbg")
       ("dbn" "#d/dbgn")))
 
+  (defalias 'cape-clojure (cape-super-capf #'cider-complete-at-point
+                                           #'lsp-completion-at-point))
+  (defun set-clojure-capf ()
+    (add-hook 'completion-at-point-functions #'cape-clojure -99 t))
+
   ;; https://github.com/weavejester/compojure/wiki/Emacs-indentation
   (define-clojure-indent
     (defroutes 'defun)
@@ -46,7 +51,10 @@
                (not (string= "project.clj" base)))
       (setq-local uniquify-min-dir-content 3))
     (funcall orig base dirname depth original-dirname))
-  (advice-add 'uniquify-get-proposed-name :around 'clj-uniquify-get-proposed-name))
+  (advice-add 'uniquify-get-proposed-name :around 'clj-uniquify-get-proposed-name)
+
+  :hook
+  (clojure-mode . set-clojure-capf))
 
 (use-package clj-refactor
   :diminish
@@ -69,6 +77,11 @@
   (defun cider-repl-mode-hook-fn ()
     (display-line-numbers-mode -1)
     (subword-mode +1))
+  (defun cider-mode-hook-fn ()
+    (eldoc-mode 1)
+    ;; Remove this, as we use cape-clojure (in init-clojure.el), which includes
+    ;; cider-complete-at-point
+    (remove-hook 'completion-at-point-functions #'cider-complete-at-point t))
   (defun run-and-unhook ()
     (remove-hook 'cider-connected-hook 'run-and-unhook)
     (run-main))
@@ -133,7 +146,7 @@
         ("C-x 4 C->" . cider-find-dwim-other-window))
   :hook
   (cider-repl-mode . cider-repl-mode-hook-fn)
-  (cider-mode . eldoc-mode))
+  (cider-mode . cider-mode-hook-fn))
 
 (provide 'init-clojure)
 ;;; init-clojure.el ends here

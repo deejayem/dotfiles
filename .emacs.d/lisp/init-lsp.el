@@ -33,7 +33,10 @@
     (remove-hook 'lsp-lens-mode-hook 'really-diminish-lsp-lens-mode))
   (defun my/lsp-mode-setup-completion ()
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(orderless)))
+          '(orderless))
+    ;; Remove this, as we use cape-clojure (in init-clojure.el), which includes
+    ;; lsp-completion-at-point
+    (remove-hook 'completion-at-point-functions #'lsp-completion-at-point t))
   (if (eq system-type 'darwin)
       (setq lsp-keymap-prefix "s-l")
     (setq lsp-keymap-prefix "C-c C-l"))
@@ -51,9 +54,8 @@
         lsp-treemacs-theme "Iconless"
         lsp-completion-provider :none ;; use corfu
         lsp-references-exclude-definition t
-        ;; user cider for indendation, completion and eldoc instead
+        ;; user cider for indendation and eldoc
         lsp-enable-indentation nil
-        ;;lsp-completion-enable nil
         lsp-eldoc-enable-hover nil))
 
 (provide 'init-lsp)
