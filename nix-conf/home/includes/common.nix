@@ -78,6 +78,9 @@ in
       highlight Normal ctermfg=white ctermbg=black
       set hlsearch
       set showmatch
+      set pastetoggle=<F2>
+      nmap <silent> <F3> :silent nohlsearch<CR>
+      imap <silent> <F3> <C-o>:silent nohlsearch<CR>
     '';
     plugins = [ pkgs.vimPlugins.sensible
                 pkgs.vimPlugins.auto-pairs
@@ -87,6 +90,8 @@ in
                 pkgs.vimPlugins.surround
                 pkgs.vimPlugins.vim-lastplace
                 pkgs.vimPlugins.vim-pasta
+                pkgs.vimPlugins.vim-repeat
+                pkgs.vimPlugins.vim-sexp-mappings-for-regular-people
                 pkgs.vimPlugins.vim-sleuth
     ];
     settings = {
