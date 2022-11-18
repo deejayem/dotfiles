@@ -273,7 +273,8 @@
      ("r" "Refresh state (update modeline)" my/magit-refresh-state)
      ("m" "Update master/main" my/magit-update-master)
      ("d" "Difftastic Diff (dwim)" my/magit-diff-with-difftastic)
-     ("s" "Difftastic Show" my/magit-show-with-difftastic)])
+     ("s" "Difftastic Show" my/magit-show-with-difftastic)
+     ("D" "Toggle magit-delta-mode" my/toggle-delta-mode)])
   (transient-append-suffix 'magit-dispatch "!"
     '("#" "Extra Magit Cmds" my/magit-extra-commands))
   (define-key magit-status-mode-map (kbd "#") #'my/magit-extra-commands)
@@ -283,6 +284,13 @@
   (magit-diff-paint-whitespace-lines 'all)
   (magit-diff-refine-ignore-whitespace nil)
   (magit-diff-highlight-trailing t))
+
+(use-package magit-delta
+  :config
+  (defun my/toggle-delta-mode ()
+    (interactive)
+    (call-interactively #'magit-delta-mode)
+    (magit-refresh)))
 
 (use-package magit-todos)
 
