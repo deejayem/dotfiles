@@ -26,6 +26,7 @@ in
     bottom
     broot
     curl
+    diff-so-fancy
     difftastic
     duf
     du-dust
@@ -165,6 +166,82 @@ in
         identityFile = "~/.ssh/id_ed25519";
         identitiesOnly = true;
       };
+    };
+  };
+
+  programs.git = {
+    enable = true;
+    userName = "David Morgan";
+    aliases = {
+      # difftastic
+      logt = "!sh -c 'GIT_EXTERNAL_DIFF=\"difft --background=dark\" git log -p --ext-diff'";
+      showt = "!show() { GIT_EXTERNAL_DIFF=difft git show \${1} --ext-diff; }; show";
+      difft = "difftool";
+      # "raw" output
+      rlog = "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less log"; # usually used with -p
+      rshow = "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less show";
+      rdiff = "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less diff";
+      #  copiable output (without line numbers or +/- indicators)
+      clog = "!git -c delta.line-numbers=false log"; # usually used with -p
+      cshow = "!git -c delta.line-numbers=false show";
+      cdiff = "!git -c delta.line-numbers=false diff";
+      # diff-so-fancy
+      flog = "!git -c core.pager=\"diff-so-fancy | less\" log"; # usually used with -p
+      fshow = "!git -c core.pager=\"diff-so-fancy | less\" show";
+      fdiff = "!git -c core.pager=\"diff-so-fancy | less\" diff";
+
+      upstream = "!git push -u origin HEAD";
+      update-master = "!git fetch origin master:master";
+      update-main = "!git fetch origin main:main";
+    };
+    extraConfig = {
+      core.editor = "vim";
+      diff = {
+        tool = "difftastic";
+        colorMoved = "default";
+      };
+      difftool = {
+        prompt = false;
+        difftastic = { cmd = ''difft "$LOCAL" "$REMOTE"''; };
+      };
+      merge = {
+        conflictstyle = "diff3";
+        ff = "only";
+      };
+      pull = {
+        ff = "only";
+        rebase = false;
+      };
+      push.autoSetupRemove = true;
+      rebase = {
+        # TODO
+        # autosquash = true;
+        autostash = true;
+      };
+    };
+    delta = {
+      enable = true;
+      options = {
+        line-numbers = true;
+        navigate = true;
+        light = false;
+        file-style = "bold yellow ul";
+        hunk-header-line-number-style = "brightyellow";
+      };
+    };
+    ignores = [
+      ".lein-repl-history"
+      ".lsp"
+      ".rebel_readline_history"
+      ".cider-repl-history"
+      "nohup.out"
+      "*.elc"
+      "*.eln"
+      "*~"
+    ];
+    signing = {
+      key = "9B436B1477A879C26CDB6604C171251002C200F2";
+      signByDefault = true;
     };
   };
 }

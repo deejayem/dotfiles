@@ -12,6 +12,26 @@
   home.username = "djm";
   home.homeDirectory = "/Users/djm";
 
+  programs.git = {
+    signing.signByDefault = lib.mkForce false;
+    includes = [
+      { path = "~/.gitconfig-personal"; condition = "gitdir:~/src/personal/"; }
+      { contents = { commit.gpg = true; }; condition = "gitdir:~/src/personal/"; }
+    ];
+    extraConfig = {
+      github.user = "david-morgan-otm";
+    };
+    ignores = [
+      ".envrc"
+      ".clj-kondo"
+      "shell.nix"
+      ".direnv"
+      ".dir-locals.el"
+      "browser-tests/package-lock.json"
+      "resources/react-app/package-lock.json"
+      "resources/next/package-lock.json"
+    ];
+  };
   programs.ssh.matchBlocks = {
     "github.com" = lib.mkForce {
       hostname = "github.com";
