@@ -43,6 +43,10 @@
         bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "xsel -i -p && xsel -o -p | xsel -i -b"
         bind-key C-y run "xsel -o | tmux load-buffer - ; tmux paste-buffer"
       ''}
+      ${lib.optionalString pkgs.stdenv.isDarwin ''
+        bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
+        bind-key C-y run "reattach-to-user-namespace pbpaste | tmux load-buffer - ; tmux paste-buffer"
+      ''}
 
       set -g @open-S 'https://www.duckduckgo.com/?q='
       set -g @thumbs-reverse enabled
