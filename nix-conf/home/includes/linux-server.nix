@@ -21,7 +21,7 @@
 
   programs.tmux = {
     enable = true;
-    #terminal = "screen-256color";
+    terminal = "screen-256color";
     prefix = "C-a";
     #tmuxp.enable = true;
     extraConfig = ''
