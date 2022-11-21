@@ -286,6 +286,8 @@
   (magit-diff-highlight-trailing t))
 
 (use-package magit-delta
+  :after magit
+  :demand t
   :config
   (defun my/toggle-delta-mode ()
     (interactive)
