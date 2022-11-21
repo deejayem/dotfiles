@@ -204,10 +204,6 @@ in
         prompt = false;
         difftastic = { cmd = ''difft "$LOCAL" "$REMOTE"''; };
       };
-      merge = {
-        conflictstyle = "diff3";
-        ff = "only";
-      };
       pull = {
         ff = "only";
         rebase = false;
