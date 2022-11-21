@@ -212,7 +212,7 @@ in
         ff = "only";
         rebase = false;
       };
-      push.autoSetupRemove = true;
+      push.autoSetupRemote = true;
       rebase = {
         # TODO
         # autosquash = true;
