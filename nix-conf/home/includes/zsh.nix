@@ -93,10 +93,6 @@
       export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
       export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
       export FZF_ALT_C_COMMAND="rg --hidden --files --sort-files --null | xargs -0 dirname | sort -u"
-      if [ -d ~/fzf-git ]; then
-        source ~/fzf-git/functions.sh
-        source ~/fzf-git/key-binding.zsh
-      fi
 
       autopair-init
       enable-fzf-tab
@@ -191,6 +187,16 @@
           sha256 = "0nvb7jril7in5b0279z25vmlc0karhagmfsxpjw1rzni5qpyak1s";
         };
         file = "zsh-edit.plugin.zsh";
+      }
+      {
+        name = "fzf-git.sh";
+        src = fetchFromGitHub {
+          owner = "junegunn";
+          repo = "fzf-git.sh";
+          rev = "9190e1bf7273d85f435fa759a5c3b20e588e9f7e";
+          sha256 = "2CGjk1oTXip+eAJMuOk/X3e2KTwfwzcKTcGToA2xPd4=";
+        };
+        file = "fzf-git.sh";
       }
     ];
   };
