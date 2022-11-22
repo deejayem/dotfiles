@@ -185,6 +185,8 @@ in
 
   services.openssh.enable = true;
 
+  i18n.defaultLocale = "en_GB.UTF-8";
+
   system.stateVersion = "21.05"; # Did you read the comment?
 
 }
