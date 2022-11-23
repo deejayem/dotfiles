@@ -198,7 +198,7 @@ DEFS is a plist associating completion categories to commands."
          ("C-c f" . consult-recent-file)
          ("C-c r" . consult-ripgrep)
          ;; TODO find an alternative to C-c c?
-         ("C-c c r" . consult-ripgrep-no-preview)
+         ("C-c c r" . consult-ripgrep-auto-preview)
          ("C-c c s" . consult-ripgrep-case-sensitive)
          ("C-c c z" . consult-z-ripgrep)
          ("C-c C-*" . consult-ripgrep-symbol-at-point)
@@ -267,7 +267,7 @@ DEFS is a plist associating completion categories to commands."
      (list prefix-arg (when-let ((s (symbol-at-point)))
                         (symbol-name s))))
     (consult-ripgrep dir initial))
-  (defun consult-ripgrep-no-preview (&optional dir initial)
+  (defun consult-ripgrep-auto-preview (&optional dir initial)
     (interactive "P")
     (consult-ripgrep dir initial))
   (defun consult-ripgrep-unrestricted (&optional dir initial)
@@ -320,8 +320,8 @@ DEFS is a plist associating completion categories to commands."
    :preview-key '(:debounce 0.2 any)
    ;; For these commands we can use C-S/C-P to scroll and preview, or M-. to preview
    consult-git-grep consult-grep
-   consult-ripgrep-parent consult-ripgrep-no-preview
-   consult-ripgrep-unrestricted consult-z-ripgrep
+   consult-ripgrep-parent consult-ripgrep consult-ripgrep-case-sensitive
+   consult-ripgrep-unrestricted consult-z-ripgrep consult-ripgrep-symbol-at-point
    consult-bookmark consult-recent-file consult-xref consult-buffer-no-preview
    consult--source-recent-file consult--source-project-recent-file consult--source-bookmark
    :preview-key (list (kbd "M-.") (kbd "C-S-n") (kbd "C-S-p")))
