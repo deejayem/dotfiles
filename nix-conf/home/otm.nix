@@ -16,7 +16,7 @@
     signing.signByDefault = lib.mkForce false;
     includes = [
       { path = "~/.gitconfig-personal"; condition = "gitdir:~/src/personal/"; }
-      { contents = { commit.gpg = true; }; condition = "gitdir:~/src/personal/"; }
+      { contents = { commit.gpgSign = true; }; condition = "gitdir:~/src/personal/"; }
     ];
     extraConfig = {
       github.user = "david-morgan-otm";
