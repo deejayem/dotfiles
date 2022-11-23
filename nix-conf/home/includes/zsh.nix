@@ -57,7 +57,9 @@
       diff_emacs = "difft --color always --context 0 $(ls -d1v ~/straight-versions-default-*.el | tail -1) ~/.emacs.d/straight/versions/default.el | grep '\\[9[12]' | egrep -v '(gnu-elpa-mirror|nongnu-elpa|melpa|emacsmirror-mirror)'";
 
       nix-up = "git -C ~/dotfiles pull && doas nix-channel --update && doas nixos-rebuild switch && nix-channel --update && home-manager switch && system-changes-report && hm-changes-report && df -h && date";
+      _nix-up = "doas nix-channel --update && doas nixos-rebuild switch && nix-channel --update && home-manager switch && system-changes-report && hm-changes-report && df -h && date";
       home-up = "git -C ~/dotfiles pull && nix-channel --update && home-manager switch && hm-changes-report";
+      _home-up = "nix-channel --update && home-manager switch && hm-changes-report";
 
       fb = "fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'";
 
