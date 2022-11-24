@@ -16,5 +16,7 @@ ln -sf ~/dotfiles/.emacs.d ~/
 mkdir ~/.config/nix
 echo "extra-experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
 
+echo -n $EMAIL > ~/email.txt
+
 home-manager switch
 

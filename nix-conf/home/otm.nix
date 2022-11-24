@@ -1,4 +1,8 @@
 { config, lib, pkgs, ... }:
+let
+  email = builtins.readFile "${config.home.homeDirectory}/email.txt";
+  otmEmail = builtins.readFile "${config.home.homeDirectory}/otm_email.txt";
+in
 {
   imports = [ 
     ./includes/darwin.nix
@@ -14,9 +18,10 @@
 
   programs.git = {
     signing.signByDefault = lib.mkForce false;
+    userEmail = lib.mkForce otmEmail;
     includes = [
-      { path = "~/.gitconfig-personal"; condition = "gitdir:~/src/personal/"; }
-      { contents = { commit.gpgSign = true; }; condition = "gitdir:~/src/personal/"; }
+      { contents = { commit.gpgSign = true; user.email = email; }; condition = "gitdir:~/src/personal/"; }
+      { contents = { commit.gpgSign = true; user.email = email; }; condition = "gitdir:~/dotfiles/"; }
     ];
     extraConfig = {
       github.user = "david-morgan-otm";
