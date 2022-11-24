@@ -43,7 +43,7 @@
       set -g status-interval 1
 
       set -g status-left "#[fg=yellow]#h#[default]"
-      set -g status-right "#[fg=magenta,bold]#(/home/djm/bin/showmail.sh)#[fg=blue]%a%d/%m#[fg=yellow]%H:%M:%S"
+      set -g status-right "#[fg=blue]%a%d/%m#[fg=yellow]%H:%M:%S"
     '';
   };
 
