@@ -1,4 +1,9 @@
 { config, lib, pkgs, ... }:
+let
+  secrets = "${config.home.homeDirectory}/dotfiles/nix-conf/secrets/home.json";
+  email = builtins.exec [ "sops" "-d" "--extract" ''["email"]'' secrets ];
+  otmEmail = builtins.exec [ "sops" "-d" "--extract" ''["otm_email"]'' secrets ];
+in
 {
   imports = [ 
     ./includes/darwin.nix
@@ -14,9 +19,10 @@
 
   programs.git = {
     signing.signByDefault = lib.mkForce false;
+    userEmail = lib.mkForce otmEmail;
     includes = [
-      { path = "~/.gitconfig-personal"; condition = "gitdir:~/src/personal/"; }
-      { contents = { commit.gpgSign = true; }; condition = "gitdir:~/src/personal/"; }
+      #{ path = "~/.gitconfig-personal"; condition = "gitdir:~/src/personal/"; }
+      { contents = { commit.gpgSign = true; user.email = email; }; condition = "gitdir:~/src/personal/"; }
     ];
     extraConfig = {
       github.user = "david-morgan-otm";

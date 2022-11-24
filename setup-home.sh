@@ -14,7 +14,8 @@ ln -sf ~/dotfiles/.p10k.zsh ~/
 ln -sf ~/dotfiles/.emacs.d ~/
 
 mkdir ~/.config/nix
-echo "extra-experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
+echo "extra-experimental-features = nix-command flakes
+allow-unsafe-native-code-during-evaluation = true" > ~/.config/nix/nix.conf
 
 home-manager switch
 

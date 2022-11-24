@@ -2,9 +2,10 @@
 let
   hcr = pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
   scr = pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; };
+  secrets = "${config.home.homeDirectory}/dotfiles/nix-conf/secrets/home.json";
+  email = builtins.exec [ "sops" "-d" "--extract" ''["email"]'' secrets ];
 in
 {
-
   imports = [
     ./zsh.nix
   ];
@@ -172,6 +173,7 @@ in
   programs.git = {
     enable = true;
     userName = "David Morgan";
+    userEmail = email;
     aliases = {
       # difftastic
       logt = "!sh -c 'GIT_EXTERNAL_DIFF=\"difft --background=dark\" git log -p --ext-diff'";
