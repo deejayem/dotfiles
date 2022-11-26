@@ -56,6 +56,7 @@
 (require! 'init-lsp)
 (require! 'init-git)
 (require! 'init-shell)
+(require! 'init-nix)
 (require! 'init-org)
 ;;(require! 'init-latex)
 (require! 'init-xml)
