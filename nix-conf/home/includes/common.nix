@@ -63,6 +63,13 @@ in
     w3m
   ];
 
+  nix = {
+    package = pkgs.nix;
+    settings = {
+      extra-experimental-features = [ "nix-command" "flakes" ];
+    };
+  };
+
   programs.gpg.enable = true;
   programs.nix-index = {
     enable = true;
