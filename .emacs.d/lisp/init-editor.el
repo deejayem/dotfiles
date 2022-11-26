@@ -205,5 +205,10 @@
   ("C-c C-y s" . aya-persist-snippet)
   ("C-c C-y o" . aya-open-line))
 
+(use-package editorconfig
+  :custom (editorconfig-trim-whitespaces-mode 'ws-butler-mode)
+  :hook
+  (emacs-startup . editorconfig-mode))
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
