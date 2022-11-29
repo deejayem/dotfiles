@@ -92,7 +92,9 @@
      `(flycheck-fringe-info ((t :foreground "white" :background "RoyalBlue3")))
      `(cider-debug-code-overlay-face ((t :background "gray45")))
      `(alt-font-lock-keyword-face ((t :foreground "LightSkyBlue" :weight bold)))
-     `(alt-hl-line-face ((t :underline "gray50" :weight bold))))
+     `(alt-hl-line-face ((t :underline "gray50" :weight bold)))
+     ;; this is the default, but for some reason modus-themes started overriding it
+     `(clojure-keyword-face ((t :inherit font-lock-constant-face))))
 
     (setq hl-todo-keyword-faces
           '(("TODO"   . "red3")
