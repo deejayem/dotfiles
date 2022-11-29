@@ -185,8 +185,8 @@
         src = fetchFromGitHub {
           owner = "marlonrichert";
           repo = "zsh-edit";
-          rev = "17b17e5f32fc69349cb9474cf591d5c74e399cdc";
-          sha256 = "0nvb7jril7in5b0279z25vmlc0karhagmfsxpjw1rzni5qpyak1s";
+          rev = "4a8fa599792b6d52eadbb3921880a40872013d28";
+          sha256 = "PI4nvzB/F0mHlc0UZJdD49vjzB6pXhhJYNTSmBhY8iU=";
         };
         file = "zsh-edit.plugin.zsh";
       }
