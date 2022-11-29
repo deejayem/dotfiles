@@ -131,7 +131,7 @@ no words in between, beginning with the first word."
 ;; code completion - corfu
 (use-package corfu
   :straight (corfu :files (:defaults "extensions/*")
-                   :includes (corfu-indexed corfu-quick corfu-history corfu-info))
+                   :includes (corfu-indexed corfu-quick corfu-history corfu-info corfu-popupinfo))
   :custom
   (corfu-cycle t)
   :bind (:map corfu-map
@@ -154,9 +154,8 @@ no words in between, beginning with the first word."
   (corfu-history-mode 1)
   (add-to-list 'savehist-additional-variables 'corfu-history))
 
-(use-package corfu-doc
-  :hook
-  (corfu-mode . corfu-doc-mode))
+(use-extension corfu corfu-popupinfo
+  :hook (global-corfu-mode . corfu-popupinfo-mode))
 
 (use-package cape
   :bind (("C-c p p" . completion-at-point) ;; capf
