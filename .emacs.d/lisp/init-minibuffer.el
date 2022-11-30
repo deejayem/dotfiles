@@ -435,7 +435,13 @@ DEFS is a plist associating completion categories to commands."
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file)))
 
-(use-package consult-ls-git)
+(use-package consult-git-log-grep
+  :bind ("C-c g l" . consult-git-log-grep)
+  :custom (consult-git-log-grep-open-function #'magit-show-commit))
+
+(use-package consult-ls-git
+  :bind ("C-c g f" . consult-ls-git))
+
 (use-package consult-project-extra)
 
 (use-package marginalia
