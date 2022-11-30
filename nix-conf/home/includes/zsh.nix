@@ -81,7 +81,7 @@
     };
 
     initExtra = ''
-      # Taken from prezto tmux plugin
+      # Based on prezto tmux plugin
       if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && (-z "$SSH_TTY" || -n "$TMUX_AUTO_ATTACH") ]]; then
         tmux start-server
 
@@ -89,7 +89,11 @@
           tmux new-session -d -s "0" \; set-option -t "0" destroy-unattached off &> /dev/null
         fi
 
-        exec tmux -u attach-session -d
+        if [[ -n "$SSH_TTY" ]]; then
+          exec tmux -u attach-session
+        else
+          exec tmux -u attach-session -d
+        fi
       fi
 
       export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
