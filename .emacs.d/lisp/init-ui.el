@@ -197,7 +197,7 @@
   (beacon-blink-when-focused t)
   :bind ("C-c c b" . beacon-blink)
   :config
-  (add-to-list 'beacon-dont-blink-major-modes 'cider-repl-mode t)
+  (append-to-list* 'beacon-dont-blink-major-modes 'cider-repl-mode 'eshell-mode 'shell-mode 'vterm-mode 'term-mode 'ansi-term-mode)
   (beacon-mode 1))
 
 (use-package helpful

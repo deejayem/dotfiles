@@ -67,5 +67,15 @@
   (setq-local force-reload t)
   (straight-thaw-versions))
 
+(defun add-to-list* (list-var &rest elts)
+  "Add `ELTS' to `LIST-VAR'."
+  (dolist (elt elts)
+    (add-to-list list-var elt)))
+
+(defun append-to-list* (list-var &rest elts)
+  "Append `ELTS' to `LIST-VAR'."
+  (dolist (elt elts)
+    (add-to-list list-var elt t)))
+
 (provide 'init-packages)
 ;;; init-packages.el ends here
