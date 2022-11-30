@@ -59,7 +59,7 @@
   (completion-styles '(orderless partial-completion basic))
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles . (partial-completion orderless)))))
-  (orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-leading-initialism))
+  (orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-initialism))
   (orderless-style-dispatchers '(+orderless-dispatch))
   :config
   (defun my/orderless-match-components-literally ()
@@ -89,7 +89,7 @@ no words in between, beginning with the first word."
   (defvar +orderless-dispatch-alist
     '((?% . char-fold-to-regexp)
       (?! . orderless-without-literal)
-      (?` . orderless-strict-initialism)
+      (?` . orderless-strict-leading-initialism)
       (?= . orderless-literal)
       (?_ . orderless-prefix)
       (?~ . orderless-flex)))
@@ -106,7 +106,7 @@ no words in between, beginning with the first word."
   ;; * =literal literal=
   ;; * _prefix prefix_
   ;; * %char-fold char-fold%
-  ;; * `strict-initialism strict-initialism`
+  ;; * `strict-leading-initialism strict-leading-initialism`
   ;; * !without-literal without-literal!
   ;; * .ext (file extension)
   ;; * regexp$ (regexp matching at end)
