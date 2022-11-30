@@ -124,6 +124,9 @@
 
       set -o noclobber append_history share_history
 
+      # disable flow control (so that fzf-git.sh's ^g^s can work)
+      stty -ixon
+
       function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
 
       function gcd () {
