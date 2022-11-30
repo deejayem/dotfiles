@@ -22,9 +22,6 @@ HOME_CONF="$HOME/dotfiles/nix-conf/home/${CONF:-${HOST}}.nix"
 ln -sf ~/dotfiles/.p10k.zsh ~/
 ln -sf ~/dotfiles/.emacs.d ~/
 
-mkdir ~/.config/nix
-echo "extra-experimental-features = nix-command flakes" > ~/.config/nix/nix.conf
-
 echo -n $EMAIL > ~/email.txt
 
 home-manager switch
