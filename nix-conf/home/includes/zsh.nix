@@ -136,6 +136,15 @@
       stty -ixon
 
       function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
+      function fcd { cd $(fd -L --max-depth=''${1:-1} --type=d 2>/dev/null | fzf-tmux) }
+
+      fif() {
+        if [ ! "$#" -gt 0  ]; then
+          echo "usage: fif <SEARCH_TERM>"
+          return 1;
+        fi
+        rg --files-with-matches --no-messages "$1" | fzf $FZF_PREVIEW_WINDOW --preview "rg --ignore-case --pretty --context 10 '$1' {}"
+      }
 
       tre () { command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
 
