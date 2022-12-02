@@ -139,10 +139,11 @@
           return 2
         fi
 
+        DOAS=$(command -v doas)
         if  [ $1 -eq 0 ] ; then
-          doas nix-collect-garbage -d
+          $DOAS nix-collect-garbage -d
         else
-          doas nix-collect-garbage --delete-older-than ''${1}d
+          $DOAS nix-collect-garbage --delete-older-than ''${1}d
         fi
         df -h
       }
