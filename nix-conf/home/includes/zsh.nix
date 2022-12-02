@@ -50,6 +50,7 @@
       cp = "cp -iv";
       mv = "mv -iv";
       mkdir = "mkdir -v";
+      tree = "exa --tree";
 
       pp = "pushbullet push \"Pixel\" link \"\${1}\" \"\${1}\"";
 
@@ -133,6 +134,8 @@
       stty -ixon
 
       function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
+
+      tre () { command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
 
       function gcd () {
         if [ $# -eq 0 ] ; then

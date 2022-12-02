@@ -58,6 +58,7 @@ in
     rlwrap
     sd
     tealdeer
+    tre-command
     ugrep
     uni
     w3m
