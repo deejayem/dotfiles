@@ -8,6 +8,7 @@
   (add-to-list 'tramp-remote-path "/run/current-system/sw/bin")
   :custom
   (tramp-default-method "ssh")
+  (tramp-terminal-type "tramp")
   (vc-ignore-dir-regexp
    (format "\\(%s\\)\\|\\(%s\\)"
            vc-ignore-dir-regexp

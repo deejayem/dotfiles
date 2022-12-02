@@ -82,6 +82,9 @@
       gloga = "git log --oneline --decorate --graph --all";
     };
 
+    initExtraFirst = ''
+      [[ $TERM == "tramp" ]] && unsetopt zle && PS1='$ ' && return
+    '';
     initExtra = ''
       # Based on prezto tmux plugin
       if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && (-z "$SSH_TTY" || -n "$TMUX_AUTO_ATTACH") ]]; then
