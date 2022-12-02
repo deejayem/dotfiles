@@ -144,6 +144,7 @@
         else
           doas nix-collect-garbage --delete-older-than ''${1}d
         fi
+        df -h
       }
 
       [[ ! -f ~/.zsh.local ]] || source ~/.zsh.local
