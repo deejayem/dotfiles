@@ -21,8 +21,8 @@
     prefix = "C-x";
     plugins = [ pkgs.tmuxPlugins.copycat
                 pkgs.tmuxPlugins.extrakto
-                #pkgs.tmuxPlugins.fingers
                 pkgs.tmuxPlugins.fzf-tmux-url
+                pkgs.tmuxPlugins.jump
                 pkgs.tmuxPlugins.open
                 pkgs.tmuxPlugins.tmux-thumbs
     ];
