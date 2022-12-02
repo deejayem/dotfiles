@@ -102,8 +102,7 @@
     touchpad = {
       clickMethod = "clickfinger";
       naturalScrolling = true;
-      #tappingButtonMap = "lrm";
-      #tappingButtonMap = "lmr";
+      tappingButtonMap = "lrm";
     };
   };
 
