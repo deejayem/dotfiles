@@ -1,8 +1,5 @@
 { config, pkgs, lib, ... }:
 
-let
-  unstable = import <nixos-unstable> { };
-in
 {
   imports =
     [
@@ -165,7 +162,7 @@ in
   ];
 
   fonts.fonts = with pkgs; [
-    unstable.iosevka-comfy.comfy
+    iosevka-comfy.comfy
     iosevka-bin
     jetbrains-mono
     meslo-lgs-nf
