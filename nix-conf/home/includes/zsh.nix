@@ -160,6 +160,11 @@
         file = "share/zsh/zsh-autopair/autopair.zsh";
       }
       {
+        name = "zsh-bd";
+        src = zsh-bd;
+        file = "share/zsh-bd/bd.zsh";
+      }
+      {
         name = "zsh-fzf-tab";
         src = zsh-fzf-tab;
         file = "share/fzf-tab/fzf-tab.zsh";
