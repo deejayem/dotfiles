@@ -19,12 +19,29 @@
     enable = true;
     terminal = "screen-256color";
     prefix = "C-x";
-    plugins = [ pkgs.tmuxPlugins.copycat
-                pkgs.tmuxPlugins.extrakto
-                pkgs.tmuxPlugins.fzf-tmux-url
-                pkgs.tmuxPlugins.jump
-                pkgs.tmuxPlugins.open
-                pkgs.tmuxPlugins.tmux-thumbs
+    plugins = with pkgs; [
+      #tmuxPlugins.copy-toolkit
+      tmuxPlugins.copycat
+      tmuxPlugins.extrakto
+      tmuxPlugins.fzf-tmux-url
+      tmuxPlugins.jump
+      {
+        plugin = tmuxPlugins.open;
+        extraConfig = ''
+          set -g @open-S 'https://www.duckduckgo.com/?q='
+        '';
+      }
+      {
+        plugin = tmuxPlugins.tmux-thumbs;
+        extraConfig = ''
+          set -g @thumbs-reverse enabled
+          set -g @thumbs-unique enabled
+          set -g @thumbs-position right
+          set -g @thumbs-contrast 1
+          #${lib.optionalString pkgs.stdenv.isLinux "set -g @thumbs-upcase-command 'xargs xdg-open {}'"}
+          #${lib.optionalString pkgs.stdenv.isDarwin "set -g @thumbs-upcase-command 'xargs open {}'"}
+        '';
+      }
     ];
     extraConfig = ''
      unbind-key R
@@ -47,14 +64,6 @@
         bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
         bind-key C-y run "reattach-to-user-namespace pbpaste | tmux load-buffer - ; tmux paste-buffer"
       ''}
-
-      set -g @open-S 'https://www.duckduckgo.com/?q='
-      set -g @thumbs-reverse enabled
-      set -g @thumbs-unique enabled
-      set -g @thumbs-position right
-      set -g @thumbs-contrast 1
-      #${lib.optionalString pkgs.stdenv.isLinux "set -g @thumbs-upcase-command 'xargs xdg-open {}'"}
-      #${lib.optionalString pkgs.stdenv.isDarwin "set -g @thumbs-upcase-command 'xargs open {}'"}
     '';
   };
 
