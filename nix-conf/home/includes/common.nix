@@ -22,7 +22,7 @@ in
     bat-extras.batgrep
     bat-extras.batman
     bat-extras.batwatch
-    #bat-extras.batpipe # wait for 22.11
+    bat-extras.batpipe
     bottom
     broot
     curl

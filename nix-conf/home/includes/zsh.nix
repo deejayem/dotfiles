@@ -109,6 +109,7 @@
       export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-t:toggle-preview'"
       export FZF_DEFAULT_OPTS="--bind=ctrl-t:toggle-all --bind=ctrl-j:jump"
 
+      eval "$(batpipe)"
       autopair-init
       enable-fzf-tab
       bindkey '^[[A' history-substring-search-up
