@@ -65,9 +65,9 @@
   services.xserver.enable = true;
   services.xserver.exportConfiguration = true;
 
-
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  programs.ssh.askPassword = lib.mkDefault "${pkgs.gnome.seahorse}/libexec/seahorse/ssh-askpass";
   services.xserver.displayManager.sessionPackages = [ pkgs.sway ];
   #services.xserver.displayManager.defaultSession = "none+i3";
   services.xserver.displayManager.defaultSession = "sway";
