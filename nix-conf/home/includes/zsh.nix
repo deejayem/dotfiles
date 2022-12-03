@@ -107,6 +107,7 @@
       export FZF_ALT_C_COMMAND='rg --hidden --files --sort-files --null -g ""!{.git,node_modules}/*" | xargs -0 dirname | sort -u'
       export FZF_ALT_C_OPTS="--preview 'exa --tree {} | head -200'"
       export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-t:toggle-preview'"
+      export FZF_DEFAULT_OPTS="--bind=ctrl-t:toggle-all --bind=ctrl-j:jump"
 
       autopair-init
       enable-fzf-tab
