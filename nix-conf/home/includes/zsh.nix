@@ -206,24 +206,14 @@
         file = "share/zsh-history-substring-search/zsh-history-substring-search.zsh";
       }
       {
-        name = "forgit";
-        src = fetchFromGitHub {
-          owner = "wfxr";
-          repo = "forgit";
-          rev = "fe4ac0f9f2490ff0762cfee8f9d8d6df778b826b";
-          sha256 = "9OAwZMawUgkNd4Ib22hNH/khf+qPVXXAbna92nLxGBI=";
-        };
-        file = "forgit.plugin.zsh";
+        name = "zsh-forgit";
+        src = zsh-forgit;
+        file = "share/zsh/zsh-forgit/forgit.plugin.zsh";
       }
       {
         name = "zsh-edit";
-        src = fetchFromGitHub {
-          owner = "marlonrichert";
-          repo = "zsh-edit";
-          rev = "4a8fa599792b6d52eadbb3921880a40872013d28";
-          sha256 = "PI4nvzB/F0mHlc0UZJdD49vjzB6pXhhJYNTSmBhY8iU=";
-        };
-        file = "zsh-edit.plugin.zsh";
+        src = zsh-edit;
+        file = "share/zsh/zsh-edit/zsh-edit.plugin.zsh";
       }
       {
         name = "fzf-git.sh";
