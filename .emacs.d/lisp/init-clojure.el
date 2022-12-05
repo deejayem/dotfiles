@@ -128,7 +128,7 @@
         ;; cider-switch-to-repl-on-insert nil
         cider-xref-fn-depth 90
         cider-repl-history-file ".cider-repl-history"
-        nrepl-log-messages t
+        ;; nrepl-log-messages t
         cider-connection-message-fn nil
         cider-show-error-buffer 'except-in-repl
         clojure-toplevel-inside-comment-form t)
