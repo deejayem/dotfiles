@@ -73,6 +73,7 @@
     networks = {
       libera = {
         nick = "djm";
+        saslExternal = true;
         server = {
           address = "irc.libera.chat";
           port = 6697;
@@ -92,6 +93,7 @@
       };
       tilde = {
         nick = "djm";
+        saslExternal = true;
         server = {
           address = "irc.tilde.chat";
           port = 6697;
@@ -110,9 +112,26 @@
           team.autoJoin = true;
         };
       };
+      oftc = {
+        nick = "djm";
+        server = {
+          address = "irc.oftc.net";
+          port = 6697;
+          autoConnect = true;
+          ssl = {
+            enable = true;
+            verify = true;
+            certificateFile = "${config.home.homeDirectory}/.irssi/oftc.pem";
+          };
+        };
+        channels = {
+          home-manager.autoJoin = true;
+        };
+      };
       blinkenirc = {
         nick = "djm";
         autoCommands = [ "msg chanserv invite #blinkenshell.op" "wait 2000" ];
+        saslExternal = true;
         server = {
           address = "irc.blinkenshell.org";
           port = 6697;
@@ -130,6 +149,7 @@
       };
       hashbang = {
         nick = "djm";
+        saslExternal = true;
         server = {
           address = "irc.hashbang.sh";
           port = 6697;
@@ -141,7 +161,7 @@
           };
         };
         channels = {
-          "!".autoJoin = true;
+          "#!".autoJoin = true;
         };
       };
       refchat = {

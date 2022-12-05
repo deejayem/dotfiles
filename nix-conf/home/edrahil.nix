@@ -2,6 +2,7 @@
 {
   imports = [ 
     ./includes/linux-server.nix
+    ./includes/irssi.nix
   ];
 
   # Let Home Manager install and manage itself.
