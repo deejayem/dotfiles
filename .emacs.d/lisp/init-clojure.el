@@ -95,6 +95,12 @@
           (add-hook 'cider-connected-hook 'run-and-unhook)
           (cider-jack-in params))
       (cider-jack-in params)))
+  (defun load-debug-namespaces ()
+    (interactive)
+    (cider-interactive-eval "(require 'snitch.core)" nil nil (cider--nrepl-pr-request-map))
+    (cider-interactive-eval "(require 'miracle.save)" nil nil (cider--nrepl-pr-request-map))
+    (cider-interactive-eval "(require 'sc.api)" nil nil (cider--nrepl-pr-request-map))
+    (cider-interactive-eval "(require '[debux.cs.core :refer [dbg dbgn dbgt]])" nil nil (cider--nrepl-pr-request-map)))
   (define-abbrev-table 'cider-repl-mode-abbrev-table
     '(("scl" "(eval `(sc.api/defsc ~(sc.api/last-ep-id)))" cider-repl-return)
       ("scs" "(sc.api/defsc*)" cider-repl-return)
@@ -139,6 +145,7 @@
         ("C-c M-j" . cider-jack-in-and-run-main))
   (:map clojure-mode-map
         ("C-c C-r C-m" . run-main)
+        ("C-c C-r C-d" . load-debug-namespaces)
         ("C-c M-j" . cider-jack-in-and-run-main)
         ("C-x p q" . project-clojure-test-switch)
         ("C-c C-M-c" . (lambda () (interactive) (cider-clear-compilation-highlights t)))
