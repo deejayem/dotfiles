@@ -66,7 +66,7 @@
      wget
    ];
 
-   nix.trustedUsers = [ "root" "djm" ];
+   nix.settings.trusted-users = [ "root" "djm" ];
 
    i18n.defaultLocale = "en_GB.UTF-8";
 
