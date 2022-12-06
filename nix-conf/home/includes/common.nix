@@ -98,6 +98,7 @@ in
                 pkgs.vimPlugins.molokai
                 pkgs.vimPlugins.surround
                 pkgs.vimPlugins.vim-lastplace
+                pkgs.vimPlugins.vim-nix
                 pkgs.vimPlugins.vim-pasta
                 pkgs.vimPlugins.vim-repeat
                 pkgs.vimPlugins.vim-sexp-mappings-for-regular-people
