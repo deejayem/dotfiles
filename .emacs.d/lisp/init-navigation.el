@@ -14,9 +14,23 @@
        (cdr (ring-ref avy-ring 0))))
     t)
   (add-to-list 'avy-dispatch-alist '(111 . avy-action-embark))
+  (defun avy-copy-as-kill ()
+    (interactive)
+    (avy-goto-char-timer)
+    (let ((beg (point)))
+      (avy-goto-char-timer)
+      (copy-region-as-kill beg (point))))
+  (defun avy-kill-in-line ()
+    (interactive)
+    (avy-goto-char-timer)
+    (let ((beg (point)))
+      (call-interactively 'avy-goto-char-in-line)
+      (copy-region-as-kill beg (point))))
   :bind
   ("C-'" . avy-goto-char-timer)
-  ("C-;" . avy-goto-char-in-line))
+  ("C-;" . avy-goto-char-in-line)
+  ("C-c C-'" . avy-copy-as-kill)
+  ("C-c C-;" . avy-copy-as-kill-in-line))
 
 (use-package smartscan
   :config
