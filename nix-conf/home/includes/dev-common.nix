@@ -20,7 +20,7 @@
     terminal = "screen-256color";
     prefix = "C-x";
     plugins = with pkgs; [
-      #tmuxPlugins.copy-toolkit
+      tmuxPlugins.copy-toolkit
       tmuxPlugins.copycat
       tmuxPlugins.extrakto
       tmuxPlugins.fzf-tmux-url
