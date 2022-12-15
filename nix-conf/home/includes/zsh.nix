@@ -138,7 +138,7 @@
       stty -ixon
 
       function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
-      function fcd { cd $(fd -L --max-depth=''${1:-1} --type=d 2>/dev/null | fzf-tmux) }
+      function fcd { cd $(fd -L --max-depth=''${1:-4} --type=d 2>/dev/null | fzf-tmux) }
 
       fif() {
         if [ ! "$#" -gt 0  ]; then
@@ -146,6 +146,25 @@
           return 1;
         fi
         rg --files-with-matches --no-messages "$1" | fzf $FZF_PREVIEW_WINDOW --preview "rg --ignore-case --pretty --context 10 '$1' {}"
+      }
+
+      fe() {
+        IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+        [[ -n "$files" ]] && ''${EDITOR:-vim} "''${files[@]}"
+      }
+
+      ..() {
+        local declare dirs=()
+        get_parent_dirs() {
+          if [[ -d "''${1}" ]]; then dirs+=("$1"); else return; fi
+          if [[ "''${1}" == '/' ]]; then
+            for _dir in "''${dirs[@]}"; do echo $_dir; done
+          else
+            get_parent_dirs $(dirname "$1")
+          fi
+        }
+        local DIR=$(get_parent_dirs $(realpath "$PWD/..") | fzf-tmux)
+        cd "$DIR"
       }
 
       tre () { command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
