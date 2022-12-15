@@ -17,8 +17,18 @@
     #adoptopenjdk-hotspot-bin-8
     #lima
     minikube
+    mopidy
+    mopidy-iris
+    #mopidy-local
+    mopidy-mpd
+    mopidy-muse
+    mopidy-ytmusic
+    mpdscribble
+    mpc-cli
+    mpd
     mpv
     mu
+    ncmpcpp
     nix # on darwin we are not using nixos (duh)
     nodejs
     openvpn
@@ -28,6 +38,7 @@
     postgresql
     #python310Packages.sqlparse
     sqls
+    vimpc
     wget
   ];
 
