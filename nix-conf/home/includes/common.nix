@@ -51,6 +51,7 @@ in
     nix-info
     nix-prefetch-git
     nix-prefetch-github
+    nixpkgs-review
     nvd
     pinentry
     pass
