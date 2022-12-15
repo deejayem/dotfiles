@@ -181,8 +181,7 @@
                      (string-match "^\s*;"
                                    (thing-at-point 'line))))
   :hook
-  (emacs-lisp-mode . aggressive-indent-mode)
-  (clojure-mode . aggressive-indent-mode))
+  (emacs-lisp-mode . aggressive-indent-mode))
 
 (use-package hungry-delete
   :diminish
