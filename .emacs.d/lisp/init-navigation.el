@@ -3,6 +3,10 @@
 ;;; Code:
 
 (use-package avy
+  :custom
+  (avy-all-windows nil)
+  (avy-all-windows-alt t)
+  (avy-timeout-seconds 0.3)
   :config
   ;; https://karthinks.com/software/avy-can-do-anything/#avy-plus-embark-any-action-anywhere
   (defun avy-action-embark (pt)
