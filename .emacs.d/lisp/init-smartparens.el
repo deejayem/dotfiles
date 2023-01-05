@@ -80,6 +80,8 @@ Equivalent to raising then wrapping."
               ("M-;" . paredit-comment-dwim)
               ("M-q" . sp-indent-defun)
               ("C-j" . sp-newline)
+              ("C-S-a" . sp-beginning-of-sexp)
+              ("C-S-e" . sp-end-of-sexp)
               ("M-R" . kill-around-sexp)
               ("C-c C-S-d" . duplicate-sexp-after-point)
               ("C-c M-(" . wrap-round-from-behind)))
