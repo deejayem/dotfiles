@@ -66,11 +66,14 @@
   services.xserver.exportConfiguration = true;
 
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  programs.ssh.askPassword = lib.mkDefault "${pkgs.gnome.seahorse}/libexec/seahorse/ssh-askpass";
+  #programs.dconf.enable = true;
+  programs.seahorse.enable = true;
+  services.gnome.gnome-keyring.enable = true;
+  security.pam.services.login.enableGnomeKeyring = true;
+  security.pam.services.passwd.enableGnomeKeyring = true;
   services.xserver.displayManager.sessionPackages = [ pkgs.sway ];
-  #services.xserver.displayManager.defaultSession = "none+i3";
-  services.xserver.displayManager.defaultSession = "sway";
+  services.xserver.displayManager.defaultSession = "none+i3";
+  #services.xserver.displayManager.defaultSession = "sway";
 
   services.xserver.windowManager.i3.enable = true;
   services.upower.enable = true;
@@ -108,6 +111,13 @@
 
   services.dbus.enable = true;
 
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+
   users.users.djm =
    { isNormalUser = true;
      description = "David Morgan";
@@ -136,6 +146,7 @@
   environment.systemPackages = with pkgs; [
     acpi
     acpitool
+    alsa-utils
     bemenu
     #dbus-sway-environment
     firefox
