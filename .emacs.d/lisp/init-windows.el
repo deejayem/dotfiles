@@ -68,9 +68,17 @@
 
 (use-package ace-window
   :diminish
+  :config
+  (defun ace-window-always-dispatch (arg)
+    "Call `ace-window' with `aw-dispatch-always' set to t, passing through `ARG'."
+    (interactive "p")
+    (let ((aw-dispatch-always t))
+      (ace-window arg)))
   :bind
   ([remap other-window] . ace-window)
-  ("C-<tab>" . ace-window)
+  ("C-x O" . ace-window-always-dispatch)
+  :custom
+  (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   :custom-face
   (aw-leading-char-face
    ((t (:foreground "white" :background "red"
