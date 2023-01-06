@@ -95,6 +95,7 @@ in
     plugins = [ pkgs.vimPlugins.sensible
                 pkgs.vimPlugins.auto-pairs
                 pkgs.vimPlugins.ctrlp
+                pkgs.vimPlugins.editorconfig-vim
                 pkgs.vimPlugins.inkpot
                 pkgs.vimPlugins.molokai
                 pkgs.vimPlugins.surround
