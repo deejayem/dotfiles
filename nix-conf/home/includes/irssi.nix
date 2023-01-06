@@ -187,6 +187,7 @@
       };
       refchat = {
         nick = "djm";
+        saslExternal = true;
         server = {
           address = "gill.refchat.net";
           port = 6697;
