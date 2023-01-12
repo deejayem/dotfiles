@@ -35,6 +35,7 @@
     pinentry_mac
     pgcli
     pgformatter
+    pms
     postgresql
     #python310Packages.sqlparse
     sqls
