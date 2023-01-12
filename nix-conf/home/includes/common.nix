@@ -207,11 +207,17 @@ in
       update-master = "!git fetch origin master:master";
       update-main = "!git fetch origin main:main";
     };
+    attributes = [
+      "*.el diff=elisp"
+      "*.clj diff=clojure"
+    ];
     extraConfig = {
       core.editor = "vim";
       diff = {
         tool = "difftastic";
         colorMoved = "default";
+        elisp = { xfuncname = "^\\((((def\\S+)|use-package)\\s+\\S+)"; };
+        clojure = { xfuncname = "^\\((def\\S+\\s+\\S+)"; };
       };
       difftool = {
         prompt = false;
