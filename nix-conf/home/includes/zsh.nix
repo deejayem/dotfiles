@@ -87,6 +87,12 @@
       gloga = "git log --oneline --decorate --graph --all";
     };
 
+    localVariables = {
+      PER_DIRECTORY_HISTORY_TOGGLE = "^\\\\"; # ^\\ is ^#
+      HISTORY_START_WITH_GLOBAL=true;
+      NVM_AUTO_USE = true;
+      NVM_LAZY_LOAD = true;
+    };
     initExtraFirst = ''
       [[ $TERM == "tramp" ]] && unsetopt zle && PS1='$ ' && return
     '';
@@ -252,6 +258,26 @@
           sha256 = "2CGjk1oTXip+eAJMuOk/X3e2KTwfwzcKTcGToA2xPd4=";
         };
         file = "fzf-git.sh";
+      }
+      {
+        name = "per-directory-history";
+        src = fetchFromGitHub {
+          owner = "jimhester";
+          repo = "per-directory-history";
+          rev = "0687bbfd736da566472a6d67c2b45c501b73d405";
+          sha256 = "7Z0qaDhgopKt9BDKSqdziw9jsVgiLLafs30wPPbz+oo=";
+        };
+        file = "per-directory-history.zsh";
+      }
+      {
+        name = "zsh-nvm";
+        src = fetchFromGitHub {
+          owner = "lukechilds";
+          repo = "zsh-nvm";
+          rev = "23067bd9bb6eb6f4737a3ea90cb0cb5e85f61ba2";
+          sha256 = "Zwdi7bezMFKaIKYwsSftu3mJSFvadEWmY2hYnU1Kpu4=";
+        };
+        file = "zsh-nvm.plugin.zsh";
       }
     ];
   };
