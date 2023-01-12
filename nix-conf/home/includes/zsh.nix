@@ -66,6 +66,10 @@
 
       zz = "z $PWD";
 
+      els = "ea run linear ls -- -1";
+      erg = "ea run grouped rg --";
+      fd = "ea run linear fd --";
+
       # Git log aliases from the omz git plugin
       gl = "git pull";
       glg = "git log --stat";

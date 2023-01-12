@@ -30,6 +30,7 @@ in
     difftastic
     duf
     du-dust
+    ea
     elinks
     entr
     exa
