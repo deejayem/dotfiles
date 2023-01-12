@@ -35,10 +35,6 @@
       expireDuplicatesFirst = true;
     };
 
-    envExtra = ''
-      export LSP_USE_PLISTS=true
-      export LESS=-iRXF
-    '';
     profileExtra = ''
       [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]] && . ~/.nix-profile/etc/profile.d/nix.sh
       path=(~/bin
@@ -90,8 +86,12 @@
     localVariables = {
       PER_DIRECTORY_HISTORY_TOGGLE = "^\\\\"; # ^\\ is ^#
       HISTORY_START_WITH_GLOBAL=true;
+
       NVM_AUTO_USE = true;
       NVM_LAZY_LOAD = true;
+
+      LSP_USE_PLISTS = true;
+      LESS = "-iRXF";
     };
     initExtraFirst = ''
       [[ $TERM == "tramp" ]] && unsetopt zle && PS1='$ ' && return
@@ -112,9 +112,10 @@
         fi
       fi
 
+      # Keep these in initExtra, rather than localVariables, because the order matters
       export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
       export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-      export FZF_ALT_C_COMMAND='rg --hidden --files --sort-files --null -g ""!{.git,node_modules}/*" | xargs -0 dirname | sort -u'
+      export FZF_ALT_C_COMMAND='rg --hidden --files --sort-files --null -g "!{.git,node_modules}/*" | xargs -0 dirname | sort -u'
       export FZF_ALT_C_OPTS="--preview 'exa --tree {} | head -200'"
       export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-t:toggle-preview'"
       export FZF_DEFAULT_OPTS="--bind=ctrl-t:toggle-all --bind=ctrl-j:jump"
