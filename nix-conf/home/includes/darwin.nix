@@ -1,4 +1,27 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
+
+with lib;
+let
+  mopidyExtensions = with pkgs; [
+    mopidy-iris
+    mopidy-local
+    mopidy-mpd
+    mopidy-muse
+    mopidy-ytmusic
+  ];
+
+  # https://github.com/nix-community/home-manager/blob/ce563f591195cf363bca382fe02ea5ca87754773/modules/services/mopidy.nix#L22
+  mopidy-with-extensions = pkgs.buildEnv {
+    name = "mopidy-with-extensions-${pkgs.mopidy.version}";
+    paths = closePropagation mopidyExtensions;
+    pathsToLink = [ "/${pkgs.mopidyPackages.python.sitePackages}" ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      makeWrapper ${pkgs.mopidy}/bin/mopidy $out/bin/mopidy \
+        --prefix PYTHONPATH : $out/${pkgs.mopidyPackages.python.sitePackages}
+    '';
+    };
+in
 {
   imports = [
     ./dev-common.nix
@@ -17,12 +40,7 @@
     #adoptopenjdk-hotspot-bin-8
     #lima
     minikube
-    mopidy
-    mopidy-iris
-    #mopidy-local
-    mopidy-mpd
-    mopidy-muse
-    mopidy-ytmusic
+    mopidy-with-extensions
     mpdscribble
     mpc-cli
     mpd
