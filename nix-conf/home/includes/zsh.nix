@@ -192,6 +192,11 @@
         df -h
       }
 
+      function checkout-pr () {
+        git fetch ''${2:-upstream} pull/''${1}/head:pr-''${1}
+        git switch pr-''${1}
+      }
+
       [[ ! -f ~/.zsh.local ]] || source ~/.zsh.local
 
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
