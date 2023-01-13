@@ -1,5 +1,7 @@
-{ config, pkgs, lib, ... }:
-
+{ config, pkgs, lib, isDarwin, ... }:
+let
+    inherit (lib) optionals;
+in
 {
   home.packages = with pkgs; [
     zsh-completions
@@ -270,6 +272,8 @@
         };
         file = "per-directory-history.zsh";
       }
+    ]
+    ++ optionals stdenv.isDarwin [
       {
         name = "zsh-nvm";
         src = fetchFromGitHub {
