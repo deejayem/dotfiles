@@ -40,6 +40,7 @@ in
     git
     gnupg
     gopass
+    htop
     inetutils
     ispell
     isync
