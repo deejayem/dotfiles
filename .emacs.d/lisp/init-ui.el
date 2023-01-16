@@ -5,17 +5,21 @@
 ;;; Code:
 
 (use-package emacs
-  :hook (emacs-startup . (lambda ()
-                           (cond
-                            ((find-font (font-spec :name "iosevka comfy"))
-                             (set-face-attribute 'default nil :font "iosevka comfy"))
-                            ((find-font (font-spec :name "iosevka"))
-                             (set-face-attribute 'default nil :font "iosevka")))
+  :hook
+  (emacs-startup . (lambda ()
+                     (cond
+                      ((find-font (font-spec :name "iosevka comfy"))
+                       (set-face-attribute 'default nil :font "iosevka comfy"))
+                      ((find-font (font-spec :name "iosevka"))
+                       (set-face-attribute 'default nil :font "iosevka")))
 
-                           (global-display-line-numbers-mode)
-                           (global-hl-line-mode +1)
+                     (global-display-line-numbers-mode)
+                     (global-hl-line-mode +1)
 
-                           (global-set-key (kbd "C-x C-S-k") 'kill-this-buffer)))
+                     (global-set-key (kbd "C-x C-S-k") 'kill-this-buffer)))
+  (after-init . (lambda ()
+                  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+                  (load-theme 'non-modo t)))
 
   :config
   ;; https://github.com/rougier/elegant-emacs/blob/master/sanity.el
@@ -50,74 +54,6 @@
     (setq mac-right-option-modifier 'none)
     (setq mac-command-modifier 'super)))
 
-(use-package modus-themes
-  :config
-  (defun my/load-theme ()
-    "Load modus vivendi theme, with my customisations."
-    (setq modus-themes-syntax '(green-strings yellow-comments)
-          modus-themes-paren-match '(bold intense underline)
-          modus-themes-bold-constructs t
-          modus-themes-italic-constructs t
-          modus-themes-lang-checkers '(text-also))
-    (load-theme 'modus-vivendi t)
-
-    (custom-set-faces
-     `(font-lock-builtin-face ((t (:foreground "LawnGreen"))))
-     `(font-lock-keyword-face ((t (:foreground "gold"))))
-     `(font-lock-function-name-face ((t (:foreground "cyan"))))
-     `(font-lock-variable-name-face ((t (:foreground "gold3"))))
-     `(font-lock-constant-face ((t (:foreground "DeepSkyBlue2"))))
-     `(font-lock-type-face ((t (:foreground "PaleGreen2"))))
-     `(font-lock-string-face ((t (:foreground "SpringGreen3"))))
-     `(font-lock-comment-face ((t (:foreground "burlywood"))))
-     `(font-lock-doc-face ((t :foreground "LightCyan3")))
-     `(region ((t (:background "firebrick"))))
-     `(secondary-selection ((t (:background "firebrick4"))))
-     `(highlight ((t (:background "grey30"))))
-     `(idle-highlight ((t (:background "grey50" :foreground "white"))))
-     `(isearch ((t (:background "coral2"))))
-     `(lazy-highlight ((t (:background "LightSteelBlue2" :foreground "black"))))
-     `(match ((t (:background "gray35" :foreground "grey85"))))
-     `(lsp-face-highlight-textual ((t (:background "DimGrey"))))
-     `(whitespace-empty ((t (:background "gray10"))))
-     `(hl-line ((t :background "gray20" :underline "gray40" :inherit nil)))
-     `(simple-modeline-status-modified ((t :foreground "DeepSkyBlue")))
-     `(consult-async-split ((t :foreground "LightCoral")))
-     `(orderless-match-face-0 ((t :foreground "tomato")))
-     `(orderless-match-face-1 ((t :foreground "SpringGreen2")))
-     `(orderless-match-face-2 ((t :foreground "gold")))
-     `(orderless-match-face-3 ((t :foreground "cyan")))
-     `(flycheck-fringe-warning ((t :foreground "white" :background "gold3")))
-     `(flycheck-fringe-error ((t :foreground "white" :background "red2")))
-     `(flycheck-fringe-info ((t :foreground "white" :background "RoyalBlue3")))
-     `(cider-debug-code-overlay-face ((t :background "gray45")))
-     `(alt-font-lock-keyword-face ((t :foreground "LightSkyBlue" :weight bold)))
-     `(alt-hl-line-face ((t :underline "gray50" :weight bold)))
-     ;; this is the default, but for some reason modus-themes started overriding it
-     `(clojure-keyword-face ((t :inherit font-lock-constant-face))))
-
-    (setq hl-todo-keyword-faces
-          '(("TODO"   . "red3")
-            ("FIXME"  . "red3")
-            ("DEBUG"  . "#A020F0")
-            ("GOTCHA" . "#FF4500")
-            ("HACK" . "#FF4500")
-            ("STUB"   . "#1E90FF")
-            ("FAIL"   . "red3")
-            ("NOTE"   . "DarkOrange2")
-            ("DEPRECATED" . "yellow"))))
-
-  (defun use-alt-font-lock-keyword-face ()
-    "Remap font-lock-keyword-face to the alternate one, in the current buffer"
-    (face-remap-add-relative 'font-lock-keyword-face 'alt-font-lock-keyword-face))
-  (defun use-alt-hl-line-face ()
-    "Remap hl-line face to the alternate one, in the current buffer"
-    (face-remap-add-relative 'hl-line 'alt-hl-line-face))
-  :hook
-  (after-init . my/load-theme)
-  (cider-inspector-mode . use-alt-font-lock-keyword-face)
-  (magit-mode . use-alt-hl-line-face))
-
 (use-package hl-todo
   :bind
   (:map hl-todo-mode-map
@@ -126,8 +62,17 @@
         ("C-c c t o" . hl-todo-occur)
         ("C-c c t r" . hl-todo-rgrep)
         ("C-c c t i" . hl-todo-insert))
-  ;; Use emacs-startup-hook so that it runs after my/load-theme is called in after-init-hook
-  ;; hl-todo-keyword-faces is customised in my/load-theme
+  :custom
+  (hl-todo-keyword-faces
+   '(("TODO"   . "red3")
+     ("FIXME"  . "red3")
+     ("DEBUG"  . "#A020F0")
+     ("GOTCHA" . "#FF4500")
+     ("HACK" . "#FF4500")
+     ("STUB"   . "#1E90FF")
+     ("FAIL"   . "red3")
+     ("NOTE"   . "DarkOrange2")
+     ("DEPRECATED" . "yellow")))
   :hook (emacs-startup . global-hl-todo-mode))
 
 (use-package whitespace
