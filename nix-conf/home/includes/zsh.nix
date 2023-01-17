@@ -87,7 +87,9 @@ in
 
     localVariables = {
       PER_DIRECTORY_HISTORY_TOGGLE = "^\\\\"; # ^\\ is ^#
-      HISTORY_START_WITH_GLOBAL=true;
+      HISTORY_START_WITH_GLOBAL = true;
+
+      ZSH_AUTOSUGGEST_STRATEGY = ["history" "completion"];
 
       NVM_AUTO_USE = true;
       NVM_LAZY_LOAD = true;
