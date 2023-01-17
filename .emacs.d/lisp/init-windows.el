@@ -171,23 +171,34 @@
         ("C-<" . buffer-ring-prev-buffer)
         ("C->" . buffer-ring-next-buffer)))
 
-(use-package cbm
-  :config
-  (defvar cbm-repeat-map
-    (let ((map (make-sparse-keymap)))
-      (define-key map (kbd "<") #'cbm-cycle)
-      map))
-  (put 'cbm-cycle 'repeat-map 'cbm-repeat-map)
-  :bind
-  ("C-c C-b <" . cbm-cycle)
-  ("C-c C-b C-b" . cbm-switch-buffer))
-
 (use-package buffer-flip
+  :custom (buffer-flip-skip-patterns '("^[*]"))
+  :config
+  ;; (defun persp-buffer-flip-skip-buffer (orig &rest args)
+  ;;   (or (apply orig args)
+  ;;       (persp-buffer-filter (car args))))
+  ;; (advice-add 'buffer-flip-skip-buffer :around 'persp-buffer-flip-skip-buffer)
+  (defun persp-buffer-flip-skip-buffer (orig-val)
+    (or orig-val (persp-buffer-filter (car args))))
+  (advice-add 'buffer-flip-skip-buffer :filter-return 'persp-buffer-flip-skip-buffer)
   :bind  (("C-c C-<left>" . buffer-flip)
           (:map buffer-flip-map
                 ( "C-<left>" .   buffer-flip-forward)
                 ( "C-<right>" . buffer-flip-backward)
                 ( "C-g" . buffer-flip-abort))))
+
+(use-package iflipb
+  :config
+  (defun iflipb-persp-buffer-list ()
+    "Buffer list for iflipb."
+    (seq-filter 'buffer-live-p (persp-current-buffers* t)))
+  (dolist (cmd '(iflipb-previous-buffer iflipb-next-buffer))
+    (put cmd 'repeat-map 'iflipb-repeat-map))
+  :custom (iflipb-buffer-list-function 'iflipb-persp-buffer-list)
+  :bind
+  ("C-x k" . iflipb-kill-buffer) ;; TODO replace with a kill currently selected buffer command
+  ("<f12>" . iflipb-previous-buffer)
+  ("<f11>" . iflipb-next-buffer))
 
 (provide 'init-windows)
 ;;; init-windows.el ends here
