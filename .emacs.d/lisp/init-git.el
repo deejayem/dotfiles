@@ -7,9 +7,8 @@
   (ediff-setup-windows-plain 'ediff-setup-windows-plain))
 
 (use-package diff-hl
-  :config
-  (global-diff-hl-mode +1)
   :hook
+  (emacs-startup . global-diff-hl-mode)
   (dired-mode . diff-hl-dired-mode)
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
