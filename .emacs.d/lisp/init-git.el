@@ -293,8 +293,6 @@
     (call-interactively #'magit-delta-mode)
     (magit-refresh)))
 
-(use-package magit-todos)
-
 (use-package forge
   :after magit)
 
