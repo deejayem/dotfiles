@@ -7,8 +7,7 @@
 ;(size-indication-mode t) ; TODO
 
 (use-feature which-func
-  :config
-  (which-function-mode 1))
+  :hook (after-init . which-function-mode))
 
 (use-package simple-modeline
   :hook (after-init . simple-modeline-mode)
