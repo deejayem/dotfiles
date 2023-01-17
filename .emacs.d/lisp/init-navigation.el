@@ -76,7 +76,7 @@ Or remove all highlighted symbols in the current buffer (with`ARG')."
 (use-package gumshoe
   :defer 5
   :after perspective
-  :diminish global-gumshoe-persp-mode
+  :diminish global-gumshoe-mode
   :custom
   (gumshoe-show-footprints-p nil)
   (gumshoe-idle-time 5)
