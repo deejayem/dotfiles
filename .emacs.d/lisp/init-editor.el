@@ -179,7 +179,7 @@
   (add-to-list 'aggressive-indent-dont-indent-if
                '(and (derived-mode-p 'prog-mode)
                      (string-match "^\s*;"
-                                   (thing-at-point 'line))))
+                                   (or (thing-at-point 'line) ""))))
   :hook
   (emacs-lisp-mode . aggressive-indent-mode))
 
