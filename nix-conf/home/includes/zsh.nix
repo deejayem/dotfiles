@@ -59,6 +59,7 @@ in
       _nix-up = "doas nix-channel --update && doas nixos-rebuild switch && nix-channel --update && home-manager switch && system-changes-report && hm-changes-report && df -h && date";
       home-up = "git -C ~/dotfiles pull && nix-channel --update && home-manager switch && hm-changes-report";
       _home-up = "nix-channel --update && home-manager switch && hm-changes-report";
+      nix-hammer = "nix shell -f https://github.com/jtojnar/nixpkgs-hammering/archive/master.tar.gz -c nixpkgs-hammer";
 
       fb = "fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'";
 
@@ -67,6 +68,8 @@ in
       els = "ea run linear ls -- -1";
       erg = "ea run grouped rg --";
       fd = "ea run linear fd --";
+
+      git-reset-branch = "git fetch && git reset --hard origin/\$(git branch --show-current)";
 
       # Git log aliases from the omz git plugin
       gl = "git pull";
