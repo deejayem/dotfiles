@@ -65,8 +65,7 @@
   services.xserver.enable = true;
   services.xserver.exportConfiguration = true;
 
-  services.xserver.displayManager.gdm.enable = true;
-  #programs.dconf.enable = true;
+  services.xserver.displayManager.lightdm.greeters.slick.enable = true;
   programs.seahorse.enable = true;
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
