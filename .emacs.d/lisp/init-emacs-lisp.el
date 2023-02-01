@@ -64,5 +64,15 @@ Start `ielm' if it's not already running."
 
 (use-package erefactor)
 
+(use-package flycheck-package
+  :hook
+  (emacs-lisp-mode . flycheck-package-setup))
+
+(use-package elsa)
+
+(use-package flycheck-elsa
+  :hook
+  (emacs-lisp-mode . flycheck-elsa-setup))
+
 (provide 'init-emacs-lisp)
 ;;; init-emacs-lisp.el ends here
