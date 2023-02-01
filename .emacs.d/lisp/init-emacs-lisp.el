@@ -58,6 +58,10 @@ Start `ielm' if it's not already running."
          ("C-c e e" . toggle-debug-on-error))))
 
 
+(use-package eros
+  :hook
+  (emacs-lisp-mode . eros-mode))
+
 (use-package erefactor)
 
 (provide 'init-emacs-lisp)
