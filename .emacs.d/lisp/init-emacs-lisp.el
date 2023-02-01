@@ -43,7 +43,8 @@ Start `ielm' if it's not already running."
                        (rainbow-mode +1)
                        (rainbow-delimiters-mode +1)
                        (setq mode-name "EL")
-                       (recompile-init-lisp-on-save)))
+                       (recompile-init-lisp-on-save)
+                       (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map)))
   :bind
   (:map emacs-lisp-mode-map
         (("C-c C-z" . visit-ielm)
@@ -55,6 +56,9 @@ Start `ielm' if it's not already running."
          ("C-c e c" . cancel-debug-on-entry)
          ("C-c e d" . debug-on-entry)
          ("C-c e e" . toggle-debug-on-error))))
+
+
+(use-package erefactor)
 
 (provide 'init-emacs-lisp)
 ;;; init-emacs-lisp.el ends here
