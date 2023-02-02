@@ -259,13 +259,8 @@ in
       }
       {
         name = "fzf-git.sh";
-        src = fetchFromGitHub {
-          owner = "junegunn";
-          repo = "fzf-git.sh";
-          rev = "9190e1bf7273d85f435fa759a5c3b20e588e9f7e";
-          sha256 = "2CGjk1oTXip+eAJMuOk/X3e2KTwfwzcKTcGToA2xPd4=";
-        };
-        file = "fzf-git.sh";
+        src = fzf-git-sh;
+        file = "share/zsh/fzf-git-sh/fzf-git.sh";
       }
       {
         name = "per-directory-history";
