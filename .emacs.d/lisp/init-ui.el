@@ -163,5 +163,12 @@
     (set-syntax-table emacs-lisp-mode-syntax-table)
     (smartparens-strict-mode)))
 
+(use-package highlight-sexp
+  :diminish
+  :custom (hl-sexp-background-color "grey10") ;; grey25 grey30 DarkBlue navy MidnightBlue DarkSlateBlue
+  :hook
+  (emacs-lisp-mode . highlight-sexp-mode)
+  (clojure-mode . highlight-sexp-mode))
+
 (provide 'init-ui)
 ;;; init-ui.el ends here
