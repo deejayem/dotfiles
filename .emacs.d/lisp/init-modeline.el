@@ -23,7 +23,6 @@
       simple-modeline-segment-major-mode))))
 
 (use-package flycheck-indicator
-  :after flycheck
   :hook (flycheck-mode . flycheck-indicator-mode)
   :custom
   (flycheck-indicator-icon-error 9632)
