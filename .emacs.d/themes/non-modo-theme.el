@@ -280,7 +280,7 @@
    `(consult-async-running ((,class :inherit bold :foreground "#2fafff")))
    `(consult-async-split ((,class :foreground "LightCoral")))
    `(consult-bookmark ((,class :foreground "#2fafff")))
-   `(consult-file ((,class :foreground "#c6eaff")))
+   `(consult-file ((,class :inherit bold :foreground "#c6eaff")))
    `(consult-imenu-prefix ((,class :inherit shadow)))
    `(consult-key ((,class :inherit bold :foreground "#00bcff")))
    `(consult-line-number ((,class :foreground "#f8dec0")))
