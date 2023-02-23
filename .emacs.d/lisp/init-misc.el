@@ -11,9 +11,8 @@
   (exec-path-from-shell-initialize))
 
 (use-package envrc
- :diminish
- :init
- (envrc-global-mode))
+  :diminish
+  :hook (after-init . envrc-global-mode))
 
 (use-package restclient
   :mode (("\\.http\\'" . restclient-mode)))
