@@ -211,5 +211,9 @@
   :custom (editorconfig-trim-whitespaces-mode 'ws-butler-mode)
   :hook (emacs-startup . editorconfig-mode))
 
+(use-package titlecase
+  ;; TODO find a better binding
+  :bind ("C-c c t t" . titlecase-dwim))
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
