@@ -73,7 +73,7 @@
   ("C-c g g" . magit-dispatch) ;; magit-file-dispatch is C-c M-g
   ("C-c g u" . my/magit-set-upstream)
   ("C-c g r" . my/magit-refresh-state)
-  ("C-c g m" . my/magit-update-git-master)
+  ("C-c g m" . my/magit-update-master)
   :config
   ;; Requires the following gitconfig:
   ;; [alias]
