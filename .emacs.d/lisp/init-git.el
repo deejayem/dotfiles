@@ -296,5 +296,17 @@
 (use-package forge
   :after magit)
 
+(use-package git-link
+  :config
+  (defun git-link-on-branch ()
+    (interactive)
+    (let ((git-link-use-commit nil))
+      (call-interactively 'git-link)))
+  :custom (git-link-use-commit t)
+  :bind
+  ("C-c g s" . git-link)
+  ("C-c g S" . git-link-on-branch)
+  ("C-c g c" . git-link-commit))
+
 (provide 'init-git)
 ;;; init-git.el ends here
