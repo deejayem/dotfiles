@@ -124,5 +124,10 @@ Or remove all highlighted symbols in the current buffer (with`ARG')."
   (put 'goto-last-point 'repeat-map 'goto-last-point-repeat-map)
   :bind ("C-c <" . goto-last-point))
 
+(use-package link-hint
+  :bind
+  ("C-c C-l" . link-hint-open-link)
+  ("C-c C-S-l" . link-hint-copy-link))
+
 (provide 'init-navigation)
 ;;; init-navigation.el ends here
