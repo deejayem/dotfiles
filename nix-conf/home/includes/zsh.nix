@@ -185,6 +185,11 @@ in
         cd "$DIR"
       }
 
+      # From omz
+      function mkcd () {
+        mkdir -p $@ && cd ''${@:$#}
+      }
+
       tre () { command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
 
       function gcd () {
