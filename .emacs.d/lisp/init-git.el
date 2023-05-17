@@ -74,6 +74,7 @@
   ("C-c g u" . my/magit-set-upstream)
   ("C-c g r" . my/magit-refresh-state)
   ("C-c g m" . my/magit-update-master)
+  ("C-c g C-c" . my/magit-stage-and-commit-file)
   :config
   ;; Requires the following gitconfig:
   ;; [alias]
@@ -111,6 +112,12 @@
               (vc-pull)
             (magit-shell-command-topdir command)))
       (message "Not a git repository")))
+
+  (defun my/magit-stage-and-commit-file ()
+    "Stage and commit the current the currently visited file."
+    (interactive)
+    (magit-stage-file (magit-file-relative-name))
+    (magit-commit-create))
 
   ;; difftastic code copied from https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html
   (defun my/magit--with-difftastic (buffer command)
