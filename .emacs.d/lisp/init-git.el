@@ -294,7 +294,8 @@
     (magit-refresh)))
 
 (use-package forge
-  :after magit)
+  :after magit
+  :bind (:map forge-pullreq-list-mode-map ("C-w" . forge-copy-url-at-point-as-kill)))
 
 (use-package git-link
   :config
