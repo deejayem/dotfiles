@@ -199,10 +199,10 @@
             ;; Otherwise, auto-guess based on position of point, e.g., based on
             ;; if we are in the Staged or Unstaged section.
             (pcase (magit-diff--dwim)
-              ('unmerged (error "unmerged is not yet implemented"))
+              ('unmerged (error "Unmerged is not yet implemented"))
               ('unstaged nil)
               ('staged "--cached")
-              (`(stash . ,value) (error "stash is not yet implemented"))
+              (`(stash . ,value) (error "Stash is not yet implemented"))
               (`(commit . ,value) (format "%s^..%s" value value))
               ((and range (pred stringp)) range)
               (_ (magit-diff-read-range-or-commit "Range/Commit"))))))
@@ -307,10 +307,14 @@
 (use-package git-link
   :config
   (defun git-link-on-branch ()
+    "Like `git-link', but force linking to the branch rather than a commit."
     (interactive)
     (let ((git-link-use-commit nil))
       (call-interactively 'git-link)))
   (defun git-link-branch ()
+    "Create a URL representing the current buffer's branch in its
+GitHub/Bitbucket/GitLab/... The URL will be added to the kill ring.  If
+`git-link-open-in-browser' is non-nil also call `browse-url'."
     (interactive)
     (let* ((remote-info (git-link--parse-remote (git-link--remote-url (git-link--select-remote))))
            (branch (git-link--branch)))
