@@ -302,11 +302,19 @@
     (interactive)
     (let ((git-link-use-commit nil))
       (call-interactively 'git-link)))
+  (defun git-link-branch ()
+    (interactive)
+    (let* ((remote-info (git-link--parse-remote (git-link--remote-url (git-link--select-remote))))
+           (branch (git-link--branch)))
+      (if (null (car remote-info))
+          (message "Remote `%s' contains an unsupported URL" remote)
+        (git-link--new (format "https://%s/%s/tree/%s" (car remote-info) (cadr remote-info) branch)))))
   :custom (git-link-use-commit t)
   :bind
   ("C-c g s" . git-link)
   ("C-c g S" . git-link-on-branch)
-  ("C-c g c" . git-link-commit))
+  ("C-c g c" . git-link-commit)
+  ("C-c g b" . git-link-branch))
 
 (provide 'init-git)
 ;;; init-git.el ends here
