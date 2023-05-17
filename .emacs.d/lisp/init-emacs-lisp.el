@@ -34,10 +34,23 @@
 Start `ielm' if it's not already running."
     (interactive)
     (crux-start-or-switch-to 'ielm "*ielm*"))
+  ;; from https://www.n16f.net/blog/making-ielm-more-comfortable/
+  (defun ielm-init-history ()
+    (let ((path (expand-file-name "ielm/history" user-emacs-directory)))
+      (make-directory (file-name-directory path) t)
+      (setq-local comint-input-ring-file-name path))
+    (setq-local comint-input-ring-size 10000)
+    (setq-local comint-input-ignoredups t)
+    (comint-read-input-ring))
+  (defun ielm-write-history (&rest _args)
+    (with-file-modes #o600
+      (comint-write-input-ring)))
   :hook
   (ielm-mode . (lambda ()
                  (eldoc-mode +1)
-                 (rainbow-delimiters-mode +1)))
+                 (rainbow-delimiters-mode +1)
+                 (ielm-init-history)
+                 (advice-add 'ielm-send-input :after 'ielm-write-history)))
   (emacs-lisp-mode . (lambda ()
                        (eldoc-mode +1)
                        (rainbow-mode +1)
