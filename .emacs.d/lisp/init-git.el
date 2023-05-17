@@ -317,5 +317,9 @@
   ("C-c g c" . git-link-commit)
   ("C-c g b" . git-link-branch))
 
+(use-package git-related
+  :straight nil
+  :defer 10)
+
 (provide 'init-git)
 ;;; init-git.el ends here
