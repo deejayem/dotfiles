@@ -48,7 +48,8 @@
     (put cmd 'repeat-map 'winner-repeat-map)))
 
 (use-package windmove
-  :init (windmove-default-keybindings))
+  :defer 5
+  :config (windmove-default-keybindings))
 
 (use-package buffer-move
   :bind (("C-S-<up>" . buf-move-up)
