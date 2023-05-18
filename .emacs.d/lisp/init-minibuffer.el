@@ -194,14 +194,14 @@ DEFS is a plist associating completion categories to commands."
          ("C-M-#" . consult-register)
          ;; Other custom bindings
          ("C-S-s" . consult-line)
-         ("M-*" . consult-line-symbol-at-point)
+         ("M-*" . consult-line-thing-at-point)
          ("C-c f" . consult-recent-file)
          ("C-c r" . consult-ripgrep)
          ;; TODO find an alternative to C-c c?
          ("C-c c r" . consult-ripgrep-auto-preview)
          ("C-c c s" . consult-ripgrep-case-sensitive)
          ("C-c c z" . consult-z-ripgrep)
-         ("C-c C-*" . consult-ripgrep-symbol-at-point)
+         ("C-c C-*" . consult-ripgrep-thing-at-point)
          ("C-c C-^" . consult-ripgrep-parent)
          ("M-y" . consult-yank-pop)     ;; orig. yank-pop
          ("<help> a" . consult-apropos) ;; orig. apropos-command
@@ -228,7 +228,7 @@ DEFS is a plist associating completion categories to commands."
                ("r" . consult-ripgrep)
                ("R" . consult-ripgrep) ;; can't use r in isearch-mode, so add R too
                ("M-r" . consult-ripgrep-unrestricted)
-               ("*" . consult-ripgrep-symbol-at-point)
+               ("*" . consult-ripgrep-thing-at-point)
                ("z" . consult-z-ripgrep)
                ("^" . consult-ripgrep-parent)
                ("l" . consult-line)
@@ -262,11 +262,6 @@ DEFS is a plist associating completion categories to commands."
 
   (add-to-list 'consult-mode-histories '(cider-repl-mode cider-repl-input-history))
 
-  (defun consult-ripgrep-symbol-at-point (&optional dir initial)
-    (interactive
-     (list prefix-arg (when-let ((s (symbol-at-point)))
-                        (symbol-name s))))
-    (consult-ripgrep dir initial))
   (defun consult-ripgrep-auto-preview (&optional dir initial)
     (interactive "P")
     (consult-ripgrep dir initial))
@@ -285,9 +280,6 @@ DEFS is a plist associating completion categories to commands."
   (defun consult-buffer-no-preview ()
     (interactive)
     (consult-buffer))
-  (defun consult-line-symbol-at-point ()
-    (interactive)
-    (consult-line (thing-at-point 'symbol)))
   (defun consult-ripgrep-parent (&optional initial)
     (interactive "P")
     (consult-ripgrep (file-name-directory (directory-file-name (persp-current-project-root))) initial))
@@ -315,16 +307,21 @@ DEFS is a plist associating completion categories to commands."
            (default-directory (cdr prompt-dir)))
       (find-file (consult--find (car prompt-dir) #'consult--fd-builder initial))))
 
+  (defalias 'consult-line-thing-at-point 'consult-line)
+  (defalias 'consult-ripgrep-thing-at-point 'consult-ripgrep)
+
   (consult-customize
    consult-theme
    :preview-key '(:debounce 0.2 any)
-   ;; For these commands we can use C-S/C-P to scroll and preview, or M-. to preview
+   ;; For these commands we can use C-N/C-P to scroll and preview, or M-. to preview
    consult-git-grep consult-grep
    consult-ripgrep-parent consult-ripgrep consult-ripgrep-case-sensitive
-   consult-ripgrep-unrestricted consult-z-ripgrep consult-ripgrep-symbol-at-point
+   consult-ripgrep-unrestricted consult-z-ripgrep consult-ripgrep-thing-at-point
    consult-bookmark consult-recent-file consult-xref consult-buffer-no-preview
    consult--source-recent-file consult--source-project-recent-file consult--source-bookmark
-   :preview-key '("M-." :debounce 0.2 "C-S-n" :debounce 0.2 "C-S-p"))
+   :preview-key '("M-." :debounce 0.2 "C-S-n" :debounce 0.2 "C-S-p")
+   consult-line-thing-at-point consult-ripgrep-thing-at-point
+   :initial (thing-at-point 'symbol))
 
   (defvar-local consult-toggle-preview-orig nil)
   (defun consult-toggle-preview ()
