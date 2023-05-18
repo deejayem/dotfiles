@@ -38,6 +38,8 @@
     localuser = null;
   };
 
+  time.timeZone = "Europe/London";
+
   users.users.djm =
    { isNormalUser = true;
      home = "/home/djm";
