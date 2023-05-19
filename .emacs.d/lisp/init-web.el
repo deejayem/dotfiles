@@ -21,11 +21,9 @@
   (add-to-list 'auto-mode-alist '("\\.jsp\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode)))
 
-(use-package css-mode
+(use-feature css-mode
   :custom
-  (css-indent-offset 2)
-  :config
-  (rainbow-mode +1))
+  (css-indent-offset 2))
 
 (use-package scss-mode
   :config

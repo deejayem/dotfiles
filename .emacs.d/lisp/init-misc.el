@@ -12,7 +12,7 @@
 
 (use-package envrc
   :diminish
-  :hook (after-init . envrc-global-mode))
+  :hook (elpaca-after-init . envrc-global-mode))
 
 (use-package restclient
   :mode (("\\.http\\'" . restclient-mode)))

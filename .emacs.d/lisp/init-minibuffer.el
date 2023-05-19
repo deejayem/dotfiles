@@ -6,9 +6,9 @@
 ;;; Code:
 
 (use-package vertico
-  :straight (vertico :files (:defaults "extensions/*")
-                     :includes (vertico-directory vertico-repeat vertico-indexed vertico-quick))
-  :hook (emacs-startup . vertico-mode)
+  :elpaca (vertico :files (:defaults "extensions/*")
+                   :includes (vertico-directory vertico-repeat vertico-indexed vertico-quick))
+  :hook (elpaca-after-init . vertico-mode)
   :custom (vertico-cycle t)
   :config
   ;; Do not allow the cursor in the minibuffer prompt
@@ -42,20 +42,6 @@
                      (propertize "» " 'face 'vertico-current)
                    "  ")
                  cand)))
-
-  (defun define-vertico-key (key &rest defs)
-    "Define KEY conditionally in the vertico keymap.
-DEFS is a plist associating completion categories to commands."
-    (let ((default-command (lookup-key vertico-map (kbd key))))
-      (define-key vertico-map (kbd key)
-        (list 'menu-item nil defs :filter
-              (lambda (d)
-                (or (plist-get d (completion-metadata-get
-                                  (completion-metadata (minibuffer-contents)
-                                                       minibuffer-completion-table
-                                                       minibuffer-completion-predicate)
-                                  'category))
-                    default-command))))))
 
   (defun down-from-outside ()
     "Move to next candidate in minibuffer, even when minibuffer isn't selected."
@@ -95,8 +81,7 @@ DEFS is a plist associating completion categories to commands."
          ("C-M-S-g" . minibuffer-really-quit)
          (:map vertico-map ("M-RET" . minibuffer-force-complete-and-exit))))
 
-(use-feature vertico-directory
-  :after vertico
+(use-extension vertico vertico-directory
   :config
   (defvar switching-project nil)
   (defun vertico-directory-enter-or-select-project ()
@@ -124,6 +109,21 @@ DEFS is a plist associating completion categories to commands."
       (apply orig args)))
   (advice-add 'project-prompt-project-dir :around
               'read-project)
+
+  ;; TODO this should be part of the vertico config
+  (defun define-vertico-key (key &rest defs)
+    "Define KEY conditionally in the vertico keymap.
+DEFS is a plist associating completion categories to commands."
+    (let ((default-command (lookup-key vertico-map (kbd key))))
+      (define-key vertico-map (kbd key)
+        (list 'menu-item nil defs :filter
+              (lambda (d)
+                (or (plist-get d (completion-metadata-get
+                                  (completion-metadata (minibuffer-contents)
+                                                       minibuffer-completion-table
+                                                       minibuffer-completion-predicate)
+                                  'category))
+                    default-command))))))
   (define-vertico-key "/"
     'file #'vertico-directory-slash
     'project-file #'vertico-directory-slash)
@@ -142,7 +142,8 @@ DEFS is a plist associating completion categories to commands."
   ;; Tidy shadowed file names
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
 
-(use-feature vertico-repeat
+(use-extension vertico vertico-repeat
+  :after savehist
   :bind
   ("C-\\" . vertico-repeat)
   ("C-|" . vertico-repeat-select)
@@ -442,7 +443,7 @@ DEFS is a plist associating completion categories to commands."
 (use-package consult-project-extra)
 
 (use-package marginalia
-  :hook (emacs-startup . marginalia-mode)
+  :hook (elpaca-after-init . marginalia-mode)
   :config
   ;; crux-recentf-find-file
   (add-to-list 'marginalia-prompt-categories '("Choose recent file" . file)))

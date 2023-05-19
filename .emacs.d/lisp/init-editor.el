@@ -3,21 +3,21 @@
 ;; based on prelude-editor.el
 ;;; Code:
 
-(use-package emacs
+(use-feature emacs
   :bind
   ("C-x \\" . align-regexp)
   ("C-+" . text-scale-increase)
   ("C--" . text-scale-decrease)
   :hook
   (after-save . executable-make-buffer-file-executable-if-script-p)
-  (emacs-startup . (lambda ()
-                     (save-place-mode 1)
-                     (delete-selection-mode t)
-                     (global-auto-revert-mode 1)
-                     (set-terminal-coding-system 'utf-8)
-                     (set-keyboard-coding-system 'utf-8)
-                     (set-selection-coding-system 'utf-8)
-                     (prefer-coding-system 'utf-8)))
+  (elpaca-after-init . (lambda ()
+                         (save-place-mode 1)
+                         (delete-selection-mode t)
+                         (global-auto-revert-mode 1)
+                         (set-terminal-coding-system 'utf-8)
+                         (set-keyboard-coding-system 'utf-8)
+                         (set-selection-coding-system 'utf-8)
+                         (prefer-coding-system 'utf-8)))
   ;; (text-mode . whitespace-cleanup)
 
   :config
@@ -67,12 +67,12 @@
   ("M-z" . zop-up-to-char)
   ("M-Z" . zop-to-char))
 
-(use-package savehist
+(use-feature savehist
   :custom
   (savehist-additional-variables '(search-ring regexp-search-ring))
   (savehist-autosave-interval 60)
   (savehist-file (expand-file-name "savehist" save-dir))
-  :hook (after-init . savehist-mode))
+  :hook (elpaca-after-init . savehist-mode))
 
 (use-package super-save
   :defer 5
@@ -84,7 +84,7 @@
   (add-to-list 'super-save-triggers 'ace-window)
   (add-to-list 'super-save-hook-triggers 'find-file-hook))
 
-(use-package recentf
+(use-feature recentf
   :config
   (add-to-list 'recentf-exclude (expand-file-name "elpa" user-emacs-directory))
   (add-to-list 'recentf-exclude (expand-file-name "straight" user-emacs-directory))
@@ -93,7 +93,7 @@
   (recentf-max-saved-items 300)
   (recentf-max-menu-items 20)
   (recentf-auto-cleanup (* 60 60))
-  :hook (after-init . recentf-mode))
+  :hook (elpaca-after-init . recentf-mode))
 
 (use-package flycheck
   :config
@@ -107,12 +107,12 @@
 ;  (text-mode . (lambda () (flyspell-mode +1)))
 ;  (prog-mode . (lambda () (flyspell-prog-mode))))
 
-(use-package bookmark
+(use-feature bookmark
   :custom
   (bookmark-default-file (expand-file-name "bookmarks" save-dir))
   (bookmark-save-flag 1))
 
-(use-package midnight)
+(use-feature midnight)
 
 (use-package undo-tree
   :defer 5
@@ -132,7 +132,7 @@
   (prog-mode . abbrev-mode)
   (cider-repl-mode . abbrev-mode))
 
-(use-package subword
+(use-feature subword
   :diminish)
 
 (use-package markdown-mode
@@ -208,7 +208,7 @@
 (use-package editorconfig
   :diminish
   :custom (editorconfig-trim-whitespaces-mode 'ws-butler-mode)
-  :hook (emacs-startup . editorconfig-mode))
+  :hook (elpaca-after-init . editorconfig-mode))
 
 (use-package titlecase
   ;; TODO find a better binding

@@ -136,7 +136,7 @@ mode as the current buffer (or do nothing)."
   ("C-x C-S-b" . persp-switch-buffer-same-mode)
   ("C-c x x" . persp-switch-last)
   ("C-c x ." . persp-switch-quick)
-  :hook (after-init . persp-mode))
+  :hook (elpaca-after-init . persp-mode))
 
 (provide 'init-project)
 ;;; init-project.el ends here

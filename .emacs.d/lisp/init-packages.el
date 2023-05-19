@@ -2,37 +2,65 @@
 ;;; Commentary:
 ;;; Code:
 
-(setq straight-use-package-by-default t
-      straight-vc-git-default-clone-depth 1
-      straight-check-for-modifications '(find-when-checking check-on-save)
-      use-package-always-defer t
-      package-native-compile t)
+(defvar elpaca-installer-version 0.4)
+(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                              :ref nil
+                              :files (:defaults (:exclude "extensions"))
+                              :build (:not elpaca--activate-package)))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list 'load-path (if (file-exists-p build) build repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (when (< emacs-major-version 28) (require 'subr-x))
+    (condition-case-unless-debug err
+        (if-let ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                 ((zerop (call-process "git" nil buffer t "clone"
+                                       (plist-get order :repo) repo)))
+                 ((zerop (call-process "git" nil buffer t "checkout"
+                                       (or (plist-get order :ref) "--"))))
+                 (emacs (concat invocation-directory invocation-name))
+                 ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                       "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                 ((require 'elpaca))
+                 ((elpaca-generate-autoloads "elpaca" repo)))
+            (kill-buffer buffer)
+          (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (load "./elpaca-autoloads")))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
 
-(defvar bootstrap-version)
- (let ((bootstrap-file
-        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-       (bootstrap-version 6))
-   (unless (file-exists-p bootstrap-file)
-     (with-current-buffer
-         (url-retrieve-synchronously
-          "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
-          'silent 'inhibit-cookies)
-       (goto-char (point-max))
-       (eval-print-last-sexp)))
-   (load bootstrap-file nil 'nomessage))
+;; Install use-package support
+(elpaca elpaca-use-package
+  ;; Enable :elpaca use-package keyword.
+  (elpaca-use-package-mode)
+  ;; Assume :elpaca t unless otherwise specified.
+  (setq elpaca-use-package-by-default t
+        use-package-always-defer t
+        package-native-compile t))
 
-(straight-use-package 'use-package)
+(elpaca diminish)
+
+;; Block until current queue processed.
+(elpaca-wait)
 
 ;; https://github.com/radian-software/radian/blob/e3aad124c8e0cc870ed09da8b3a4905d01e49769/emacs/radian.el#L352
 (defmacro use-feature (name &rest args)
-  "Like `use-package', but with `straight-use-package-by-default' disabled.
+  "Like `use-package', but with `elpaca-use-package-by-default' disabled.
 `NAME' and `ARGS' are as with `use-package'"
   (declare (indent defun))
   `(use-package ,name
-     :straight nil
+     :elpaca nil
      ,@args))
-(use-feature straight-x
-  :commands (straight-x-fetch-all))
 
 ;; useful for corfu and vertico extensions
 (defmacro use-extension (pkg name &rest args)
@@ -40,32 +68,10 @@
 `PKG' is the name of the package, `NAME' and `ARGS' are as with `use-package'"
   (declare (indent defun))
   `(use-package ,name
-     :straight nil
+     :elpaca nil
      :after ,pkg
      :demand t
      ,@args))
-
-(use-package diminish)
-
-;; emacs --batch -l "~/.emacs.d/init.el" -f "my/upgrade-packages"
-(defun my/upgrade-packages ()
-  "Upgrade all packages installed with straight."
-  (interactive)
-  (setq-local force-reload t)
-  (straight-pull-recipe-repositories)
-  (straight-x-fetch-all)
-  (while straight-x-running
-    (sleep-for 1))
-  (straight-merge-all)
-  (straight-check-all)
-  (straight-freeze-versions))
-
-;; emacs --batch -l "~/.emacs.d/init.el" -f "my/thaw-packages"
-(defun my/thaw-packages ()
-  "Restore all packages to the versions in the straight lockfile."
-  (interactive)
-  (setq-local force-reload t)
-  (straight-thaw-versions))
 
 (defun add-to-list* (list-var &rest elts)
   "Add `ELTS' to `LIST-VAR'."

@@ -16,12 +16,12 @@
   (sp-autoskip-closing-pair 'always)
   (sp-hybrid-kill-entire-symbol t)
   (sp-hybrid-kill-excessive-whitespace nil)
-  :hook (after-init . (lambda ()
-                        (smartparens-global-strict-mode)
-                        (show-smartparens-global-mode)
-                        (setq sp-paredit-bindings (delete '("M-?" . sp-convolute-sexp) sp-paredit-bindings))
-                        (require 'smartparens-config)
-                        (sp-use-paredit-bindings)))
+  :hook (elpaca-after-init . (lambda ()
+                               (smartparens-global-strict-mode)
+                               (show-smartparens-global-mode)
+                               (setq sp-paredit-bindings (delete '("M-?" . sp-convolute-sexp) sp-paredit-bindings))
+                               (require 'smartparens-config)
+                               (sp-use-paredit-bindings)))
   :config
   (sp-pair "\"" "\"" :wrap "M-\"")
   ;; From https://github.com/bodil/emacs.d/blob/master/bodil/bodil-paredit.el

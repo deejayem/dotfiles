@@ -2,7 +2,7 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package emacs
+(use-feature emacs
   :custom
   (switch-to-buffer-obey-display-actions t)
   :bind
@@ -35,7 +35,7 @@
             (if this-win-2nd (other-window 1))))))
   (define-key ctl-x-4-map "t" 'toggle-window-split))
 
-(use-package winner
+(use-feature winner
   :defer 5
   :config
   (winner-mode +1)
@@ -47,7 +47,7 @@
   (dolist (cmd '(winner-undo winner-redo))
     (put cmd 'repeat-map 'winner-repeat-map)))
 
-(use-package windmove
+(use-feature windmove
   :defer 5
   :config (windmove-default-keybindings))
 
@@ -98,9 +98,9 @@
      help-mode
      helpful-mode
      compilation-mode))
-  :hook (emacs-startup . (lambda ()
-                           (popper-mode +1)
-                           (popper-echo-mode +1))))
+  :hook (elpaca-after-init . (lambda ()
+                               (popper-mode +1)
+                               (popper-echo-mode +1))))
 
 (use-package frog-jump-buffer
   :config
@@ -163,7 +163,7 @@
     (let ((inhibit-message t))
       (buffer-ring-add (persp-current-name))))
   :hook
-  (emacs-startup . buffer-ring-mode)
+  (elpaca-after-init . buffer-ring-mode)
   (persp-created . persp-buffer-ring-create-and-switch)
   (persp-switch . persp-buffer-ring-switch)
   :bind

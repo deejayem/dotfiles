@@ -55,7 +55,7 @@
   (dolist (mode smartscan-exclude-modes)
     (add-hook (intern (concat (symbol-name mode) "-hook")) #'turn-off-smartscan-mode))
   :hook
-  (after-init . global-smartscan-mode)
+  (elpaca-after-init . global-smartscan-mode)
   :bind (:map smartscan-map
               ("C-M-'" . smartscan-symbol-replace)))
 
@@ -115,7 +115,7 @@ Or remove all highlighted symbols in the current buffer (with`ARG')."
 (use-package goto-last-point
   :diminish
   :custom (goto-last-point-max-length 100)
-  :hook (emacs-startup . goto-last-point-mode)
+  :hook (elpaca-after-init . goto-last-point-mode)
   :config
   (defvar goto-last-point-repeat-map
     (let ((map (make-sparse-keymap)))

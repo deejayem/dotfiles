@@ -2,13 +2,13 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-package ediff
+(use-feature ediff
   :custom
   (ediff-setup-windows-plain 'ediff-setup-windows-plain))
 
 (use-package diff-hl
   :hook
-  (emacs-startup . global-diff-hl-mode)
+  (elpaca-after-init . global-diff-hl-mode)
   (dired-mode . diff-hl-dired-mode)
   (magit-post-refresh . diff-hl-magit-post-refresh))
 
@@ -19,7 +19,7 @@
   :bind
   ("C-x v t" . git-timemachine-toggle))
 
-(use-package vc
+(use-feature vc
   :bind
   (("C-x v C-r" . my/vc-refresh-state)
    ("C-x v C-m" . my/update-git-master))
@@ -328,8 +328,7 @@ GitHub/Bitbucket/GitLab/... The URL will be added to the kill ring.  If
   ("C-c g c" . git-link-commit)
   ("C-c g b" . git-link-branch))
 
-(use-package git-related
-  :straight nil
+(use-feature git-related
   :defer 10)
 
 (provide 'init-git)

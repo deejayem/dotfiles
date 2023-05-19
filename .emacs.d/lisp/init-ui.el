@@ -4,23 +4,22 @@
 ;; Frame customisations, and disabling of {menu,tool,scoll}-bar-mode done in early-init.el, rather than here
 ;;; Code:
 
-(use-package emacs
+(use-feature emacs
   :hook
-  (emacs-startup . (lambda ()
-                     (cond
-                      ((find-font (font-spec :name "iosevka comfy"))
-                       (set-face-attribute 'default nil :font "iosevka comfy"))
-                      ((find-font (font-spec :name "iosevka"))
-                       (set-face-attribute 'default nil :font "iosevka")))
+  (elpaca-after-init . (lambda ()
+                         (cond
+                          ((find-font (font-spec :name "iosevka comfy"))
+                           (set-face-attribute 'default nil :font "iosevka comfy"))
+                          ((find-font (font-spec :name "iosevka"))
+                           (set-face-attribute 'default nil :font "iosevka")))
 
-                     (global-display-line-numbers-mode)
-                     (global-hl-line-mode +1)
+                         (global-display-line-numbers-mode)
+                         (global-hl-line-mode +1)
 
-                     (global-set-key (kbd "C-x C-S-k") 'kill-this-buffer)))
-  (after-init . (lambda ()
-                  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
-                  (load-theme 'non-modo t)))
+                         (global-set-key (kbd "C-x C-S-k") 'kill-this-buffer)
 
+                         (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
+                         (load-theme 'non-modo t)))
   :config
   ;; https://github.com/rougier/elegant-emacs/blob/master/sanity.el
   (setq inhibit-startup-screen t
@@ -72,9 +71,9 @@
      ("FAIL"   . "red3")
      ("NOTE"   . "DarkOrange2")
      ("DEPRECATED" . "yellow")))
-  :hook (emacs-startup . global-hl-todo-mode))
+  :hook (elpaca-after-init . global-hl-todo-mode))
 
-(use-package whitespace
+(use-feature whitespace
   :diminish
   :custom
   (whitespace-line-column 120)
@@ -101,7 +100,7 @@
 (use-package idle-highlight-mode
   :hook (prog-mode . idle-highlight-mode))
 
-(use-package paren
+(use-feature paren
   :config
   (show-paren-mode +1))
 
@@ -113,12 +112,16 @@
 (use-package rainbow-delimiters
   :hook
   (text-mode . (lambda () (rainbow-delimiters-mode +1)))
-  (prog-mode . (lambda () (rainbow-delimiters-mode +1))))
+  (prog-mode . (lambda () (rainbow-delimiters-mode +1)))
+  (ielm-mode . (lambda () (rainbow-delimiters-mode +1))))
 
 (use-package rainbow-mode
-  :diminish)
+  :diminish
+  :hook
+  (emacs-lisp-mode . rainbow-mode)
+  (css-mode . rainbow-mode))
 
-(use-package repeat
+(use-feature repeat
   :defer 5
   :config
   (let ((inhibit-message t))
@@ -163,8 +166,9 @@
     (smartparens-strict-mode)))
 
 (use-package highlight-sexp
+  :elpaca (highlight-sexp :host github :repo "daimrod/highlight-sexp")
   :diminish
-  :custom (hl-sexp-background-color "grey10") ;; grey25 grey30 DarkBlue navy MidnightBlue DarkSlateBlue
+  :custom (hl-sexp-background-color "grey10")
   :hook
   (emacs-lisp-mode . highlight-sexp-mode)
   (clojure-mode . highlight-sexp-mode))

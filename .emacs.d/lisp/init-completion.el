@@ -45,7 +45,7 @@
   (advice-add #'fancy-dabbrev--on-exit :after #'fancy-dabbrev-popup-exit-advice)
   :bind ("M-/" . fancy-dabbrev-expand))
 
-(use-package emacs
+(use-feature emacs
   :init
   (setq completion-cycle-threshold 3)
   (setq tab-always-indent 'complete))
@@ -130,8 +130,8 @@ no words in between, beginning with the first word."
 
 ;; code completion - corfu
 (use-package corfu
-  :straight (corfu :files (:defaults "extensions/*")
-                   :includes (corfu-indexed corfu-quick corfu-history corfu-info corfu-popupinfo))
+  :elpaca (corfu :files (:defaults "extensions/*")
+                 :includes (corfu-indexed corfu-quick corfu-history corfu-info corfu-popupinfo))
   :custom
   (corfu-cycle t)
   :bind (:map corfu-map
@@ -139,7 +139,7 @@ no words in between, beginning with the first word."
               ([tab] . corfu-next)
               ("S-TAB" . corfu-previous)
               ([backtab] . corfu-previous))
-  :hook (emacs-startup . global-corfu-mode))
+  :hook (elpaca-after-init . global-corfu-mode))
 
 (use-extension corfu corfu-indexed
   :config (corfu-indexed-mode 1))
@@ -150,6 +150,7 @@ no words in between, beginning with the first word."
               ("M-'" . corfu-quick-exit)))
 
 (use-extension corfu corfu-history
+  :after savehist
   :config
   (corfu-history-mode 1)
   (add-to-list 'savehist-additional-variables 'corfu-history))

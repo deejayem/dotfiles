@@ -9,7 +9,7 @@
 (use-package elisp-slime-nav
   :diminish)
 
-(use-package emacs
+(use-feature emacs
   :config
   (defun eval-region-or-defun (edebug-it)
     "Call eval-region, if one is selected, or eval-defun otherwise."
@@ -48,16 +48,12 @@ Start `ielm' if it's not already running."
   :hook
   (ielm-mode . (lambda ()
                  (eldoc-mode +1)
-                 (rainbow-delimiters-mode +1)
                  (ielm-init-history)
                  (advice-add 'ielm-send-input :after 'ielm-write-history)))
   (emacs-lisp-mode . (lambda ()
                        (eldoc-mode +1)
-                       (rainbow-mode +1)
-                       (rainbow-delimiters-mode +1)
                        (setq mode-name "EL")
-                       (recompile-init-lisp-on-save)
-                       (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map)))
+                       (recompile-init-lisp-on-save)))
   :bind
   (:map emacs-lisp-mode-map
         (("C-c C-z" . visit-ielm)
@@ -75,7 +71,8 @@ Start `ielm' if it's not already running."
   :hook
   (emacs-lisp-mode . eros-mode))
 
-(use-package erefactor)
+(use-package erefactor
+  :hook (emacs-lisp-mode . (lambda () (define-key emacs-lisp-mode-map "\C-c\C-v" erefactor-map))))
 
 (use-package flycheck-package
   :hook

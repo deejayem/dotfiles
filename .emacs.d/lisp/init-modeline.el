@@ -7,10 +7,10 @@
 ;(size-indication-mode t) ; TODO
 
 (use-feature which-func
-  :hook (after-init . which-function-mode))
+  :hook (elpaca-after-init . which-function-mode))
 
 (use-package simple-modeline
-  :hook (after-init . simple-modeline-mode)
+  :hook (elpaca-after-init . simple-modeline-mode)
   :custom
   (simple-modeline-segments
    '((simple-modeline-segment-modified
