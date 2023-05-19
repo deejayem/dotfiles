@@ -50,7 +50,6 @@
   (setq ffap-machine-p-local 'accept
         ffap-machine-p-known 'reject
         ffap-machine-p-unkown 'reject)
-  ;; #111111 #0f0f0f gray10 grey20
   ;; https://github.com/natecox/dotfiles/blob/master/workspaces/shared/symlinks/emacs/.emacs.d/nathancox.org
   (setq sentence-end-double-space nil)
   (set-charset-priority 'unicode)
