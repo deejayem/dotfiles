@@ -3,20 +3,28 @@
 ;;; Code:
 
 (use-feature isearch
+  :config
+  (defface isearch-prompt
+    '((t (:foreground "gold")))
+    "Face for isearch minibuffer prompt."
+    :group 'isearch)
   :custom
   (search-whitespace-regexp ".*\\b")
   (isearch-lax-whitespace t)
   (isearch-allow-scroll t)
   (isearch-yank-on-move 'shift)
   (isearch-lazy-count t)
+  (lazy-count-prefix-format nil)
+  (lazy-count-suffix-format "   (%s/%s)")
+  (isearch-message-properties '(read-only t cursor-intangible t face isearch-prompt))
   :bind-keymap ("C-c s" . search-map) ;; M-s clashes with paredit/smartparens bindings
   :bind
   ("C-*" . isearch-forward-symbol-at-point)
   (:map search-map
-   ("M-s M-<" . isearch-beginning-of-buffer)
-   ("M-s M->" . isearch-end-of-buffer)
-   ("C-c s M-<" . isearch-beginning-of-buffer)
-   ("C-c s M->" . isearch-end-of-buffer)))
+        ("M-s M-<" . isearch-beginning-of-buffer)
+        ("M-s M->" . isearch-end-of-buffer)
+        ("C-c s M-<" . isearch-beginning-of-buffer)
+        ("C-c s M->" . isearch-end-of-buffer)))
 
 (use-package isearch-dabbrev
   :after isearch
