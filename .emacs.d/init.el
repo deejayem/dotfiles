@@ -17,6 +17,7 @@
  :group 'convenience)
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "contrib" user-emacs-directory))
 
 (add-hook 'emacs-startup-hook
           (lambda ()
