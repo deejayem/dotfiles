@@ -13,8 +13,8 @@
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
 (defgroup djm nil
- "Custom variables added by me"
- :group 'convenience)
+  "Custom variables added by me."
+  :group 'convenience)
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "contrib" user-emacs-directory))
