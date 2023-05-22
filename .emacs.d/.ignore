@@ -32,5 +32,6 @@ var/
 lisp/init-local.el
 site-lisp
 straight
+elpaca
 elpa
 eln-cache
