@@ -74,29 +74,26 @@ Or remove all highlighted symbols in the current buffer (with`ARG')."
   ("M-P" . symbol-overlay-switch-backward))
 
 (use-package gumshoe
-  :defer 5
   :after perspective
+  :demand t
   :diminish global-gumshoe-mode
   :custom
   (gumshoe-show-footprints-p nil)
   (gumshoe-idle-time 5)
   (gumshoe-follow-distance 5)
+  (gumshoe-slot-schema '(perspective time buffer position line))
   :config
-  (global-gumshoe-persp-mode +1)
+  (global-gumshoe-mode +1)
   (defvar gumshoe-repeat-map
     (let ((map (make-sparse-keymap)))
-      (define-key map (kbd "]") #'gumshoe-buf-backtrack-forward)
-      (define-key map (kbd "[") #'gumshoe-buf-backtrack-back)
-      (define-key map (kbd "}") #'gumshoe-persp-backtrack-forward)
-      (define-key map (kbd "{") #'gumshoe-persp-backtrack-back)
+      (define-key map (kbd "}") #'global-gumshoe-backtracking-mode-forward)
+      (define-key map (kbd "{") #'global-gumshoe-backtracking-mode-back)
       map))
-  (dolist (cmd '(gumshoe-buf-backtrack-forward gumshoe-buf-backtrack-back gumshoe-persp-backtrack-forward gumshoe-persp-backtrack-back))
+  (dolist (cmd '(global-gumshoe-backtracking-mode-forward global-gumshoe-backtracking-mode-back))
     (put cmd 'repeat-map 'gumshoe-repeat-map))
   :bind
-  ("C-c ]" . gumshoe-buf-backtrack-forward)
-  ("C-c [" . gumshoe-buf-backtrack-back)
-  ("C-c }" . gumshoe-persp-backtrack-forward)
-  ("C-c {" . gumshoe-persp-backtrack-back)
+  ("C-c }" . global-gumshoe-backtracking-mode-forward)
+  ("C-c {" . global-gumshoe-backtracking-mode-back)
   ("C-c '" . gumshoe-peruse-in-persp))
 
 (use-package goto-chg
