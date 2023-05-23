@@ -46,7 +46,9 @@
   ;; Assume :elpaca t unless otherwise specified.
   (setq elpaca-use-package-by-default t
         use-package-always-defer t
-        package-native-compile t))
+        package-native-compile t)
+  (bind-key "C-c e u" 'elpaca-fetch-all)
+  (bind-key "C-c e m" 'elpaca-manager))
 
 (elpaca diminish)
 
