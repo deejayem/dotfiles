@@ -1,5 +1,6 @@
 *~
 *.elc
+abbrev_defs
 auto-save-list
 cider-history
 recentf
