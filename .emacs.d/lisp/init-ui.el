@@ -156,14 +156,21 @@
          ("C-h o" . helpful-symbol)
          ("C-h C-." . helpful-at-point)))
 
-;; From https://github.com/jwiegley/dot-emacs/blob/master/init.el
 (use-package eval-expr
   :bind ("M-:" . eval-expr)
   :config
   (defun eval-expr-minibuffer-setup ()
-    (local-set-key (kbd "<tab>") #'lisp-complete-symbol)
+    ;; loading emacs-lisp-mode breaks keybindings, so just setup syntax-table/completion
     (set-syntax-table emacs-lisp-mode-syntax-table)
-    (smartparens-strict-mode)))
+    (add-hook 'completion-at-point-functions #'elisp-completion-at-point nil t)
+
+    ;; Run setup hook for `eval-expression' (calls `eldoc--eval-expression-setup')
+    (run-hooks 'eval-expression-minibuffer-setup-hook)
+
+    ;; smartparens, but don't insert pairs of '
+    (smartparens-strict-mode)
+    (setq-local sp-pair-list (assoc-delete-all "'" sp-pair-list))
+    (setq-local sp-local-pairs (seq-filter '(lambda (x) (not (string= "'" (cadr x)))) sp-local-pairs))))
 
 (use-package highlight-sexp
   :elpaca (highlight-sexp :host github :repo "daimrod/highlight-sexp")
