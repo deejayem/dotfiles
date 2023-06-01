@@ -169,5 +169,8 @@
   (cider-repl-mode . cider-repl-mode-hook-fn)
   (cider-mode . cider-mode-hook-fn))
 
+(use-package jet
+  :bind ("C-c j " . jet))
+
 (provide 'init-clojure)
 ;;; init-clojure.el ends here
