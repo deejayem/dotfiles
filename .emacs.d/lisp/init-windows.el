@@ -95,6 +95,7 @@
      "\\*HTTP Response\\*"
      "Output\\*$"
      "\\*Async Shell Command\\*"
+     ("\\*elpaca-log\\*" . hide)
      help-mode
      helpful-mode
      compilation-mode))
