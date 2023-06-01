@@ -15,8 +15,11 @@
     "Call eval-region, if one is selected, or eval-defun otherwise."
     (interactive "P")
     (if (use-region-p)
-        (eval-region (region-beginning) (region-end))
-      (eval-defun edebug-it)))
+        ;; Set `this-command', otherwise elpaca does not work correctly
+        (let ((this-command 'eval-region))
+          (eval-region (region-beginning) (region-end)))
+      (let ((this-command 'eval-defun))
+        (eval-defun edebug-it))))
   ;; Based on prelude-emacs-lisp.el
   (defun recompile-init-lisp ()
     "Recompile elisp files in `user-emacs-directory/lisp'."
