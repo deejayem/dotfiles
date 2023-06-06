@@ -65,6 +65,11 @@ Equivalent to raising then wrapping."
             ((= paren-char ?\{) (sp-wrap-curly))
             ((= paren-char ?\[) (sp-wrap-square))
             (t (error "Not in a list")))))
+  (defun sp-mark-to-end-of-sexp ()
+    "Mark all the way to the end of the current sexp."
+    (interactive)
+    (call-interactively 'set-mark-command)
+    (sp-end-of-sexp))
   (unbind-key "M-?" 'smartparens-mode-map)
   (unbind-key "M-?" 'sp-keymap)
   :bind (:map smartparens-mode-map
@@ -85,6 +90,7 @@ Equivalent to raising then wrapping."
               ("C-S-e" . sp-end-of-sexp)
               ("M-E" . sp-end-of-sexp)
               ("M-R" . kill-around-sexp)
+              ("C-M-S-SPC" . sp-mark-to-end-of-sexp)
               ("C-c C-S-d" . duplicate-sexp-after-point)
               ("C-c M-(" . wrap-round-from-behind)))
 
