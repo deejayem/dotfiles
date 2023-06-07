@@ -175,10 +175,20 @@
 (use-package highlight-sexp
   :elpaca (highlight-sexp :host github :repo "daimrod/highlight-sexp")
   :diminish
-  :custom (hl-sexp-background-color "grey10")
-  :hook
-  (emacs-lisp-mode . highlight-sexp-mode)
-  (clojure-mode . highlight-sexp-mode))
+  ;; TODO grey8 ?
+  :custom (hl-sexp-background-color "grey8")
+  :hook ((emacs-lisp-mode clojure-mode) . highlight-sexp-mode))
+
+(use-package highlight-indent-guides
+  :diminish
+  :custom (highlight-indent-guides-method 'character)
+  :config
+  ;; TODO can we do the same with highlight-indent-guides-auto-* ?
+  (setq highlight-indent-guides-auto-enabled nil)
+  (set-face-background 'highlight-indent-guides-odd-face "grey20")
+  (set-face-background 'highlight-indent-guides-even-face "grey20")
+  (set-face-foreground 'highlight-indent-guides-character-face "grey20")
+  :hook ((prog-mode text-mode conf-mode) . highlight-indent-guides-mode))
 
 (provide 'init-ui)
 ;;; init-ui.el ends here
