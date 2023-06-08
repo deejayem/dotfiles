@@ -12,7 +12,6 @@
 (use-package clojure-mode
   :config
   (require 'flycheck-clj-kondo)
-  (subword-mode +1)
   (define-abbrev-table 'clojure-mode-abbrev-table
     '(("scs" "#sc/spy")
       ("scp" "#spy/p")
@@ -26,6 +25,10 @@
                                            #'lsp-completion-at-point))
   (defun set-clojure-capf ()
     (add-hook 'completion-at-point-functions #'cape-clojure -99 t))
+
+  (defun clojure-mode-hook-fn ()
+    (set-clojure-capf)
+    (subword-mode +1))
 
   ;; https://github.com/weavejester/compojure/wiki/Emacs-indentation
   (define-clojure-indent
@@ -54,7 +57,7 @@
   (advice-add 'uniquify-get-proposed-name :around 'clj-uniquify-get-proposed-name)
 
   :hook
-  (clojure-mode . set-clojure-capf))
+  (clojure-mode . clojure-mode-hook-fn))
 
 (use-package clj-refactor
   :diminish
