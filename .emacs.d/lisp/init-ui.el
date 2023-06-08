@@ -176,7 +176,7 @@
   :elpaca (highlight-sexp :host github :repo "daimrod/highlight-sexp")
   :diminish
   ;; TODO grey8 ?
-  :custom (hl-sexp-background-color "grey8")
+  :custom (hl-sexp-background-color "grey10")
   :hook ((emacs-lisp-mode clojure-mode) . highlight-sexp-mode))
 
 (use-package highlight-indent-guides
@@ -185,9 +185,9 @@
   :config
   ;; TODO can we do the same with highlight-indent-guides-auto-* ?
   (setq highlight-indent-guides-auto-enabled nil)
-  (set-face-background 'highlight-indent-guides-odd-face "grey20")
-  (set-face-background 'highlight-indent-guides-even-face "grey20")
-  (set-face-foreground 'highlight-indent-guides-character-face "grey20")
+  (set-face-background 'highlight-indent-guides-odd-face "grey25")
+  (set-face-background 'highlight-indent-guides-even-face "grey25")
+  (set-face-foreground 'highlight-indent-guides-character-face "grey25")
   :hook ((prog-mode text-mode conf-mode) . highlight-indent-guides-mode))
 
 (provide 'init-ui)
