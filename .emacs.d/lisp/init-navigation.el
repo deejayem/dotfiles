@@ -37,6 +37,7 @@
   ("C-c C-;" . avy-copy-as-kill-in-line))
 
 (use-package smartscan
+  :custom (smartscan-symbol-selector "symbol")
   :config
   (unbind-key "M-'" smartscan-map)
   (defvar-local smartscan-exclude-modes '(cider-repl-mode
