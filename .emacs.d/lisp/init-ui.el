@@ -85,8 +85,7 @@
   (dolist (mode whitespace-disabled-modes)
     (add-hook (intern (concat (symbol-name mode) "-hook")) #'turn-off-whitespace-mode))
   :hook
-  (text-mode . (lambda () (whitespace-mode +1)))
-  (prog-mode . (lambda () (whitespace-mode +1))))
+  ((text-mode prog-mode) . (lambda () (whitespace-mode +1))))
 
 (use-package goggles
   :diminish
@@ -111,15 +110,12 @@
 
 (use-package rainbow-delimiters
   :hook
-  (text-mode . (lambda () (rainbow-delimiters-mode +1)))
-  (prog-mode . (lambda () (rainbow-delimiters-mode +1)))
-  (ielm-mode . (lambda () (rainbow-delimiters-mode +1))))
+  ((text-mode prog-mode ielm-mode) . (lambda () (rainbow-delimiters-mode +1))))
 
 (use-package rainbow-mode
   :diminish
   :hook
-  (emacs-lisp-mode . rainbow-mode)
-  (css-mode . rainbow-mode))
+  ((emacs-lisp-mode css-mode) . rainbow-mode))
 
 (use-feature repeat
   :defer 5

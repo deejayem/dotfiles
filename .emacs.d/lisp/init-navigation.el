@@ -40,22 +40,18 @@
   :custom (smartscan-symbol-selector "symbol")
   :config
   (unbind-key "M-'" smartscan-map)
-  (defvar-local smartscan-exclude-modes '(cider-repl-mode
-                                          ielm-mode
-                                          vterm-mode
-                                          term-mode
-                                          ansi-term-mode
-                                          eshell-mode
-                                          shell-mode
-                                          sql-interactive-mode
-                                          magit-status-mode
-                                          compilation-mode
-                                          deadgrep-mode))
-  (defun turn-off-smartscan-mode ()
-    (smartscan-mode -1))
-  (dolist (mode smartscan-exclude-modes)
-    (add-hook (intern (concat (symbol-name mode) "-hook")) #'turn-off-smartscan-mode))
   :hook
+  ((cider-repl-mode
+    ielm-mode
+    vterm-mode
+    term-mode
+    ansi-term-mode
+    eshell-mode
+    shell-mode
+    sql-interactive-mode
+    magit-status-mode
+    compilation-mode
+    deadgrep-mode) . (lambda () (smartscan-mode -1)))
   (elpaca-after-init . global-smartscan-mode)
   :bind (:map smartscan-map
               ("C-M-'" . smartscan-symbol-replace)))
