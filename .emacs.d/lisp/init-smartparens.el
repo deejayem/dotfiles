@@ -75,6 +75,7 @@ Equivalent to raising then wrapping."
   :bind (:map smartparens-mode-map
               ("C-M-?" . sp-convolute-sexp)
               ([remap mark-sexp] . sp-mark-sexp)
+              ([remap kill-sexp] . sp-kill-sexp)
               ("M-[" . sp-wrap-square)
               ("C-c M-{" . sp-wrap-curly)
               ("M-W" . sp-copy-sexp)
