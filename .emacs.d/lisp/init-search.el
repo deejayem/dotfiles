@@ -8,6 +8,12 @@
     '((t (:foreground "gold")))
     "Face for isearch minibuffer prompt."
     :group 'isearch)
+  ;; https://www.emacs.dyerdwelling.family/emacs/20230503211610-emacs--isearch-occur-advice-window-focus/
+  (defun isearch-occur-advice (origin &rest args)
+    (isearch-exit)
+    (select-window (get-buffer-window "*Occur*"))
+    (goto-char (point-min)))
+  (advice-add 'isearch-occur :after 'isearch-occur-advice)
   :custom
   (search-whitespace-regexp ".*\\b")
   (isearch-lax-whitespace t)
