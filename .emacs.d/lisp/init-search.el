@@ -70,8 +70,9 @@
     (deadgrep search-term (file-name-directory buffer-file-name)))
   (defvar include-all nil)
   (defun deadgrep--include-all-advice (rg-args)
-    (when include-all
-      (push "-uuuLz" rg-args)))
+    (if include-all
+        (push "-uuuLz" rg-args)
+      rg-args))
   (advice-add 'deadgrep--arguments :filter-return #'deadgrep--include-all-advice)
   (defun deadgrep-all (search-term)
     (interactive (list (deadgrep--read-search-term)))
