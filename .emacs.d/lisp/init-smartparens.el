@@ -89,7 +89,8 @@ Equivalent to raising then wrapping."
   :bind (:map smartparens-mode-map
               ("C-M-?" . sp-convolute-sexp)
               ([remap mark-sexp] . sp-mark-sexp)
-              ([remap kill-sexp] . sp-kill-sexp)
+              ("C-M-k" . sp-kill-sexp)
+              ("M-S-k" . kill-sexp)
               ([remap sp-forward-sexp] . sp-fwd-sexp)
               ([remap sp-backward-sexp] . sp-bwd-sexp)
               ("M-[" . sp-wrap-square)
