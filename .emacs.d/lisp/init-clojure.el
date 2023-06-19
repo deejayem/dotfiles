@@ -172,8 +172,7 @@
   (cider-repl-mode . cider-repl-mode-hook-fn)
   (cider-mode . cider-mode-hook-fn))
 
-(use-package babashka
-  :elpaca (:type git :host github :repo "licht1stein/babashka.el"))
+(use-package babashka)
 
 (use-package jet
   :bind ("C-c j " . jet))
