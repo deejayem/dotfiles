@@ -175,7 +175,7 @@
 (use-package babashka)
 
 (use-package jet
-  :bind ("C-c j " . jet))
+  :bind ("C-c j" . jet))
 
 (provide 'init-clojure)
 ;;; init-clojure.el ends here
