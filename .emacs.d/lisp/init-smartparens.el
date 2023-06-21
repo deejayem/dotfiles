@@ -90,7 +90,7 @@ Equivalent to raising then wrapping."
               ("C-M-?" . sp-convolute-sexp)
               ([remap mark-sexp] . sp-mark-sexp)
               ("C-M-k" . sp-kill-sexp)
-              ("M-S-k" . kill-sexp)
+              ("M-K" . kill-sexp)
               ([remap sp-forward-sexp] . sp-fwd-sexp)
               ([remap sp-backward-sexp] . sp-bwd-sexp)
               ("M-[" . sp-wrap-square)
