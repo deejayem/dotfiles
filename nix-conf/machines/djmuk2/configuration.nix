@@ -55,6 +55,8 @@
      extraRules = [ { users = [ "djm" ]; noPass = true; keepEnv = true; } ];
    };
 
+   programs.zsh.enable = true;
+
    programs.vim.defaultEditor = true;
 
    environment.systemPackages = with pkgs; [

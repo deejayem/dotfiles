@@ -177,6 +177,8 @@
     meslo-lgs-nf
   ];
 
+  programs.zsh.enable = true;
+
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
