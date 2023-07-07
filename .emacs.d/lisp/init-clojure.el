@@ -65,6 +65,7 @@
   :custom
   (cljr-suppress-no-project-warning t)
   (cljr-add-ns-to-blank-clj-files nil) ; disable clj-refactor adding ns to blank files
+  (cljr-slash-uses-suggest-libspec t)
   :config
   (cljr-add-keybindings-with-prefix "C-c C-m")
   (defun clj-refactor-hook-fn ()
