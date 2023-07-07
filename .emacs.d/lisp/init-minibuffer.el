@@ -337,7 +337,12 @@ DEFS is a plist associating completion categories to commands."
             consult--preview-function #'ignore)))
 
   (setq consult-narrow-key "<")
-  (add-to-list 'consult-buffer-filter "^\\*")
+  (append-to-list* 'consult-buffer-filter
+                   "^\\*helpful"
+                   "^\\*Warnings\\*"
+                   "^\\*cider-test-report\\*"
+                   "^\\*cider-error\\*"
+                   "^\\*cider-inspect\\*")
 
   (setq consult-project-function (lambda (_) (persp-current-project-root)))
 
