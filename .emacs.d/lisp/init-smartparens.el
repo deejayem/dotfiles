@@ -104,6 +104,8 @@ Equivalent to raising then wrapping."
               ("M-q" . sp-indent-defun)
               ("C-j" . sp-newline)
               ("M-R" . kill-around-sexp)
+              ("M-D" . sp-unwrap-sexp)
+              ("C-M-S-d" . sp-backward-unwrap-sexp)
               ("C-c C-S-d" . duplicate-sexp-after-point)
               ("C-c M-(" . wrap-round-from-behind)))
 
