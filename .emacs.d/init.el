@@ -25,9 +25,10 @@
            (cdar elpaca--status-counts)
            (string-to-number (emacs-init-time))))
 
-(add-hook 'after-init-hook #'(lambda ()
-                               (setq gc-cons-threshold (* 100 1024 1024)
-                                     gc-cons-percentage 0.1)))
+(add-hook 'elpaca-after-init-hook #'(lambda ()
+                                      (setq gc-cons-threshold (* 100 1024 1024)
+                                            gc-cons-percentage 0.1))
+          99)
 
 ;; Some straight functions need to be able to reload everything, so require won't do
 (defun require! (feature &optional filename noerror)
