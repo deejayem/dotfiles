@@ -62,10 +62,11 @@
   (uniquify-buffer-name-style 'forward))
 
 (use-package fullframe
-  :defer 8
+  :defer 4
   :config
   (fullframe magit-status magit-mode-bury-buffer)
-  (fullframe vc-annotate quit-window))
+  (fullframe vc-annotate quit-window)
+  (fullframe elpaca-fetch-all quit-window))
 
 (use-package ace-window
   :diminish

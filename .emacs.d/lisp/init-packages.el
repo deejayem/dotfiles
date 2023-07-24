@@ -56,6 +56,31 @@
 ;; Block until current queue processed.
 (elpaca-wait)
 
+;; https://github.com/progfolio/elpaca/wiki/Logging#how-to-change-a-commands-log-query
+(with-eval-after-load 'elpaca-log
+  (setf (alist-get '(eval-buffer eval-region eval-defun eval-last-sexp org-ctrl-c-ctrl-c)
+                   elpaca-log-command-queries nil nil #'equal)
+        "#unique | !finished"))
+
+;; https://github.com/progfolio/elpaca/wiki/Logging#auto-hiding-the-elpaca-log-buffer
+(defvar +elpaca-hide-log-commands '(eval-buffer eval-region eval-defun eval-last-sexp org-ctrl-c-ctrl-c)
+  "List of commands for which a successfully processed log is auto hidden.")
+(defun +elpaca-hide-successful-log ()
+  "Hide Elpaca log buffer if queues processed successfully."
+  (message "this: %S last: %S" this-command last-command)
+  (if-let ((incomplete (cl-find 'incomplete elpaca--queues :key #'elpaca-q<-status))
+           ((elpaca-q<-elpacas incomplete)))
+      nil
+    (when-let ((log (bound-and-true-p elpaca-log-buffer))
+               (window (get-buffer-window log t)) ;; log buffer visible
+               ((or (member last-command +elpaca-hide-log-commands)
+                    (member this-command +elpaca-hide-log-commands))))
+      (with-selected-window window (quit-window 'kill window)))))
+(add-hook 'elpaca-post-queue-hook #'+elpaca-hide-successful-log)
+
+;; https://github.com/progfolio/elpaca/wiki/Logging#customizing-the-position-of-the-elpaca-log-buffer
+(add-to-list 'display-buffer-alist '("\\*elpaca-log\\*" (display-buffer-reuse-window display-buffer-at-bottom)))
+
 ;; https://github.com/radian-software/radian/blob/e3aad124c8e0cc870ed09da8b3a4905d01e49769/emacs/radian.el#L352
 (defmacro use-feature (name &rest args)
   "Like `use-package', but with `elpaca-use-package-by-default' disabled.
