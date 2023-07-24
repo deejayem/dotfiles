@@ -3,7 +3,7 @@
 # https://github.com/gvolpe/nix-config/blob/e28a220d0087064e6bad6b992b4914a65eb545e5/home/scripts/changes-report.nix
 let
   #hm-profiles = "/nix/var/nix/profiles/per-user/${config.home.username}/home-manager-*-link";
-  hm-profiles = "/nix/var/nix/profiles/per-user/djm/home-manager-*-link";
+  hm-profiles = "/nix/var/nix/profiles/per-user/djm/{profile,home-manager}-*-link";
 in
 pkgs.writeShellScriptBin "hm-changes-report" ''
   # Disable nvd if there are less than 2 hm profiles.
