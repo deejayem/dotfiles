@@ -39,6 +39,7 @@
   (setq scroll-margin 0
         scroll-conservatively 100000
         scroll-preserve-screen-position 1)
+  (setq pixel-scroll-precision-mode t)
 
   (fset 'yes-or-no-p 'y-or-n-p)
 
