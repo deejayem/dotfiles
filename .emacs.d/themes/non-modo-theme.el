@@ -91,7 +91,7 @@
    `(help-key-binding ((,class :inherit bold :foreground "#00bcff")))
    `(homoglyph ((,class :foreground "#f5aa80")))
    `(ibuffer-locked-buffer ((,class :foreground "#d0ba95")))
-   `(icon-button ((,class :background "#323232" :box (:line-width -1 :style release-button :color "#3c3c3c"))))
+   `(icon-button ((,class :background "#323232" :box (:line-width -1 :style released-button :color "#3c3c3c"))))
    `(italic ((,class :slant italic)))
    `(nobreak-hyphen ((,class :foreground "#e7a59a")))
    `(nobreak-space ((,class :foreground "#e7a59a" :underline t)))
