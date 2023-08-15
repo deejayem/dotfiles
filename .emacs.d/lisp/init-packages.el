@@ -62,12 +62,12 @@
 
 ;; https://github.com/progfolio/elpaca/wiki/Logging#how-to-change-a-commands-log-query
 (with-eval-after-load 'elpaca-log
-  (setf (alist-get '(eval-buffer eval-region eval-defun eval-last-sexp org-ctrl-c-ctrl-c)
+  (setf (alist-get '(eval-buffer eval-region eval-defun eval-last-sexp org-ctrl-c-ctrl-c eval-region-or-defun eros-eval-defun eros-eval-last-sexp)
                    elpaca-log-command-queries nil nil #'equal)
         "#unique | !finished"))
 
 ;; https://github.com/progfolio/elpaca/wiki/Logging#auto-hiding-the-elpaca-log-buffer
-(defvar +elpaca-hide-log-commands '(eval-buffer eval-region eval-defun eval-last-sexp org-ctrl-c-ctrl-c)
+(defvar +elpaca-hide-log-commands '(eval-buffer eval-region eval-defun eval-last-sexp org-ctrl-c-ctrl-c eval-region-or-defun eros-eval-defun eros-eval-last-sexp)
   "List of commands for which a successfully processed log is auto hidden.")
 (defun +elpaca-hide-successful-log ()
   "Hide Elpaca log buffer if queues processed successfully."
@@ -87,7 +87,7 @@
 
 ;; https://github.com/radian-software/radian/blob/e3aad124c8e0cc870ed09da8b3a4905d01e49769/emacs/radian.el#L352
 (defmacro use-feature (name &rest args)
-  "Like `use-package', but with `elpaca-use-package-by-default' disabled.
+  "Like `use-package', but without elpaca integration.
 `NAME' and `ARGS' are as with `use-package'"
   (declare (indent defun))
   `(use-package ,name
