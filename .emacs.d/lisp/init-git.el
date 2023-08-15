@@ -7,6 +7,8 @@
   (ediff-setup-windows-plain 'ediff-setup-windows-plain))
 
 (use-package diff-hl
+  :custom
+  (diff-hl-flydiff-mode t)
   :hook
   (elpaca-after-init . global-diff-hl-mode)
   (dired-mode . diff-hl-dired-mode)
