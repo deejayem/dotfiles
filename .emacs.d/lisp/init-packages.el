@@ -48,6 +48,10 @@
         use-package-always-defer t
         package-native-compile t
         elpaca-queue-limit 10)
+  (setq use-package-verbose init-file-debug
+        use-package-expand-minimally (not init-file-debug)
+        use-package-compute-statistics nil
+        debug-on-error init-file-debug)
   (bind-key "C-c e u" 'elpaca-fetch-all)
   (bind-key "C-c e m" 'elpaca-manager))
 
