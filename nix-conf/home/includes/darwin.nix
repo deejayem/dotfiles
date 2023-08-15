@@ -50,6 +50,7 @@ in
     nix # on darwin we are not using nixos (duh)
     nodejs
     openvpn
+    pam-reattach
     pinentry_mac
     pgcli
     pgformatter
