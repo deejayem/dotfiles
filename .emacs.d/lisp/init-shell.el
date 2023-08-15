@@ -30,7 +30,8 @@
   (delq 'eshell-handle-ansi-color eshell-output-filter-functions)
   (setenv "TERM" "xterm-256color"))
 
-(use-package multi-vterm
+;; Installed with home-manager
+(use-feature multi-vterm
   :bind (("C-c t" . multi-vterm-next)
          ("C-x p t" . multi-vterm-project)
          ("C-c C-M-t" . multi-vterm)

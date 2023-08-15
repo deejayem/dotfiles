@@ -32,7 +32,7 @@ in
     coreutils
     curl
     diffutils
-    ((emacsPackagesFor emacsMacport).emacsWithPackages(ps: [ ps.vterm ]))
+    ((emacsPackagesFor emacs29-macport).emacsWithPackages(ps: [ ps.vterm ps.multi-vterm ]))
     findutils
     gh
     gh-dash
