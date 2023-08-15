@@ -46,9 +46,12 @@
   :bind ("M-/" . fancy-dabbrev-expand))
 
 (use-feature emacs
-  :init
+  :config
   (setq completion-cycle-threshold 3)
-  (setq tab-always-indent 'complete))
+  (setq tab-always-indent 'complete)
+  (setq read-buffer-completion-ignore-case t
+        read-file-name-completion-ignore-case t
+        completion-ignore-case t))
 
 (use-package orderless
   :defer 2
