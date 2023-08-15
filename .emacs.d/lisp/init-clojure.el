@@ -154,6 +154,12 @@
         (list beg end (completion-table-dynamic (lambda (_) completion))
               :annotation-function #'cider-annotate-symbol))))
   (advice-add 'cider-complete-at-point :override 'my/cider-complete-at-point)
+
+  (defun fix-duplicate-windows ()
+    "When all windows are the same, delete all of them except the current one."
+    (when (apply #'eq (mapcar 'window-buffer (window-list)))
+      (delete-other-windows)))
+  (advice-add #'cider-close-ancillary-buffers :after #'fix-duplicate-windows)
   :bind
   (:map cider-mode-map
         ("C-c M-l" . cider-load-file)
