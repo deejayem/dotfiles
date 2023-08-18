@@ -6,7 +6,6 @@
 
 (use-package lsp-ui
   :config
-  (require 'lsp-ui-imenu)
   (setq lsp-ui-sideline-enable t
         lsp-ui-peek-enable t
         lsp-ui-peek-always-show t
