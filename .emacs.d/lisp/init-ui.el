@@ -111,7 +111,7 @@
 
 (use-package rainbow-delimiters
   :hook
-  ((text-mode prog-mode ielm-mode) . (lambda () (rainbow-delimiters-mode +1))))
+  ((text-mode prog-mode ielm-mode) . #'rainbow-delimiters-mode))
 
 (use-package rainbow-mode
   :diminish
