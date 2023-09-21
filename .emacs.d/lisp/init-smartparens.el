@@ -94,7 +94,7 @@ Equivalent to raising then wrapping."
               ([remap sp-forward-sexp] . sp-fwd-sexp)
               ([remap sp-backward-sexp] . sp-bwd-sexp)
               ("M-[" . sp-wrap-square)
-              ("C-c M-{" . sp-wrap-curly)
+              ("C-M-{" . sp-wrap-curly)
               ("M-W" . sp-copy-sexp)
               (")" . paredit-close-round)
               ("]" . paredit-close-square)
