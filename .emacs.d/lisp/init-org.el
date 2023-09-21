@@ -17,6 +17,8 @@
      (clojure . t)
      (restclient . t)
      (sql . t)))
+  (define-abbrev-table 'org-mode-abbrev-table
+    '(("esq" "#+BEGIN_SRC es :jq .\n\n#+END_SRC" (lambda () (forward-line -1)))))
   :bind
   ("C-c l" . org-store-link)
   ("C-c a" . org-agenda)
