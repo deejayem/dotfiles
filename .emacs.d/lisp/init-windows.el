@@ -87,7 +87,7 @@
                     :weight bold :height 2.5 :box (:line-width 10 :color "red"))))))
 
 (use-package popper
-  :bind (("M-`" . popper-toggle-latest)
+  :bind (("M-`" . popper-toggle)
          ("M-¬" . popper-cycle)
          ("C-`" . popper-toggle-type))
   :custom
