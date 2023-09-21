@@ -214,5 +214,12 @@
   ;; TODO find a better binding
   :bind ("C-c c t t" . titlecase-dwim))
 
+(use-package caser
+  :elpaca (caser :host github :repo "emacsmirror/caser")
+  :bind
+  ("C-c c c" . caser-camelcase-dwim)
+  ("C-c c s" . caser-snakecase-dwim)
+  ("C-c c d" . caser-dashcase-dwim))
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
