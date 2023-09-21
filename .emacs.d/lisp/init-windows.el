@@ -196,11 +196,16 @@
     (seq-filter 'buffer-live-p (persp-current-buffers* t)))
   (dolist (cmd '(iflipb-previous-buffer iflipb-next-buffer))
     (put cmd 'repeat-map 'iflipb-repeat-map))
+  (defun iflibp-abort ()
+    "Abort buffer flipping and return to the original buffer."
+    (interactive)
+    (iflipb-restore-buffers))
   :custom (iflipb-buffer-list-function 'iflipb-persp-buffer-list)
   :bind
   ("C-x k" . iflipb-kill-buffer) ;; TODO replace with a kill currently selected buffer command
   ("<f12>" . iflipb-previous-buffer)
-  ("<f11>" . iflipb-next-buffer))
+  ("<f11>" . iflipb-next-buffer)
+  ("<f10>" . iflibp-abort))
 
 (provide 'init-windows)
 ;;; init-windows.el ends here
