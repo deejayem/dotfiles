@@ -50,6 +50,7 @@ in
     ncmpcpp
     nix # on darwin we are not using nixos (duh)
     nodejs
+    nodePackages.eslint
     openvpn
     pam-reattach
     pinentry_mac
