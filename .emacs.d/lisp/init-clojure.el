@@ -105,6 +105,15 @@
     (cider-interactive-eval "(require 'miracle.save)" nil nil (cider--nrepl-pr-request-map))
     (cider-interactive-eval "(require 'sc.api)" nil nil (cider--nrepl-pr-request-map))
     (cider-interactive-eval "(require '[debux.cs.core :refer [dbg dbgn dbgt]])" nil nil (cider--nrepl-pr-request-map)))
+  (defun cider-toggle-boolean ()
+    (interactive)
+    (let ((opposite (pcase (cider-symbol-at-point)
+                      ("false" "true")
+                      ("true" "false"))))
+      (when opposite
+        (pcase-let ((`(,start . ,end) (bounds-of-thing-at-point 'symbol)))
+          (delete-region start end))
+        (insert opposite))))
   (define-abbrev-table 'cider-repl-mode-abbrev-table
     '(("scl" "(eval `(sc.api/defsc ~(sc.api/last-ep-id)))" cider-repl-return)
       ("scs" "(sc.api/defsc*)" cider-repl-return)
