@@ -46,7 +46,6 @@ in
     mpc-cli
     mpd
     mpv
-    mu
     ncmpcpp
     nix # on darwin we are not using nixos (duh)
     nodejs

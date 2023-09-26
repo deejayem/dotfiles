@@ -12,7 +12,6 @@
     ffmpeg
     gopass-jsonapi
     mpv
-    mu
     neovim
   ];
 
