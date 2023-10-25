@@ -145,6 +145,7 @@
         cider-connection-message-fn nil
         cider-show-error-buffer 'except-in-repl
         clojure-toplevel-inside-comment-form t)
+  (setq cider-clojure-compilation-error-phases nil)
   (setq-default cider-use-overlays t)
   (unbind-key "C-c C-l" cider-mode-map)
   (unbind-key "C-c C-b" cider-mode-map)
