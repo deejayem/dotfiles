@@ -221,5 +221,37 @@
   ("C-c c s" . caser-snakecase-dwim)
   ("C-c c d" . caser-dashcase-dwim))
 
+(use-package selected
+  :defer 6
+  :diminish selected-minor-mode
+  :config
+  (setq selected-emacs-lisp-mode-map (make-sparse-keymap)
+        selected-org-mode-map (make-sparse-keymap)
+        selected-clojure-mode-map (make-sparse-keymap))
+  (selected-global-mode +1)
+  :bind (:map selected-keymap
+              ("q" . selected-off)
+              ("u" . upcase-region)
+              ("l" . downcase-region)
+              ("c" . count-words-region)
+              ("m" . apply-macro-to-region-lines)
+              ("M-d" . sp-delete-region)
+              ("j" . jq-format-json-region)
+              ("i" . indent-region)
+              ("C-d" . duplicate-dwim)
+              ("n" . narrow-to-region)
+              ("_" . ws-butler-clean-region)
+              ("t t" . titlecase-dwim)
+              ("t c" . caser-camelcase-dwim)
+              ("t s" . caser-snakecase-dwim)
+              ("t d" . caser-dashcase-dwim)
+              :map selected-org-mode-map
+              ("t" . org-table-convert-region)
+              :map selected-emacs-lisp-mode-map
+              ("x" . elisp-eval-region-or-buffer)
+              :map selected-clojure-mode-map
+              ("x" . cider-eval-region)
+              ("r" . cider-insert-region-in-repl)))
+
 (provide 'init-editor)
 ;;; init-editor.el ends here

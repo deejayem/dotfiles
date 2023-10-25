@@ -11,15 +11,6 @@
 
 (use-feature emacs
   :config
-  (defun eval-region-or-defun (edebug-it)
-    "Call eval-region, if one is selected, or eval-defun otherwise."
-    (interactive "P")
-    (if (use-region-p)
-        ;; Set `this-command', otherwise elpaca does not work correctly
-        (let ((this-command 'eval-region))
-          (eval-region (region-beginning) (region-end)))
-      (let ((this-command 'eval-defun))
-        (eval-defun edebug-it))))
   ;; Based on prelude-emacs-lisp.el
   (defun recompile-init-lisp ()
     "Recompile elisp files in `user-emacs-directory/lisp'."
@@ -60,8 +51,7 @@ Start `ielm' if it's not already running."
   :bind
   (:map emacs-lisp-mode-map
         (("C-c C-z" . visit-ielm)
-         ("C-M-x" . eval-region-or-defun)
-         ("C-c C-c" . eval-region-or-defun)
+         ("C-c C-c" . eval-defun)
          ("C-c C-k" . eval-buffer)
          ("C-c e f" . emacs-lisp-byte-compile-and-load)
          ("C-c e z" .  byte-recompile-directory)

@@ -60,14 +60,8 @@
 ;; Block until current queue processed.
 (elpaca-wait)
 
-;; https://github.com/progfolio/elpaca/wiki/Logging#how-to-change-a-commands-log-query
-(with-eval-after-load 'elpaca-log
-  (setf (alist-get '(eval-buffer eval-region eval-defun eval-last-sexp org-ctrl-c-ctrl-c eval-region-or-defun eros-eval-defun eros-eval-last-sexp)
-                   elpaca-log-command-queries nil nil #'equal)
-        "#unique | !finished"))
-
 ;; https://github.com/progfolio/elpaca/wiki/Logging#auto-hiding-the-elpaca-log-buffer
-(defvar +elpaca-hide-log-commands '(eval-buffer eval-region eval-defun eval-last-sexp org-ctrl-c-ctrl-c eval-region-or-defun eros-eval-defun eros-eval-last-sexp)
+(defvar +elpaca-hide-log-commands '(eval-buffer eval-region eval-defun eval-last-sexp org-ctrl-c-ctrl-c eros-eval-defun eros-eval-last-sexp elisp-eval-region-or-buffer)
   "List of commands for which a successfully processed log is auto hidden.")
 (defun +elpaca-hide-successful-log ()
   "Hide Elpaca log buffer if queues processed successfully."
@@ -81,6 +75,12 @@
                     (member this-command +elpaca-hide-log-commands))))
       (with-selected-window window (quit-window 'kill window)))))
 (add-hook 'elpaca-post-queue-hook #'+elpaca-hide-successful-log)
+
+;; https://github.com/progfolio/elpaca/wiki/Logging#how-to-change-a-commands-log-query
+(with-eval-after-load 'elpaca-log
+  (setf (alist-get +elpaca-hide-log-commands
+                   elpaca-log-command-queries nil nil #'equal)
+        "#unique | !finished"))
 
 ;; https://github.com/progfolio/elpaca/wiki/Logging#customizing-the-position-of-the-elpaca-log-buffer
 (add-to-list 'display-buffer-alist '("\\*elpaca-log\\*" (display-buffer-reuse-window display-buffer-at-bottom)))
