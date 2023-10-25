@@ -12,6 +12,7 @@
     ffmpeg
     gopass-jsonapi
     mpv
+    multimarkdown
     neovim
   ];
 
