@@ -475,5 +475,9 @@ DEFS is a plist associating completion categories to commands."
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+(use-package consult-todo
+  ;; TODO use consult-todo-project when it works
+  :bind ("C-c c t t" . consult-todo))
+
 (provide 'init-minibuffer)
 ;;; init-minibuffer.el ends here
