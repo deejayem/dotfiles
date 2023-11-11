@@ -6,7 +6,7 @@
 
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs28NativeComp;
+    package = pkgs.emacs29;
     extraPackages = (epkgs: [ epkgs.vterm epkgs.multi-vterm ] );
   };
 
