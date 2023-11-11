@@ -58,7 +58,11 @@
 
   (setq show-trailing-whitespace t)
   (setq-default indicate-empty-lines t)
-  (setq ring-bell-function 'ignore
+
+  ;; http://whattheemacsd.com/appearance.el-02.html (if this gets to annoying, just set back to 'ignore)
+  (setq ring-bell-function (lambda ()
+                             (invert-face 'mode-line)
+                             (run-with-timer 0.05 nil 'invert-face 'mode-line))
         visible-bell t)
 
   ;; TODO do we want these? (copied from prelude)
