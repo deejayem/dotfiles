@@ -170,7 +170,6 @@ no words in between, beginning with the first word."
          ("C-c p k" . cape-keyword)
          ("C-c p s" . cape-symbol)
          ("C-c p a" . cape-abbrev)
-         ("C-c p i" . cape-ispell)
          ("C-c p l" . cape-line)
          ("C-c p w" . cape-dict)
          ("C-c p \\" . cape-tex)
@@ -183,8 +182,7 @@ no words in between, beginning with the first word."
   :init
   (add-to-list 'completion-at-point-functions #'cape-file t)
   (add-to-list 'completion-at-point-functions #'cape-dabbrev t)
-  (add-to-list 'completion-at-point-functions #'cape-dict t)
-  (add-to-list 'completion-at-point-functions #'cape-ispell t))
+  (add-to-list 'completion-at-point-functions #'cape-dict t))
 
 (provide 'init-completion)
 ;;; init-completion.el ends here
