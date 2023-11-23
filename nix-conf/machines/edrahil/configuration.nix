@@ -4,7 +4,7 @@
     ./network-configuration.nix
   ];
 
-  boot.cleanTmpDir = true;
+  boot.tmp.cleanOnBoot = true;
   zramSwap.enable = true;
 
   networking.hostName = "edrahil";
@@ -16,10 +16,12 @@
   services.openssh = {
     enable = true;
     ports = [ 2222 ];
-    permitRootLogin = "no";
-    passwordAuthentication = false;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+    };
     allowSFTP = true;
-    kbdInteractiveAuthentication = false;
     extraConfig = ''
       #AllowTcpForwarding yes
       X11Forwarding no

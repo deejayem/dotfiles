@@ -3,7 +3,7 @@
     ./hardware-configuration.nix
   ];
 
-  boot.cleanTmpDir = true;
+  boot.tmp.cleanOnBoot = true;
 
   networking.hostName = "djmuk1";
   networking.firewall = {
@@ -13,9 +13,11 @@
 
   services.openssh = {
     enable = true;
-    permitRootLogin = "no";
-    passwordAuthentication = false;
-    kbdInteractiveAuthentication = false;
+    settings = {
+      PermitRootLogin = "no";
+      PasswordAuthentication = false;
+      KbdInteractiveAuthentication = false;
+    };
     extraConfig = ''
       #AllowTcpForwarding yes
       X11Forwarding no
