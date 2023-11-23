@@ -18,7 +18,7 @@ export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/
 nix-shell '<home-manager>' -A install
 
 HOME_CONF="$HOME/dotfiles/nix-conf/home/${CONF:-${HOST}}.nix"
-[ -f $HOME_CONF ] && ln -sf $HOME_CONF ~/.config/nixpkgs/home.nix
+[ -f $HOME_CONF ] && ln -sf $HOME_CONF ~/.config/home-manager/home.nix
 ln -sf ~/dotfiles/.p10k.zsh ~/
 ln -sf ~/dotfiles/.emacs.d ~/
 
