@@ -209,6 +209,7 @@ in
           $DOAS nix-collect-garbage --delete-older-than ''${1}d
         fi
         df -h
+        date
       }
 
       function checkout-pr () {
