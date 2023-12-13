@@ -138,7 +138,7 @@
 
   services.locate = {
     enable = true;
-    locate = pkgs.plocate;
+    package = pkgs.plocate;
     localuser = null;
   };
 
@@ -170,7 +170,7 @@
     xst
   ];
 
-  fonts.fonts = with pkgs; [
+  fonts.packages = with pkgs; [
     iosevka-comfy.comfy
     iosevka-bin
     jetbrains-mono
