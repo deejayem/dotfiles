@@ -33,7 +33,7 @@ in
     ea
     elinks
     entr
-    exa
+    eza
     fd
     file
     fzf
