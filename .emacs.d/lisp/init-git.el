@@ -323,6 +323,14 @@ GitHub/Bitbucket/GitLab/... The URL will be added to the kill ring.  If
       (if (null (car remote-info))
           (message "Remote `%s' contains an unsupported URL" remote)
         (git-link--new (format "https://%s/%s/tree/%s" (car remote-info) (cadr remote-info) branch)))))
+  ;; https://clojurians.slack.com/archives/C099W16KZ/p1699983189128519?thread_ts=1699981599.260029&cid=C099W16KZ
+  (defun git-link-blame ()
+    (interactive)
+    (cl-flet ((git-link--new* (x) (replace-regexp-in-string "/blob/" "/blame/" x)))
+      (advice-add 'git-link--new :override #'git-link--new*)
+      (let ((link (call-interactively 'git-link)))
+        (advice-remove 'git-link--new #'git-link--new*)
+        (git-link--new link))))
   :custom (git-link-use-commit t)
   :bind
   ("C-c g s" . git-link)
