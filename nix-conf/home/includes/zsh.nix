@@ -202,12 +202,20 @@ in
           return 2
         fi
 
-        DOAS=$(command -v doas)
-        if  [ $1 -eq 0 ] ; then
-          $DOAS nix-collect-garbage -d
+        if [ $1 -eq 0 ] ; then
+         GC_ARGS=(-d)
         else
-          $DOAS nix-collect-garbage --delete-older-than ''${1}d
+          GC_ARGS=(--delete-older-than ''${1}d)
         fi
+
+        DOAS=$(command -v doas)
+
+        # Run as the current user (as well as root) to clean up hm generations
+        nix-collect-garbage ''${GC_ARGS[@]}
+        if [ -n $DOAS ] ; then
+          $DOAS nix-collect-garbage ''${GC_ARGS[@]}
+        fi
+
         df -h
         date
       }
