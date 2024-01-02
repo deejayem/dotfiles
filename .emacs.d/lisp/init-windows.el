@@ -176,13 +176,13 @@
 (use-package buffer-flip
   :custom (buffer-flip-skip-patterns '("^[*]"))
   :config
-  ;; (defun persp-buffer-flip-skip-buffer (orig &rest args)
-  ;;   (or (apply orig args)
-  ;;       (persp-buffer-filter (car args))))
-  ;; (advice-add 'buffer-flip-skip-buffer :around 'persp-buffer-flip-skip-buffer)
-  (defun persp-buffer-flip-skip-buffer (orig-val)
-    (or orig-val (persp-buffer-filter (car args))))
-  (advice-add 'buffer-flip-skip-buffer :filter-return 'persp-buffer-flip-skip-buffer)
+  (defun persp-buffer-flip-skip-buffer (orig &rest args)
+    (or (apply orig args)
+        (persp-buffer-filter (car args))))
+  (advice-add 'buffer-flip-skip-buffer :around 'persp-buffer-flip-skip-buffer)
+  ;; (defun persp-buffer-flip-skip-buffer (orig-val &rest args)
+  ;;   (or orig-val (persp-buffer-filter (car args))))
+  ;; (advice-add 'buffer-flip-skip-buffer :filter-return 'persp-buffer-flip-skip-buffer)
   :bind  (("C-c C-<left>" . buffer-flip)
           (:map buffer-flip-map
                 ( "C-<left>" .   buffer-flip-forward)
