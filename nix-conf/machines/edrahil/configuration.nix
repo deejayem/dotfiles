@@ -73,6 +73,8 @@
    ];
 
    nix.settings.trusted-users = [ "root" "djm" ];
+   nix.optimise.automatic = true;
+   nix.optimise.dates = [ "03:00" ];
 
    i18n.defaultLocale = "en_GB.UTF-8";
 
