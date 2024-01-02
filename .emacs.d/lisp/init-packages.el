@@ -59,6 +59,18 @@
 
 (elpaca diminish)
 
+;; Temporary workaround for packages needing newer version of seq (https://github.com/progfolio/elpaca/issues/216#issuecomment-1868444883))
+(defun +elpaca-unload-seq (e)
+  (and (featurep 'seq) (unload-feature 'seq t))
+  (elpaca--continue-build e))
+
+(defun +elpaca-seq-build-steps ()
+  (append (butlast (if (file-exists-p (expand-file-name "seq" elpaca-builds-directory))
+                       elpaca--pre-built-steps elpaca-build-steps))
+          (list '+elpaca-unload-seq 'elpaca--activate-package)))
+
+(elpaca `(seq :build ,(+elpaca-seq-build-steps)))
+
 ;; Block until current queue processed.
 (elpaca-wait)
 
