@@ -228,6 +228,7 @@
   (setq selected-emacs-lisp-mode-map (make-sparse-keymap)
         selected-org-mode-map (make-sparse-keymap)
         selected-clojure-mode-map (make-sparse-keymap))
+  (add-to-list 'selected-ignore-modes 'magit-status-mode)
   (selected-global-mode +1)
   :bind (:map selected-keymap
               ("q" . selected-off)
