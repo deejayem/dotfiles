@@ -133,8 +133,7 @@ no words in between, beginning with the first word."
 
 ;; code completion - corfu
 (use-package corfu
-  :elpaca (corfu :files (:defaults "extensions/*")
-                 :includes (corfu-indexed corfu-quick corfu-history corfu-info corfu-popupinfo))
+  :elpaca (corfu :files (:defaults "extensions/*"))
   :custom
   (corfu-cycle t)
   :bind (:map corfu-map
