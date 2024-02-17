@@ -43,10 +43,9 @@
 
 ;; Install use-package support
 (elpaca elpaca-use-package
-  ;; Enable :elpaca use-package keyword.
+  ;; Enable use-package :ensure support for Elpaca.
   (elpaca-use-package-mode)
-  ;; Assume :elpaca t unless otherwise specified.
-  (setq elpaca-use-package-by-default t
+  (setq use-package-always-ensure t
         use-package-always-defer t
         package-native-compile t
         elpaca-queue-limit 10)
@@ -108,7 +107,7 @@
 `NAME' and `ARGS' are as with `use-package'"
   (declare (indent defun))
   `(use-package ,name
-     :elpaca nil
+     :ensure nil
      ,@args))
 
 ;; useful for corfu and vertico extensions
@@ -117,7 +116,7 @@
 `PKG' is the name of the package, `NAME' and `ARGS' are as with `use-package'"
   (declare (indent defun))
   `(use-package ,name
-     :elpaca nil
+     :ensure nil
      :after ,pkg
      :demand t
      ,@args))

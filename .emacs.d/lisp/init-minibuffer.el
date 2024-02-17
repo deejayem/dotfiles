@@ -6,7 +6,7 @@
 ;;; Code:
 
 (use-package vertico
-  :elpaca (vertico :files (:defaults "extensions/*"))
+  :ensure (vertico :files (:defaults "extensions/*"))
   :hook (elpaca-after-init . vertico-mode)
   :custom (vertico-cycle t)
   :config

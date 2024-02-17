@@ -200,7 +200,7 @@
     (setq-local sp-local-pairs (seq-filter '(lambda (x) (not (string= "'" (cadr x)))) sp-local-pairs))))
 
 (use-package highlight-sexp
-  :elpaca (highlight-sexp :host github :repo "daimrod/highlight-sexp")
+  :ensure (highlight-sexp :host github :repo "daimrod/highlight-sexp")
   :diminish
   ;; TODO grey8 ?
   :custom (hl-sexp-background-color "grey10")

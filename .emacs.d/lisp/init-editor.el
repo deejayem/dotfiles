@@ -215,7 +215,7 @@
   :bind ("C-c c t t" . titlecase-dwim))
 
 (use-package caser
-  :elpaca (caser :host github :repo "emacsmirror/caser")
+  :ensure (caser :host github :repo "emacsmirror/caser")
   :bind
   ("C-c c c" . caser-camelcase-dwim)
   ("C-c c s" . caser-snakecase-dwim)
