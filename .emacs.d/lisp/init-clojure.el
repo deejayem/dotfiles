@@ -55,7 +55,9 @@
       (setq-local uniquify-min-dir-content 3))
     (funcall orig base dirname depth original-dirname))
   (advice-add 'uniquify-get-proposed-name :around 'clj-uniquify-get-proposed-name)
-
+  :bind
+  ;; Duplicated from cider config (below) to ensure this isn't overriden
+  (:map clojure-mode-map ("C-c M-j" . cider-jack-in-and-run-main))
   :hook
   (clojure-mode . clojure-mode-hook-fn))
 
