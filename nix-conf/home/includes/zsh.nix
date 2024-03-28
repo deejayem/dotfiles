@@ -171,7 +171,10 @@ in
         [[ -n "$files" ]] && ''${EDITOR:-vim} "''${files[@]}"
       }
 
-      ..() {
+      # TODO is there a way to do this in shellAliases
+      alias ..="cd .."
+
+      ...() {
         local declare dirs=()
         get_parent_dirs() {
           if [[ -d "''${1}" ]]; then dirs+=("$1"); else return; fi
