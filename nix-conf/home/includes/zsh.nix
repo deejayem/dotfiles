@@ -173,6 +173,7 @@ in
 
       # TODO is there a way to do this in shellAliases
       alias ..="cd .."
+      alias -- -="cd -"
 
       ...() {
         local declare dirs=()
