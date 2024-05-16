@@ -48,7 +48,7 @@ in
       cp = "cp -iv";
       mv = "mv -iv";
       mkdir = "mkdir -v";
-      tree = "exa --tree";
+      tree = "eza --tree";
 
       pp = "pushbullet push \"Pixel\" link \"\${1}\" \"\${1}\"";
 
@@ -123,7 +123,7 @@ in
       export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
       export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
       export FZF_ALT_C_COMMAND='rg --hidden --files --sort-files --null -g "!{.git,node_modules}/*" | xargs -0 dirname | sort -u'
-      export FZF_ALT_C_OPTS="--preview 'exa --tree {} | head -200'"
+      export FZF_ALT_C_OPTS="--preview 'eza --tree {} | head -200'"
       export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-t:toggle-preview'"
       export FZF_DEFAULT_OPTS="--bind=ctrl-t:toggle-all --bind=ctrl-j:jump"
 
@@ -145,8 +145,8 @@ in
       zstyle ':completion:*' completer _expand_alias _complete _ignored
       # set list-colors to enable filename colorizing
       #zstyle ''\':completion:*''\' list-colors ''${(s.:.)LS_COLORS}
-      # preview directory''\'s content with exa when completing cd
-      zstyle ''\':fzf-tab:complete:cd:*''\' fzf-preview ''\'exa -1 --color=always ''$realpath''\'
+      # preview directory''\'s content with eza when completing cd
+      zstyle ''\':fzf-tab:complete:cd:*''\' fzf-preview ''\'eza -1 --color=always ''$realpath''\'
       # switch group using `,` and `.`
       zstyle ''\':fzf-tab:*''\' switch-group ''\',''\' ''\'.''\'
 
