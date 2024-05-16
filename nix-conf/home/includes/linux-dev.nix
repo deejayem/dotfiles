@@ -13,6 +13,7 @@
   home.packages = with pkgs; [
     mpv
     mu
+    pinentry
     protonvpn-cli
     youtube-dl
   ];

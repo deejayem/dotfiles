@@ -9,6 +9,7 @@
     irssi
     msmtp
     neomutt
+    pinentry
     restic
   ];
 

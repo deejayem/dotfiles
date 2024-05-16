@@ -56,7 +56,6 @@ in
     nix-prefetch-github
     nixpkgs-review
     nvd
-    pinentry
     pass
     ripgrep
     rlwrap
