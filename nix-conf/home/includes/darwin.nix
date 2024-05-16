@@ -38,9 +38,6 @@ in
     gh
     gh-dash
     #gnused
-    #adoptopenjdk-hotspot-bin-8
-    #lima
-    minikube
     mopidy-with-extensions
     mpdscribble
     mpc-cli
@@ -57,6 +54,7 @@ in
     pgformatter
     pms
     postgresql
+    podman
     #python310Packages.sqlparse
     sqls
     vimpc
