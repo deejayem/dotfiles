@@ -77,18 +77,14 @@
         3 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#meta"; tag = "tilde"; }); };
         4 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#blinkenshell"; tag = "blinkenirc"; }); };
         5 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#blinkenshell.op"; tag = "blinkenirc"; }); };
-        6 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#prosapologian"; tag = "refchat"; }); };
-        7 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#clojure"; tag = "libera"; }); };
-        8 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#emacs"; tag = "libera"; }); };
-        9 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#emacs"; tag = "tilde"; }); };
-        10 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#ctrl-c"; tag = "tilde"; }); };
-        11 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#team"; tag = "tilde"; }); };
-        12 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#systemcrafters"; tag = "libera"; }); };
-        13 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#!"; tag = "hashbang"; }); };
-        14 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#nixos"; tag = "libera"; }); };
-        15 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#home-manager"; tag = "oftc"; }); };
-        16 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "&bitlbee"; tag = "bitlbee"; }); };
-        17 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#twitter_deejayem"; tag = "bitlbee"; }); };
+        6 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#clojure"; tag = "libera"; }); };
+        7 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#emacs"; tag = "libera"; }); };
+        8 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#ctrl-c"; tag = "tilde"; }); };
+        9 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#team"; tag = "tilde"; }); };
+        10 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#systemcrafters"; tag = "libera"; }); };
+        11 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#!"; tag = "hashbang"; }); };
+        12 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#nixos"; tag = "libera"; }); };
+        13 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#home-manager"; tag = "oftc"; }); };
       };
     '';
     networks = {
@@ -183,35 +179,6 @@
         };
         channels = {
           "#!".autoJoin = true;
-        };
-      };
-      refchat = {
-        nick = "djm";
-        saslExternal = true;
-        server = {
-          address = "gill.refchat.net";
-          port = 6697;
-          autoConnect = true;
-          ssl = {
-            enable = true;
-            verify = false;
-            certificateFile = "${config.home.homeDirectory}/.irssi/refchat.pem";
-          };
-        };
-        channels = {
-          prosapologian.autoJoin = true;
-        };
-      };
-      bitlbee = {
-        nick = "djm";
-        autoCommands = [ "bitlbee_identify" ];
-        server = {
-          address = "testing.bitlbee.org";
-          port = 6697;
-          autoConnect = true;
-          ssl = {
-            enable = true;
-          };
         };
       };
     };
