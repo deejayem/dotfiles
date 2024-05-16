@@ -49,6 +49,7 @@ in
     lscolors
     lsd
     lynx
+    mercurial
     nixfmt
     nix-info
     nix-prefetch-git
