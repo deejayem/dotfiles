@@ -45,6 +45,53 @@
    (let-routes 1)
    (context 2))
 
+  ;; https://github.com/magnars/.emacs.d/blob/04426922530edc3ebe9bae7a86632e3b1956049d/settings/setup-clojure-mode.el#L494-L537
+  (defun my/cider-looking-at-lets? ()
+    (or (looking-at "(let ")
+        (looking-at "(letfn ")
+        (looking-at "(when-let ")
+        (looking-at "(if-let ")))
+
+  (defun my/cider-collect-lets (&optional max-point)
+    (let* ((beg-of-defun (save-excursion (beginning-of-defun) (point)))
+           (lets nil))
+      (save-excursion
+        (while (not (= (point) beg-of-defun))
+          (paredit-backward-up 1)
+          (when (my/cider-looking-at-lets?)
+            (save-excursion
+              (let ((beg (point)))
+                (paredit-forward-down 1)
+                (paredit-forward 2)
+                (when (and max-point (< max-point (point)))
+                  (goto-char max-point))
+                (setq lets (cons (concat (buffer-substring-no-properties beg (point))
+                                         (if max-point "]" ""))
+                                 lets))))))
+        lets)))
+
+  (defun my/inside-let-block? ()
+    (save-excursion
+      (paredit-backward-up 2)
+      (my/cider-looking-at-lets?)))
+
+  (defun my/cider-eval-including-lets (&optional output-to-current-buffer)
+    "Evaluates the current sexp form, wrapped in all parent lets."
+    (interactive "P")
+    (let* ((beg-of-sexp (save-excursion (paredit-backward 1) (point)))
+           (code (buffer-substring-no-properties beg-of-sexp (point)))
+           (lets (my/cider-collect-lets (when (my/inside-let-block?)
+                                          (save-excursion (paredit-backward 2) (point)))))
+           (code (concat (s-join " " lets)
+                         " " code
+                         (s-repeat (length lets) ")"))))
+      (cider-interactive-eval code
+                              (when output-to-current-buffer
+                                (cider-eval-print-handler))
+                              nil
+                              (cider--nrepl-pr-request-map))))
+
+
   :init
   ;; Always show more of the path in clj buffer names.
   ;; Using setq-local in clojure-mode-hook is not enough, as it runs too late
