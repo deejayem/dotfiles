@@ -14,6 +14,96 @@
     (select-window (get-buffer-window "*Occur*"))
     (goto-char (point-min)))
   (advice-add 'isearch-occur :after 'isearch-occur-advice)
+
+  ;; Modified from http://yummymelon.com/devnull/improving-emacs-isearch-usability-with-transient.html
+  (transient-define-prefix isearch-menu ()
+    "isearch Menu"
+    [["Edit Search String"
+      ("e"
+       "Edit the search string (recursive)"
+       isearch-edit-string
+       :transient nil)
+      ("w"
+       "Pull next word or character word from buffer"
+       isearch-yank-word-or-char
+       :transient nil)
+      ("s"
+       "Pull next symbol or character from buffer"
+       isearch-yank-symbol-or-char
+       :transient nil)
+      ("l"
+       "Pull rest of line from buffer"
+       isearch-yank-line
+       :transient nil)
+      ("y"
+       "Pull string from kill ring"
+       isearch-yank-kill
+       :transient nil)
+      ("t"
+       "Pull thing from buqffer"
+       isearch-forward-thing-at-point
+       :transient nil)]
+
+     ["Replace"
+      ("q"
+       "Start ‘query-replace’"
+       anzu-isearch-query-replace
+       :if-nil buffer-read-only
+       :transient nil)
+      ("x"
+       "Start ‘query-replace-regexp’"
+       anzu-isearch-query-replace-regexp
+       :if-nil buffer-read-only
+       :transient nil)]]
+
+    [["Toggle"
+      ("X"
+       "Toggle regexp searching"
+       isearch-toggle-regexp
+       :transient nil)
+      ("S"
+       "Toggle symbol searching"
+       isearch-toggle-symbol
+       :transient nil)
+      ("W"
+       "Toggle word searching"
+       isearch-toggle-word
+       :transient nil)
+      ("F"
+       "Toggle case fold"
+       isearch-toggle-case-fold
+       :transient nil)
+      ("L"
+       "Toggle lax whitespace"
+       isearch-toggle-lax-whitespace
+       :transient nil)]
+
+     ["Misc"
+      ("o"
+       "occur"
+       isearch-occur
+       :transient nil)
+      ("h"
+       "highlight"
+       isearch-highlight-regexp
+       :transient nil)
+      ("H"
+       "highlight lines"
+       isearch-highlight-lines-matching-regexp
+       :transient nil)
+      ("l"
+       "consult-line"
+       consult-line
+       :transient nil)
+      ("<"
+       "isearch-beginning-of-buffer"
+       isearch-beginning-of-buffer
+       :transient nil)
+      (">"
+       "isearch-end-of-buffer"
+       isearch-end-of-buffer
+       :transient nil)]])
+
   :custom
   (search-whitespace-regexp ".*\\b")
   (isearch-lax-whitespace t)
@@ -26,6 +116,7 @@
   :bind-keymap ("C-c s" . search-map) ;; M-s clashes with paredit/smartparens bindings
   :bind
   ("C-*" . isearch-forward-symbol-at-point)
+  (:map isearch-mode-map ("<f2>" . isearch-menu))
   (:map search-map
         ("M-s M-<" . isearch-beginning-of-buffer)
         ("M-s M->" . isearch-end-of-buffer)
