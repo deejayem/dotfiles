@@ -126,6 +126,7 @@
 (use-package cider
   :diminish
   :config
+  (cider-enable-flex-completion)
   (defvar cider-main-function "-main")
   (defun cider-repl-mode-hook-fn ()
     (display-line-numbers-mode -1)
@@ -200,20 +201,6 @@
   (unbind-key "C-c C-l" cider-mode-map)
   (unbind-key "C-c C-b" cider-mode-map)
   (unbind-key "C-c C-b" cider-repl-mode-map)
-
-  ;; https://github.com/clojure-emacs/cider/issues/3019#issuecomment-1330342147
-  (defun my/cider-complete-at-point ()
-    "Complete the symbol at point."
-    (when (and (cider-connected-p)
-               (not (cider-in-string-p)))
-      (when-let* ((bounds (bounds-of-thing-at-point 'symbol))
-                  (beg (car bounds))
-                  (end (cdr bounds))
-                  (completion (append (cider-complete (buffer-substring beg end))
-                                      (get-text-property (point) 'cider-locals))))
-        (list beg end (completion-table-dynamic (lambda (_) completion))
-              :annotation-function #'cider-annotate-symbol))))
-  (advice-add 'cider-complete-at-point :override 'my/cider-complete-at-point)
 
   (defun fix-duplicate-windows ()
     "When all windows are the same, delete all of them except the current one."
