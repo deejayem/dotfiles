@@ -72,10 +72,20 @@
 
 (elpaca `(seq :build ,(+elpaca-seq-build-steps)))
 
+(defun +elpaca-unload-transient (e)
+  (and (featurep 'transient) (unload-feature 'transient t))
+  (elpaca--continue-build e))
+
+(defun +elpaca-transient-build-steps ()
+  (append (butlast (if (file-exists-p (expand-file-name "transient" elpaca-builds-directory))
+                       elpaca--pre-built-steps elpaca-build-steps))
+          (list '+elpaca-unload-transient 'elpaca--activate-package)))
+
+(elpaca `(transient :build ,(+elpaca-transient-build-steps)))
+
 ;; Block until current queue processed.
 (elpaca-wait)
 
-(add-to-list 'elpaca-ignored-dependencies 'transient)
 (add-to-list 'elpaca-ignored-dependencies 'project)
 
 ;; https://github.com/progfolio/elpaca/wiki/Logging#auto-hiding-the-elpaca-log-buffer
@@ -134,7 +144,6 @@
     (add-to-list list-var elt t)))
 
 ;; Built-in in 29.1+, but we want the latest
-(use-package transient)
 
 (provide 'init-packages)
 ;;; init-packages.el ends here
