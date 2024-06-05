@@ -15,7 +15,7 @@
 
   services.gpg-agent = {
     enable = true;
-    pinentryFlavor = "curses";
+    pinentryPackage = pkgs.pinentry-curses;
     defaultCacheTtl = 34560000;
     maxCacheTtl = 34560000;
   };
