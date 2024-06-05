@@ -50,7 +50,7 @@ in
     lsd
     lynx
     mercurial
-    nixfmt
+    nixfmt-classic
     nix-info
     nix-prefetch-git
     nix-prefetch-github
