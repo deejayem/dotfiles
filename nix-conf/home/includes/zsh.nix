@@ -29,7 +29,7 @@ in
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     defaultKeymap = "emacs";
     history = {
       size = 100000;
