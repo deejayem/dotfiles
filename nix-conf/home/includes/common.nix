@@ -133,6 +133,7 @@ in
       "djm.ovh" = {
         hostname = "v.djm.ovh";
         port = 2222;
+        dynamicForwards = [ { port = 8889; } ];
       };
       "devio" = {
          hostname = "devio.us";
