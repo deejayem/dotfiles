@@ -13,8 +13,8 @@ in
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = "djm";
-  home.homeDirectory = "/Users/djm";
+  home.username = "dmorgan";
+  home.homeDirectory = "/Users/dmorgan";
 
   programs.git = {
     signing.signByDefault = lib.mkForce false;
