@@ -148,13 +148,24 @@
   :bind
   ("C-c ." . operate-on-number-at-point))
 
-(use-feature xref
+(defun +elpaca-unload-xref (e)
+  (and (featurep 'xref) (unload-feature 'xref t))
+  (elpaca--continue-build e))
+
+(defun +elpaca-xref-build-steps ()
+  (append (butlast (if (file-exists-p (expand-file-name "xref" elpaca-builds-directory))
+                       elpaca--pre-built-steps elpaca-build-steps))
+          (list '+elpaca-unload-xref'elpaca--activate-package)))
+
+;;(elpaca `(xref :build ,(+elpaca-xref-build-steps)))
+(use-package xref
+  :ensure `(xref :build ,(+elpaca-xref-build-steps))
   :custom (xref-search-program 'ripgrep)
   :config
   (defun xref-find-references-other-window (identifier)
     "Like `xref-find-references' but switch to the other window"
     (interactive (list (xref--read-identifier "Find references of: ")))
-      (xref--find-xrefs identifier 'references identifier 'window))
+    (xref--find-xrefs identifier 'references identifier 'window))
   (defun xref-find-references-other-frame (identifier)
     "Like `xref-find-references' but switch to the other frame"
     (interactive (list (xref--read-identifier "Find references of: ")))
