@@ -231,8 +231,6 @@ in
       };
       push.autoSetupRemote = true;
       rebase = {
-        # TODO
-        # autosquash = true;
         autostash = true;
       };
     };
