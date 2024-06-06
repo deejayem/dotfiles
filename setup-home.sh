@@ -26,3 +26,7 @@ echo -n $EMAIL > ~/email.txt
 
 home-manager switch
 
+if [ "$(uname 2> /dev/null)" = "Darwin"  ]; then
+  ln -sf ~/.nix-profile/Applications/Emacs.app /Applications/
+  ln -sf ~/.nix-profile/lib/pam /usr/local/lib/pam
+fi
