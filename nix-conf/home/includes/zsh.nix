@@ -1,6 +1,8 @@
 { config, pkgs, lib, isDarwin, ... }:
 let
-    inherit (lib) optionals;
+  inherit (lib)
+    optionalAttrs
+    optionals;
 in
 {
   home.packages = with pkgs; [
@@ -86,6 +88,9 @@ in
       glola = "git log --graph --pretty=\"%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset\" --all";
       glog = "git log --oneline --decorate --graph";
       gloga = "git log --oneline --decorate --graph --all";
+    }
+    // optionalAttrs pkgs.stdenv.isDarwin {
+      oemacs = "open -a /Applications/Emacs.app";
     };
 
     localVariables = {
