@@ -70,14 +70,14 @@
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
   security.pam.services.passwd.enableGnomeKeyring = true;
-  services.xserver.displayManager.sessionPackages = [ pkgs.sway ];
-  services.xserver.displayManager.defaultSession = "none+i3";
+  services.displayManager.sessionPackages = [ pkgs.sway ];
+  services.displayManager.defaultSession = "none+i3";
   #services.xserver.displayManager.defaultSession = "sway";
 
   services.xserver.windowManager.i3.enable = true;
   services.upower.enable = true;
 
-  services.xserver.layout = "gb";
+  services.xserver.xkb.layout = "gb";
 
   services.printing.enable = true;
   services.printing.drivers = [ pkgs.gutenprint pkgs.hplipWithPlugin ];
@@ -99,7 +99,7 @@
     })
   ];
 
-  services.xserver.libinput = {
+  services.libinput = {
     enable = true;
     touchpad = {
       clickMethod = "clickfinger";
