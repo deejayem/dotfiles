@@ -84,6 +84,7 @@
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
      "hplip"
+     "corefonts"
   ];
 
   hardware.sane.enable = true;
@@ -168,9 +169,13 @@
     xclip
     xurls
     xst
+
+    libreoffice
+    onlyoffice-bin
   ];
 
   fonts.packages = with pkgs; [
+    corefonts
     iosevka-comfy.comfy
     iosevka-bin
     jetbrains-mono
