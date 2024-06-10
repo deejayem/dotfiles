@@ -46,6 +46,7 @@ in
     isync
     jq
     libqalculate
+    libtree
     lscolors
     lsd
     lynx
