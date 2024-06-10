@@ -127,6 +127,7 @@ in
         AddKeysToAgent yes
         IgnoreUnknown UseKeychain
         UseKeychain yes
+        User djm
     '';
     includes = [ "~/.ssh/config_local" ];
     matchBlocks = {
