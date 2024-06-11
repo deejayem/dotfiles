@@ -2,10 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(setq load-prefer-newer t
-      native-comp-async-report-warnings-errors nil
-      byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
-
 (defvar save-dir (expand-file-name "save" user-emacs-directory))
 (unless (file-exists-p save-dir)
   (make-directory save-dir))

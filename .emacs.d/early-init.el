@@ -5,6 +5,11 @@
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
 
+(setq load-prefer-newer t
+      native-comp-async-report-warnings-errors nil
+      warning-suppress-log-types '((comp) (bytecomp))
+      byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local obsolete))
+
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
