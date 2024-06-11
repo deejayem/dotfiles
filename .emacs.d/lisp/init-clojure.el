@@ -19,7 +19,13 @@
       ("sct" "#spy/t")
       ("ms" "(miracle.save/save)" backward-char)
       ("ddb" "#d/dbg")
-      ("dbn" "#d/dbgn")))
+      ("db" "#d/dbg")
+      ("dbn" "#d/dbgn")
+      ("ddn" "#d/dbgn")
+      ("sc" "#sc/spy")
+      ("sd" "#spy/d")
+      ("sp" "#spy/p")
+      ("st" "#spy/t")))
 
   (defalias 'cape-clojure (cape-capf-super #'cider-complete-at-point
                                            #'lsp-completion-at-point))
