@@ -65,6 +65,7 @@ in
     ugrep
     uni
     w3m
+    zstd
   ];
 
   nix = {
