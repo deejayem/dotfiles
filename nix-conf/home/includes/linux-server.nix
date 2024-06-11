@@ -7,6 +7,7 @@
   home.packages = with pkgs; [
     emacs-nox
     irssi
+    libtree
     msmtp
     neomutt
     pinentry
