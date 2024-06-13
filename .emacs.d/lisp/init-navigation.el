@@ -36,6 +36,10 @@
   ("C-c C-'" . avy-copy-as-kill)
   ("C-c C-;" . avy-copy-as-kill-in-line))
 
+(use-package casual-avy
+  :ensure t
+  :bind ("C-M-;" . casual-avy-tmenu))
+
 (use-package smartscan
   :custom (smartscan-symbol-selector "symbol")
   :config
