@@ -40,7 +40,7 @@
        isearch-yank-kill
        :transient nil)
       ("t"
-       "Pull thing from buqffer"
+       "Pull thing from buffer"
        isearch-forward-thing-at-point
        :transient nil)]
 
