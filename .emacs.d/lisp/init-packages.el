@@ -56,7 +56,11 @@
         use-package-compute-statistics nil
         debug-on-error init-file-debug)
   (bind-key "C-c e u" 'elpaca-fetch-all)
-  (bind-key "C-c e m" 'elpaca-manager))
+  (bind-key "C-c e m" 'elpaca-manager)
+  (bind-key "C-c e r" 'elpaca-update-menus)
+  (bind-key "C-c e t" 'elpaca-try)
+  (bind-key "C-c e b" 'elpaca-rebuild)
+  (bind-key "C-c e d" 'elpaca-delete))
 
 (elpaca diminish)
 
