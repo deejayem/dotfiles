@@ -58,7 +58,11 @@
 
 (use-package json-mode)
 (use-package jq-format)
-(use-package csv-mode)
+
+(use-package csv-mode
+  :bind (:map csv-mode-map
+              ("M-]" . csv-forward-field)
+              ("M-[" . csv-backward-field)))
 
 (use-package yaml-mode
   :diminish
