@@ -12,6 +12,7 @@
   (dired-dwim-target t)
   (dired-kill-when-opening-new-dired-buffer t)
   (wdired-use-dired-vertical-movement 'sometimes)
+  (dired-vc-rename-file t)
   :bind (:map dired-mode-map
               ("M-o" . dired-omit-mode)
               ("E" . wdired-change-to-wdired-mode)))
