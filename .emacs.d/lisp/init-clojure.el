@@ -109,8 +109,6 @@
     (funcall orig base dirname depth original-dirname))
   (advice-add 'uniquify-get-proposed-name :around 'clj-uniquify-get-proposed-name)
   :bind
-  ;; Duplicated from cider config (below) to ensure this isn't overriden
-  (:map clojure-mode-map ("C-c M-j" . cider-jack-in-and-run-main))
   :hook
   (clojure-mode . clojure-mode-hook-fn))
 
@@ -150,11 +148,8 @@
     (cider-insert-in-repl (concat "(" cider-main-function ")") t))
   (defun cider-jack-in-and-run-main (arg &rest params)
     (interactive "P")
-    (if (equal current-prefix-arg '(4))
-        (progn
-          (add-hook 'cider-connected-hook 'run-and-unhook)
-          (cider-jack-in params))
-      (cider-jack-in params)))
+    (add-hook 'cider-connected-hook 'run-and-unhook)
+    (cider-jack-in params))
   (defun load-debug-namespaces ()
     (interactive)
     (cider-interactive-eval "(require 'snitch.core)" nil nil (cider--nrepl-pr-request-map))
@@ -220,11 +215,11 @@
   (:map cider-repl-mode-map
         ("C-c M-b" . cider-interrupt))
   (:map cider-start-map
-        ("C-c M-j" . cider-jack-in-and-run-main))
+        ("C-c M-i" . cider-jack-in-and-run-main))
   (:map clojure-mode-map
         ("C-c C-r C-m" . run-main)
         ("C-c C-r C-d" . load-debug-namespaces)
-        ("C-c M-j" . cider-jack-in-and-run-main)
+        ("C-c M-i" . cider-jack-in-and-run-main)
         ("C-x p q" . project-clojure-test-switch)
         ("C-c C-M-c" . (lambda () (interactive) (cider-clear-compilation-highlights t)))
         ("C-c C->" . cider-find-dwim)
