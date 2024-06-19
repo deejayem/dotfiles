@@ -44,7 +44,6 @@
   ("C-c M-o" . crux-open-with)
   ("C-c C-u" . crux-view-url)
   ("C-c TAB" . crux-indent-rigidly-and-copy-to-clipboard)
-  ("C-c C-M-j" . crux-switch-to-previous-buffer)
   ("C-c C-!" . crux-reopen-as-root))
 
 (provide 'init-crux)
