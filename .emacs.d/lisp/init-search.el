@@ -174,6 +174,8 @@
   ("C-c c M-d" . deadgrep-all)
   ("C-S-z" . deadgrep-symbol-at-point)
   ("C-c c C-d" . deadgrep-current-directory)
+  (:map deadgrep-mode-map
+        ("e" . deadgrep-edit-mode))
   (:map search-map
         ("d" . deadgrep)
         ("M-d" . deadgrep-all)
