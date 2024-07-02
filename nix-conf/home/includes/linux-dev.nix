@@ -12,11 +12,10 @@
 
   home.packages = with pkgs; [
     libtree
-    mpv
     mu
     pinentry
     protonvpn-cli
-    youtube-dl
+    yt-dlp
   ];
 
 }

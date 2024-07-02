@@ -12,6 +12,7 @@
     neomutt
     pinentry
     restic
+    yt-dlp
   ];
 
   services.gpg-agent = {
