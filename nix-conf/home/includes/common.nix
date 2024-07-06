@@ -169,7 +169,7 @@ in
         hostname = "130.162.163.108";
       };
       "o2" = {
-        hostname = "143.47.239.39";
+        hostname = "152.67.142.10";
       };
       "tilde.institute" = {
         hostname = "tilde.institute";
