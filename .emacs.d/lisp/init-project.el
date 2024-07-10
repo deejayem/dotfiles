@@ -9,12 +9,12 @@
   (defun project--clojure-switch-to-test (filename project-root)
     (let* ((project-src-file (string-remove-prefix project-root filename))
            (project-test-file (replace-regexp-in-string "\.clj$" "_test.clj"
-                                                (replace-regexp-in-string "^src/" "test/" project-src-file))))
+                                                        (replace-regexp-in-string "^src/" "test/" project-src-file))))
       (find-file (expand-file-name project-test-file project-root))))
   (defun project--clojure-switch-to-src (test-filename project-root)
     (let* ((project-test-file (string-remove-prefix project-root test-filename))
            (project-src-file (replace-regexp-in-string "_test\.clj$" ".clj"
-                                                        (replace-regexp-in-string "^test/" "src/" project-test-file))))
+                                                       (replace-regexp-in-string "^test/" "src/" project-test-file))))
       (find-file (expand-file-name project-src-file project-root))))
   (defun project-clojure-test-switch ()
     (interactive)
