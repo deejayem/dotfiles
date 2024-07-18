@@ -81,6 +81,7 @@ This is based on the frame width, with the threshold being customised using
          ("M-¬" . popper-cycle)
          ("C-`" . popper-toggle-type))
   :custom
+  (popper-group-function #'popper-group-by-perspective)
   (popper-reference-buffers
    '("\\*Messages\\*"
      "\\*HTTP Response\\*"
