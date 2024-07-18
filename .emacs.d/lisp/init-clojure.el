@@ -215,11 +215,11 @@
   (:map cider-repl-mode-map
         ("C-c M-b" . cider-interrupt))
   (:map cider-start-map
-        ("C-c M-i" . cider-jack-in-and-run-main))
+        ("C-c C-M-j" . cider-jack-in-and-run-main))
   (:map clojure-mode-map
         ("C-c C-r C-m" . run-main)
         ("C-c C-r C-d" . load-debug-namespaces)
-        ("C-c M-i" . cider-jack-in-and-run-main)
+        ("C-c C-M-j" . cider-jack-in-and-run-main)
         ("C-x p q" . project-clojure-test-switch)
         ("C-c C-M-c" . (lambda () (interactive) (cider-clear-compilation-highlights t)))
         ("C-c C->" . cider-find-dwim)

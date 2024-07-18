@@ -136,7 +136,7 @@ mode as the current buffer (or do nothing)."
 
   :bind
   ("C-x p p" . switch-project)
-  ("C-c C-M-j" . persp-switch-to-previous-buffer)
+  ("C-c C-M-b" . persp-switch-to-previous-buffer)
   ("C-x C-b" . persp-previous-buffer-same-mode)
   ("C-x 4 C-b" . persp-previous-buffer-same-mode-other-window)
   ("C-x C-S-b" . persp-switch-buffer-same-mode)
