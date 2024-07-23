@@ -42,7 +42,11 @@
 
 (use-feature windmove
   :defer 5
-  :config (windmove-default-keybindings))
+  :config (windmove-default-keybindings)
+  :bind (("C-c M-<up>" . windmove-delete-up)
+         ("C-c M-<down>" . windmove-delete-down)
+         ("C-c M-<left>" . windmove-delete-left)
+         ("C-c M-<right>" . windmove-delete-right)))
 
 (use-package buffer-move
   :bind (("C-S-<up>" . buf-move-up)
