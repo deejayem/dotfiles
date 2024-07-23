@@ -19,8 +19,9 @@
 
 (setq frame-inhibit-implied-resize t)
 
-(toggle-frame-maximized)
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(unless (eq system-type 'darwin)
+  (toggle-frame-maximized)
+  (add-to-list 'default-frame-alist '(fullscreen . maximized)))
 
 (menu-bar-mode -1)
 (when window-system
