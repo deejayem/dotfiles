@@ -57,6 +57,7 @@ in
     #python310Packages.sqlparse
     sqls
     vimpc
+    wcurl
     wget
   ];
 
