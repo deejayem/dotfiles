@@ -5,13 +5,28 @@
 (use-feature emacs
   :custom
   (switch-to-buffer-obey-display-actions t)
-  :bind
-  ("C-x C-M-b" . ibuffer)
   :config
   (defcustom large-frame-width-threshold 500
     "Minimum width (in chars) to consider the frame large."
     :group 'djm
     :type 'natnum))
+
+(use-feature ibuffer
+  :bind
+  ("C-x M-b" . ibuffer)
+  (:map ibuffer-mode-map
+        ("{" . ibuffer-backwards-next-marked)
+        ("}" . ibuffer-forward-next-marked)
+        ("[" . ibuffer-backward-filter-group)
+        ("]" . ibuffer-forward-filter-group)
+        ("$" . ibuffer-toggle-filter-group))
+  :hook (ibuffer-mode . ibuffer-auto-mode))
+
+(use-package casual-ibuffer
+  :bind (:map ibuffer-mode-map
+              ("C-o" . casual-ibuffer-tmenu)
+              ("F" . casual-ibuffer-filter-tmenu)
+              ("s" . casual-ibuffer-sortby-tmenu)))
 
 (use-feature winner
   :defer 5
