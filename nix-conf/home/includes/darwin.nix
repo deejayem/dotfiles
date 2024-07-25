@@ -38,7 +38,7 @@ in
     gh
     gh-dash
     #gnused
-    mopidy-with-extensions
+    #mopidy-with-extensions
     mpdscribble
     mpc-cli
     mpd
