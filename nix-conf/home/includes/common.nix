@@ -3,6 +3,7 @@ let
   hcr = pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
   scr = pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; };
   email = builtins.readFile "${config.home.homeDirectory}/email.txt";
+  unstable = import <unstable> { };
 in
 {
   imports = [
@@ -70,6 +71,7 @@ in
     uni
     w3m
     zstd
+    unstable.wcurl
   ];
 
   nix = {
