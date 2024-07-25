@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
+let
+    inherit (lib) optionals;
+in
 {
-
   imports = [
     ./common.nix
     ./clojure.nix
@@ -10,11 +12,12 @@
     docker
     docker-compose
     docker-credential-helpers
-    ffmpeg
     gopass-jsonapi
-    mpv
     multimarkdown
     neovim
+  ] ++ optionals (!stdenv.isDarwin) [
+    ffmpeg
+    mpv
   ];
 
   programs.tmux = {
