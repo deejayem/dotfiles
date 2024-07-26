@@ -39,10 +39,10 @@ in
     gh-dash
     #gnused
     #mopidy-with-extensions
-    mpdscribble
-    mpc-cli
-    mpd
-    ncmpcpp
+    #mpdscribble
+    #mpc-cli
+    #mpd
+    #ncmpcpp
     nix # on darwin we are not using nixos (duh)
     nodejs
     nodePackages.eslint
@@ -51,12 +51,12 @@ in
     pinentry_mac
     pgcli
     pgformatter
-    pms
+    #pms
     postgresql
     podman
     #python310Packages.sqlparse
     sqls
-    vimpc
+    #vimpc
     wget
   ];
 
