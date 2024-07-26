@@ -1,4 +1,4 @@
-{ config, pkgs, lib, isDarwin, ... }:
+{ config, pkgs, lib, ... }:
 let
   inherit (lib)
     optionalAttrs

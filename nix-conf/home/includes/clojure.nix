@@ -1,4 +1,4 @@
-{ config, pkgs, lib, isDarwin, isLinux, ... }:
+{ config, pkgs, lib, ... }:
 let
   inherit (lib) optionals;
 in
