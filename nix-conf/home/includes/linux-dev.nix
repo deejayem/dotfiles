@@ -11,7 +11,9 @@
   };
 
   home.packages = with pkgs; [
+    lame
     libtree
+    mp3cat
     mu
     pinentry
     protonvpn-cli

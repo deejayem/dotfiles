@@ -69,8 +69,10 @@ in
     tre-command
     ugrep
     uni
+    unzip
     w3m
     zstd
+
     unstable.wcurl
   ];
 
