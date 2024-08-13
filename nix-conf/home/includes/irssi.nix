@@ -41,7 +41,7 @@
     extraConfig = ''
       settings = {
         core = {
-          real_name = "David Morgan";
+          real_name = "djm";
           user_name = "djm";
           nick = "djm";
           timestamp_format = "%H:%M:%S";
@@ -85,6 +85,7 @@
         11 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#!"; tag = "hashbang"; }); };
         12 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#nixos"; tag = "libera"; }); };
         13 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#home-manager"; tag = "oftc"; }); };
+        14 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#blinkenshell.log"; tag = "blinkenirc"; }); };
       };
     '';
     networks = {
@@ -123,7 +124,6 @@
         };
         channels = {
           ctrl-c.autoJoin = true;
-          emacs.autoJoin = true;
           institute.autoJoin = true;
           meta.autoJoin = true;
           team.autoJoin = true;
@@ -147,7 +147,11 @@
       };
       blinkenirc = {
         nick = "djm";
-        autoCommands = [ "msg chanserv invite #blinkenshell.op" "wait 2000" ];
+        autoCommands = [
+          "msg chanserv invite #blinkenshell.op"
+          "msg chanserv invite #blinkenshell.log"
+          "wait 2000"
+        ];
         saslExternal = true;
         server = {
           address = "irc.blinkenshell.org";
@@ -162,6 +166,7 @@
         channels = {
           blinkenshell.autoJoin = true;
           "blinkenshell.op".autoJoin = true;
+          "blinkenshell.log".autoJoin = true;
         };
       };
       hashbang = {
