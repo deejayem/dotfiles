@@ -12,7 +12,6 @@ in
     maven
     neil
   ]
-  ++ optionals stdenv.isDarwin [ (leiningen.override { jdk = jdk8; }) ]
   ++ optionals stdenv.isLinux [ leiningen ];
 }
 
