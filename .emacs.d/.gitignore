@@ -38,3 +38,6 @@ straight
 elpaca
 elpa
 eln-cache
+forge-database.sqlite
+sql
+ielm
