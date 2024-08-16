@@ -44,6 +44,25 @@
                       (cdar restclient-saved-requests)
                     (alist-get (completing-read "Call: " (map-keys restclient-saved-requests)) restclient-saved-requests nil nil 'string-equal))))
         (apply 'restclient-http-do args))))
+
+  ;; https://github.com/pashky/restclient.el/issues/288#issuecomment-1775770753
+  (defun my/restclient-copy-curl-command ()
+    "Formats the request as a curl command and copies the command to the clipboard."
+    (interactive)
+    (restclient-http-parse-current-and-do
+     '(lambda (method url headers entity)
+        (let* ((header-args
+                (apply 'append
+                       (mapcar (lambda (header)
+                                 (list "-H" (format "\"%s: %s\"" (car header) (cdr header))))
+                               headers)))
+               (header-parsed (mapconcat 'identity header-args " "))
+               (method-arg (concat "-X" " " method))
+               (entity-arg (if (> 0 (string-width entity)) ""
+                             (format "-d \x27%s\x27" entity)))
+               (curl-command (format "curl %s %s %s %s" header-parsed method-arg url entity-arg)))
+          (kill-new curl-command)
+          (message "curl command copied to clipboard.")))))
   :bind
   ("C-c C-h" . restclient-call-saved-request)
   (:map restclient-mode-map ("C-c h" . restclient-save-current))
