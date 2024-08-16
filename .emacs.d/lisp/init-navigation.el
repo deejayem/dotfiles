@@ -17,7 +17,7 @@
       (select-window
        (cdr (ring-ref avy-ring 0))))
     t)
-  (add-to-list 'avy-dispatch-alist '(111 . avy-action-embark))
+  (add-to-list 'avy-dispatch-alist '(?o . avy-action-embark))
   (defun avy-copy-as-kill ()
     (interactive)
     (avy-goto-char-timer)
