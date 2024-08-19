@@ -34,10 +34,12 @@ in
     autosuggestion.enable = true;
     defaultKeymap = "emacs";
     history = {
-      size = 100000;
-      save = 100000;
       expireDuplicatesFirst = true;
+      save = 100000;
+      share = true;
+      size = 100000;
     };
+    historySubstringSearch.enable = true;
 
     profileExtra = ''
       [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]] && . ~/.nix-profile/etc/profile.d/nix.sh
@@ -135,8 +137,6 @@ in
       eval "$(batpipe)"
       autopair-init
       enable-fzf-tab
-      bindkey '^[[A' history-substring-search-up
-      bindkey '^[[B' history-substring-search-down
 
       # make home and end work
       [[ -z "$terminfo[khome]" ]] || bindkey -M emacs "$terminfo[khome]" beginning-of-line
@@ -155,7 +155,8 @@ in
       # switch group using `,` and `.`
       zstyle ''\':fzf-tab:*''\' switch-group ''\',''\' ''\'.''\'
 
-      set -o noclobber append_history share_history
+      set -o noclobber
+      setopt APPEND_HISTORY
 
       # disable flow control (so that fzf-git.sh's ^g^s can work)
       stty -ixon
