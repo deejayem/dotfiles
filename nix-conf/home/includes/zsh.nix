@@ -156,7 +156,6 @@ in
       zstyle ''\':fzf-tab:*''\' switch-group ''\',''\' ''\'.''\'
 
       set -o noclobber
-      setopt APPEND_HISTORY
 
       # disable flow control (so that fzf-git.sh's ^g^s can work)
       stty -ixon
