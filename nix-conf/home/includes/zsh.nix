@@ -53,6 +53,7 @@ in
       mv = "mv -iv";
       mkdir = "mkdir -v";
       tree = "eza --tree";
+      cat = "bat -p";
 
       pp = "pushbullet push \"Pixel\" link \"\${1}\" \"\${1}\"";
 

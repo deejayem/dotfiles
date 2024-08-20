@@ -22,12 +22,6 @@ in
     aspellDicts.en
     aspellDicts.en-computers
     aspellDicts.en-science
-    bat
-    bat-extras.batdiff
-    bat-extras.batgrep
-    bat-extras.batman
-    bat-extras.batwatch
-    bat-extras.batpipe
     bottom
     broot
     curl
@@ -75,6 +69,22 @@ in
 
     unstable.wcurl
   ];
+
+  programs.bat = {
+    enable = true;
+    extraPackages = with pkgs.bat-extras; [
+      batdiff
+      batgrep
+      batman
+      batwatch
+      batpipe
+    ];
+    config = {
+      style = "full";
+      pager = "less -RXF";
+      map-syntax = [".ignore:.gitignore" "*.jenkinsfile:Groovy"];
+    };
+  };
 
   nix = {
     package = pkgs.nix;
