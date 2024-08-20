@@ -284,7 +284,7 @@ in
       {
         name = "fzf-git.sh";
         src = fzf-git-sh;
-        file = "share/zsh/fzf-git-sh/fzf-git.sh";
+        file = "share/fzf-git-sh/fzf-git.sh";
       }
       {
         name = "per-directory-history";
