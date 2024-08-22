@@ -85,7 +85,7 @@
                        elpaca--pre-built-steps elpaca-build-steps))
           (list '+elpaca-unload-transient 'elpaca--activate-package)))
 
-(elpaca `(transient :build ,(+elpaca-transient-build-steps)))
+(elpaca `(transient :branch "main" :build ,(+elpaca-transient-build-steps)))
 
 ;; Block until current queue processed.
 (elpaca-wait)

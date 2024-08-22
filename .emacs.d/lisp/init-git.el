@@ -71,6 +71,7 @@
       (message "not a git repository"))))
 
 (use-package magit
+  :ensure (magit :branch "main")
   :bind
   ("C-c g g" . magit-dispatch) ;; magit-file-dispatch is C-c M-g
   ("C-c g u" . my/magit-set-upstream)
@@ -303,8 +304,16 @@
     (magit-refresh)))
 
 (use-package forge
+  :ensure (forge :branch "main")
   :after magit
   :bind (:map forge-pullreq-list-mode-map ("C-w" . forge-copy-url-at-point-as-kill)))
+
+;; ghub and with-editor are dependencies of magit, but we need to force them to use the main branch
+(use-package ghub
+  :ensure (ghub :branch "main"))
+
+(use-package with-editor
+  :ensure (with-editor :branch "main"))
 
 (use-package git-link
   :config
