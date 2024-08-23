@@ -73,7 +73,10 @@ in
   programs.bat = {
     enable = true;
     extraPackages = with pkgs.bat-extras; [
-      batdiff
+      (batdiff.overrideAttrs (_: {
+        doCheck = false;
+      }))
+      #batdiff
       batgrep
       batman
       batwatch
