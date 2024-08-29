@@ -1,5 +1,7 @@
 #!/bin/sh
 
+[ -f ~/.config/sops/age/keys.txt ] || ( echo "Age key not present, aborting." ; exit 1 )
+
 [ -e ~/dotfiles ] || git clone git@codeberg.org:djm/dotfiles.git
 
 if [ -x "$(command -v nixos-version)" ]; then
@@ -12,6 +14,8 @@ else
   nix-channel --add https://nixos.org/channels/nixpkgs-unstable unstable
 fi
 
+nix-channel --add https://github.com/Mic92/sops-nix/archive/master.tar.gz sops-nix
+
 nix-channel --update
 
 export NIX_PATH=$HOME/.nix-defexpr/channels:/nix/var/nix/profiles/per-user/root/channels${NIX_PATH:+:$NIX_PATH}
@@ -21,8 +25,6 @@ HOME_CONF="$HOME/dotfiles/nix-conf/home/${CONF:-${HOST}}.nix"
 [ -f $HOME_CONF ] && ln -sf $HOME_CONF ~/.config/home-manager/home.nix
 ln -sf ~/dotfiles/.p10k.zsh ~/
 ln -sf ~/dotfiles/.emacs.d ~/
-
-echo -n $EMAIL > ~/email.txt
 
 home-manager switch
 

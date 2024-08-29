@@ -2,17 +2,24 @@
 let
   hcr = pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
   scr = pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; };
-  email = builtins.readFile "${config.home.homeDirectory}/email.txt";
   unstable = import <unstable> { };
 in
 {
   imports = [
     ./zsh.nix
+    <sops-nix/modules/home-manager/sops.nix>
   ];
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "aspell-dict-en-science"
   ];
+
+  sops = {
+    age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
+    defaultSopsFile = ./../../secrets/home.yaml;
+    secrets."ssh_config/oci" = { };
+    secrets."git_email_config/default" = { };
+  };
 
   home.packages = with pkgs; [
     hcr
@@ -56,9 +63,11 @@ in
     nixpkgs-review
     nvd
     pass
+    rage
     ripgrep
     rlwrap
     sd
+    sops
     tealdeer
     tre-command
     ugrep
@@ -148,7 +157,7 @@ in
         UseKeychain yes
         User djm
     '';
-    includes = [ "~/.ssh/config_local" ];
+    includes = [ "~/.ssh/config_local" config.sops.secrets."ssh_config/oci".path ];
     matchBlocks = {
       "djm.ovh" = {
         hostname = "v.djm.ovh";
@@ -178,12 +187,6 @@ in
       "hashbang" = {
         hostname = "de1.hashbang.sh";
       };
-      "o1" = {
-        hostname = "130.162.163.108";
-      };
-      "o2" = {
-        hostname = "152.67.142.10";
-      };
       "tilde.institute" = {
         hostname = "tilde.institute";
       };
@@ -205,7 +208,7 @@ in
   programs.git = {
     enable = true;
     userName = "David Morgan";
-    userEmail = email;
+    includes = [ { path = config.sops.secrets."git_email_config/default".path; } ];
     aliases = {
       # difftastic
       logt = "!sh -c 'GIT_EXTERNAL_DIFF=\"difft --background=dark\" git log -p --ext-diff'";

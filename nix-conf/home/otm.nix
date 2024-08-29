@@ -1,8 +1,4 @@
 { config, lib, pkgs, ... }:
-let
-  email = builtins.readFile "${config.home.homeDirectory}/email.txt";
-  otmEmail = builtins.readFile "${config.home.homeDirectory}/otm_email.txt";
-in
 {
   imports = [ 
     ./includes/darwin.nix
@@ -16,12 +12,19 @@ in
   home.username = "dmorgan";
   home.homeDirectory = "/Users/dmorgan";
 
+  sops.secrets = {
+    "git_email_config/otm" = { };
+    "ssh_config/otm" = { };
+  };
+
   programs.git = {
     signing.signByDefault = lib.mkForce false;
-    userEmail = lib.mkForce otmEmail;
-    includes = [
-      { contents = { commit.gpgSign = true; user.email = email; }; condition = "gitdir:~/src/personal/"; }
-      { contents = { commit.gpgSign = true; user.email = email; }; condition = "gitdir:~/dotfiles/"; }
+    includes = lib.mkForce [
+      { path = config.sops.secrets."git_email_config/otm".path; }
+      { path = config.sops.secrets."git_email_config/default".path; condition = "gitdir:~/src/personal/"; }
+      { path = config.sops.secrets."git_email_config/default".path; condition = "gitdir:~/dotfiles/"; }
+      { contents = { commit.gpgSign = true; tag.gpgSign = true; }; condition = "gitdir:~/src/personal/"; }
+      { contents = { commit.gpgSign = true; tag.gpgSign = true; }; condition = "gitdir:~/dotfiles/"; }
     ];
     extraConfig = {
       github.user = "david-morgan-otm";
@@ -37,18 +40,21 @@ in
       "resources/next/package-lock.json"
     ];
   };
-  programs.ssh.matchBlocks = {
-    "github.com" = lib.mkForce {
-      hostname = "github.com";
-      user = "git";
-      identityFile = "~/.ssh/id_rsa";
-      identitiesOnly = true;
-    };
-    "github.com-personal" = {
-      hostname = "github.com";
-      user = "git";
-      identityFile = "~/.ssh/id_ed25519";
-      identitiesOnly = true;
+  programs.ssh = {
+    includes = [ config.sops.secrets."ssh_config/otm".path ];
+    matchBlocks = {
+      "github.com" = lib.mkForce {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "~/.ssh/id_rsa";
+        identitiesOnly = true;
+      };
+      "github.com-personal" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "~/.ssh/id_ed25519";
+        identitiesOnly = true;
+      };
     };
   };
   
