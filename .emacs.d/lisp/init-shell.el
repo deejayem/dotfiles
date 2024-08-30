@@ -9,6 +9,21 @@
   (eshell-mode-hook . (lambda () (setenv "TERM" "xterm-256color")))
   :custom
   (eshell-directory-name (expand-file-name "eshell" save-dir))
+  (eshell-prompt-function
+   ;; Based on https://www.reddit.com/r/emacs/comments/6f0rkz/my_fancy_eshell_prompt/
+   (lambda ()
+     (concat
+      (propertize "┌─[" 'face `(:foreground "green"))
+      (propertize (user-login-name) 'face `(:foreground "red"))
+      (propertize "@" 'face `(:foreground "green"))
+      (propertize (system-name) 'face `(:foreground "LightBlue"))
+      (propertize "]──[" 'face `(:foreground "green"))
+      (propertize (format-time-string "%H:%M" (current-time)) 'face `(:foreground "yellow"))
+      (propertize "]──[" 'face `(:foreground "green"))
+      (propertize (concat (eshell/pwd)) 'face `(:foreground "white"))
+      (propertize "]\n" 'face `(:foreground "green"))
+      (propertize "└─>" 'face `(:foreground "green"))
+      (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground "green")))))
   :config
   (setenv "PAGER" "cat"))
 
