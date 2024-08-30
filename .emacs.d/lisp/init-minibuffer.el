@@ -469,6 +469,7 @@ DEFS is a plist associating completion categories to commands."
   :demand t
   :bind
   (:map embark-consult-async-search-map
+        ("l" . consult-line) ;; TODO how to delete the #
         ("^" . consult-ripgrep-parent)
         ("R" . consult-ripgrep-unrestricted))
   :hook
