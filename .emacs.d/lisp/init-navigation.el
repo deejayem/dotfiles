@@ -85,17 +85,8 @@ Or remove all highlighted symbols in the current buffer (with`ARG')."
   (gumshoe-slot-schema '(perspective time buffer position line))
   :config
   (global-gumshoe-mode +1)
-  (defvar gumshoe-repeat-map
-    (let ((map (make-sparse-keymap)))
-      (define-key map (kbd "}") #'global-gumshoe-backtracking-mode-forward)
-      (define-key map (kbd "{") #'global-gumshoe-backtracking-mode-back)
-      map))
-  (dolist (cmd '(global-gumshoe-backtracking-mode-forward global-gumshoe-backtracking-mode-back))
-    (put cmd 'repeat-map 'gumshoe-repeat-map))
   :bind
-  ("C-c }" . global-gumshoe-backtracking-mode-forward)
-  ("C-c {" . global-gumshoe-backtracking-mode-back)
-  ("C-c '" . gumshoe-peruse-in-persp))
+  ("C-c '" . gumshoe-peruse-globally))
 
 (use-package goto-chg
   :config
