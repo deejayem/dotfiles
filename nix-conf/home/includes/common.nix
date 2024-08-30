@@ -68,6 +68,7 @@ in
     rlwrap
     sd
     sops
+    ssh-to-age
     tealdeer
     tre-command
     ugrep

@@ -1,6 +1,11 @@
 keys:
   - &admin_djm age1w7kjp0qdgfyg9cyj5w4qc4fc9qz3w65xw2veazesfgdenqrd3ucqsc5ejv
+  - &server_edrahil age1tjfctwnwldmyxnu6qmeufgr9l79vyzmrs7fy58v3d0qj4x4nhqhq2gjmlp
 creation_rules:
+  - path_regex: secrets/edrahil\.(json|yaml)$
+    key_groups:
+    - age:
+      - *server_edrahil
   - path_regex: secrets/[^/]+\.(json|yaml)$
     key_groups:
     - age:
