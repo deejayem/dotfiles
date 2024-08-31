@@ -176,6 +176,11 @@
     libreoffice
     onlyoffice-bin
   ];
+  programs.nix-ld.enable = true;
+
+  programs.nix-ld.libraries = with pkgs; [
+    xorg.libxcb
+  ];
 
   fonts.packages = with pkgs; [
     corefonts
