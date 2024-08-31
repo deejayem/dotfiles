@@ -168,6 +168,7 @@
     wl-clipboard
     wget
     xclip
+    xorg.xkill
     xurls
     xst
     zoom-us
