@@ -83,8 +83,9 @@
   services.printing.drivers = [ pkgs.gutenprint pkgs.hplipWithPlugin ];
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-     "hplip"
-     "corefonts"
+    "corefonts"
+    "hplip"
+    "zoom"
   ];
 
   hardware.sane.enable = true;
@@ -169,6 +170,7 @@
     xclip
     xurls
     xst
+    zoom-us
 
     libreoffice
     onlyoffice-bin
