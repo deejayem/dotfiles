@@ -162,6 +162,24 @@ in
       # disable flow control (so that fzf-git.sh's ^g^s can work)
       stty -ixon
 
+       function vip () {
+         case $# in
+           0)
+             $EDITOR `ea p 1`
+             ;;
+           1)
+             $EDITOR `ea p $1`
+             ;;
+           2)
+             $EDITOR `ea p $1`/"$2"
+             ;;
+           *)
+             echo "Too many parameters"
+             return 1
+             ;;
+         esac
+      }
+
       function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
       function fcd { cd $(fd -L --max-depth=''${1:-4} --type=d 2>/dev/null | fzf-tmux) }
 
