@@ -164,10 +164,28 @@ in {
     signing.signByDefault = lib.mkForce false;
     includes = lib.mkForce [
       { path = config.sops.secrets."git_email_config/otm".path; }
-      { path = config.sops.secrets."git_email_config/default".path; condition = "gitdir:~/src/personal/"; }
-      { path = config.sops.secrets."git_email_config/default".path; condition = "gitdir:~/dotfiles/"; }
-      { contents = { commit.gpgSign = true; tag.gpgSign = true; }; condition = "gitdir:~/src/personal/"; }
-      { contents = { commit.gpgSign = true; tag.gpgSign = true; }; condition = "gitdir:~/dotfiles/"; }
+      {
+        path = config.sops.secrets."git_email_config/default".path;
+        condition = "gitdir:~/src/personal/";
+      }
+      {
+        path = config.sops.secrets."git_email_config/default".path;
+        condition = "gitdir:~/dotfiles/";
+      }
+      {
+        contents = {
+          commit.gpgSign = true;
+          tag.gpgSign = true;
+        };
+        condition = "gitdir:~/src/personal/";
+      }
+      {
+        contents = {
+          commit.gpgSign = true;
+          tag.gpgSign = true;
+        };
+        condition = "gitdir:~/dotfiles/";
+      }
     ];
     extraConfig = {
       github.user = "david-morgan-otm";
