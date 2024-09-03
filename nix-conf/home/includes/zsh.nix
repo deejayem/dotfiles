@@ -162,22 +162,37 @@ in
       # disable flow control (so that fzf-git.sh's ^g^s can work)
       stty -ixon
 
-       function vip () {
-         case $# in
-           0)
-             $EDITOR `ea p 1`
-             ;;
-           1)
-             $EDITOR `ea p $1`
-             ;;
-           2)
-             $EDITOR `ea p $1`/"$2"
-             ;;
-           *)
-             echo "Too many parameters"
-             return 1
-             ;;
-         esac
+      # These functions are called as follows, after using ea (using vip as an example):
+      # vip  # edits the first result from ea (roughly equivalent to vi `ea p 1`)
+      # vip <n> # edits the nth result from ea (vi `ea p <n>`)
+      # vip <n> foo # if the nth result from ea is a directory, edit foo in that directory (vi `ea p <n>`/foo)
+      function _vip () {
+        CMD=(''${=1}) # zsh only; not portable
+        BASE_PATH=$(ea p ''${2:-1})
+
+        if [ -z "$BASE_PATH" ]; then
+          echo "No file path found for index $2"
+          return 1
+        fi
+
+        if [ $# -gt 2 -a ! -d "$BASE_PATH" ]; then
+          echo "$BASE_PATH is not a directory"
+          return 2
+        fi
+
+        $CMD "''${BASE_PATH}''${3}"
+      }
+
+      function vip () {
+        _vip $EDITOR ''${@}
+      }
+      function bp () {
+        _vip bat ''${@}
+      }
+      function bpp () {
+        # this will be split into an array in _vip
+        CMD="bat -p"
+        _vip $CMD ''${@}
       }
 
       function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
