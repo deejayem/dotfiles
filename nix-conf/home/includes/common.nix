@@ -60,7 +60,6 @@ in
     lsd
     lynx
     mercurial
-    nixfmt-classic
     nix-info
     nix-prefetch-git
     nix-prefetch-github
@@ -81,6 +80,7 @@ in
     w3m
     zstd
 
+    unstable.nixfmt-rfc-style
     unstable.wcurl
   ];
 
