@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   imports = [ ./common.nix ];
 
   home.packages = with pkgs; [
@@ -49,4 +50,3 @@
 
   programs.vim.packageConfigurable = pkgs.vim;
 }
-

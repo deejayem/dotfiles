@@ -1,16 +1,22 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  hcr =
-    pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
-  scr = pkgs.callPackage ./scripts/system-changes-report.nix {
-    inherit config pkgs;
-  };
+  hcr = pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
+  scr = pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; };
   unstable = import <unstable> { };
-in {
-  imports = [ ./zsh.nix <sops-nix/modules/home-manager/sops.nix> ];
+in
+{
+  imports = [
+    ./zsh.nix
+    <sops-nix/modules/home-manager/sops.nix>
+  ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [ "aspell-dict-en-science" ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg: builtins.elem (lib.getName pkg) [ "aspell-dict-en-science" ];
 
   sops = {
     age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
@@ -90,13 +96,21 @@ in {
     config = {
       style = "full";
       pager = "less -RXF";
-      map-syntax = [ ".ignore:.gitignore" "*.jenkinsfile:Groovy" ];
+      map-syntax = [
+        ".ignore:.gitignore"
+        "*.jenkinsfile:Groovy"
+      ];
     };
   };
 
   nix = {
     package = pkgs.nix;
-    settings = { extra-experimental-features = [ "nix-command" "flakes" ]; };
+    settings = {
+      extra-experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+    };
   };
 
   programs.gpg.enable = true;
@@ -155,8 +169,10 @@ in {
         UseKeychain yes
         User djm
     '';
-    includes =
-      [ "~/.ssh/config_local" config.sops.secrets."ssh_config/oci".path ];
+    includes = [
+      "~/.ssh/config_local"
+      config.sops.secrets."ssh_config/oci".path
+    ];
     matchBlocks = {
       "djm.ovh" = {
         hostname = "v.djm.ovh";
@@ -183,10 +199,18 @@ in {
         hostname = "ssh.blinkenshell.org";
         port = 2222;
       };
-      "hashbang" = { hostname = "de1.hashbang.sh"; };
-      "tilde.institute" = { hostname = "tilde.institute"; };
-      "tilde.team" = { hostname = "tilde.team"; };
-      "ctrl-c.club" = { hostname = "ctrl-c.club"; };
+      "hashbang" = {
+        hostname = "de1.hashbang.sh";
+      };
+      "tilde.institute" = {
+        hostname = "tilde.institute";
+      };
+      "tilde.team" = {
+        hostname = "tilde.team";
+      };
+      "ctrl-c.club" = {
+        hostname = "ctrl-c.club";
+      };
       "github.com" = {
         hostname = "github.com";
         user = "git";
@@ -199,18 +223,14 @@ in {
   programs.git = {
     enable = true;
     userName = "David Morgan";
-    includes =
-      [{ path = config.sops.secrets."git_email_config/default".path; }];
+    includes = [ { path = config.sops.secrets."git_email_config/default".path; } ];
     aliases = {
       # difftastic
-      logt =
-        "!sh -c 'GIT_EXTERNAL_DIFF=\"difft --background=dark\" git log -p --ext-diff'";
-      showt =
-        "!show() { GIT_EXTERNAL_DIFF=difft git show \${1} --ext-diff; }; show";
+      logt = "!sh -c 'GIT_EXTERNAL_DIFF=\"difft --background=dark\" git log -p --ext-diff'";
+      showt = "!show() { GIT_EXTERNAL_DIFF=difft git show \${1} --ext-diff; }; show";
       difft = "difftool";
       # "raw" output
-      rlog =
-        "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less log"; # usually used with -p
+      rlog = "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less log"; # usually used with -p
       rshow = "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less show";
       rdiff = "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less diff";
       #  copiable output (without line numbers or +/- indicators)
@@ -218,8 +238,7 @@ in {
       cshow = "!git -c delta.line-numbers=false show";
       cdiff = "!git -c delta.line-numbers=false diff";
       # diff-so-fancy
-      flog = ''
-        !git -c core.pager="diff-so-fancy | less" log''; # usually used with -p
+      flog = ''!git -c core.pager="diff-so-fancy | less" log''; # usually used with -p
       fshow = ''!git -c core.pager="diff-so-fancy | less" show'';
       fdiff = ''!git -c core.pager="diff-so-fancy | less" diff'';
 
@@ -227,25 +246,36 @@ in {
       update-master = "!git fetch origin master:master";
       update-main = "!git fetch origin main:main";
     };
-    attributes = [ "*.el diff=elisp" "*.clj diff=clojure" ];
+    attributes = [
+      "*.el diff=elisp"
+      "*.clj diff=clojure"
+    ];
     extraConfig = {
       core.editor = "vim";
       diff = {
         tool = "difftastic";
         colorMoved = "default";
-        elisp = { xfuncname = "^\\((((def\\S+)|use-package)\\s+\\S+)"; };
-        clojure = { xfuncname = "^\\((def\\S+\\s+\\S+)"; };
+        elisp = {
+          xfuncname = "^\\((((def\\S+)|use-package)\\s+\\S+)";
+        };
+        clojure = {
+          xfuncname = "^\\((def\\S+\\s+\\S+)";
+        };
       };
       difftool = {
         prompt = false;
-        difftastic = { cmd = ''difft "$LOCAL" "$REMOTE"''; };
+        difftastic = {
+          cmd = ''difft "$LOCAL" "$REMOTE"'';
+        };
       };
       pull = {
         ff = "only";
         rebase = false;
       };
       push.autoSetupRemote = true;
-      rebase = { autostash = true; };
+      rebase = {
+        autostash = true;
+      };
     };
     delta = {
       enable = true;
@@ -273,4 +303,3 @@ in {
     };
   };
 }
-

@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   programs.irssi = {
@@ -141,7 +146,9 @@
             certificateFile = "${config.home.homeDirectory}/.irssi/oftc.pem";
           };
         };
-        channels = { home-manager.autoJoin = true; };
+        channels = {
+          home-manager.autoJoin = true;
+        };
       };
       blinkenirc = {
         nick = "djm";
@@ -158,8 +165,7 @@
           ssl = {
             enable = true;
             verify = true;
-            certificateFile =
-              "${config.home.homeDirectory}/.irssi/blinkenirc.pem";
+            certificateFile = "${config.home.homeDirectory}/.irssi/blinkenirc.pem";
           };
         };
         channels = {
@@ -178,11 +184,12 @@
           ssl = {
             enable = true;
             verify = true;
-            certificateFile =
-              "${config.home.homeDirectory}/.irssi/hashbang.pem";
+            certificateFile = "${config.home.homeDirectory}/.irssi/hashbang.pem";
           };
         };
-        channels = { "#!".autoJoin = true; };
+        channels = {
+          "#!".autoJoin = true;
+        };
       };
     };
   };

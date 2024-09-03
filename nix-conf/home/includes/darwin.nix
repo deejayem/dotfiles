@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -21,7 +26,8 @@ let
         --prefix PYTHONPATH : $out/${pkgs.mopidyPackages.python.sitePackages}
     '';
   };
-in {
+in
+{
   imports = [ ./dev-common.nix ];
 
   home.packages = with pkgs; [
@@ -30,8 +36,10 @@ in {
     coreutils
     curl
     diffutils
-    ((emacsPackagesFor emacs29-macport).emacsWithPackages
-      (ps: [ ps.vterm ps.multi-vterm ]))
+    ((emacsPackagesFor emacs29-macport).emacsWithPackages (ps: [
+      ps.vterm
+      ps.multi-vterm
+    ]))
     findutils
     gh
     gh-dash
@@ -62,4 +70,3 @@ in {
     keep-derivations = true;
   };
 }
-

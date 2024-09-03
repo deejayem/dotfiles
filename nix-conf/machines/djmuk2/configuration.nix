@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   imports = [ ./hardware-configuration.nix ];
 
   boot.tmp.cleanOnBoot = true;
@@ -46,7 +47,10 @@
     isNormalUser = true;
     home = "/home/djm";
     description = "David Morgan";
-    extraGroups = [ "wheel" "plocate" ];
+    extraGroups = [
+      "wheel"
+      "plocate"
+    ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCurCpxZCHtByB5wXzsjTXwMyDSB4+B8rq5XY6EGss58NwD8jc5cII4i+QUbCOGTiAggSZUSC9YIP24hjpOeNT/IYs5m7Qn1B9MtBAiUSrIYew8eDwnMLlPzN+k2x9zCrJeCHIvGJaFHPXTh1Lf5Jt2fPVGW9lksE/XUVOe6ht4N/b+nqqszXFhc8Ug6le2bC1YeTCVEf8pjlh/I7DkDBl6IB8uEXc3X2vxxbV0Z4vlBrFkkAywcD3j5VlS/QYfBr4BICNmq/sO3fMkbMbtAPwuFxeL4+h6426AARQZiSS0qVEc8OoFRBVx3GEH5fqVAWfB1geyLzei22HbjUcT9+xN davidmo@gendros"
@@ -59,11 +63,13 @@
   '';
   security.doas = {
     enable = true;
-    extraRules = [{
-      users = [ "djm" ];
-      noPass = true;
-      keepEnv = true;
-    }];
+    extraRules = [
+      {
+        users = [ "djm" ];
+        noPass = true;
+        keepEnv = true;
+      }
+    ];
   };
 
   programs.zsh.enable = true;
@@ -77,7 +83,10 @@
     wget
   ];
 
-  nix.settings.trusted-users = [ "root" "djm" ];
+  nix.settings.trusted-users = [
+    "root"
+    "djm"
+  ];
   nix.optimise.automatic = true;
   nix.optimise.dates = [ "03:00" ];
 
@@ -85,4 +94,3 @@
 
   system.stateVersion = "22.05";
 }
-

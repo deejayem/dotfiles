@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   zscaler-cert = ''
     -----BEGIN CERTIFICATE-----
@@ -81,12 +86,12 @@ let
     -----END CERTIFICATE-----
   '';
 
-  aws-cert = (builtins.readFile
-    "${pkgs.awscli2}/lib/python${pkgs.awscli2.python.pythonVersion}/site-packages/awscli/botocore/cacert.pem")
+  aws-cert =
+    (builtins.readFile "${pkgs.awscli2}/lib/python${pkgs.awscli2.python.pythonVersion}/site-packages/awscli/botocore/cacert.pem")
     + zscaler-cert;
 
-  full-cert = (builtins.readFile /etc/ssl/cert.pem) + aws-cert + internal-cert
-    + internal-staging-cert;
+  full-cert =
+    (builtins.readFile /etc/ssl/cert.pem) + aws-cert + internal-cert + internal-staging-cert;
 
   zscaler-cert-file = pkgs.writeText "zscaler-cert.pem" zscaler-cert;
   aws-cert-file = pkgs.writeText "aws-cert.pem" aws-cert;
@@ -97,13 +102,16 @@ let
     # See https://github.com/nix-community/home-manager/blob/086f619dd991a4d355c07837448244029fc2d9ab/modules/programs/java.nix#L39-L41
     # and https://github.com/NixOS/nixpkgs/blob/4877ea239f4d02410c3516101faf35a81af0c30e/pkgs/development/compilers/openjdk/jre.nix#L32
     passthru.home = "${zscaler-jdk}"; # make sure JAVA_HOME is set
-    installPhase = old.installPhase + ''
-      $out/bin/keytool -import -noprompt -trustcacerts -alias zscalerrootca -keystore $out/lib/security/cacerts <<< "${zscaler-cert}"
-    '';
+    installPhase =
+      old.installPhase
+      + ''
+        $out/bin/keytool -import -noprompt -trustcacerts -alias zscalerrootca -keystore $out/lib/security/cacerts <<< "${zscaler-cert}"
+      '';
   });
 
   zscaler-lein = pkgs.leiningen.override { jdk = zscaler-jdk; };
-in {
+in
+{
   imports = [ ./includes/darwin.nix ];
 
   # Let Home Manager install and manage itself.
@@ -127,15 +135,11 @@ in {
   };
 
   home.shellAliases = {
-    notify_success = ''
-      ( osascript -e 'display notification "The command finished" with title "Success"' && afplay /System/Library/Sounds/Ping.aiff && say done  )'';
-    notify_failure = ''
-      ( osascript -e 'display notification "The command failed" with title "Failure"' && afplay /System/Library/Sounds/Sosumi.aiff && say failed  )'';
+    notify_success = ''( osascript -e 'display notification "The command finished" with title "Success"' && afplay /System/Library/Sounds/Ping.aiff && say done  )'';
+    notify_failure = ''( osascript -e 'display notification "The command failed" with title "Failure"' && afplay /System/Library/Sounds/Sosumi.aiff && say failed  )'';
     notify = "notify_success || notify_failure";
-    auth =
-      "auth2aws login -r aws_otm_dev_developers,aws_otm_prd_developers && osascript -e 'tell app \"iTerm\" to activate'";
-    yarn_build =
-      "aws codeartifact login --tool npm --repository otm-js --domain otm --domain-owner 103567893073 --region eu-west-1 --profile aws_otm_dev_developers && yarn && yarn build && notify";
+    auth = "auth2aws login -r aws_otm_dev_developers,aws_otm_prd_developers && osascript -e 'tell app \"iTerm\" to activate'";
+    yarn_build = "aws codeartifact login --tool npm --repository otm-js --domain otm --domain-owner 103567893073 --region eu-west-1 --profile aws_otm_dev_developers && yarn && yarn build && notify";
   };
 
   home.packages = with pkgs; [ zscaler-lein ];

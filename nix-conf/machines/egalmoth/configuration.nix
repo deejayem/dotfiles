@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -77,10 +82,18 @@
   services.xserver.xkb.layout = "gb";
 
   services.printing.enable = true;
-  services.printing.drivers = [ pkgs.gutenprint pkgs.hplipWithPlugin ];
+  services.printing.drivers = [
+    pkgs.gutenprint
+    pkgs.hplipWithPlugin
+  ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [ "corefonts" "hplip" "zoom" ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "corefonts"
+      "hplip"
+      "zoom"
+    ];
 
   hardware.sane.enable = true;
 
@@ -116,8 +129,15 @@
   users.users.djm = {
     isNormalUser = true;
     description = "David Morgan";
-    extraGroups =
-      [ "wheel" "networkmanager" "scanner" "lp" "plocate" "cdrom" "disk" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "scanner"
+      "lp"
+      "plocate"
+      "cdrom"
+      "disk"
+    ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCurCpxZCHtByB5wXzsjTXwMyDSB4+B8rq5XY6EGss58NwD8jc5cII4i+QUbCOGTiAggSZUSC9YIP24hjpOeNT/IYs5m7Qn1B9MtBAiUSrIYew8eDwnMLlPzN+k2x9zCrJeCHIvGJaFHPXTh1Lf5Jt2fPVGW9lksE/XUVOe6ht4N/b+nqqszXFhc8Ug6le2bC1YeTCVEf8pjlh/I7DkDBl6IB8uEXc3X2vxxbV0Z4vlBrFkkAywcD3j5VlS/QYfBr4BICNmq/sO3fMkbMbtAPwuFxeL4+h6426AARQZiSS0qVEc8OoFRBVx3GEH5fqVAWfB1geyLzei22HbjUcT9+xN davidmo@gendros"
@@ -129,11 +149,13 @@
   '';
   security.doas = {
     enable = true;
-    extraRules = [{
-      users = [ "djm" ];
-      noPass = true;
-      keepEnv = true;
-    }];
+    extraRules = [
+      {
+        users = [ "djm" ];
+        noPass = true;
+        keepEnv = true;
+      }
+    ];
   };
 
   services.locate = {
@@ -207,4 +229,3 @@
   system.stateVersion = "21.05"; # Did you read the comment?
 
 }
-

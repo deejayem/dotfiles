@@ -1,9 +1,20 @@
-{ config, pkgs, lib, ... }:
-let inherit (lib) optionals;
-in {
-  imports = [ ./common.nix ./clojure.nix ];
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+let
+  inherit (lib) optionals;
+in
+{
+  imports = [
+    ./common.nix
+    ./clojure.nix
+  ];
 
-  home.packages = with pkgs;
+  home.packages =
+    with pkgs;
     [
       docker
       docker-compose
@@ -11,7 +22,11 @@ in {
       gopass-jsonapi
       multimarkdown
       neovim
-    ] ++ optionals (!stdenv.isDarwin) [ ffmpeg mpv ];
+    ]
+    ++ optionals (!stdenv.isDarwin) [
+      ffmpeg
+      mpv
+    ];
 
   programs.tmux = {
     enable = true;
@@ -37,14 +52,8 @@ in {
           set -g @thumbs-unique enabled
           set -g @thumbs-position right
           set -g @thumbs-contrast 1
-          #${
-            lib.optionalString pkgs.stdenv.isLinux
-            "set -g @thumbs-upcase-command 'xargs xdg-open {}'"
-          }
-          #${
-            lib.optionalString pkgs.stdenv.isDarwin
-            "set -g @thumbs-upcase-command 'xargs open {}'"
-          }
+          #${lib.optionalString pkgs.stdenv.isLinux "set -g @thumbs-upcase-command 'xargs xdg-open {}'"}
+          #${lib.optionalString pkgs.stdenv.isDarwin "set -g @thumbs-upcase-command 'xargs open {}'"}
         '';
       }
     ];
@@ -61,20 +70,15 @@ in {
        set-option -g status-left-length 50
        set-option -g status-right " %a, %b %d - %H:%M "
 
-       ${
-         lib.optionalString pkgs.stdenv.isLinux ''
-           bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "xsel -i -p && xsel -o -p | xsel -i -b"
-           bind-key C-y run "xsel -o | tmux load-buffer - ; tmux paste-buffer"
-         ''
-       }
-       ${
-         lib.optionalString pkgs.stdenv.isDarwin ''
-           bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
-           bind-key C-y run "reattach-to-user-namespace pbpaste | tmux load-buffer - ; tmux paste-buffer"
-         ''
-       }
+       ${lib.optionalString pkgs.stdenv.isLinux ''
+         bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "xsel -i -p && xsel -o -p | xsel -i -b"
+         bind-key C-y run "xsel -o | tmux load-buffer - ; tmux paste-buffer"
+       ''}
+       ${lib.optionalString pkgs.stdenv.isDarwin ''
+         bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
+         bind-key C-y run "reattach-to-user-namespace pbpaste | tmux load-buffer - ; tmux paste-buffer"
+       ''}
     '';
   };
 
 }
-
