@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   networking = {
     interfaces.ens3.ipv6.addresses = [{
       # Emulate nix-sops. Technically an anti-pattern, but IP addresses aren't real secrets, and this has to be embedded here,
