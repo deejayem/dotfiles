@@ -135,7 +135,6 @@ in
         fi
       fi
 
-      eval "$(batpipe)"
       autopair-init
       enable-fzf-tab
 
