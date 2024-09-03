@@ -1,8 +1,5 @@
-{ config, pkgs, ... }:
-{
-  imports = [ 
-    ./includes/linux-server.nix
-  ];
+{ config, pkgs, ... }: {
+  imports = [ ./includes/linux-server.nix ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -11,7 +8,7 @@
   # paths it should manage.
   home.username = "djm";
   home.homeDirectory = "/home/djm";
-  
+
   # This value determines the Home Manager release that your
   # configuration is compatible with. This helps avoid breakage
   # when a new Home Manager release introduces backwards
