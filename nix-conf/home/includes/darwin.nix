@@ -21,11 +21,8 @@ let
         --prefix PYTHONPATH : $out/${pkgs.mopidyPackages.python.sitePackages}
     '';
   };
-in
-{
-  imports = [
-    ./dev-common.nix
-  ];
+in {
+  imports = [ ./dev-common.nix ];
 
   home.packages = with pkgs; [
     awscli2
@@ -33,7 +30,8 @@ in
     coreutils
     curl
     diffutils
-    ((emacsPackagesFor emacs29-macport).emacsWithPackages(ps: [ ps.vterm ps.multi-vterm ]))
+    ((emacsPackagesFor emacs29-macport).emacsWithPackages
+      (ps: [ ps.vterm ps.multi-vterm ]))
     findutils
     gh
     gh-dash

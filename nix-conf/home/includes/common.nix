@@ -1,18 +1,16 @@
 { config, lib, pkgs, ... }:
 let
-  hcr = pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
-  scr = pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; };
+  hcr =
+    pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
+  scr = pkgs.callPackage ./scripts/system-changes-report.nix {
+    inherit config pkgs;
+  };
   unstable = import <unstable> { };
-in
-{
-  imports = [
-    ./zsh.nix
-    <sops-nix/modules/home-manager/sops.nix>
-  ];
+in {
+  imports = [ ./zsh.nix <sops-nix/modules/home-manager/sops.nix> ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "aspell-dict-en-science"
-  ];
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [ "aspell-dict-en-science" ];
 
   sops = {
     age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
@@ -92,15 +90,13 @@ in
     config = {
       style = "full";
       pager = "less -RXF";
-      map-syntax = [".ignore:.gitignore" "*.jenkinsfile:Groovy"];
+      map-syntax = [ ".ignore:.gitignore" "*.jenkinsfile:Groovy" ];
     };
   };
 
   nix = {
     package = pkgs.nix;
-    settings = {
-      extra-experimental-features = [ "nix-command" "flakes" ];
-    };
+    settings = { extra-experimental-features = [ "nix-command" "flakes" ]; };
   };
 
   programs.gpg.enable = true;
@@ -123,19 +119,20 @@ in
       nmap <silent> <F3> :silent nohlsearch<CR>
       imap <silent> <F3> <C-o>:silent nohlsearch<CR>
     '';
-    plugins = [ pkgs.vimPlugins.sensible
-                pkgs.vimPlugins.auto-pairs
-                pkgs.vimPlugins.ctrlp
-                pkgs.vimPlugins.editorconfig-vim
-                pkgs.vimPlugins.inkpot
-                pkgs.vimPlugins.molokai
-                pkgs.vimPlugins.surround
-                pkgs.vimPlugins.vim-lastplace
-                pkgs.vimPlugins.vim-nix
-                pkgs.vimPlugins.vim-pasta
-                pkgs.vimPlugins.vim-repeat
-                pkgs.vimPlugins.vim-sexp-mappings-for-regular-people
-                pkgs.vimPlugins.vim-sleuth
+    plugins = [
+      pkgs.vimPlugins.sensible
+      pkgs.vimPlugins.auto-pairs
+      pkgs.vimPlugins.ctrlp
+      pkgs.vimPlugins.editorconfig-vim
+      pkgs.vimPlugins.inkpot
+      pkgs.vimPlugins.molokai
+      pkgs.vimPlugins.surround
+      pkgs.vimPlugins.vim-lastplace
+      pkgs.vimPlugins.vim-nix
+      pkgs.vimPlugins.vim-pasta
+      pkgs.vimPlugins.vim-repeat
+      pkgs.vimPlugins.vim-sexp-mappings-for-regular-people
+      pkgs.vimPlugins.vim-sleuth
     ];
     settings = {
       background = "dark";
@@ -158,16 +155,17 @@ in
         UseKeychain yes
         User djm
     '';
-    includes = [ "~/.ssh/config_local" config.sops.secrets."ssh_config/oci".path ];
+    includes =
+      [ "~/.ssh/config_local" config.sops.secrets."ssh_config/oci".path ];
     matchBlocks = {
       "djm.ovh" = {
         hostname = "v.djm.ovh";
         port = 2222;
       };
       "devio" = {
-         hostname = "devio.us";
-         user = "deejayem";
-         port = 2222;
+        hostname = "devio.us";
+        user = "deejayem";
+        port = 2222;
       };
       "sdf" = {
         hostname = "sdf.org";
@@ -182,21 +180,13 @@ in
         user = "deejayem";
       };
       "blinkenshell" = {
-         hostname = "ssh.blinkenshell.org";
-         port = 2222;
+        hostname = "ssh.blinkenshell.org";
+        port = 2222;
       };
-      "hashbang" = {
-        hostname = "de1.hashbang.sh";
-      };
-      "tilde.institute" = {
-        hostname = "tilde.institute";
-      };
-      "tilde.team" = {
-        hostname = "tilde.team";
-      };
-      "ctrl-c.club" = {
-        hostname = "ctrl-c.club";
-      };
+      "hashbang" = { hostname = "de1.hashbang.sh"; };
+      "tilde.institute" = { hostname = "tilde.institute"; };
+      "tilde.team" = { hostname = "tilde.team"; };
+      "ctrl-c.club" = { hostname = "ctrl-c.club"; };
       "github.com" = {
         hostname = "github.com";
         user = "git";
@@ -209,14 +199,18 @@ in
   programs.git = {
     enable = true;
     userName = "David Morgan";
-    includes = [ { path = config.sops.secrets."git_email_config/default".path; } ];
+    includes =
+      [{ path = config.sops.secrets."git_email_config/default".path; }];
     aliases = {
       # difftastic
-      logt = "!sh -c 'GIT_EXTERNAL_DIFF=\"difft --background=dark\" git log -p --ext-diff'";
-      showt = "!show() { GIT_EXTERNAL_DIFF=difft git show \${1} --ext-diff; }; show";
+      logt =
+        "!sh -c 'GIT_EXTERNAL_DIFF=\"difft --background=dark\" git log -p --ext-diff'";
+      showt =
+        "!show() { GIT_EXTERNAL_DIFF=difft git show \${1} --ext-diff; }; show";
       difft = "difftool";
       # "raw" output
-      rlog = "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less log"; # usually used with -p
+      rlog =
+        "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less log"; # usually used with -p
       rshow = "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less show";
       rdiff = "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less diff";
       #  copiable output (without line numbers or +/- indicators)
@@ -224,18 +218,16 @@ in
       cshow = "!git -c delta.line-numbers=false show";
       cdiff = "!git -c delta.line-numbers=false diff";
       # diff-so-fancy
-      flog = "!git -c core.pager=\"diff-so-fancy | less\" log"; # usually used with -p
-      fshow = "!git -c core.pager=\"diff-so-fancy | less\" show";
-      fdiff = "!git -c core.pager=\"diff-so-fancy | less\" diff";
+      flog = ''
+        !git -c core.pager="diff-so-fancy | less" log''; # usually used with -p
+      fshow = ''!git -c core.pager="diff-so-fancy | less" show'';
+      fdiff = ''!git -c core.pager="diff-so-fancy | less" diff'';
 
       upstream = "!git push -u origin HEAD";
       update-master = "!git fetch origin master:master";
       update-main = "!git fetch origin main:main";
     };
-    attributes = [
-      "*.el diff=elisp"
-      "*.clj diff=clojure"
-    ];
+    attributes = [ "*.el diff=elisp" "*.clj diff=clojure" ];
     extraConfig = {
       core.editor = "vim";
       diff = {
@@ -253,9 +245,7 @@ in
         rebase = false;
       };
       push.autoSetupRemote = true;
-      rebase = {
-        autostash = true;
-      };
+      rebase = { autostash = true; };
     };
     delta = {
       enable = true;
