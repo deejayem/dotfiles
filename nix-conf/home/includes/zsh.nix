@@ -119,7 +119,7 @@ in {
       FZF_DEFAULT_COMMAND = ''
         rg --files --no-ignore --hidden --follow -g \"!{.git,node_modules}/*\" 2> /dev/null'';
       FZF_CTRL_T_COMMAND =
-        "${config.programs.zsh.localVariables.FZF_DEFAULT_COMMAND}";
+        config.programs.zsh.localVariables.FZF_DEFAULT_COMMAND;
       FZF_ALT_C_COMMAND = ''
         rg --hidden --files --sort-files --null -g \"!{.git,node_modules}/*\" | xargs -0 dirname | sort -u'';
       FZF_ALT_C_OPTS = "--preview 'eza --tree {} | head -200'";
@@ -176,7 +176,7 @@ in {
       # vip <n> # edits the nth result from ea (vi `ea p <n>`)
       # vip <n> foo # if the nth result from ea is a directory, edit foo in that directory (vi `ea p <n>`/foo)
       function _vip () {
-        CMD=(''${=1}) # zsh only; not portable
+        CMD=(''${=1}) # zsh only, not portable; something like CMD=($(echo $1)) is more portable but is ugly
         BASE_PATH=$(ea p ''${2:-1})
 
         if [ -z "$BASE_PATH" ]; then

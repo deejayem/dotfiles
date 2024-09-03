@@ -128,11 +128,9 @@ in {
 
   home.shellAliases = {
     notify_success = ''
-      ( osascript -e 'display notification "The command finished" with title "Success"' && afplay /System/Library/Sounds/Ping.aiff && say done  )
-    '';
+      ( osascript -e 'display notification "The command finished" with title "Success"' && afplay /System/Library/Sounds/Ping.aiff && say done  )'';
     notify_failure = ''
-      ( osascript -e 'display notification "The command failed" with title "Failure"' && afplay /System/Library/Sounds/Sosumi.aiff && say failed  )
-    '';
+      ( osascript -e 'display notification "The command failed" with title "Failure"' && afplay /System/Library/Sounds/Sosumi.aiff && say failed  )'';
     notify = "notify_success || notify_failure";
     auth =
       "auth2aws login -r aws_otm_dev_developers,aws_otm_prd_developers && osascript -e 'tell app \"iTerm\" to activate'";
