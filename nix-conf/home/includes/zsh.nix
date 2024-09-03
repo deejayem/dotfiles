@@ -108,6 +108,13 @@ in
 
       LSP_USE_PLISTS = true;
       LESS = "-iRXF";
+
+      FZF_DEFAULT_COMMAND=''rg --files --no-ignore --hidden --follow -g \"!{.git,node_modules}/*\" 2> /dev/null'';
+      FZF_CTRL_T_COMMAND="${config.programs.zsh.localVariables.FZF_DEFAULT_COMMAND}";
+      FZF_ALT_C_COMMAND=''rg --hidden --files --sort-files --null -g \"!{.git,node_modules}/*\" | xargs -0 dirname | sort -u'';
+      FZF_ALT_C_OPTS="--preview 'eza --tree {} | head -200'";
+      FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-t:toggle-preview'";
+      FZF_DEFAULT_OPTS="--bind=ctrl-t:toggle-all --bind=ctrl-j:jump";
     };
     initExtraFirst = ''
       [[ $TERM == "tramp" ]] && unsetopt zle && PS1='$ ' && return
@@ -127,14 +134,6 @@ in
           exec tmux -u attach-session -d
         fi
       fi
-
-      # Keep these in initExtra, rather than localVariables, because the order matters
-      export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
-      export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-      export FZF_ALT_C_COMMAND='rg --hidden --files --sort-files --null -g "!{.git,node_modules}/*" | xargs -0 dirname | sort -u'
-      export FZF_ALT_C_OPTS="--preview 'eza --tree {} | head -200'"
-      export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-t:toggle-preview'"
-      export FZF_DEFAULT_OPTS="--bind=ctrl-t:toggle-all --bind=ctrl-j:jump"
 
       eval "$(batpipe)"
       autopair-init
