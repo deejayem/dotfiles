@@ -20,7 +20,10 @@ in
 
   sops = {
     age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
-    defaultSopsFile = ./../../secrets/home.yaml;
+    defaultSopsFile = builtins.path {
+      path = ./../../secrets/home.yaml;
+      name = "home-secrets.yaml";
+    };
     secrets."ssh_config/oci" = { };
     secrets."git_email_config/default" = { };
   };
