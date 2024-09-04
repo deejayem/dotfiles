@@ -187,7 +187,7 @@
   (setq affe-grep-command (replace-regexp-in-string "rg" "rg -Suu" affe-grep-command))
   ;; Configure Orderless
   (defun affe-orderless-regexp-compiler (input _type _ignorecase)
-    (setq input (orderless-pattern-compiler input))
+    (setq input (cdr (orderless-compile input)))
     (cons input (apply-partially #'orderless--highlight input t)))
   (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
   ;; Manual preview key for `affe-grep'
