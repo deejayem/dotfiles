@@ -72,7 +72,7 @@
                 orderless-style-dispatchers nil))
 
   (defun orderless-strict-initialism (component &optional leading)
-    "Match a component as a strict leading initialism.
+    "Match a component as a strict initialism.
 This means the characters in COMPONENT must occur in the
 candidate, in that order, at the beginning of words, with
 no words in between. If LEADING is non-nil, anchor to the
