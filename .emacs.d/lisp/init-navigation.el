@@ -86,7 +86,7 @@ Or remove all highlighted symbols in the current buffer (with`ARG')."
   :config
   (global-gumshoe-mode +1)
   :bind
-  ("C-c '" . gumshoe-peruse-globally))
+  ("C-c '" . gumshoe-peruse-in-persp))
 
 (use-package goto-chg
   :config
