@@ -5,6 +5,9 @@
 (use-package nix-mode
   :commands nix-repl-show)
 
+(use-package nixfmt
+  :hook (nix-mode . nixfmt-on-save-mode))
+
 (use-package nix-update
   :commands nix-update-fetch)
 
