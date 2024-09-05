@@ -77,6 +77,7 @@ in
 
       fb = "fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'";
 
+      # Restrict matches to subdirs of the current one (https://github.com/skywind3000/z.lua/blob/ef9a49d73d2b4f262c6fbb23262253dcda7c19a7/README.md#tips)
       zz = "z $PWD";
 
       els = "ea run linear ls -- -1";
