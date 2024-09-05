@@ -201,8 +201,6 @@ This is based on the frame width, with the threshold being customised using
   (defun iflipb-persp-buffer-list ()
     "Buffer list for iflipb."
     (seq-filter 'buffer-live-p (persp-current-buffers* t)))
-  (dolist (cmd '(iflipb-previous-buffer iflipb-next-buffer))
-    (put cmd 'repeat-map 'iflipb-repeat-map))
   (defun iflibp-abort ()
     "Abort buffer flipping and return to the original buffer."
     (interactive)
