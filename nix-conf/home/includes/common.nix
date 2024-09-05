@@ -79,7 +79,6 @@ in
     sd
     sops
     ssh-to-age
-    sword
     tealdeer
     tre-command
     ugrep

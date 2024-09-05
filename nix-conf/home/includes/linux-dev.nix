@@ -20,6 +20,7 @@
     mu
     pinentry
     protonvpn-cli
+    sword
     yt-dlp
   ];
 

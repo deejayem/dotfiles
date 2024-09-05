@@ -10,6 +10,7 @@
     neomutt
     pinentry
     restic
+    sword
     yt-dlp
   ];
 
