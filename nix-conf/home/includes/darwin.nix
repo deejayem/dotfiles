@@ -33,6 +33,7 @@ in
   home.packages = with pkgs; [
     awscli2
     cacert
+    caddy
     coreutils
     curl
     diffutils
