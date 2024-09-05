@@ -115,7 +115,6 @@ in
       NVM_AUTO_USE = true;
       NVM_LAZY_LOAD = true;
 
-      LSP_USE_PLISTS = true;
       LESS = "-iRXF";
 
       FZF_DEFAULT_COMMAND = ''rg --files --no-ignore --hidden --follow -g \"!{.git,node_modules}/*\" 2> /dev/null'';

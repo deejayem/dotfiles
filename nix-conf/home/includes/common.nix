@@ -28,6 +28,10 @@ in
     secrets."git_email_config/default" = { };
   };
 
+  home.sessionVariables = {
+    LSP_USE_PLISTS = "true";
+  };
+
   home.packages = with pkgs; [
     hcr
     scr
