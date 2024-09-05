@@ -205,9 +205,21 @@ This is based on the frame width, with the threshold being customised using
     "Abort buffer flipping and return to the original buffer."
     (interactive)
     (iflipb-restore-buffers))
+  (defun iflipb-kill-current-buffer ()
+    "Same as `kill-current-buffer' but keep the iflipb buffer list state.
+
+Modified from `iflipb-kill-buffer'."
+    (interactive)
+    (call-interactively #'kill-current-buffer)
+    (if (iflipb-first-iflipb-buffer-switch-command)
+        (setq last-command 'kill-current-buffer)
+      (if (< iflipb-current-buffer-index (length (iflipb-interesting-buffers)))
+          (iflipb-select-buffer iflipb-current-buffer-index)
+        (iflipb-select-buffer (1- iflipb-current-buffer-index)))
+      (setq last-command 'iflipb-kill-current-buffer)))
   :custom (iflipb-buffer-list-function 'iflipb-persp-buffer-list)
   :bind
-  ("C-x k" . iflipb-kill-buffer) ;; TODO replace with a kill currently selected buffer command
+  ("C-x k" . iflipb-kill-current-buffer)
   ("<f12>" . iflipb-previous-buffer)
   ("<f11>" . iflipb-next-buffer)
   ("<f10>" . iflibp-abort))

@@ -16,7 +16,7 @@
                          (global-display-line-numbers-mode)
                          (global-hl-line-mode +1)
 
-                         (global-set-key (kbd "C-x C-S-k") 'kill-this-buffer)
+                         (global-set-key (kbd "C-x C-S-k") 'kill-buffer)
 
                          (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
                          (load-theme 'non-modo t)))
