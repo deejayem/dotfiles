@@ -6,6 +6,7 @@
 }:
 let
   inherit (lib) optionalAttrs optionals;
+  show_file_or_dir_preview = "if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi";
 in
 {
   home.packages = with pkgs; [ zsh-completions ];
@@ -117,10 +118,11 @@ in
 
       LESS = "-iRXF";
 
-      FZF_DEFAULT_COMMAND = ''rg --files --no-ignore --hidden --follow -g \"!{.git,node_modules}/*\" 2> /dev/null'';
+      FZF_DEFAULT_COMMAND = "fd --hidden --strip-cwd-prefix --exclude .git --exclude node_modules";
       FZF_CTRL_T_COMMAND = config.programs.zsh.localVariables.FZF_DEFAULT_COMMAND;
-      FZF_ALT_C_COMMAND = ''rg --hidden --files --sort-files --null -g \"!{.git,node_modules}/*\" | xargs -0 dirname | sort -u'';
-      FZF_ALT_C_OPTS = "--preview 'eza --tree {} | head -200'";
+      FZF_CTRL_T_OPTS = "--preview '${show_file_or_dir_preview}'";
+      FZF_ALT_C_COMMAND = "fd --type=d --hidden --strip-cwd-prefix --exclude .git --exclude node_modules";
+      FZF_ALT_C_OPTS = "--preview 'eza --tree --color=always {} | head -200'";
       FZF_CTRL_R_OPTS = "--preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-t:toggle-preview'";
       FZF_DEFAULT_OPTS = "--bind=ctrl-t:toggle-all --bind=ctrl-j:jump";
     };
@@ -163,6 +165,25 @@ in
       zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
       # switch group using `,` and `.`
       zstyle ':fzf-tab:*' switch-group ',' '.'
+
+      # functions modified from https://www.josean.com/posts/7-amazing-cli-tools
+      _fzf_compgen_path() {
+        fd --hidden --exclude .git --exclude node_modules . "$1"
+      }
+      _fzf_compgen_dir() {
+        fd --type=d --hidden --exclude .git --exclude node_modules . "$1"
+      }
+      _fzf_comprun() {
+        local command=$1
+        shift
+
+        case "$command" in
+          cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+          export|unset) fzf --preview "eval 'echo $'{}"         "$@" ;;
+          ssh)          fzf --preview 'dig {}'                   "$@" ;;
+          *)            fzf --preview "${show_file_or_dir_preview}" "$@" ;;
+        esac
+      }
 
       set -o noclobber
 
