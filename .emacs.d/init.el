@@ -26,14 +26,6 @@
                                             gc-cons-percentage 0.1))
           99)
 
-;; Some straight functions need to be able to reload everything, so require won't do
-(defun require! (feature &optional filename noerror)
-  "Like `require', but if `force-reload' is non-nil, `load' instead.
-`FEATURE', `FILENAME' and `NOERROR' have the same meaning as with require"
-  (if (and (boundp 'force-reload) force-reload)
-      (load (prin1-to-string feature) noerror nil nil t)
-    (require feature filename noerror)))
-
 (require 'init-packages)
 (require 'init-ui)
 (require 'init-compile)
