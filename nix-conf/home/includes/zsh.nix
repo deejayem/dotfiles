@@ -143,6 +143,7 @@ in
         fi
       fi
 
+      eval "$(fzf --zsh)"
       autopair-init
       enable-fzf-tab
 
