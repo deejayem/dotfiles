@@ -242,7 +242,8 @@ DEFS is a plist associating completion categories to commands."
                ("C-S-p" . vertico-previous)
                ("C-S-n" . vertico-next)
                ;; Toggle preview on/off without changing preview-key
-               ("M-P" . consult-toggle-preview)))
+               ("M-P" . consult-toggle-preview)
+               ("C-x C-M-x" . remove-leading-hash)))
 
   :config
 
@@ -398,6 +399,17 @@ DEFS is a plist associating completion categories to commands."
                                          (format  "fd --color never -t f -0 . %s" root))
                                         "\0" t))))))))
 
+  (defun remove-leading-hash ()
+    "Remove a # character from the beginning of the current line.
+
+Designed to be used for consult commands that automatically add a # at the beginning of the minibuffer.
+See `+become-consult-line'."
+    (interactive)
+    (save-excursion
+      (beginning-of-line)
+      (when (= ?# (char-after))
+        (delete-forward-char 1))))
+
   (defun consult-project-buffer ()
     (interactive)
     (let ((consult-buffer-sources '(consult--project-source-project-buffer
@@ -467,9 +479,16 @@ DEFS is a plist associating completion categories to commands."
   ;; demand, combined with after means that this will load after embark and consult
   ;; See https://github.com/oantolin/embark/commit/47daded610b245caf01a97d74c940aff91fe14e2#r46010972
   :demand t
+  :config
+  (defun +become-consult-line ()
+    "TODO."
+    (interactive)
+    (progn
+      (setq unread-command-events (listify-key-sequence "\C-x\C-\M-x"))
+      (consult-line)))
   :bind
   (:map embark-consult-async-search-map
-        ("l" . consult-line) ;; TODO how to delete the #
+        ("l" . +become-consult-line)
         ("^" . consult-ripgrep-parent)
         ("R" . consult-ripgrep-unrestricted))
   :hook
