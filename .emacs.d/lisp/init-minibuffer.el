@@ -411,6 +411,7 @@ See `+become-consult-line'."
         (delete-forward-char 1))))
 
   (defun consult-project-buffer ()
+    "Version of `consult-buffer' that only uses project-related sources."
     (interactive)
     (let ((consult-buffer-sources '(consult--project-source-project-buffer
                                     consult--project-source-project-file-recentf
