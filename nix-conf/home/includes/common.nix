@@ -18,6 +18,16 @@ in
   nixpkgs.config.allowUnfreePredicate =
     pkg: builtins.elem (lib.getName pkg) [ "aspell-dict-en-science" ];
 
+  nix = {
+    package = pkgs.nix;
+    settings = {
+      extra-experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+    };
+  };
+
   sops = {
     age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
     defaultSopsFile = builtins.path {
@@ -110,15 +120,6 @@ in
     };
   };
 
-  nix = {
-    package = pkgs.nix;
-    settings = {
-      extra-experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-    };
-  };
 
   programs.gpg.enable = true;
   programs.nix-index = {
