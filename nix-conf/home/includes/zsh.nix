@@ -62,8 +62,10 @@ in
       cp = "cp -iv";
       mv = "mv -iv";
       mkdir = "mkdir -v";
-      tree = "eza --tree";
       cat = "bat -p";
+      l = "eza";
+      ll = "\\eza --icons --git --colour --long --group-directories-first --classify";
+      t = "eza --tree";
 
       pp = ''pushbullet push "Pixel" link "''${1}" "''${1}"'';
 

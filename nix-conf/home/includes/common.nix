@@ -60,7 +60,6 @@ in
     ea
     elinks
     entr
-    eza
     fd
     file
     fzf
@@ -91,6 +90,7 @@ in
     ssh-to-age
     tealdeer
     tre-command
+    tree
     ugrep
     uni
     unzip
@@ -120,6 +120,21 @@ in
     };
   };
 
+  programs.eza = {
+    enable = true;
+    git = true;
+    icons = true;
+    extraOptions = [
+      "--colour=auto"
+      "--long"
+      "--group-directories-first"
+      "--classify"
+      "--no-user"
+      "--no-time"
+      "--no-filesize"
+      "--no-permissions"
+    ];
+  };
 
   programs.gpg.enable = true;
   programs.nix-index = {
