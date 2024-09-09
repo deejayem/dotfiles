@@ -114,7 +114,7 @@ in
       style = "full";
       pager = "less -RXF";
       map-syntax = [
-        ".ignore:.gitignore"
+        ".ignore:Git Ignore"
         "*.jenkinsfile:Groovy"
       ];
     };
