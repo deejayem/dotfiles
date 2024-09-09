@@ -14,6 +14,13 @@ in
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    changeDirWidgetCommand = "fd --type=d --hidden --strip-cwd-prefix --exclude .git --exclude node_modules"; # FZF_ALT_C_COMMAND
+    changeDirWidgetOptions = [ "--preview 'eza --tree --color=always {} | head -200'" ]; # FZF_ALT_C_OPTS
+    defaultCommand = "fd --hidden --strip-cwd-prefix --exclude .git --exclude node_modules"; # FZF_DEFAULT_COMMAND
+    defaultOptions = [ "--bind=ctrl-t:toggle-all" "--bind=ctrl-j:jump" ]; # FZF_DEFAULT_OPTS
+    fileWidgetCommand = config.programs.fzf.defaultCommand;  # FZF_CTRL_T_COMMAND
+    fileWidgetOptions = [ "--preview '${show_file_or_dir_preview}'" ]; # FZF_CTRL_T_OPTS
+    historyWidgetOptions = [ "--preview 'echo {}'" "--preview-window down:3:hidden:wrap" "--bind 'ctrl-t:toggle-preview'" ]; # FZF_CTRL_R_OPTS
   };
   programs.zoxide = {
     enable = true;
@@ -118,14 +125,6 @@ in
       ];
 
       LESS = "-iRXF";
-
-      FZF_DEFAULT_COMMAND = "fd --hidden --strip-cwd-prefix --exclude .git --exclude node_modules";
-      FZF_CTRL_T_COMMAND = config.programs.zsh.localVariables.FZF_DEFAULT_COMMAND;
-      FZF_CTRL_T_OPTS = "--preview '${show_file_or_dir_preview}'";
-      FZF_ALT_C_COMMAND = "fd --type=d --hidden --strip-cwd-prefix --exclude .git --exclude node_modules";
-      FZF_ALT_C_OPTS = "--preview 'eza --tree --color=always {} | head -200'";
-      FZF_CTRL_R_OPTS = "--preview 'echo {}' --preview-window down:3:hidden:wrap --bind 'ctrl-t:toggle-preview'";
-      FZF_DEFAULT_OPTS = "--bind=ctrl-t:toggle-all --bind=ctrl-j:jump";
     };
     initExtraFirst = ''
       [[ $TERM == "tramp" ]] && unsetopt zle && PS1='$ ' && return
@@ -146,7 +145,6 @@ in
         fi
       fi
 
-      eval "$(fzf --zsh)"
       autopair-init
       enable-fzf-tab
 
