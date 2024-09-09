@@ -64,7 +64,9 @@ in
       mkdir = "mkdir -v";
       cat = "bat -p";
       l = "eza";
+      la = "eza -a";
       ll = "\\eza --icons --git --colour --long --group-directories-first --classify";
+      lla = "ll -a";
       t = "eza --tree";
 
       pp = ''pushbullet push "Pixel" link "''${1}" "''${1}"'';

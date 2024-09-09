@@ -124,6 +124,10 @@ in
     enable = true;
     git = true;
     icons = true;
+    enableBashIntegration = false;
+    enableZshIntegration = false;
+    enableFishIntegration = false;
+    enableIonIntegration = false;
     extraOptions = [
       "--colour=auto"
       "--long"
