@@ -331,11 +331,6 @@ in
           file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
         }
         {
-          name = "zsh-history-substring-search";
-          src = zsh-history-substring-search;
-          file = "share/zsh-history-substring-search/zsh-history-substring-search.zsh";
-        }
-        {
           name = "zsh-forgit";
           src = zsh-forgit;
           file = "share/zsh/zsh-forgit/forgit.plugin.zsh";
