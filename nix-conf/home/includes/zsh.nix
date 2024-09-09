@@ -115,9 +115,6 @@ in
         "completion"
       ];
 
-      NVM_AUTO_USE = true;
-      NVM_LAZY_LOAD = true;
-
       LESS = "-iRXF";
 
       FZF_DEFAULT_COMMAND = "fd --hidden --strip-cwd-prefix --exclude .git --exclude node_modules";
@@ -362,18 +359,6 @@ in
             sha256 = "7Z0qaDhgopKt9BDKSqdziw9jsVgiLLafs30wPPbz+oo=";
           };
           file = "per-directory-history.zsh";
-        }
-      ]
-      ++ optionals stdenv.isDarwin [
-        {
-          name = "zsh-nvm";
-          src = fetchFromGitHub {
-            owner = "lukechilds";
-            repo = "zsh-nvm";
-            rev = "23067bd9bb6eb6f4737a3ea90cb0cb5e85f61ba2";
-            sha256 = "Zwdi7bezMFKaIKYwsSftu3mJSFvadEWmY2hYnU1Kpu4=";
-          };
-          file = "zsh-nvm.plugin.zsh";
         }
       ];
   };
