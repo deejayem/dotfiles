@@ -72,7 +72,10 @@ in
   };
 
   programs.bat.extraPackages = with pkgs.bat-extras; [
-    prettybat
+    (prettybat.override {
+      withClangTools = false;
+      withRustFmt = false;
+    })
   ];
 
 }
