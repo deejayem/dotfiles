@@ -86,6 +86,7 @@ in
     ripgrep
     rlwrap
     sd
+    shfmt
     sops
     ssh-to-age
     tealdeer
@@ -95,6 +96,7 @@ in
     uni
     unzip
     w3m
+    yq
     zstd
 
     unstable.nixfmt-rfc-style
@@ -109,6 +111,7 @@ in
       batman
       batwatch
       batpipe
+      prettybat
     ];
     config = {
       style = "full";
