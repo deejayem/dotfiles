@@ -70,4 +70,9 @@ in
     keep-outputs = true;
     keep-derivations = true;
   };
+
+  programs.bat.extraPackages = with pkgs.bat-extras; [
+    prettybat
+  ];
+
 }

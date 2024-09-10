@@ -111,7 +111,6 @@ in
       batman
       batwatch
       batpipe
-      prettybat
     ];
     config = {
       style = "full";
