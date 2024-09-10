@@ -47,7 +47,11 @@ in
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    autosuggestion.enable = true;
+    # TODO: put strategy here after 24.11 is released
+    autosuggestion = {
+      enable = true;
+      highlight = "fg=#808080";
+    };
     defaultKeymap = "emacs";
     history = {
       expireDuplicatesFirst = true;
@@ -119,6 +123,7 @@ in
       PER_DIRECTORY_HISTORY_TOGGLE = "^\\\\"; # ^\\ is ^#
       HISTORY_START_WITH_GLOBAL = true;
 
+      # TODO move to programs.zsh.autosuggestion.strategy when 24.11 is released
       ZSH_AUTOSUGGEST_STRATEGY = [
         "history"
         "completion"
