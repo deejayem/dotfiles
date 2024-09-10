@@ -60,7 +60,10 @@ in
       share = true;
       size = 100000;
     };
-    historySubstringSearch.enable = true;
+    historySubstringSearch = {
+      enable = true;
+      searchUpKey = "$terminfo[kcuu1]";
+    };
 
     profileExtra = ''
       [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]] && . ~/.nix-profile/etc/profile.d/nix.sh
