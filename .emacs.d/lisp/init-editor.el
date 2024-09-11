@@ -157,7 +157,6 @@
                        elpaca--pre-built-steps elpaca-build-steps))
           (list '+elpaca-unload-xref'elpaca--activate-package)))
 
-;;(elpaca `(xref :build ,(+elpaca-xref-build-steps)))
 (use-package xref
   :ensure `(xref :build ,(+elpaca-xref-build-steps))
   :custom (xref-search-program 'ripgrep)
