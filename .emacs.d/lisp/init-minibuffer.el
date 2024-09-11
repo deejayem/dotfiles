@@ -448,7 +448,7 @@ See `+become-consult-line'."
 (use-package embark
   :bind
   (("C-." . embark-act)
-   ("M-." . embark-dwim)
+   ([remap xref-find-definitions] . embark-dwim)
    ("C-c C-o" . embark-export)
    ("C-h b" . embark-bindings)
    ("C-h B" . describe-bindings)
