@@ -103,9 +103,12 @@ let
     # and https://github.com/NixOS/nixpkgs/blob/4877ea239f4d02410c3516101faf35a81af0c30e/pkgs/development/compilers/openjdk/jre.nix#L32
     passthru.home = "${zscaler-jdk}"; # make sure JAVA_HOME is set
     installPhase =
+      # This is probably equivalent to
+      # $out/bin/keytool -import -noprompt -trustcacerts -alias zscalerrootca -keystore $out/lib/security/cacerts <<< "${zscaler-cert}"
+      # but follow the zscaler instructions just in case
       old.installPhase
       + ''
-        $out/bin/keytool -import -noprompt -trustcacerts -alias zscalerrootca -keystore $out/lib/security/cacerts <<< "${zscaler-cert}"
+        ${pkgs.openssl}/bin/openssl x509 -inform pem -outform der <<< "${zscaler-cert}" | $out/bin/keytool -import -noprompt -trustcacerts -alias zscalerrootca -keystore $out/lib/security/cacerts
       '';
   });
 
