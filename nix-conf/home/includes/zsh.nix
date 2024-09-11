@@ -79,6 +79,7 @@ in
       cat = "bat -p";
       l = "eza";
       la = "eza -a";
+      lg = "eza -G";
       ll = "\\eza --icons --git --colour --long --group-directories-first --classify";
       lla = "ll -a";
       t = "eza --tree";
