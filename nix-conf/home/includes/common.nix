@@ -73,7 +73,6 @@ in
     jq
     libqalculate
     lscolors
-    lsd
     lynx
     mercurial
     nix-info
@@ -329,6 +328,24 @@ in
     signing = {
       key = "9B436B1477A879C26CDB6604C171251002C200F2";
       signByDefault = true;
+    };
+  };
+
+  programs.lsd = {
+    enable = true;
+    settings = {
+      indicators = true;
+      #layout = "oneline";
+      sorting.dir-grouping = "first";
+      blocks = [
+        "git"
+        "permission"
+        "user"
+        "group"
+        "size"
+        "date"
+        "name"
+      ];
     };
   };
 }
