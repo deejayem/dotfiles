@@ -22,6 +22,7 @@ in
       gopass-jsonapi
       multimarkdown
       neovim
+      ripgrep-all
     ]
     ++ optionals (!stdenv.isDarwin) [
       ffmpeg
