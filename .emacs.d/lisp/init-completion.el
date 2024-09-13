@@ -109,6 +109,7 @@ no words in between, beginning with the first word."
     (orderless-strict-initialism component t))
 
   (setf (alist-get ?, orderless-affix-dispatch-alist) #'orderless-strict-leading-initialism)
+  (add-to-list 'orderless-affix-dispatch-alist '(?` . orderless-strict-initialism) t)
 
   ;; Copied from https://github.com/minad/consult/wiki#minads-orderless-configuration
   (defun +orderless--consult-suffix ()
