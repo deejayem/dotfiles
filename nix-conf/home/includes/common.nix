@@ -78,6 +78,7 @@ in
     nix-info
     nix-prefetch-git
     nix-prefetch-github
+    nix-search-cli
     nixpkgs-review
     nvd
     pass
