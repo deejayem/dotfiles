@@ -227,7 +227,7 @@ DEFS is a plist associating completion categories to commands."
                ("G" . consult-git-grep)
                ("r" . consult-ripgrep)
                ("R" . consult-ripgrep) ;; can't use r in isearch-mode, so add R too
-               ("M-r" . consult-ripgrep-unrestricted)
+               ("u" . consult-ripgrep-unrestricted)
                ("*" . consult-ripgrep-thing-at-point)
                ("z" . consult-z-ripgrep)
                ("^" . consult-ripgrep-parent)
@@ -235,7 +235,7 @@ DEFS is a plist associating completion categories to commands."
                ("L" . consult-line-multi)
                ("m" . consult-multi-occur)
                ("k" . consult-keep-lines)
-               ("u" . consult-focus-lines)
+               ("C-f" . consult-focus-lines)
                ("e" . consult-isearch-history))
          (:map vertico-map
                ;; These are used for previewing with some consult commands (see consult-customize call below)
@@ -491,8 +491,11 @@ The leading # added by other consult commands is removed."
   :bind
   (:map embark-consult-async-search-map
         ("l" . +become-consult-line)
+        ("f" . consult-focus-lines)
         ("^" . consult-ripgrep-parent)
-        ("R" . consult-ripgrep-unrestricted))
+        ("u" . consult-ripgrep-unrestricted)
+        ("c" . consult-ripgrep-case-sensitive)
+        ("z" . consult-z-ripgrep))
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 

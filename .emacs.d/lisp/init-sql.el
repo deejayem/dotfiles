@@ -46,7 +46,7 @@
   :hook
   (sql-mode . sqlup-mode)
   (sql-interactive-mode . sqlup-mode)
-  :bind ("C-c c u" . sqlup-capitalize-keywords-in-region))
+  :bind ("C-c c C-u" . sqlup-capitalize-keywords-in-region))
 
 (use-package sql-indent
   :commands sqlind-minor-mode)
