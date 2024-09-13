@@ -64,9 +64,13 @@
   (orderless-component-separator 'orderless-escapable-split-on-space)
   (completion-styles '(orderless partial-completion basic))
   (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles . (partial-completion orderless)))))
+  (completion-category-overrides '((file (styles partial-completion orderless))
+                                   (command (styles +orderless-with-strict-leading-initialism))
+                                   (variable (styles +orderless-with-strict-leading-initialism))
+                                   (symbol (styles +orderless-with-strict-leading-initialism))))
   (orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-initialism))
-  (orderless-style-dispatchers '(+orderless-dispatch))
+  (orderless-style-dispatchers (list #'+orderless-consult-dispatch
+                                     #'orderless-affix-dispatch))
   :config
   ;; Inspired by https://github.com/oantolin/orderless/blob/ac4aeb66f331f4c4a430d5556071e33177304c37/README.org#interactively-changing-the-configuration
   (defun orderless-toggle-literal-matching ()
@@ -104,48 +108,35 @@ candidate, in that order, at the beginning of words, with
 no words in between, beginning with the first word."
     (orderless-strict-initialism component t))
 
-  ;; based on https://github.com/minad/consult/wiki#minads-orderless-configuration
-  (defvar +orderless-dispatch-alist
-    '((?% . char-fold-to-regexp)
-      (?! . orderless-without-literal)
-      (?` . orderless-strict-leading-initialism)
-      (?= . orderless-literal)
-      (?_ . orderless-prefix)
-      (?~ . orderless-flex)))
+  (setf (alist-get ?, orderless-affix-dispatch-alist) #'orderless-strict-leading-initialism)
 
-  (defun +orderless--suffix-regexp ()
+  ;; Copied from https://github.com/minad/consult/wiki#minads-orderless-configuration
+  (defun +orderless--consult-suffix ()
+    "Regexp which matches the end of string with Consult tofu support."
     (if (and (boundp 'consult--tofu-char) (boundp 'consult--tofu-range))
         (format "[%c-%c]*$"
                 consult--tofu-char
                 (+ consult--tofu-char consult--tofu-range -1))
       "$"))
 
+  ;; Copied from https://github.com/minad/consult/wiki#minads-orderless-configuration
   ;; Recognizes the following patterns:
-  ;; * ~flex flex~
-  ;; * =literal literal=
-  ;; * _prefix prefix_
-  ;; * %char-fold char-fold%
-  ;; * `strict-leading-initialism strict-leading-initialism`
-  ;; * !without-literal without-literal!
   ;; * .ext (file extension)
   ;; * regexp$ (regexp matching at end)
-  (defun +orderless-dispatch (word _index _total)
+  (defun +orderless-consult-dispatch (word _index _total)
     (cond
      ;; Ensure that $ works with Consult commands, which add disambiguation suffixes
      ((string-suffix-p "$" word)
-      `(orderless-regexp . ,(concat (substring word 0 -1) (+orderless--suffix-regexp))))
+      `(orderless-regexp . ,(concat (substring word 0 -1) (+orderless--consult-suffix))))
      ;; File extensions
      ((and (or minibuffer-completing-file-name
                (derived-mode-p 'eshell-mode))
            (string-match-p "\\`\\.." word))
-      `(orderless-regexp . ,(concat "\\." (substring word 1) (+orderless--suffix-regexp))))
-     ;; Ignore single !
-     ((equal "!" word) `(orderless-literal . ""))
-     ;; Prefix and suffix
-     ((if-let (x (assq (aref word 0) +orderless-dispatch-alist))
-          (cons (cdr x) (substring word 1))
-        (when-let (x (assq (aref word (1- (length word))) +orderless-dispatch-alist))
-          (cons (cdr x) (substring word 0 -1))))))))
+      `(orderless-regexp . ,(concat "\\." (substring word 1) (+orderless--consult-suffix))))))
+
+  ;; Based on https://github.com/minad/consult/wiki#minads-orderless-configuration
+  (orderless-define-completion-style +orderless-with-strict-leading-initialism
+    (orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-initialism))))
 
 ;; code completion - corfu
 (use-package corfu
