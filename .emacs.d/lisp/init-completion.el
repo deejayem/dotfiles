@@ -136,7 +136,7 @@ no words in between, beginning with the first word."
 
   ;; Based on https://github.com/minad/consult/wiki#minads-orderless-configuration
   (orderless-define-completion-style +orderless-with-strict-leading-initialism
-    (orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-initialism))))
+    (orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-leading-initialism))))
 
 ;; code completion - corfu
 (use-package corfu
