@@ -236,7 +236,7 @@ DEFS is a plist associating completion categories to commands."
                ("m" . consult-multi-occur)
                ("k" . consult-keep-lines)
                ("u" . consult-focus-lines)
-               ("e" . consult-isearch))
+               ("e" . consult-isearch-history))
          (:map vertico-map
                ;; These are used for previewing with some consult commands (see consult-customize call below)
                ("C-S-p" . vertico-previous)
