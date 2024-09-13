@@ -72,7 +72,8 @@ Or remove all highlighted symbols in the current buffer (with`ARG')."
   :bind
   ("C-c o" . symbol-overlay-put-or-clear)
   ("M-N" . symbol-overlay-switch-forward)
-  ("M-P" . symbol-overlay-switch-backward))
+  ("M-P" . symbol-overlay-switch-backward)
+  (:map symbol-overlay-map ("o" . symbol-overlay-put-or-clear)))
 
 (use-package gumshoe
   :after perspective
