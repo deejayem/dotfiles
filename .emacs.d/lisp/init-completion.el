@@ -55,8 +55,11 @@
 
 (use-package orderless
   :defer 2
-  :bind (:map minibuffer-local-map
-              ("C-l" . my/orderless-match-components-literally))
+  :bind
+  (:map minibuffer-local-map
+        ("C-l" . orderless-toggle-literal-matching))
+  (:map corfu-map
+        ("C-l" . orderless-toggle-literal-matching))
   :custom
   (orderless-component-separator 'orderless-escapable-split-on-space)
   (completion-styles '(orderless partial-completion basic))
@@ -65,11 +68,24 @@
   (orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-initialism))
   (orderless-style-dispatchers '(+orderless-dispatch))
   :config
-  (defun my/orderless-match-components-literally ()
-    "Components match literally for the rest of the session."
+  ;; Inspired by https://github.com/oantolin/orderless/blob/ac4aeb66f331f4c4a430d5556071e33177304c37/README.org#interactively-changing-the-configuration
+  (defun orderless-toggle-literal-matching ()
+    "Toggle matching components literally for the rest of the session."
     (interactive)
-    (setq-local orderless-matching-styles '(orderless-literal)
-                orderless-style-dispatchers nil))
+    (if orderless-style-dispatchers
+        (progn
+          (setq-local +saved-orderless-matching-styles orderless-matching-styles
+                      +saved-orderless-style-dispatchers orderless-style-dispatchers)
+          (setq-local orderless-matching-styles '(orderless-literal)
+                      orderless-style-dispatchers nil))
+      (setq-local orderless-matching-styles +saved-orderless-matching-styles
+                  orderless-style-dispatchers +saved-orderless-style-dispatchers))
+    (when vertico--input
+      (setq vertico--input t)
+      (vertico--update))
+    (when corfu--input
+      (setq corfu--input t)
+      (corfu--update)))
 
   (defun orderless-strict-initialism (component &optional leading)
     "Match a component as a strict initialism.
