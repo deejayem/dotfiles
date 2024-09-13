@@ -482,7 +482,8 @@ See `+become-consult-line'."
   :demand t
   :config
   (defun +become-consult-line ()
-    "TODO."
+    "A version of `consult-line', designed for use with `embark-become'.
+The leading # added by other consult commands is removed."
     (interactive)
     (progn
       (setq unread-command-events (listify-key-sequence "\C-x\C-\M-x"))
