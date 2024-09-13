@@ -403,7 +403,7 @@ DEFS is a plist associating completion categories to commands."
     "Remove a # character from the beginning of the current line.
 
 Designed to be used for consult commands that automatically add a # at the beginning of the minibuffer.
-See `+become-consult-line'."
+See `+become' and the functions that call it (e.g. `+become-consult-line')."
     (interactive)
     (save-excursion
       (beginning-of-line)
@@ -481,17 +481,27 @@ See `+become-consult-line'."
   ;; See https://github.com/oantolin/embark/commit/47daded610b245caf01a97d74c940aff91fe14e2#r46010972
   :demand t
   :config
+  (defun +become (fn)
+    "Remove the leading # from the minibuffer, and call `FN'.
+Useful with embark-become, when changing from a command that uses # as a separator, to one that doesn't."
+    (interactive)
+    (setq unread-command-events (listify-key-sequence "\C-x\C-\M-x"))
+    (funcall-interactively fn))
   (defun +become-consult-line ()
     "A version of `consult-line', designed for use with `embark-become'.
 The leading # added by other consult commands is removed."
     (interactive)
-    (progn
-      (setq unread-command-events (listify-key-sequence "\C-x\C-\M-x"))
-      (consult-line)))
+    (+become #'consult-line))
+  (defun +become-consult-line ()
+    "A version of `consult-imenu', designed for use with `embark-become'.
+The leading # added by other consult commands is removed."
+    (interactive)
+    (+become #'consult-imenu))
   :bind
   (:map embark-consult-async-search-map
         ("l" . +become-consult-line)
         ("f" . consult-focus-lines)
+        ("i" . +become-consult-imenu)
         ("^" . consult-ripgrep-parent)
         ("u" . consult-ripgrep-unrestricted)
         ("c" . consult-ripgrep-case-sensitive)
