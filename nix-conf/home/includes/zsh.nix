@@ -17,10 +17,17 @@ in
     changeDirWidgetCommand = "fd --type=d --hidden --strip-cwd-prefix --exclude .git --exclude node_modules"; # FZF_ALT_C_COMMAND
     changeDirWidgetOptions = [ "--preview 'eza --tree --color=always {} | head -200'" ]; # FZF_ALT_C_OPTS
     defaultCommand = "fd --hidden --strip-cwd-prefix --exclude .git --exclude node_modules"; # FZF_DEFAULT_COMMAND
-    defaultOptions = [ "--bind=ctrl-t:toggle-all" "--bind=ctrl-j:jump" ]; # FZF_DEFAULT_OPTS
-    fileWidgetCommand = config.programs.fzf.defaultCommand;  # FZF_CTRL_T_COMMAND
+    defaultOptions = [
+      "--bind=ctrl-t:toggle-all"
+      "--bind=ctrl-j:jump"
+    ]; # FZF_DEFAULT_OPTS
+    fileWidgetCommand = config.programs.fzf.defaultCommand; # FZF_CTRL_T_COMMAND
     fileWidgetOptions = [ "--preview '${show_file_or_dir_preview}'" ]; # FZF_CTRL_T_OPTS
-    historyWidgetOptions = [ "--preview 'echo {}'" "--preview-window down:3:hidden:wrap" "--bind 'ctrl-t:toggle-preview'" ]; # FZF_CTRL_R_OPTS
+    historyWidgetOptions = [
+      "--preview 'echo {}'"
+      "--preview-window down:3:hidden:wrap"
+      "--bind 'ctrl-t:toggle-preview'"
+    ]; # FZF_CTRL_R_OPTS
   };
   programs.zoxide = {
     enable = true;
@@ -312,59 +319,57 @@ in
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
     '';
 
-    plugins =
-      with pkgs;
-      [
-        {
-          name = "zsh-autopair";
-          src = zsh-autopair;
-          file = "share/zsh/zsh-autopair/autopair.zsh";
-        }
-        {
-          name = "zsh-bd";
-          src = zsh-bd;
-          file = "share/zsh-bd/bd.zsh";
-        }
-        {
-          name = "zsh-fzf-tab";
-          src = zsh-fzf-tab;
-          file = "share/fzf-tab/fzf-tab.zsh";
-        }
-        {
-          name = "zsh-fast-syntax-highlighting";
-          src = zsh-fast-syntax-highlighting;
-          file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
-        }
-        {
-          name = "zsh-powerlevel10k";
-          src = zsh-powerlevel10k;
-          file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-        }
-        {
-          name = "zsh-forgit";
-          src = zsh-forgit;
-          file = "share/zsh/zsh-forgit/forgit.plugin.zsh";
-        }
-        {
-          name = "zsh-edit";
-          src = zsh-edit;
-          file = "share/zsh/zsh-edit/zsh-edit.plugin.zsh";
-        }
-        {
-          name = "fzf-git.sh";
-          src = fzf-git-sh;
-          file = "share/fzf-git-sh/fzf-git.sh";
-        }
-        {
-          name = "per-directory-history";
-          src = fetchFromGitHub {
-            owner = "jimhester";
-            repo = "per-directory-history";
-            rev = "0687bbfd736da566472a6d67c2b45c501b73d405";
-            sha256 = "7Z0qaDhgopKt9BDKSqdziw9jsVgiLLafs30wPPbz+oo=";
-          };
-          file = "per-directory-history.zsh";
-        }
-      ];
+    plugins = with pkgs; [
+      {
+        name = "zsh-autopair";
+        src = zsh-autopair;
+        file = "share/zsh/zsh-autopair/autopair.zsh";
+      }
+      {
+        name = "zsh-bd";
+        src = zsh-bd;
+        file = "share/zsh-bd/bd.zsh";
+      }
+      {
+        name = "zsh-fzf-tab";
+        src = zsh-fzf-tab;
+        file = "share/fzf-tab/fzf-tab.zsh";
+      }
+      {
+        name = "zsh-fast-syntax-highlighting";
+        src = zsh-fast-syntax-highlighting;
+        file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
+      }
+      {
+        name = "zsh-powerlevel10k";
+        src = zsh-powerlevel10k;
+        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
+      }
+      {
+        name = "zsh-forgit";
+        src = zsh-forgit;
+        file = "share/zsh/zsh-forgit/forgit.plugin.zsh";
+      }
+      {
+        name = "zsh-edit";
+        src = zsh-edit;
+        file = "share/zsh/zsh-edit/zsh-edit.plugin.zsh";
+      }
+      {
+        name = "fzf-git.sh";
+        src = fzf-git-sh;
+        file = "share/fzf-git-sh/fzf-git.sh";
+      }
+      {
+        name = "per-directory-history";
+        src = fetchFromGitHub {
+          owner = "jimhester";
+          repo = "per-directory-history";
+          rev = "0687bbfd736da566472a6d67c2b45c501b73d405";
+          sha256 = "7Z0qaDhgopKt9BDKSqdziw9jsVgiLLafs30wPPbz+oo=";
+        };
+        file = "per-directory-history.zsh";
+      }
+    ];
   };
 }
