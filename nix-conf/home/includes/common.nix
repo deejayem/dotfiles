@@ -70,6 +70,7 @@ in
     inetutils
     ispell
     isync
+    jd-diff-patch
     jq
     libqalculate
     lscolors
