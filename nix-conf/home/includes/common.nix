@@ -8,6 +8,20 @@ let
   hcr = pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
   scr = pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; };
   unstable = import <unstable> { };
+
+  nix-search = (
+    pkgs.buildGoModule {
+      pname = "nix-search";
+      version = "0.3.1";
+      src = pkgs.fetchFromGitHub {
+        owner = "diamondburned";
+        repo = "nix-search";
+        rev = "e616ac1c82a616fa6e6d8c94839c5052eb8c808d";
+        hash = "sha256-h9yYOjL9i/m0r5NbqMcLMFNnwSKsIgfUr5qk+47pOtc=";
+      };
+      vendorHash = "sha256-bModWDH5Htl5rZthtk/UTw/PXT+LrgyBjsvE6hgIePY=";
+    }
+  );
 in
 {
   imports = [
@@ -79,7 +93,7 @@ in
     nix-info
     nix-prefetch-git
     nix-prefetch-github
-    nix-search-cli
+    nix-search
     nixpkgs-review
     nvd
     pass
