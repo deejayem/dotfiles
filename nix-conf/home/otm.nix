@@ -113,6 +113,10 @@ let
   });
 
   zscaler-lein = pkgs.leiningen.override { jdk = zscaler-jdk; };
+
+  toggle = pkgs.writeShellScriptBin "remote-toggle" ''
+    ssh -nT pi "playerctl play-pause" 2>/dev/null
+  '';
 in
 {
   imports = [ ./includes/darwin.nix ];
@@ -146,7 +150,10 @@ in
     yarn_build = "aws codeartifact login --tool npm --repository otm-js --domain otm --domain-owner 103567893073 --region eu-west-1 --profile aws_otm_dev_developers && yarn && yarn build && notify";
   };
 
-  home.packages = with pkgs; [ zscaler-lein ];
+  home.packages = with pkgs; [
+    zscaler-lein
+    toggle
+  ];
 
   home.file = {
     "certs/zscaler-cert.pem".source = zscaler-cert-file;
@@ -154,6 +161,8 @@ in
     "certs/full-cert.pem".source = full-cert-file;
     "certs/internal-ca.pem".text = internal-cert;
     "certs/staging-internal-ca.pem".text = internal-staging-cert;
+
+    ".skhdrc".text = "play : remote-toggle";
   };
 
   sops.secrets = {
