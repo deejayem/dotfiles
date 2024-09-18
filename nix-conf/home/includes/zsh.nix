@@ -210,21 +210,29 @@ in
       # vip  # edits the first result from ea (roughly equivalent to vi `ea p 1`)
       # vip <n> # edits the nth result from ea (vi `ea p <n>`)
       # vip <n> foo # if the nth result from ea is a directory, edit foo in that directory (vi `ea p <n>`/foo)
+      # Will add +<line-number>, where the line number is available
       function _vip () {
-        CMD=(''${=1}) # zsh only, not portable; something like CMD=($(echo $1)) is more portable but is ugly
-        BASE_PATH=$(ea p ''${2:-1})
+        local cmd=(''${=1}) # zsh only, not portable; something like CMD=($(echo $1)) is more portable but is ugly
+        local idx=''${2:-1}
+        local base_path=$(ea p $idx)
+        local line=$(ea p $idx "{line}")
+        local ea_format="'{path}'"
 
-        if [ -z "$BASE_PATH" ]; then
+        if [ -z "$base_path" ]; then
           echo "No file path found for index $2"
           return 1
         fi
 
-        if [ $# -gt 2 -a ! -d "$BASE_PATH" ]; then
-          echo "$BASE_PATH is not a directory"
+        if [ $# -gt 2 -a ! -d "$base_path" ]; then
+          echo "$base_path is not a directory"
           return 2
         fi
 
-        $CMD "''${BASE_PATH}''${3}"
+        if [ $# -lt 3 -a $line -ne 1 ]; then
+          ea_format+=" +{line}"
+        fi
+
+        eval $(ea p $idx "$cmd ''${ea_format}$3")
       }
 
       function vip () {
