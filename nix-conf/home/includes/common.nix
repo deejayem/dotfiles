@@ -261,6 +261,22 @@ in
         identityFile = "~/.ssh/id_ed25519";
         identitiesOnly = true;
       };
+      "hb-backup" = {
+        hostname = "de1.hashbang.sh";
+        identityFile = "~/.ssh/hb_backup_key";
+        identitiesOnly = true;
+      };
+      "bs-backup" = {
+        hostname = "ssh.blinkenshell.org";
+        port = 2222;
+        identityFile = "~/.ssh/bs_backup_key";
+        identitiesOnly = true;
+      };
+      "tt-backup" = {
+        hostname = "tilde.team";
+        identityFile = "~/.ssh/tt_backup_key";
+        identitiesOnly = true;
+      };
     };
   };
 
