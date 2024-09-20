@@ -119,10 +119,5 @@ Or remove all highlighted symbols in the current buffer (with`ARG')."
   ("C-c C-l" . link-hint-open-link)
   ("C-c C-S-l" . link-hint-copy-link))
 
-(use-package dumb-jump
-  :defer 5
-  :custom (dumb-jump-force-searcher 'rg)
-  :config (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
-
 (provide 'init-navigation)
 ;;; init-navigation.el ends here
