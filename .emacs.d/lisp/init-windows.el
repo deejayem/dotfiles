@@ -152,7 +152,7 @@ This is based on the frame width, with the threshold being customised using
                                           ("P" "[project]" frog-jump-buffer-filter-same-project)
                                           ("S" "[similar]" frog-jump-buffer-filter-similar-name)))
   :bind
-  ("C-," . frog-jump-buffer)
+  ("C-c C-," . frog-jump-buffer)
   ("C-x 4 C-," . frog-jump-buffer-other-window))
 
 (use-package buffer-ring
