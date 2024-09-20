@@ -339,7 +339,9 @@ GitHub/Bitbucket/GitLab/... The URL will be added to the kill ring.  If
   ("C-c g b" . git-link-branch))
 
 (use-feature git-related
-  :defer 10)
+  :bind
+  ("C-c g #" . git-related-find-file)
+  ("C-c g ~" . git-related-update))
 
 (provide 'init-git)
 ;;; init-git.el ends here
