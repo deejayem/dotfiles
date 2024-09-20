@@ -125,7 +125,6 @@
   (undo-tree-auto-save-history t))
 
 (use-feature abbrev
-  :defer 5
   :diminish
   :hook
   (text-mode . abbrev-mode)

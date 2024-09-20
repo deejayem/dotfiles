@@ -54,7 +54,6 @@
         completion-ignore-case t))
 
 (use-package orderless
-  :defer 2
   :bind
   (:map minibuffer-local-map
         ("C-l" . orderless-toggle-literal-matching))
