@@ -220,8 +220,9 @@
   :hook (elpaca-after-init . editorconfig-mode))
 
 (use-package titlecase
-  ;; TODO find a better binding
-  :bind ("C-c c t t" . titlecase-dwim))
+  :bind (("C-c c t t" . titlecase-dwim)
+         (:map embark-heading-map ("T" . titlecase-line))
+         (:map embark-region-map ("T" . titlecase-region))))
 
 (use-package caser
   :ensure (caser :host github :repo "emacsmirror/caser")
