@@ -26,6 +26,7 @@
   (lsp-lens-mode . really-diminish-lsp-lens-mode)
   (lsp-completion-mode . my/lsp-mode-setup-completion)
   (sql-mode . lsp)
+  (lsp-after-apply-edits . save-buffer)
   :config
   (defun really-diminish-lsp-lens-mode ()
     (diminish 'lsp-lens-mode)
