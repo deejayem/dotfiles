@@ -449,7 +449,7 @@ See `+become' and the functions that call it (e.g. `+become-consult-line')."
 (use-package embark
   :bind
   (("C-." . embark-act)
-   ([remap xref-find-definitions] . embark-dwim)
+   ("M-." . embark-dwim)
    ("C-c C-o" . embark-export)
    ("C-h b" . embark-bindings)
    ("C-h B" . describe-bindings)
