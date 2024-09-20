@@ -74,7 +74,6 @@
           ".config"
           ".directory_history"
           ".local"
-          "BTS"
           "nixpkgs"
         ];
         extraBackupArgs = [
@@ -103,7 +102,6 @@
           ".config"
           ".directory_history"
           ".local"
-          "BTS"
           "nixpkgs"
         ];
         extraBackupArgs = [
@@ -132,7 +130,6 @@
           ".config"
           ".directory_history"
           ".local"
-          "BTS"
           "nixpkgs"
         ];
         extraBackupArgs = [
