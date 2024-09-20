@@ -37,7 +37,7 @@
          (format "SQL history will not be saved because %s is nil"
                  (symbol-name rval))))))
 
-  (add-hook 'sql-interactive-mode-hook 'my-sql-save-history-hook))
+  :hook (sql-interactive-mode . my-sql-save-history-hook))
 
 
 (use-package sqlup-mode
