@@ -70,6 +70,7 @@ in
     historySubstringSearch = {
       enable = true;
       searchUpKey = "$terminfo[kcuu1]";
+      searchDownKey = "$terminfo[kcud1]";
     };
 
     profileExtra = ''
