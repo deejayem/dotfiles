@@ -45,7 +45,7 @@ in
   sops = {
     age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
     defaultSopsFile = builtins.path {
-      path = ./../../secrets/home.yaml;
+      path = ./secrets.yaml;
       name = "home-secrets.yaml";
     };
     secrets."ssh_config/oci" = { };

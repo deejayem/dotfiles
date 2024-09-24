@@ -20,7 +20,7 @@
 
   sops = {
     defaultSopsFile = builtins.path {
-      path = /etc/nixos/secrets/edrahil.yaml;
+      path = /etc/nixos/secrets.yaml;
       name = "edrahil-secrets.yaml";
     };
     secrets.restic_password = {

@@ -38,7 +38,7 @@
 
   # Emulate nix-sops. Technically an anti-pattern, but this isn't a real secret, and this has to be embedded here, as we cannot set a file path to read it from.
   # Populate/update with:
-  # SOPS_AGE_KEY=$(doas ssh-to-age -private-key -i /etc/ssh/ssh_host_ed25519_key) sops -d --extract '["openiscsi_name"]' secrets/djmuk2.yaml | doas tee /root/.config/secrets/openiscsi_name
+  # SOPS_AGE_KEY=$(doas ssh-to-age -private-key -i /etc/ssh/ssh_host_ed25519_key) sops -d --extract '["openiscsi_name"]' machines/djmuk2/secrets.yaml | doas tee /root/.config/secrets/openiscsi_name
   services.openiscsi.enable = true;
   services.openiscsi.name = builtins.readFile "/root/.config/secrets/openiscsi_name";
   #services.openiscsi.enableAutoLoginOut = true;
