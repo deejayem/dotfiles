@@ -79,9 +79,12 @@
                              "%b"))))
 
   (when (eq system-type 'darwin)
-    (setq mac-option-modifier 'meta)
-    (setq mac-right-option-modifier 'none)
-    (setq mac-command-modifier 'super)))
+    (setq mac-option-modifier 'meta
+          mac-right-option-modifier 'none)
+    ;; After swapping control and command, this works nicely,
+    ;; otherwise use (setq mac-command-modifier 'super)
+    (setq mac-command-modifier 'control
+          mac-control-modifier 'super)))
 
 (use-package hl-todo
   :bind
