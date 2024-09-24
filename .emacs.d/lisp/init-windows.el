@@ -5,11 +5,8 @@
 (use-feature emacs
   :custom
   (switch-to-buffer-obey-display-actions t)
-  :config
-  (defcustom large-frame-width-threshold 500
-    "Minimum width (in chars) to consider the frame large."
-    :group 'djm
-    :type 'natnum))
+  (split-height-threshold nil)
+  (split-width-threshold 200))
 
 (use-feature ibuffer
   :bind
@@ -66,16 +63,7 @@
   (fullframe elpaca-fetch-all quit-window))
 
 (use-package transpose-frame
-  :bind (:map ctl-x-4-map ("t" . transpose-frame))
-  :config
-  (defun transpose-large-frame ()
-    "Trasnpose the window arrangement, if the frame is large.
-
-This is based on the frame width, with the threshold being customised using
-`large-frame-width-threshold'."
-    (when (> large-frame-width-threshold (frame-char-width)) (transpose-frame)))
-  :hook
-  (cider-connected . transpose-large-frame))
+  :bind (:map ctl-x-4-map ("t" . transpose-frame)))
 
 (use-package ace-window
   :diminish

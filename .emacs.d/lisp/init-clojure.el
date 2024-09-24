@@ -209,16 +209,8 @@
       (delete-other-windows)))
   (advice-add #'cider-close-ancillary-buffers :after #'fix-duplicate-windows)
 
-  (defun switch-to-cider-repl ()
-    "Wrapper around `cider-switch-to-repl-buffer' with custom functionality."
-    (interactive)
-    (if (get-buffer-window (cider-current-repl))
-        (cider-switch-to-repl-buffer)
-      (cider-switch-to-repl-buffer)
-      (transpose-large-frame)))
   :bind
   (:map cider-mode-map
-        ("C-c C-z" . switch-to-cider-repl)
         ("C-c M-l" . cider-load-file)
         ("C-c M-b" . cider-interrupt))
   (:map cider-repl-mode-map
