@@ -115,28 +115,28 @@
 DEFS is a plist associating completion categories to commands."
     (let ((default-command (lookup-key vertico-map (kbd key))))
       (define-key vertico-map (kbd key)
-        (list 'menu-item nil defs :filter
-              (lambda (d)
-                (or (plist-get d (completion-metadata-get
-                                  (completion-metadata (minibuffer-contents)
-                                                       minibuffer-completion-table
-                                                       minibuffer-completion-predicate)
-                                  'category))
-                    default-command))))))
+                  (list 'menu-item nil defs :filter
+                        (lambda (d)
+                          (or (plist-get d (completion-metadata-get
+                                            (completion-metadata (minibuffer-contents)
+                                                                 minibuffer-completion-table
+                                                                 minibuffer-completion-predicate)
+                                            'category))
+                              default-command))))))
   (define-vertico-key "/"
-    'file #'vertico-directory-slash
-    'project-file #'vertico-directory-slash)
+                      'file #'vertico-directory-slash
+                      'project-file #'vertico-directory-slash)
   (define-vertico-key "RET"
-    'file #'vertico-directory-enter-or-select-project
-    'project-file #'vertico-directory-enter)
+                      'file #'vertico-directory-enter-or-select-project
+                      'project-file #'vertico-directory-enter)
   (define-vertico-key "~"
-    'file #'vertico-directory-home)
+                      'file #'vertico-directory-home)
   (define-vertico-key "DEL"
-    'file #'vertico-directory-delete-char
-    'project-file #'vertico-directory-delete-char)
+                      'file #'vertico-directory-delete-char
+                      'project-file #'vertico-directory-delete-char)
   (define-vertico-key "M-DEL"
-    'file #'vertico-directory-delete-word
-    'project-file #'vertico-directory-delete-word)
+                      'file #'vertico-directory-delete-word
+                      'project-file #'vertico-directory-delete-word)
   :commands (vertico-directory-enter vertico-directory-delete-word vertico-directory-delete-char)
   ;; Tidy shadowed file names
   :hook (rfn-eshadow-update-overlay . vertico-directory-tidy))
