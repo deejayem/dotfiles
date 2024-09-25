@@ -80,6 +80,21 @@
          ("C-M-S-g" . minibuffer-really-quit)
          (:map vertico-map ("M-RET" . minibuffer-force-complete-and-exit))))
 
+(use-extension vertico vertico-multiform
+  :config
+  (vertico-multiform-mode +1)
+  ;; TODO how to make it toggle?
+  (defun vertico-multiform-buffer-grid ()
+    (interactive)
+    (push '(vertico-buffer-mode vertico-grid-mode) vertico-multiform--stack)
+    (vertico-multiform--toggle 1))
+  (setq vertico-multiform-commands
+        ;; See twice as manu lines
+        '((consult-line grid)))
+  (setq vertico-multiform-categories
+        '((imenu grid)))
+  :bind (:map vertico-multiform-map ("M-Q" . vertico-multiform-buffer-grid)))
+
 (use-extension vertico vertico-directory
   :config
   (defvar switching-project nil)
