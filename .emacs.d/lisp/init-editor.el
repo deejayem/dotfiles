@@ -33,14 +33,24 @@
   (setq comment-auto-fill-only-comments t)
   (setq large-file-warning-threshold 100000000)
   (setq create-lockfiles nil)
-  (setq global-auto-revert-non-file-buffers t)
-  (setq backup-by-copying t)
+  (setq global-auto-revert-non-file-buffers t
+        revert-without-query (list ".")
+        auto-revert-stop-on-user-input nil)
+  (setq backup-by-copying t
+        delete-old-versions t
+        version-control t
+        kept-new-versions 5
+        kept-old-versions 5)
   (setq backup-directory-alist
         `((".*" . ,temporary-file-directory))
         auto-save-file-name-transforms
-        `((".*" ,temporary-file-directory t)))
+        `((".*" ,temporary-file-directory t))
+        auto-save-include-big-deletions t)
+  (setq comment-multi-line t
+        comment-empty-lines t)
 
-  (setq save-place-file (expand-file-name "saveplace" save-dir))
+  (setq save-place-file (expand-file-name "saveplace" save-dir)
+        save-place-limit 800)
   ;; https://git.sr.ht/~technomancy/better-defaults/tree/master/item/better-defaults.el
   (setq save-interprogram-paste-before-kill t
         apropos-do-all t
@@ -50,11 +60,12 @@
   (setq ffap-machine-p-local 'accept
         ffap-machine-p-known 'reject
         ffap-machine-p-unkown 'reject)
-  ;; https://github.com/natecox/dotfiles/blob/master/workspaces/shared/symlinks/emacs/.emacs.d/nathancox.org
+
   (setq sentence-end-double-space nil)
-  (set-charset-priority 'unicode)
-  (setq locale-coding-system 'utf-8)
-  (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+  (set-language-environment "UTF-8")
+  ;; TODO is this needed? (See https://github.com/jamescherti/minimal-emacs.d)
+  ;; (setq default-input-method nil)
+
   (set-default 'imenu-auto-rescan t))
 
 (use-package move-text
@@ -72,6 +83,7 @@
   (savehist-additional-variables '(search-ring regexp-search-ring))
   (savehist-autosave-interval 60)
   (savehist-file (expand-file-name "savehist" save-dir))
+  (history-length 300)
   :hook (elpaca-after-init . savehist-mode))
 
 (use-package super-save

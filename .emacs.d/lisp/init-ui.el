@@ -47,6 +47,7 @@
                         (define-key view-mode-map (kbd "p") 'scroll-down-command)
                         (define-key view-mode-map (kbd "n") 'scroll-up-command)))))
   :config
+  (setq-default display-line-numbers-widen t)
   ;; https://github.com/rougier/elegant-emacs/blob/master/sanity.el
   (setq inhibit-startup-screen t
         inhibit-startup-echo-area-message t
@@ -65,13 +66,22 @@
                              (run-with-timer 0.05 nil 'invert-face 'mode-line))
         visible-bell t)
 
-  ;; TODO do we want these? (copied from prelude)
+  ;; A combination of settings from prelude and minimal-emacs.d, may need tweaking
   (setq scroll-margin 0
         scroll-conservatively 100000
-        scroll-preserve-screen-position 1)
+        scroll-preserve-screen-position 1
+        hscroll-margin 2
+        hscroll-step 1
+        auto-window-vscroll nil)
   (setq pixel-scroll-precision-mode t)
+  (setq-default word-wrap t
+                truncate-lines t
+                fill-column 80)
+  ;; If enabled and `truncate-lines' is disabled, soft wrapping will not occur
+  ;; when the window is narrower than `truncate-partial-width-windows' characters.
+  (setq truncate-partial-width-windows nil)
 
-  (fset 'yes-or-no-p 'y-or-n-p)
+  (setq use-short-answers t)
 
   (setq frame-title-format
         '("Emacs: " (:eval (if (buffer-file-name)
@@ -134,6 +144,9 @@
   :hook (prog-mode . idle-highlight-mode))
 
 (use-feature paren
+  :custom
+  (show-paren-when-point-inside-paren t)
+  (show-paren-when-point-in-periphery t)
   :config
   (show-paren-mode +1))
 

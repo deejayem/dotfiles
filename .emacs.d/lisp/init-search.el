@@ -112,6 +112,7 @@
   (isearch-lazy-count t)
   (lazy-count-prefix-format nil)
   (lazy-count-suffix-format "   (%s/%s)")
+  (lazy-highlight-initial-delay 0)
   (isearch-message-properties '(read-only t cursor-intangible t face isearch-prompt))
   :bind-keymap ("C-c s" . search-map) ;; M-s clashes with paredit/smartparens bindings
   :bind

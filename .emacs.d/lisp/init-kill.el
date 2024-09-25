@@ -16,6 +16,7 @@
   (:map easy-kill-base-map ("C-=" . easy-kill-expand)))
 
 (use-feature emacs
+  :custom (kill-do-not-save-duplicates t)
   :hook
   (elpaca-after-init . (lambda ()
                          ;; Based on code in prelude-editor.el

@@ -13,6 +13,8 @@
   (dired-kill-when-opening-new-dired-buffer t)
   (wdired-use-dired-vertical-movement 'sometimes)
   (dired-vc-rename-file t)
+  (dired-clean-confirm-killing-deleted-buffers nil)
+  (dired-create-destination-dirs 'ask)
   :bind (:map dired-mode-map
               ("M-o" . dired-omit-mode)
               ("E" . wdired-change-to-wdired-mode)))

@@ -10,6 +10,7 @@ My Emacs Configuration, inspired by Prelude (https://github.com/bbatsov/prelude)
 - https://gitlab.com/protesilaos/dotfiles
 - https://gitlab.com/buildfunthings/emacs-config
 - https://www.emacswiki.org/emacs
+- https://github.com/jamescherti/minimal-emacs.d
 
 As well as the github READMEs and wikis for corfu, vertico, orderless, consult, embark, marginalia, and other places too.
 

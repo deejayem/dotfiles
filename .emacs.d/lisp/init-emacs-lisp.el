@@ -10,6 +10,10 @@
   :diminish)
 
 (use-feature emacs
+  :custom
+  ;; These don't really belong here, but do affect ielm
+  (comint-prompt-read-only t)
+  (comint-buffer-maximum-size 2048)
   :config
   ;; Based on prelude-emacs-lisp.el
   (defun recompile-init-lisp ()
