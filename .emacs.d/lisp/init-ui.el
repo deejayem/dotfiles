@@ -16,8 +16,6 @@
                          (global-display-line-numbers-mode)
                          (global-hl-line-mode +1)
 
-                         (global-set-key (kbd "C-x C-S-k") 'kill-buffer)
-
                          (add-to-list 'custom-theme-load-path "~/.emacs.d/themes")
                          (load-theme 'non-modo t)))
   ;; http://yummymelon.com/devnull/enhancing-navigation-in-emacs-view-mode.html
@@ -46,6 +44,7 @@
                        (t
                         (define-key view-mode-map (kbd "p") 'scroll-down-command)
                         (define-key view-mode-map (kbd "n") 'scroll-up-command)))))
+  :bind ("C-x C-S-k" . kill-buffer)
   :config
   (setq-default display-line-numbers-widen t)
   ;; https://github.com/rougier/elegant-emacs/blob/master/sanity.el
