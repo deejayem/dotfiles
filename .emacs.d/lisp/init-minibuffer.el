@@ -74,12 +74,28 @@
         (select-window (minibuffer-selected-window))
       (select-window (active-minibuffer-window))))
 
+  ;; https://github.com/minad/vertico/wiki#customize-sorting-based-on-completion-category
+  (defun sort-directories-first (files)
+    ;; Still sort by history position, length and alphabetically
+    (setq files (vertico-sort-history-length-alpha files))
+    ;; But then move directories first
+    (nconc (seq-filter (lambda (x) (string-suffix-p "/" x)) files)
+           (seq-remove (lambda (x) (string-suffix-p "/" x)) files)))
+  (defun toggle-sort-directories-first ()
+    (interactive)
+    (if (eq vertico-sort-function 'sort-directories-first)
+        (set (make-local-variable 'vertico-sort-function) 'vertico-sort-history-length-alpha)
+      (set (make-local-variable 'vertico-sort-function) 'sort-directories-first))
+    (setq vertico--input t)
+    (vertico--update))
 
   :bind (("C-M-<" . up-from-outside)
          ("C-M->" . down-from-outside)
          ("C-M-+" . preview-from-outside)
          ("M-X" . to-and-fro-minibuffer)
-         (:map vertico-map ("M-RET" . minibuffer-force-complete-and-exit))))
+         (:map vertico-map
+               ("M-RET" . minibuffer-force-complete-and-exit)
+               ("M-D" . toggle-sort-directories-first))))
 
 (use-extension vertico vertico-multiform
   :config
