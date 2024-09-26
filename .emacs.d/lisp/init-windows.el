@@ -27,6 +27,7 @@
 
 (use-feature winner
   :defer 5
+  :custom (winner-boring-buffers-regexp "\*Minibuf-[0-9]+")
   :config
   (winner-mode +1)
   (defvar winner-repeat-map
