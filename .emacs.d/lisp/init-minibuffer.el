@@ -17,6 +17,15 @@
   (setq enable-recursive-minibuffers t)
   (minibuffer-depth-indicate-mode t)
 
+  ;; https://github.com/minad/vertico/wiki#ding-when-wrapping-around
+  (advice-add #'vertico-next
+              :around
+              #'(lambda (origin &rest args)
+                  (let ((beg-index vertico--index))
+                    (apply origin args)
+                    (if (not (eq 1 (abs (- beg-index vertico--index))))
+                        (ding)))))
+
   ;; Add prompt indicator to `completing-read-multiple'.
   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
   (defun crm-indicator (args)
