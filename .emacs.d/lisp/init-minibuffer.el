@@ -100,6 +100,7 @@
 (use-extension vertico vertico-multiform
   :config
   (vertico-multiform-mode +1)
+
   (defun vertico-multiform-buffer-grid ()
     "Toggle displaying Vertico as a grid in a large window (like a regular buffer).)"
     (interactive)
