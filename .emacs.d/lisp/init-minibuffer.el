@@ -108,12 +108,39 @@
         (vertico-multiform-vertical)
       (setcar vertico-multiform--stack '(vertico-buffer-mode vertico-grid-mode))
       (vertico-multiform--toggle 1)))
+
+  ;; https://github.com/minad/vertico/wiki#candidate-display-transformations-custom-candidate-highlighting
+  (defvar +vertico-transform-functions nil)
+  (cl-defmethod vertico--format-candidate :around
+    (cand prefix suffix index start &context ((not +vertico-transform-functions) null))
+    (dolist (fun (ensure-list +vertico-transform-functions))
+      (setq cand (funcall fun cand)))
+    (cl-call-next-method cand prefix suffix index start))
+  (defun +vertico-highlight-directory (file)
+    "If FILE ends with a slash, highlight it as a directory."
+    (if (string-suffix-p "/" file)
+        (propertize file 'face 'marginalia-file-priv-dir)
+      file))
+  (defun +vertico-highlight-enabled-mode (cmd)
+    "If MODE is enabled, highlight it as font-lock-doc-face."
+    (let ((sym (intern cmd)))
+      (if (or (eq sym major-mode)
+              (and
+               (memq sym minor-mode-list)
+               (boundp sym)))
+          (propertize cmd 'face 'font-lock-doc-face)
+        cmd)))
+
   (setq vertico-multiform-commands
         ;; See twice as many lines
-        '((consult-line grid)))
+        '((consult-line grid)
+          (execute-extended-command
+           (+vertico-transform-functions . +vertico-highlight-enabled-mode))))
   (setq vertico-multiform-categories
-        '((imenu grid)))
-  :bind (:map vertico-multiform-map ("M-H" . vertico-multiform-buffer-grid)))
+        '((file (+vertico-transform-functions . +vertico-highlight-directory))
+          (imenu grid)))
+  :bind (:map vertico-multiform-map
+              ("M-H" . vertico-multiform-buffer-grid)))
 
 (use-extension vertico vertico-directory
   :config
