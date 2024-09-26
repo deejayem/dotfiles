@@ -483,13 +483,15 @@ See `+become' and the functions that call it (e.g. `+become-consult-line')."
    ("C-h B" . describe-bindings)
    (:map minibuffer-local-map
          ("M-." . embark-preview)
-         ("C-," . embark-become))
+         ("C-," . embark-become)
+         ("C-^" . embark-become-ripgrep-parent))
    (:map embark-become-file+buffer-map
          ("e" . consult-project-extra-find)
          ("E" . project-switch-consult-project-extra-find)))
   :custom
   (prefix-help-command 'embark-prefix-help-command)
   :config
+  (defalias 'embark-become-ripgrep-parent (kmacro "C-, ^"))
   (defun embark-preview ()
     "Previews candidate in vertico buffer, unless it's a consult command"
     (interactive)
