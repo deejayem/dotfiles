@@ -310,7 +310,9 @@ DEFS is a plist associating completion categories to commands."
     (consult-buffer))
   (defun consult-ripgrep-parent (&optional initial)
     (interactive "P")
-    (consult-ripgrep (file-name-directory (directory-file-name (persp-current-project-root))) initial))
+    (consult-ripgrep (file-name-directory
+                      (directory-file-name (or (persp-current-project-root) default-directory)))
+                     initial))
 
   (defalias 'consult-line-thing-at-point 'consult-line)
   (defalias 'consult-ripgrep-thing-at-point 'consult-ripgrep)
