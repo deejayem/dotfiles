@@ -74,17 +74,11 @@
         (select-window (minibuffer-selected-window))
       (select-window (active-minibuffer-window))))
 
-  (defun minibuffer-really-quit ()
-    "Quit minibuffer session, even if it is not the selected window."
-    (interactive)
-    (with-selected-window (active-minibuffer-window)
-      (minibuffer-keyboard-quit)))
 
   :bind (("C-M-<" . up-from-outside)
          ("C-M->" . down-from-outside)
          ("C-M-+" . preview-from-outside)
          ("M-X" . to-and-fro-minibuffer)
-         ("C-M-S-g" . minibuffer-really-quit)
          (:map vertico-map ("M-RET" . minibuffer-force-complete-and-exit))))
 
 (use-extension vertico vertico-multiform
