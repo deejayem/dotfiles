@@ -191,8 +191,6 @@
     (setq input (cdr (orderless-compile input)))
     (cons input (apply-partially #'orderless--highlight input t)))
   (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
-  ;; Manual preview key for `affe-grep'
-  (consult-customize affe-grep :preview-key (kbd "M-."))
   (defun my/affe-grep-symbol-at-point (&optional dir initial)
     (interactive
      (list prefix-arg (when-let ((s (symbol-at-point)))
@@ -203,6 +201,7 @@
      (list prefix-arg (when-let ((s (symbol-at-point)))
                         (symbol-name s))))
     (affe-find dir initial))
+  (consult-customize affe-grep my/affe-grep-symbol-at-point :preview-key "M-.")
   :bind
   ("C-#" . affe-grep)
   ("C-c z" . affe-find)
