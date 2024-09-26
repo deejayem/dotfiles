@@ -83,17 +83,19 @@
 (use-extension vertico vertico-multiform
   :config
   (vertico-multiform-mode +1)
-  ;; TODO how to make it toggle?
   (defun vertico-multiform-buffer-grid ()
+    "Toggle displaying Vertico as a grid in a large window (like a regular buffer).)"
     (interactive)
-    (push '(vertico-buffer-mode vertico-grid-mode) vertico-multiform--stack)
-    (vertico-multiform--toggle 1))
+    (if (equal '(vertico-buffer-mode vertico-grid-mode) (car vertico-multiform--stack))
+        (vertico-multiform-vertical)
+      (setcar vertico-multiform--stack '(vertico-buffer-mode vertico-grid-mode))
+      (vertico-multiform--toggle 1)))
   (setq vertico-multiform-commands
-        ;; See twice as manu lines
+        ;; See twice as many lines
         '((consult-line grid)))
   (setq vertico-multiform-categories
         '((imenu grid)))
-  :bind (:map vertico-multiform-map ("M-Q" . vertico-multiform-buffer-grid)))
+  :bind (:map vertico-multiform-map ("M-H" . vertico-multiform-buffer-grid)))
 
 (use-extension vertico vertico-directory
   :config
