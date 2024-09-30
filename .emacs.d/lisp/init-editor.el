@@ -157,7 +157,7 @@
 
 (use-package operate-on-number
   :bind
-  ("C-c ." . operate-on-number-at-point))
+  ("C-c ," . operate-on-number-at-point))
 
 (defun +elpaca-unload-xref (e)
   (and (featurep 'xref) (unload-feature 'xref t))

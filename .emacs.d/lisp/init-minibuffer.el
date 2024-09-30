@@ -249,22 +249,30 @@ DEFS is a plist associating completion categories to commands."
 (use-package consult
   :bind (;; C-c bindings (mode-specific-map)
          ("C-c h" . consult-history)
-         ("C-c m" . consult-mode-command)
+         ("C-c M-x" . consult-mode-command)
          ("C-c b" . consult-bookmark)
          ("C-c k" . consult-kmacro)
+         ("C-c m" . consult-man)
+         ("C-c i" . consult-info)
+         ([remap Info-search] . consult-info)
          ;; C-x bindings (ctl-x-map)
          ("C-x M-:" . consult-complex-command) ;; orig. repeat-complex-command
          ("C-x b" . consult-buffer) ;; orig. switch-to-buffer
-         ("C-x B" . consult-buffer-no-preview) ;; orig. switch-to-buffer
+         ("C-x B" . consult-buffer-no-preview)
          ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
          ("C-x 5 b" . consult-buffer-other-frame) ;; orig. switch-to-buffer-other-frame
+         ("C-x t b" . consult-buffer-other-tab) ;; orig. switch-to-buffer-other-tab
+         ("C-x r b" . consult-bookmark) ;; orig. bookmark-jump
+         ("C-x p b" . consult-project-buffer) ;; orig. project-switch-to-buffer
          ;; Custom M-# bindings for fast register access
          ("M-#" . consult-register-load)
          ("M-'" . consult-register-store) ;; orig. abbrev-prefix-mark (unrelated)
          ("C-M-#" . consult-register)
          ;; Other custom bindings
+         ("C-," . consult-line)
          ("C-S-s" . consult-line)
          ("M-*" . consult-line-thing-at-point)
+         ("C-c #" . consult-line-thing-at-point)
          ("C-c f" . consult-recent-file)
          ("C-c r" . consult-ripgrep)
          ;; TODO find an alternative to C-c c?
@@ -272,9 +280,9 @@ DEFS is a plist associating completion categories to commands."
          ("C-c c s" . consult-ripgrep-case-sensitive)
          ("C-c c z" . consult-z-ripgrep)
          ("C-c C-*" . consult-ripgrep-thing-at-point)
+         ("C-c ." . consult-ripgrep-thing-at-point)
          ("C-c C-^" . consult-ripgrep-parent)
          ("M-y" . consult-yank-pop)     ;; orig. yank-pop
-         ("<help> a" . consult-apropos) ;; orig. apropos-command
          ;; M-g bindings (goto-map)
          ("M-g e" . consult-compile-error)
          ("M-g f" . consult-flycheck)
