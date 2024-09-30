@@ -74,6 +74,14 @@
         (select-window (minibuffer-selected-window))
       (select-window (active-minibuffer-window))))
 
+  ;; Modified from https://github.com/minad/vertico/wiki#update-minibuffer-history-with-candidate-insertions
+  (defadvice vertico-insert
+      (after vertico-insert-add-history activate)
+    "Make vertico-insert add to the minibuffer history."
+    (if (and (not (eq minibuffer-history-variable t))
+             (eq 'file (vertico--metadata-get 'category)))
+        (add-to-history minibuffer-history-variable (minibuffer-contents))))
+
   ;; https://github.com/minad/vertico/wiki#customize-sorting-based-on-completion-category
   (defun sort-directories-first (files)
     ;; Still sort by history position, length and alphabetically
