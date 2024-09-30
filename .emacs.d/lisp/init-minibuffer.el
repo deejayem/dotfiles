@@ -330,13 +330,13 @@ DEFS is a plist associating completion categories to commands."
 
   :config
 
-  ;; Optionally configure the register formatting. This improves the register
+  ;; Configure register formatting. This improves the register
   ;; preview for `consult-register', `consult-register-load',
   ;; `consult-register-store' and the Emacs built-ins.
   (setq register-preview-delay 0
         register-preview-function #'consult-register-format)
 
-  ;; Optionally tweak the register preview window.
+  ;; Tweak the register preview window.
   ;; This adds thin lines, sorting and hides the mode line of the window.
   (advice-add #'register-preview :override #'consult-register-window)
 
