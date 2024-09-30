@@ -203,7 +203,7 @@
     (affe-find dir initial))
   (consult-customize affe-grep my/affe-grep-symbol-at-point :preview-key "M-.")
   :bind
-  ("C-#" . affe-grep)
+  ("C-c C-#" . affe-grep)
   ("C-c z" . affe-find)
   ("C-c Z" . my/affe-find-symbol-at-point)
   ("C-~" . my/affe-grep-symbol-at-point)

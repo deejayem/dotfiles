@@ -272,7 +272,7 @@ DEFS is a plist associating completion categories to commands."
          ("C-," . consult-line)
          ("C-S-s" . consult-line)
          ("M-*" . consult-line-thing-at-point)
-         ("C-c #" . consult-line-thing-at-point)
+         ("C-#" . consult-line-thing-at-point)
          ("C-c f" . consult-recent-file)
          ("C-c r" . consult-ripgrep)
          ;; TODO find an alternative to C-c c?
@@ -346,7 +346,7 @@ DEFS is a plist associating completion categories to commands."
     (let ((map (make-sparse-keymap)))
       (define-key map "\C-s" #'previous-history-element)
       map))
-  (consult-customize consult-line :keymap consult-line-map)
+  (consult-customize consult-line consult-line-thing-at-point :keymap consult-line-map)
 
   (defun consult-ripgrep-auto-preview (&optional dir initial)
     (interactive "P")
