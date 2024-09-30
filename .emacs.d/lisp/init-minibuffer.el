@@ -342,6 +342,12 @@ DEFS is a plist associating completion categories to commands."
 
   (add-to-list 'consult-mode-histories '(cider-repl-mode cider-repl-input-history))
 
+  (defvar consult-line-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map "\C-s" #'previous-history-element)
+      map))
+  (consult-customize consult-line :keymap consult-line-map)
+
   (defun consult-ripgrep-auto-preview (&optional dir initial)
     (interactive "P")
     (consult-ripgrep dir initial))
