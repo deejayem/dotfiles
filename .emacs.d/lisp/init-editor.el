@@ -172,6 +172,11 @@
   :ensure `(xref :build ,(+elpaca-xref-build-steps))
   :custom (xref-search-program 'ripgrep)
   :config
+  (defun xref-find-references-current-defun ()
+    "`xref-find-references' for the enclosing defun."
+    (interactive)
+    (xref-backend-identifier-completion-table (xref-find-backend))
+    (xref-find-references (which-function)))
   (defun xref-find-references-other-window (identifier)
     "Like `xref-find-references' but switch to the other window."
     (interactive (list (xref--read-identifier "Find references of: ")))
@@ -187,7 +192,8 @@
   ;; there is no value at point that can be used
   (add-to-list 'xref-prompt-for-identifier 'xref-find-references t)
   (add-to-list 'xref-prompt-for-identifier 'xref-find-references-other-window t)
-  (add-to-list 'xref-prompt-for-identifier 'xref-find-references-other-frame t))
+  (add-to-list 'xref-prompt-for-identifier 'xref-find-references-other-frame t)
+  :bind ("C-c q" . xref-find-references-current-defun))
 
 (use-package ws-butler
   :diminish
