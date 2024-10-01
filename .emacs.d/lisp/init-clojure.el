@@ -214,7 +214,11 @@
         ("C-c M-l" . cider-load-file)
         ("C-c M-b" . cider-interrupt))
   (:map cider-repl-mode-map
-        ("C-c M-b" . cider-interrupt))
+        ("C-c M-b" . cider-interrupt)
+        ;; sp commands sometimes behave strangely in the cider repl buffer
+        ("M-d" . paredit-forward-kill-word)
+        ("M-DEL" . paredit-backward-kill-word)
+        ("C-k" . paredit-kill))
   (:map cider-start-map
         ("C-c C-M-j" . cider-jack-in-and-run-main))
   (:map clojure-mode-map
