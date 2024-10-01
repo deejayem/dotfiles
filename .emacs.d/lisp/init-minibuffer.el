@@ -542,7 +542,8 @@ See `+become' and the functions that call it (e.g. `+become-consult-line')."
    (:map minibuffer-local-map
          ("M-." . embark-preview)
          ("C-," . embark-become)
-         ("C-^" . embark-become-ripgrep-parent))
+         ("C-^" . embark-become-ripgrep-parent)
+         ("C-S-SPC" . embark-select))
    (:map embark-become-file+buffer-map
          ("e" . consult-project-extra-find)
          ("E" . project-switch-consult-project-extra-find)))
