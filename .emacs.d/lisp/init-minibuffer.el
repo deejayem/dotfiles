@@ -533,9 +533,9 @@ See `+become' and the functions that call it (e.g. `+become-consult-line')."
   (add-to-list 'marginalia-prompt-categories '("Choose recent file" . file)))
 
 (use-package embark
-  :bind* ("M-." . embark-dwim)
   :bind
   (("C-." . embark-act)
+   ("M-." . embark-dwim)
    ("C-c C-o" . embark-export)
    ("C-h b" . embark-bindings)
    ("C-h B" . describe-bindings)
