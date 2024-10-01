@@ -173,11 +173,11 @@
   :custom (xref-search-program 'ripgrep)
   :config
   (defun xref-find-references-other-window (identifier)
-    "Like `xref-find-references' but switch to the other window"
+    "Like `xref-find-references' but switch to the other window."
     (interactive (list (xref--read-identifier "Find references of: ")))
     (xref--find-xrefs identifier 'references identifier 'window))
   (defun xref-find-references-other-frame (identifier)
-    "Like `xref-find-references' but switch to the other frame"
+    "Like `xref-find-references' but switch to the other frame."
     (interactive (list (xref--read-identifier "Find references of: ")))
     (xref--find-xrefs identifier 'references identifier 'frame))
   (define-key ctl-x-4-map (kbd "M-?") 'xref-find-references-other-window)
