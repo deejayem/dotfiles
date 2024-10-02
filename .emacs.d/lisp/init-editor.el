@@ -193,7 +193,10 @@
   (add-to-list 'xref-prompt-for-identifier 'xref-find-references t)
   (add-to-list 'xref-prompt-for-identifier 'xref-find-references-other-window t)
   (add-to-list 'xref-prompt-for-identifier 'xref-find-references-other-frame t)
-  :bind ("C-c q" . xref-find-references-current-defun))
+  :bind
+  ("C-c q" . xref-find-references-current-defun)
+  ;; Make sure xref-find-definitions doesn't override this embark binding (unless https://github.com/oantolin/embark/issues/732 can be fixed)
+  ("M-." . embark-dwim))
 
 (use-package ws-butler
   :diminish
