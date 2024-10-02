@@ -47,7 +47,7 @@
 
 (use-feature emacs
   :config
-  (setq completion-cycle-threshold 3)
+  (setq completion-cycle-threshold 2)
   (setq tab-always-indent 'complete)
   (setq read-buffer-completion-ignore-case t
         read-file-name-completion-ignore-case t
