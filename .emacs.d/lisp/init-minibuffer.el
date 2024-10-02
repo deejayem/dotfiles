@@ -140,9 +140,7 @@
         cmd)))
 
   (setq vertico-multiform-commands
-        ;; See twice as many lines
-        '((consult-line grid)
-          (execute-extended-command
+        '((execute-extended-command
            (+vertico-transform-functions . +vertico-highlight-enabled-mode))))
   (setq vertico-multiform-categories
         '((file (+vertico-transform-functions . +vertico-highlight-directory))
