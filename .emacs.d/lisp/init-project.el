@@ -28,14 +28,18 @@
     "Show a list of recently visited files in a project."
     (interactive)
     (if (boundp 'recentf-list)
+        ;; Use expand-file-name for project-root and later recentf-list to ensure consistency
         (let* ((project-root (expand-file-name (project-root (project-current))))
                (project-recentf-files (mapcar
                                        (lambda (f) (file-relative-name f project-root))
-                                       (seq-filter (apply-partially 'string-prefix-p project-root) recentf-list))))
+                                       (seq-filter (apply-partially 'string-prefix-p project-root)
+                                                   (mapcar 'expand-file-name recentf-list)))))
           (find-file (expand-file-name
                       (funcall project-read-file-name-function
                                "Find recent project files"
-                               project-recentf-files)
+                               project-recentf-files
+                               nil
+                               'file-name-history)
                       project-root)))
       (message "recentf is not enabled")))
   (defun project-switch-src-project ()
