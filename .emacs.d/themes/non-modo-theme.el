@@ -296,6 +296,8 @@
 ;;;;; corfu-quick
    `(corfu-quick1 ((,class :inherit bold :background "#0050af")))
    `(corfu-quick2 ((,class :inherit bold :background "#7f1f7f")))
+;;;;; corfu-candidate-overlay
+   `(corfu-candidate-overlay-face ((t :inherit shadow)))
 ;;;;; cov
    `(cov-coverage-not-run-face ((,class :foreground "red")))
    `(cov-coverage-run-face ((,class :foreground "#4fe42f")))
