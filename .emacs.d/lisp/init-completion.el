@@ -151,7 +151,25 @@ no words in between, beginning with the first word."
   :hook (elpaca-after-init . global-corfu-mode))
 
 (use-extension corfu corfu-indexed
-  :config (corfu-indexed-mode 1))
+  :config
+  (defmacro define-corfu-complete (n)
+    `(defun ,(intern (format "corfu-indexed-complete-%s" n)) ()
+       ,(format "Complete with candidate %s." n)
+       (interactive)
+       (let ((corfu--index ,n))
+         (funcall-interactively 'corfu-complete))))
+  (defmacro define-corfu-insert (n)
+    `(defun ,(intern (format "corfu-indexed-insert-%s" n)) ()
+       ,(format "Insert candidate %s." n)
+       (interactive)
+       (let ((corfu--index ,n))
+         (funcall-interactively 'corfu-insert))))
+  (dotimes (n 10)
+    (eval `(define-corfu-complete ,n))
+    (eval `(define-corfu-insert ,n))
+    (define-key corfu-map (kbd (format "C-%s" n)) (intern (format "corfu-indexed-complete-%s" n)))
+    (define-key corfu-map (kbd (format "M-%s" n)) (intern (format "corfu-indexed-insert-%s" n))))
+  (corfu-indexed-mode 1))
 
 (use-extension corfu corfu-quick
   :bind (:map corfu-map
