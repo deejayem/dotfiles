@@ -156,7 +156,7 @@ no words in between, beginning with the first word."
 (use-extension corfu corfu-quick
   :bind (:map corfu-map
               ("M-;" . corfu-quick-insert)
-              ("M-'" . corfu-quick-exit)))
+              ("M-'" . corfu-quick-complete)))
 
 (use-extension corfu corfu-history
   :after savehist
