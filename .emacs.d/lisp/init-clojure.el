@@ -28,7 +28,8 @@
       ("st" "#spy/t")))
 
   (defalias 'cape-clojure (cape-capf-super #'cider-complete-at-point
-                                           #'lsp-completion-at-point))
+                                           #'lsp-completion-at-point
+                                           #'cape-dabbrev))
   (defun set-clojure-capf ()
     (add-hook 'completion-at-point-functions #'cape-clojure -99 t))
 
