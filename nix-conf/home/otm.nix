@@ -113,6 +113,7 @@ let
   });
 
   zscaler-lein = pkgs.leiningen.override { jdk = zscaler-jdk; };
+  zscaler-clojure = pkgs.clojure.override { jdk = zscaler-jdk; };
 
   toggle = pkgs.writeShellScriptBin "remote-toggle" ''
     ssh -nT pi "playerctl play-pause" 2>/dev/null
@@ -151,6 +152,7 @@ in
   };
 
   home.packages = with pkgs; [
+    zscaler-clojure
     zscaler-lein
     toggle
   ];

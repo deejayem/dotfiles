@@ -13,11 +13,12 @@ in
     [
       babashka
       clj-kondo
-      clojure
       clojure-lsp
       jet
       maven
       neil
     ]
-    ++ optionals stdenv.isLinux [ leiningen ];
+    # TODO these are here because of the custom versions in otm.nix
+    # but there should be a better way
+    ++ optionals stdenv.isLinux [ leiningen clojure ];
 }
