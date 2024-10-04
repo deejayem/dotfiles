@@ -5,6 +5,9 @@
 ;;; Code:
 
 (use-feature dabbrev
+  ;; Load newer version until 30.1 is released
+  ;; https://mail.gnu.org/archive/html/bug-gnu-emacs/2024-05/msg00422.html
+  :load-path "elpaca/repos/project/lisp/dabbrev.el"
   :custom
   (dabbrev-case-distinction nil)
   (dabbrev-case-fold-search t)
