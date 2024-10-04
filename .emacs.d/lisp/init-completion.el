@@ -5,7 +5,6 @@
 ;;; Code:
 
 (use-feature dabbrev
-  :diminish
   :custom
   (dabbrev-case-distinction nil)
   (dabbrev-case-fold-search t)
