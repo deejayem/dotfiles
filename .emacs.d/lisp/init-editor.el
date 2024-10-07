@@ -170,7 +170,10 @@
 
 (use-package xref
   :ensure `(xref :build ,(+elpaca-xref-build-steps))
-  :custom (xref-search-program 'ripgrep)
+  :custom
+  (xref-search-program 'ripgrep)
+  (xref-show-xrefs-function #'consult-xref)
+  (xref-show-definitions-function #'consult-xref)
   :config
   (defun xref-find-references-current-defun ()
     "`xref-find-references' for the enclosing defun."

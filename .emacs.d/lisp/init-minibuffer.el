@@ -321,11 +321,6 @@ DEFS is a plist associating completion categories to commands."
                ("M-P" . consult-toggle-preview)
                ("C-x C-M-x" . remove-leading-hash)))
 
-  :init
-  ;; Use Consult to select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
-
   :config
 
   ;; Configure register formatting. This improves the register
