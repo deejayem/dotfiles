@@ -65,6 +65,16 @@ Start `ielm' if it's not already running."
 
 
 (use-package eros
+  :config
+  ;; https://xenodium.com/inline-previous-result-and-why-you-should-edebug/
+  (defun adviced:edebug-previous-result (_ &rest r)
+    "Adviced `edebug-previous-result'."
+    (eros--make-result-overlay edebug-previous-result
+      :where (point)
+      :duration eros-eval-result-duration))
+  (advice-add #'edebug-previous-result
+              :around
+              #'adviced:edebug-previous-result)
   :hook
   (emacs-lisp-mode . eros-mode))
 
