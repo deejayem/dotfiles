@@ -4,10 +4,20 @@
 ;; Most of it is taken from the READMEs and wikis of those packages
 ;;; Code:
 
+(defun +elpaca-unload-dabbrev (e)
+  (and (featurep 'dabbrev) (unload-feature 'dabbrev t))
+  (elpaca--continue-build e))
+
+(defun +elpaca-dabbrev-build-steps ()
+  (append (butlast (if (file-exists-p (expand-file-name "dabbrev" elpaca-builds-directory))
+                       elpaca--pre-built-steps elpaca-build-steps))
+          (list '+elpaca-unload-dabbrev 'elpaca--activate-package)))
+
 (use-feature dabbrev
   ;; Load newer version until 30.1 is released
   ;; https://mail.gnu.org/archive/html/bug-gnu-emacs/2024-05/msg00422.html
-  :load-path "elpaca/repos/project/lisp/dabbrev.el"
+  ;; Relies on the fact that the emacs repo is checked out to elpaca/repos/project
+  :ensure `(dabbrev :build ,(+elpaca-dabbrev-build-steps) :repo "~/.emacs.d/elpaca/repos/project/" :files ("lisp/dabbrev.el"))
   :custom
   (dabbrev-case-distinction nil)
   (dabbrev-case-fold-search t)
