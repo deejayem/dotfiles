@@ -21,7 +21,10 @@
   :custom
   (dabbrev-case-distinction nil)
   (dabbrev-case-fold-search t)
-  (dabbrev-case-replace nil))
+  (dabbrev-case-replace nil)
+  ;; TODO remove this after 30.1
+  :bind
+  ("C-M-/" . hippie-expand))
 
 (use-feature hippie-expand
   :custom
