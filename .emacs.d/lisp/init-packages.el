@@ -118,6 +118,57 @@
 ;; https://github.com/progfolio/elpaca/wiki/Logging#customizing-the-position-of-the-elpaca-log-buffer
 (add-to-list 'display-buffer-alist '("\\*elpaca-log\\*" (display-buffer-reuse-window display-buffer-at-bottom)))
 
+;; https://github.com/progfolio/elpaca/wiki/Reloading-a-package%E2%80%99s-features-after-updating-a-package
+(defun +elpaca-reload-package (package &optional allp)
+  "Reload PACKAGE's features.
+If ALLP is non-nil (interactively, with prefix), load all of its
+features; otherwise only load ones that were already loaded.
+
+This is useful to reload a package after upgrading it.  Since a
+package may provide multiple features, to reload it properly
+would require either restarting Emacs or manually unloading and
+reloading each loaded feature.  This automates that process.
+
+Note that this unloads all of the package's symbols before
+reloading.  Any data stored in those symbols will be lost, so if
+the package would normally save that data, e.g. when a mode is
+deactivated or when Emacs exits, the user should do so before
+using this command."
+  (interactive
+   (list (let ((elpaca-overriding-prompt "Reload package: "))
+           (elpaca--read-queued))
+         current-prefix-arg))
+  ;; This finds features in the currently installed version of PACKAGE, so if
+  ;; it provided other features in an older version, those are not unloaded.
+  (when (yes-or-no-p (format "Unload all of %s's symbols and reload its features? " package))
+    (let* ((package-name (symbol-name package))
+           (package-dir (file-name-directory
+                         (locate-file package-name load-path (get-load-suffixes))))
+           (package-files (directory-files package-dir 'full (rx ".el" eos)))
+           (package-features
+            (cl-loop for file in package-files
+                     when (with-temp-buffer
+                            (insert-file-contents file)
+                            (when (re-search-forward (rx bol "(provide" (1+ space)) nil t)
+                              (goto-char (match-beginning 0))
+                              (cadadr (read (current-buffer)))))
+                     collect it)))
+      (unless allp
+        (setf package-features (seq-intersection package-features features)))
+      (dolist (feature package-features)
+        (ignore-errors
+          ;; Ignore error in case it's not loaded.
+          (unload-feature feature 'force)))
+      (dolist (feature package-features)
+        (require feature))
+      (when package-features
+        (message "Reloaded: %s" (mapconcat #'symbol-name package-features " "))))))
+
+(define-advice elpaca-merge (:after (id &optional _fetch _interactive) elpaca-merge-reload)
+  "Automically reload packages after they have been updated."
+  (cl-letf (((symbol-function 'yes-or-no-p) (cl-constantly t)))
+    (+elpaca-reload-package id)))
+
 ;; https://github.com/radian-software/radian/blob/e3aad124c8e0cc870ed09da8b3a4905d01e49769/emacs/radian.el#L352
 (defmacro use-feature (name &rest args)
   "Like `use-package', but without elpaca integration.
