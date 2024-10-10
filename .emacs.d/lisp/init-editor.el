@@ -180,6 +180,15 @@
     (interactive)
     (xref-backend-identifier-completion-table (xref-find-backend))
     (xref-find-references (which-function)))
+  (defun xref-find-definitions-current-list-function ()
+    "`xref-find-definitions' for the function at the beginning of the current list.
+With a prefix argument, moves up `current-prefix-arg' sexps first."
+    (interactive)
+    (let ((fn-name (save-excursion
+                     (when current-prefix-arg
+                       (sp-backward-up-sexp current-prefix-arg))
+                     (sp-beginning-of-sexp) (thing-at-point 'symbol))))
+      (xref-find-definitions fn-name)))
   (defun xref-find-references-other-window (identifier)
     "Like `xref-find-references' but switch to the other window."
     (interactive (list (xref--read-identifier "Find references of: ")))
@@ -198,6 +207,7 @@
   (add-to-list 'xref-prompt-for-identifier 'xref-find-references-other-frame t)
   :bind
   ("C-c q" . xref-find-references-current-defun)
+  ("C-c C-M-." . xref-find-definitions-current-list-function)
   ;; Make sure xref-find-definitions doesn't override this embark binding (unless https://github.com/oantolin/embark/issues/732 can be fixed)
   ("M-." . embark-dwim))
 
