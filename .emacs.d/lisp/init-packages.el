@@ -169,8 +169,8 @@ using this command."
   (cl-letf (((symbol-function 'yes-or-no-p) (cl-constantly t)))
     (when (not (or (memq id elpaca-ignored-dependencies)
                    ;; TODO why aren't these already in the list?
-                   (memq id '(xref project)))))
-    (+elpaca-reload-package id)))
+                   (memq id '(xref project))))
+      (+elpaca-reload-package id))))
 
 ;; https://github.com/radian-software/radian/blob/e3aad124c8e0cc870ed09da8b3a4905d01e49769/emacs/radian.el#L352
 (defmacro use-feature (name &rest args)
