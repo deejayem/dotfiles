@@ -529,6 +529,7 @@ See `+become' and the functions that call it (e.g. `+become-consult-line')."
   :bind
   (("C-." . embark-act)
    ("M-." . embark-dwim)
+   ([remap xref-find-definitions-current-list-function] . embark-dwim-beginning-of-list)
    ("C-c C-o" . embark-export)
    ("C-h b" . embark-bindings)
    ("C-h B" . describe-bindings)
@@ -543,6 +544,14 @@ See `+become' and the functions that call it (e.g. `+become-consult-line')."
   :custom
   (prefix-help-command 'embark-prefix-help-command)
   :config
+  (defun embark-dwim-beginning-of-list ()
+    "`embark-dwim' at the beginning of the current list.
+With a prefix argument, moves up `current-prefix-arg' sexps first."
+    (progn
+      (when current-prefix-arg
+        (sp-backward-up-sexp current-prefix-arg))
+      (sp-beginning-of-sexp)
+      (embark-dwim)))
   (defalias 'embark-become-ripgrep-parent (kmacro "C-, ^"))
   (defun embark-preview ()
     "Previews candidate in vertico buffer, unless it's a consult command"
