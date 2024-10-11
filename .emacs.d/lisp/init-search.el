@@ -170,6 +170,7 @@
     (interactive (list (deadgrep--read-search-term)))
     (let ((include-all t))
       (deadgrep search-term)))
+  :hook (deadgrep-mode . next-error-follow-minor-mode)
   :bind
   ("C-c c d" . deadgrep)
   ("C-c c M-d" . deadgrep-all)
