@@ -166,7 +166,7 @@
 (defun +elpaca-xref-build-steps ()
   (append (butlast (if (file-exists-p (expand-file-name "xref" elpaca-builds-directory))
                        elpaca--pre-built-steps elpaca-build-steps))
-          (list '+elpaca-unload-xref'elpaca--activate-package)))
+          (list '+elpaca-unload-xref 'elpaca--activate-package)))
 
 (use-package xref
   :ensure `(xref :build ,(+elpaca-xref-build-steps))
