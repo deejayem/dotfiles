@@ -26,6 +26,24 @@
   :bind
   ("C-M-/" . hippie-expand))
 
+(use-package mono-complete
+  :config
+  (setq mono-complete-preview-delay 0.15
+        mono-complete-backends '(dabbrev filesystem whole-line)
+        mono-complete-project-root 'persp-current-project-root)
+  (append-to-list* 'mono-complete-self-insert-commands 'sp-backward-delete-char 'sp-delete-char 'delete-indentation 'backward-delete-char 'delete-char)
+  (defun mono-complete-expand-or-complete ()
+    (interactive)
+    (if (eq 'mono-complete-expand-or-complete real-last-command)
+        (let ((corfu-preselect 'prompt))
+          (progn
+            (primitive-undo 2 buffer-undo-list)
+            (completion-at-point)))
+      (mono-complete-expand-or-fallback)))
+  :hook ((text-mode prog-mode) . mono-complete-mode)
+  :bind
+  (:map mono-complete-mode-map ("M-/" . mono-complete-expand-or-complete)))
+
 (use-feature hippie-expand
   :custom
   (hippie-expand-try-functions-list '(try-expand-dabbrev
@@ -46,18 +64,6 @@
         (progn (backward-delete-char 1) (forward-char))))
   :bind
   ("C-M-/" . hippie-expand))
-
-(use-package fancy-dabbrev
-  :diminish
-  :config
-  (global-fancy-dabbrev-mode)
-  (defun fancy-dabbrev-popup-advice (_next)
-    (local-set-key (kbd "C-M-/") #'fancy-dabbrev-backward))
-  (defun fancy-dabbrev-popup-exit-advice ()
-    (local-unset-key (kbd "C-M-/")))
-  (advice-add #'fancy-dabbrev--expand-again :before #'fancy-dabbrev-popup-advice)
-  (advice-add #'fancy-dabbrev--on-exit :after #'fancy-dabbrev-popup-exit-advice)
-  :bind ("M-/" . fancy-dabbrev-expand))
 
 (use-feature emacs
   :config
@@ -157,11 +163,15 @@ no words in between, beginning with the first word."
   :ensure (corfu :files (:defaults "extensions/*"))
   :custom
   (corfu-cycle t)
+  (corfu-preselect 'first)
   :bind (:map corfu-map
+              ("SPC" . corfu-insert)
               ("TAB" . corfu-next)
               ([tab] . corfu-next)
+              ("M-/" . corfu-next)
               ("S-TAB" . corfu-previous)
-              ([backtab] . corfu-previous))
+              ([backtab] . corfu-previous)
+              ("C-M-/" . corfu-previous))
   :hook (elpaca-after-init . global-corfu-mode))
 
 (use-extension corfu corfu-indexed

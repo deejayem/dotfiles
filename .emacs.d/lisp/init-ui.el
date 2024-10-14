@@ -212,6 +212,9 @@
     ;; Run setup hook for `eval-expression' (calls `eldoc--eval-expression-setup')
     (run-hooks 'eval-expression-minibuffer-setup-hook)
 
+    (mono-complete-mode +1)
+    (setq-local mono-complete-fallback-command 'dabbrev-expand)
+
     ;; smartparens, but don't insert pairs of '
     (smartparens-strict-mode)
     (setq-local sp-pair-list (assoc-delete-all "'" sp-pair-list))

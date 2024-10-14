@@ -1167,6 +1167,8 @@
    `(mode-line-emphasis ((,class :inherit bold :foreground "#d5b1ff")))
    `(mode-line-highlight ((,class :inherit 'highlight)))
    `(mode-line-inactive ((,class :background "#1e1e1e" :foreground "#bfc0c4" :box "#3c3c3c")))
+;;;;; mono-complete
+   `(mono-complete-preview-face ((t :inherit shadow)))
 ;;;;; mpdel
    `(mpdel-browser-directory-face ((,class :foreground "#2fafff")))
    `(mpdel-playlist-current-song-face ((,class :inherit bold :foreground "#00bcff")))
