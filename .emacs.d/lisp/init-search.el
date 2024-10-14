@@ -160,15 +160,15 @@
   (defun deadgrep-current-directory (search-term)
     (interactive (list (deadgrep--read-search-term)))
     (deadgrep search-term (file-name-directory buffer-file-name)))
-  (defvar include-all nil)
+  (defvar deadgrep--include-all nil)
   (defun deadgrep--include-all-advice (rg-args)
-    (if include-all
+    (if deadgrep--include-all
         (push "-uuuLz" rg-args)
       rg-args))
   (advice-add 'deadgrep--arguments :filter-return #'deadgrep--include-all-advice)
   (defun deadgrep-all (search-term)
     (interactive (list (deadgrep--read-search-term)))
-    (let ((include-all t))
+    (let ((deadgrep--include-all t))
       (deadgrep search-term)))
   :hook (deadgrep-mode . next-error-follow-minor-mode)
   :bind
