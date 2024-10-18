@@ -24,7 +24,7 @@
     (let ((beg (point)))
       (avy-goto-char-timer)
       (copy-region-as-kill beg (point))))
-  (defun avy-kill-in-line ()
+  (defun avy-copy-as-kill-in-line ()
     (interactive)
     (avy-goto-char-timer)
     (let ((beg (point)))
