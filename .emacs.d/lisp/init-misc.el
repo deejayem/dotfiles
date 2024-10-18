@@ -80,8 +80,9 @@
 
 (use-package csv-mode
   :bind (:map csv-mode-map
-              ("M-]" . csv-forward-field)
-              ("M-[" . csv-backward-field)))
+              ;; TODO find something less awkward
+              ("C-M-)" . csv-forward-field)
+              ("C-M-(" . csv-backward-field)))
 
 (use-package yaml-mode
   :diminish
