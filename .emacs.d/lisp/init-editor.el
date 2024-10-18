@@ -163,6 +163,10 @@
   (and (featurep 'xref) (unload-feature 'xref t))
   ;; Make sure xref-find-definitions doesn't override this embark binding (unless https://github.com/oantolin/embark/issues/732 can be fixed)
   (bind-key "M-." 'embark-dwim)
+  ;; Make sure these aren't overwritten
+  (setq xref-search-program 'ripgrep
+        xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
   (elpaca--continue-build e))
 
 (defun +elpaca-xref-build-steps ()
