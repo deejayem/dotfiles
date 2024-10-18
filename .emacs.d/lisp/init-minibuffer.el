@@ -547,6 +547,7 @@ See `+become' and the functions that call it (e.g. `+become-consult-line')."
   (defun embark-dwim-beginning-of-list ()
     "`embark-dwim' at the beginning of the current list.
 With a prefix argument, moves up `current-prefix-arg' sexps first."
+    (interactive)
     (progn
       (when current-prefix-arg
         (sp-backward-up-sexp current-prefix-arg))
