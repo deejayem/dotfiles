@@ -27,7 +27,8 @@
              ("i" . dired-subtree-insert)
              (";" . dired-subtree-remove)))
 
-(use-package casual-dired
+(use-feature casual-dired
+  :after dired
   :bind (:map dired-mode-map
               ("C-o" . casual-dired-tmenu)
               ("s" . casual-dired-sort-by-tmenu)))

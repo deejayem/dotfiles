@@ -19,7 +19,8 @@
         ("$" . ibuffer-toggle-filter-group))
   :hook (ibuffer-mode . ibuffer-auto-mode))
 
-(use-package casual-ibuffer
+(use-feature casual-ibuffer
+  :after ibuffer
   :bind (:map ibuffer-mode-map
               ("C-o" . casual-ibuffer-tmenu)
               ("F" . casual-ibuffer-filter-tmenu)

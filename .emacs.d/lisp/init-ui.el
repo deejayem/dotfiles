@@ -238,5 +238,8 @@
   (set-face-foreground 'highlight-indent-guides-character-face "grey25")
   :hook ((prog-mode text-mode conf-mode) . highlight-indent-guides-mode))
 
+;; Main causal collection package; the individual packages are configured in the appropriate places
+(use-package casual)
+
 (provide 'init-ui)
 ;;; init-ui.el ends here
