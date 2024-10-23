@@ -119,10 +119,8 @@
   ("C-*" . isearch-forward-symbol-at-point)
   (:map isearch-mode-map ("<f2>" . isearch-menu))
   (:map search-map
-        ("M-s M-<" . isearch-beginning-of-buffer)
-        ("M-s M->" . isearch-end-of-buffer)
-        ("C-c s M-<" . isearch-beginning-of-buffer)
-        ("C-c s M->" . isearch-end-of-buffer)))
+        ("<" . isearch-beginning-of-buffer)
+        (">" . isearch-end-of-buffer)))
 
 (use-package isearch-dabbrev
   :after isearch
