@@ -64,8 +64,8 @@
           (kill-new curl-command)
           (message "curl command copied to clipboard.")))))
   :bind
-  ("C-c h" . restclient-call-saved-request)
-  (:map restclient-mode-map ("C-c M-h" . restclient-save-current))
+  ("C-c M-h" . restclient-call-saved-request)
+  (:map restclient-mode-map ("C-c h" . restclient-save-current))
   :mode (("\\.http\\'" . restclient-mode)))
 
 (use-package restclient-jq
