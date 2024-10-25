@@ -41,11 +41,6 @@
                                                         :if-nil buffer-read-only))
   (transient-replace-suffix 'casual-isearch-tmenu "x" '("x" "Start ‘anzu-query-replace-regexp’" anzu-isearch-query-replace-regexp
                                                         :if-nil buffer-read-only))
-  ;; Add isearch-beginning-of-buffer and isearch-end-of-buffer to Navigation section
-  (transient-append-suffix 'casual-isearch-tmenu "n" '("<" "First" isearch-beginning-of-buffer
-                                                       :transient t))
-  (transient-append-suffix 'casual-isearch-tmenu "<" '(">" "Last" isearch-end-of-buffer
-                                                       :transient t))
   ;; Add consult-line to Misc section
   (transient-append-suffix 'casual-isearch-tmenu "u" '("l" "consult-line" consult-line)))
 
