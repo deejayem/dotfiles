@@ -329,6 +329,7 @@ in
           cmd = ''difft "$LOCAL" "$REMOTE"'';
         };
       };
+      merge.conflictstyle = "diff3";
       pull = {
         ff = "only";
         rebase = false;
