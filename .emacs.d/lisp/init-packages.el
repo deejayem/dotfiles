@@ -168,8 +168,8 @@ using this command."
   "Automically reload packages after they have been updated."
   (cl-letf (((symbol-function 'yes-or-no-p) (cl-constantly t)))
     (when (not (or (memq id elpaca-ignored-dependencies)
-                   ;; TODO why aren't these already in the list?
-                   (memq id '(xref project))))
+                   ;; TODO why aren't xref and project already in the list?
+                   (memq id '(xref project perspective))))
       (+elpaca-reload-package id))))
 
 ;; https://github.com/radian-software/radian/blob/e3aad124c8e0cc870ed09da8b3a4905d01e49769/emacs/radian.el#L352
