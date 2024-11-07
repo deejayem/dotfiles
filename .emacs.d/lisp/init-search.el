@@ -114,27 +114,22 @@
     (setq input (cdr (orderless-compile input)))
     (cons input (apply-partially #'orderless--highlight input t)))
   (setq affe-regexp-compiler #'affe-orderless-regexp-compiler)
-  (defun my/affe-grep-symbol-at-point (&optional dir initial)
-    (interactive
-     (list prefix-arg (when-let ((s (symbol-at-point)))
-                        (symbol-name s))))
-    (affe-grep dir initial))
-  (defun my/affe-find-symbol-at-point (&optional dir initial)
-    (interactive
-     (list prefix-arg (when-let ((s (symbol-at-point)))
-                        (symbol-name s))))
-    (affe-find dir initial))
-  (consult-customize affe-grep my/affe-grep-symbol-at-point :preview-key "M-.")
+  (defalias 'affe-grep-symbol-at-point 'affe-grep)
+  (defalias 'affe-find-symbol-at-point 'affe-find)
+  (consult-customize
+   affe-grep :preview-key "M-."
+   affe-grep-symbol-at-point :initial (thing-at-point 'symbol) :preview-key "M-."
+   affe-find-symbol-at-point :initial (thing-at-point 'symbol) :preview-key "M-.")
   :bind
   ("C-c C-#" . affe-grep)
   ("C-c z" . affe-find)
-  ("C-c Z" . my/affe-find-symbol-at-point)
-  ("C-~" . my/affe-grep-symbol-at-point)
+  ("C-c Z" . affe-find-symbol-at-point)
+  ("C-c C-~" . affe-grep-symbol-at-point)
   (:map search-map
         ("#" . affe-grep)
-        ("~" . my/affe-grep-symbol-at-point)
+        ("~" . affe-grep-symbol-at-point)
         ("a" . affe-find)
-        ("A" . my/affe-find-symbol-at-point)))
+        ("A" . affe-find-symbol-at-point)))
 
 (provide 'init-search)
 ;;; init-search.el ends here
