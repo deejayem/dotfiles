@@ -27,7 +27,6 @@
   (isearch-message-properties '(read-only t cursor-intangible t face isearch-prompt))
   :bind-keymap ("C-c s" . search-map) ;; M-s clashes with paredit/smartparens bindings
   :bind
-  ("C-*" . isearch-forward-symbol-at-point)
   (:map search-map
         ("<" . isearch-beginning-of-buffer)
         (">" . isearch-end-of-buffer)))
@@ -74,9 +73,6 @@
 
 (use-package deadgrep
   :config
-  (defun deadgrep-symbol-at-point ()
-    (interactive)
-    (deadgrep (thing-at-point 'symbol)))
   (defun deadgrep-current-directory (search-term)
     (interactive (list (deadgrep--read-search-term)))
     (deadgrep search-term (file-name-directory buffer-file-name)))
@@ -94,7 +90,6 @@
   :bind
   ("C-c c d" . deadgrep)
   ("C-c c M-d" . deadgrep-all)
-  ("C-S-z" . deadgrep-symbol-at-point)
   ("C-c c C-d" . deadgrep-current-directory)
   (:map deadgrep-mode-map
         ("e" . deadgrep-edit-mode)
@@ -103,8 +98,7 @@
   (:map search-map
         ("d" . deadgrep)
         ("M-d" . deadgrep-all)
-        ("C-d" . deadgrep-current-directory)
-        ("D" . deadgrep-symbol-at-point)))
+        ("C-d" . deadgrep-current-directory)))
 
 (use-package affe
   :config

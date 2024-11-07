@@ -269,16 +269,13 @@ DEFS is a plist associating completion categories to commands."
          ;; Other custom bindings
          ("C-," . consult-line)
          ("C-S-s" . consult-line)
-         ("M-*" . consult-line-thing-at-point)
-         ("C-#" . consult-line-thing-at-point)
          ("C-c f" . consult-recent-file)
          ("C-c r" . consult-ripgrep)
+         ("C-c ." . consult-ripgrep) ;; convenient for using with embark-act (C-. C-c . to search for thing at point)
          ;; TODO find an alternative to C-c c?
          ("C-c c r" . consult-ripgrep-auto-preview)
          ("C-c c s" . consult-ripgrep-case-sensitive)
          ("C-c c z" . consult-z-ripgrep)
-         ("C-c C-*" . consult-ripgrep-thing-at-point)
-         ("C-c ." . consult-ripgrep-thing-at-point)
          ("C-c C-^" . consult-ripgrep-parent)
          ("M-y" . consult-yank-pop)     ;; orig. yank-pop
          ;; M-g bindings (goto-map)
@@ -304,7 +301,6 @@ DEFS is a plist associating completion categories to commands."
                ("r" . consult-ripgrep)
                ("R" . consult-ripgrep) ;; can't use r in isearch-mode, so add R too
                ("u" . consult-ripgrep-unrestricted)
-               ("*" . consult-ripgrep-thing-at-point)
                ("z" . consult-z-ripgrep)
                ("^" . consult-ripgrep-parent)
                ("l" . consult-line)
@@ -339,7 +335,7 @@ DEFS is a plist associating completion categories to commands."
     (let ((map (make-sparse-keymap)))
       (define-key map "\C-s" #'previous-history-element)
       map))
-  (consult-customize consult-line consult-line-thing-at-point :keymap consult-line-map)
+  (consult-customize consult-line :keymap consult-line-map)
 
   (defun consult-ripgrep-auto-preview (&optional dir initial)
     (interactive "P")
@@ -365,23 +361,16 @@ DEFS is a plist associating completion categories to commands."
                       (directory-file-name (or (persp-current-project-root) default-directory)))
                      initial))
 
-  (defalias 'consult-line-thing-at-point 'consult-line)
-  (defalias 'consult-ripgrep-thing-at-point 'consult-ripgrep)
-
   (consult-customize
    consult-theme
    :preview-key '(:debounce 0.2 any)
    ;; For these commands we can use C-N/C-P to scroll and preview, or M-. to preview
    consult-git-grep consult-grep
    consult-ripgrep-parent consult-ripgrep consult-ripgrep-case-sensitive
-   consult-ripgrep-unrestricted consult-z-ripgrep consult-ripgrep-thing-at-point
+   consult-ripgrep-unrestricted consult-z-ripgrep
    consult-bookmark consult-recent-file consult-xref consult-buffer-no-preview
    consult--source-recent-file consult--source-project-recent-file consult--source-bookmark
-   :preview-key '("M-." :debounce 0.2 "C-S-n" :debounce 0.2 "C-S-p")
-   consult-ripgrep-thing-at-point
-   :initial (concat "#" (thing-at-point 'symbol))
-   consult-line-thing-at-point
-   :initial (thing-at-point 'symbol))
+   :preview-key '("M-." :debounce 0.2 "C-S-n" :debounce 0.2 "C-S-p"))
 
   (defvar-local consult-toggle-preview-orig nil)
   (defun consult-toggle-preview ()
