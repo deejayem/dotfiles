@@ -33,7 +33,7 @@
   :bind
   ("C-'" . avy-goto-char-timer)
   ("C-;" . avy-goto-char-in-line)
-  ("M-]" . avy-goto-word-1)
+  ("C-#" . avy-goto-word-1)
   ("C-c C-'" . avy-copy-as-kill)
   ("C-c C-;" . avy-copy-as-kill-in-line))
 
