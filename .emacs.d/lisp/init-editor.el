@@ -111,13 +111,14 @@
   :config
   (global-flycheck-mode))
 
-;(use-package flyspell
-;  :custom
-;  (ispell-program-name "aspell")
-;  (ispell-extra-args '("--sug-mode=ultra"))
-;  :hook
-;  (text-mode . (lambda () (flyspell-mode +1)))
-;  (prog-mode . (lambda () (flyspell-prog-mode))))
+(use-package flyspell
+  :diminish
+  :config
+  (when (string-suffix-p "aspell" ispell-program-name)
+    (ispell-extra-args '("--sug-mode=ultra")))
+  :hook
+  (text-mode . flyspell-mode)
+  (prog-mode . flyspell-prog-mode))
 
 (use-feature bookmark
   :custom
