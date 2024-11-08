@@ -177,6 +177,14 @@ in
       set pastetoggle=<F2>
       nmap <silent> <F3> :silent nohlsearch<CR>
       imap <silent> <F3> <C-o>:silent nohlsearch<CR>
+      nmap <silent> <F4> :silent setlocal spell spelllang=en_gb<CR>
+      imap <silent> <F4> <C-o>:silent setlocal spell spelllang=en_gb<CR>
+      nmap <silent> <F5> :silent setlocal nospell<CR>
+      imap <silent> <F5> <C-o>:silent setlocal nospell<CR>
+      nmap <silent> <F6> :silent set diffopt+=iwhite<CR>
+      imap <silent> <F6> <C-o>:silent set diffopt+=iwhite<CR>
+      nmap <silent> <F7> :silent set diffopt-=iwhite<CR>
+      imap <silent> <F7> <C-o>:silent set diffopt-=iwhite<CR>
     '';
     plugins = [
       pkgs.vimPlugins.sensible
