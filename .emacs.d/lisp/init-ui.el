@@ -131,7 +131,7 @@
   (dolist (mode whitespace-disabled-modes)
     (add-hook (intern (concat (symbol-name mode) "-hook")) #'turn-off-whitespace-mode))
   :hook
-  ((text-mode prog-mode) . (lambda () (whitespace-mode +1))))
+  ((text-mode prog-mode) . whitespace-mode))
 
 (use-package goggles
   :diminish
