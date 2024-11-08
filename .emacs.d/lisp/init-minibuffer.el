@@ -275,7 +275,6 @@ DEFS is a plist associating completion categories to commands."
          ;; TODO find an alternative to C-c c?
          ("C-c c r" . consult-ripgrep-auto-preview)
          ("C-c c s" . consult-ripgrep-case-sensitive)
-         ("C-c c z" . consult-z-ripgrep)
          ("C-c C-^" . consult-ripgrep-parent)
          ("M-y" . consult-yank-pop)     ;; orig. yank-pop
          ;; M-g bindings (goto-map)
@@ -301,7 +300,6 @@ DEFS is a plist associating completion categories to commands."
                ("r" . consult-ripgrep)
                ("R" . consult-ripgrep) ;; can't use r in isearch-mode, so add R too
                ("u" . consult-ripgrep-unrestricted)
-               ("z" . consult-z-ripgrep)
                ("^" . consult-ripgrep-parent)
                ("l" . consult-line)
                ("L" . consult-line-multi)
@@ -344,10 +342,6 @@ DEFS is a plist associating completion categories to commands."
     (interactive "P")
     (let ((consult-ripgrep-args (replace-regexp-in-string "\\." "-uu ." consult-ripgrep-args)))
       (consult-ripgrep dir initial)))
-  (defun consult-z-ripgrep (&optional dir initial)
-    (interactive "P")
-    (let ((consult-ripgrep-args (replace-regexp-in-string "\\." "-z ." consult-ripgrep-args)))
-      (consult-ripgrep dir initial)))
   (defun consult-ripgrep-case-sensitive (&optional dir initial)
     (interactive "P")
     (let ((consult-ripgrep-args (replace-regexp-in-string "\\." "-s ." consult-ripgrep-args)))
@@ -366,10 +360,9 @@ DEFS is a plist associating completion categories to commands."
    :preview-key '(:debounce 0.2 any)
    ;; For these commands we can use C-N/C-P to scroll and preview, or M-. to preview
    consult-git-grep consult-grep
-   consult-ripgrep-parent consult-ripgrep consult-ripgrep-case-sensitive
-   consult-ripgrep-unrestricted consult-z-ripgrep
+   consult-ripgrep-parent consult-ripgrep consult-ripgrep-case-sensitive consult-ripgrep-unrestricted
    consult-bookmark consult-recent-file consult-xref consult-buffer-no-preview
-   consult--source-recent-file consult--source-project-recent-file consult--source-bookmark
+   consult--source-recent-file consult--source-project-recent-file consult--source-bookmark;
    :preview-key '("M-." :debounce 0.2 "C-S-n" :debounce 0.2 "C-S-p"))
 
   (defvar-local consult-toggle-preview-orig nil)
@@ -608,8 +601,7 @@ The leading # added by other consult commands is removed."
         ("i" . +become-consult-imenu)
         ("^" . consult-ripgrep-parent)
         ("u" . consult-ripgrep-unrestricted)
-        ("c" . consult-ripgrep-case-sensitive)
-        ("z" . consult-z-ripgrep))
+        ("c" . consult-ripgrep-case-sensitive))
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
