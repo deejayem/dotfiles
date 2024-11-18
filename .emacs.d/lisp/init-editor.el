@@ -63,8 +63,8 @@
 
   (setq sentence-end-double-space nil)
   (set-language-environment "UTF-8")
-  ;; TODO is this needed? (See https://github.com/jamescherti/minimal-emacs.d)
-  ;; (setq default-input-method nil)
+  ;; The previous line sets this to "rfc1345"
+  (setq default-input-method nil)
 
   (set-default 'imenu-auto-rescan t))
 
