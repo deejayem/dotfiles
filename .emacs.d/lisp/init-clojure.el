@@ -109,7 +109,6 @@
       (setq-local uniquify-min-dir-content 3))
     (funcall orig base dirname depth original-dirname))
   (advice-add 'uniquify-get-proposed-name :around 'clj-uniquify-get-proposed-name)
-  :bind
   :hook
   (clojure-mode . clojure-mode-hook-fn))
 
@@ -213,13 +212,21 @@
   :bind
   (:map cider-mode-map
         ("C-c M-l" . cider-load-file)
-        ("C-c M-b" . cider-interrupt))
+        ("C-c M-b" . cider-interrupt)
+        ("C-x M-i e" . cider-inspect-last-sexp)
+        ("C-x M-i f" . cider-inspect-defun-at-point)
+        ("C-x M-i l" . cider-inspect-last-result)
+        ("C-x M-i v" . cider-inspect-expr))
   (:map cider-repl-mode-map
         ("C-c M-b" . cider-interrupt)
         ;; sp commands sometimes behave strangely in the cider repl buffer
         ("M-d" . paredit-forward-kill-word)
         ("M-DEL" . paredit-backward-kill-word)
-        ("C-k" . paredit-kill))
+        ("C-k" . paredit-kill)
+        ("C-x M-i e" . cider-inspect-last-sexp)
+        ("C-x M-i f" . cider-inspect-defun-at-point)
+        ("C-x M-i l" . cider-inspect-last-result)
+        ("C-x M-i v" . cider-inspect-expr))
   (:map cider-start-map
         ("C-c C-M-j" . cider-jack-in-and-run-main))
   (:map clojure-mode-map
