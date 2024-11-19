@@ -116,6 +116,13 @@
   :config
   (when (string-suffix-p "aspell" ispell-program-name)
     (setq ispell-extra-args '("--sug-mode=ultra")))
+  (unbind-key "C-," flyspell-mode-map)
+  (unbind-key "C-." flyspell-mode-map)
+  ;;(unbind-key "C-;" flyspell-mode-map)
+  :custom (flyspell-auto-correct-binding (kbd "C-x C-M-;"))
+  :bind (:map flyspell-mode-map
+              ("C-x C-," . flyspell-goto-next-error)
+              ("C-x C-." . flyspell-correct-word))
   :hook
   (text-mode . flyspell-mode)
   (prog-mode . flyspell-prog-mode))
