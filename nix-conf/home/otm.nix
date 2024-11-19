@@ -141,6 +141,7 @@ in
     NIX_SSL_CERT_FILE = "${full-cert-file}";
     NODE_EXTRA_CA_CERTS = "${zscaler-cert-file}";
     JVM_OPTS = "-Dcom.amazonaws.sdk.disableCertChecking";
+    LEIN_JVM_OPTS = "-Dcom.amazonaws.sdk.disableCertChecking";
   };
 
   home.shellAliases = {
