@@ -60,6 +60,7 @@ in
     postgresql
     podman
     #python310Packages.sqlparse
+    redis
     sqls
     #vimpc
     wget
