@@ -112,6 +112,7 @@ in
     unzip
     w3m
     yq
+    zip
     zstd
 
     unstable.nixfmt-rfc-style
