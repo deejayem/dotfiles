@@ -177,7 +177,10 @@
 
   programs.zsh.enable = true;
 
-  programs.vim.defaultEditor = true;
+  programs.vim = {
+    enable = true;
+    defaultEditor = true;
+  };
 
   environment.etc = {
     "restic-environment" = {

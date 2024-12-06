@@ -220,7 +220,10 @@
     enableSSHSupport = true;
   };
 
-  programs.vim.defaultEditor = true;
+  programs.vim = {
+    enable = true;
+    defaultEditor = true;
+  };
 
   services.openssh.enable = true;
 

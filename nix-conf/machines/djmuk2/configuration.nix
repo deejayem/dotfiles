@@ -74,7 +74,10 @@
 
   programs.zsh.enable = true;
 
-  programs.vim.defaultEditor = true;
+  programs.vim = {
+    enable = true;
+    defaultEditor = true;
+  };
 
   environment.systemPackages = with pkgs; [
     #procmail
