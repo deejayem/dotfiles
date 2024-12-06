@@ -82,7 +82,6 @@
   environment.systemPackages = with pkgs; [
     #procmail
     git
-    vim
     wget
   ];
 

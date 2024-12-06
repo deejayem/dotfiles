@@ -181,7 +181,6 @@
     rofi
     st
     sway
-    vim
     wayland
     wayst
     wezterm
