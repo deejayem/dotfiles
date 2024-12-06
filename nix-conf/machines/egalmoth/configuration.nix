@@ -53,7 +53,6 @@
   };
 
   hardware.opengl.enable = true;
-  hardware.opengl.driSupport = true;
 
   networking.hostName = "egalmoth"; # Define your hostname.
   networking.networkmanager.enable = true;
