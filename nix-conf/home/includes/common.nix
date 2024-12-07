@@ -12,12 +12,12 @@ let
   nix-search = (
     pkgs.buildGoModule {
       pname = "nix-search";
-      version = "0.3.1";
+      version = "0.4.0";
       src = pkgs.fetchFromGitHub {
         owner = "diamondburned";
         repo = "nix-search";
-        rev = "e616ac1c82a616fa6e6d8c94839c5052eb8c808d";
-        hash = "sha256-h9yYOjL9i/m0r5NbqMcLMFNnwSKsIgfUr5qk+47pOtc=";
+        rev = "v0.4.0";
+        hash = "sha256-dOdcXKfSwi0THOjtgP3O/46SWoUY+T7LL9nGwOXXJfw=";
       };
       vendorHash = "sha256-bModWDH5Htl5rZthtk/UTw/PXT+LrgyBjsvE6hgIePY=";
     }
