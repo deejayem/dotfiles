@@ -52,7 +52,7 @@
     };
   };
 
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
 
   networking.hostName = "egalmoth"; # Define your hostname.
   networking.networkmanager.enable = true;
