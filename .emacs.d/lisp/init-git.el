@@ -77,6 +77,8 @@
   ("C-c g r" . my/magit-refresh-state)
   ("C-c g m" . my/magit-update-master)
   ("C-c g C-c" . my/magit-stage-and-commit-file)
+  ;; Used by eshell-prompt-function (see init-shell.el)
+  :commands (magit-get-shortname magit-file-status)
   :config
   ;; Requires the following gitconfig:
   ;; [alias]

@@ -9,21 +9,31 @@
   (eshell-mode-hook . (lambda () (setenv "TERM" "xterm-256color")))
   :custom
   (eshell-directory-name (expand-file-name "eshell" save-dir))
+  ;; https://lambdaland.org/posts/2024-08-19_fancy_eshell_prompt/#eshell-prompt
+  (eshell-highlight-prompt nil)
+  (eshell-prompt-regexp "^[^#$\n]* [$#] ")
   (eshell-prompt-function
-   ;; Based on https://www.reddit.com/r/emacs/comments/6f0rkz/my_fancy_eshell_prompt/
    (lambda ()
-     (concat
-      (propertize "┌─[" 'face `(:foreground "green"))
-      (propertize (user-login-name) 'face `(:foreground "red"))
-      (propertize "@" 'face `(:foreground "green"))
-      (propertize (system-name) 'face `(:foreground "LightBlue"))
-      (propertize "]──[" 'face `(:foreground "green"))
-      (propertize (format-time-string "%H:%M" (current-time)) 'face `(:foreground "yellow"))
-      (propertize "]──[" 'face `(:foreground "green"))
-      (propertize (concat (eshell/pwd)) 'face `(:foreground "white"))
-      (propertize "]\n" 'face `(:foreground "green"))
-      (propertize "└─>" 'face `(:foreground "green"))
-      (propertize (if (= (user-uid) 0) " # " " $ ") 'face `(:foreground "green")))))
+     (let* ((cwd (abbreviate-file-name (eshell/pwd)))
+            (ref (magit-get-shortname "HEAD"))
+            (stat (magit-file-status))
+            (x-stat eshell-last-command-status)
+            (git-chunk
+             (if ref
+                 (format "%s%s%s "
+                         (propertize (if stat "[" "(") 'font-lock-face (list :foreground (if stat "red" "green")))
+                         (propertize ref 'font-lock-face '(:foreground "yellow"))
+                         (propertize (if stat "]" ")") 'font-lock-face (list :foreground (if stat "red" "green"))))
+               "")))
+       (propertize
+        (format "%s %s %s$ "
+                (if (< 0 x-stat) (format (propertize "!%s" 'font-lock-face '(:foreground "red")) x-stat)
+                  (propertize "➤" 'font-lock-face (list :foreground (if (< 0 x-stat) "red" "green"))))
+                (propertize cwd 'font-lock-face '(:foreground "#45babf"))
+                git-chunk)
+        'read-only t
+        'front-sticky   '(font-lock-face read-only)
+        'rear-nonsticky '(font-lock-face read-only)))))
   :config
   (setenv "PAGER" "cat"))
 
