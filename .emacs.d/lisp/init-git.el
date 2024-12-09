@@ -338,6 +338,9 @@ GitHub/Bitbucket/GitLab/... The URL will be added to the kill ring.  If
   ("C-c g c" . git-link-commit)
   ("C-c g b" . git-link-branch))
 
+(use-feature git-link-transient
+  :bind ("C-c g d" . git-link-dispatch))
+
 (use-feature git-related
   :bind
   ("C-c g #" . git-related-find-file)
