@@ -14,6 +14,7 @@ in
       babashka
       clj-kondo
       clojure-lsp
+      emacs-lsp-booster
       jet
       maven
       neil
