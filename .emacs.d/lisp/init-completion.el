@@ -56,12 +56,12 @@
                                       try-expand-line
                                       try-complete-lisp-symbol-partially
                                       try-complete-lisp-symbol))
-  :config
-  ;; Modified from https://www.emacswiki.org/emacs/HippieExpand#h5o-9
-  (define-advice he-substitute-string (:after (str &optional trans-case) he-paredit-fix)
-    "Remove extra bracket when expanding line in paredit/smartparents mode."
-    (if (and (or smartparens-mode paredit-mode) (string-match "[]})]$" str))
-        (progn (backward-delete-char 1) (forward-char))))
+  :hook (elpaca-after-init . (lambda ()
+                               ;; Modified from https://www.emacswiki.org/emacs/HippieExpand#h5o-9
+                               (define-advice he-substitute-string (:after (str &optional trans-case) he-paredit-fix)
+                                 "Remove extra bracket when expanding line in paredit/smartparents mode."
+                                 (if (and (or smartparens-mode paredit-mode) (string-match "[]})]$" str))
+                                     (progn (backward-delete-char 1) (forward-char))))))
   :bind
   ("C-M-/" . hippie-expand))
 
