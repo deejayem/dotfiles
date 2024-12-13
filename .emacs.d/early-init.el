@@ -5,6 +5,10 @@
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
 
+;;https://github.com/magnars/emacsd-reboot/blob/44ebe6b5f80deebe0907be55f206a0a3f7fc9fcd/settings/fast-startup.el#L11-L12
+(setq file-name-handler-alist-original file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
 (setq load-prefer-newer t
       native-comp-async-report-warnings-errors nil
       native-comp-warning-on-missing-source nil

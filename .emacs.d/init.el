@@ -23,7 +23,10 @@
 
 (add-hook 'elpaca-after-init-hook #'(lambda ()
                                       (setq gc-cons-threshold (* 100 1024 1024)
-                                            gc-cons-percentage 0.1))
+                                            gc-cons-percentage 0.1
+                                            ;; https://github.com/magnars/emacsd-reboot/blob/44ebe6b5f80deebe0907be55f206a0a3f7fc9fcd/settings/fast-startup.el#L28-29 
+                                            (setq file-name-handler-alist file-name-handler-alist-original)
+                                            (makunbound 'file-name-handler-alist-original)))
           99)
 
 (require 'init-packages)
