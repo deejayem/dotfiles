@@ -8,20 +8,6 @@ let
   hcr = pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
   scr = pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; };
   unstable = import <unstable> { };
-
-  nix-search = (
-    pkgs.buildGoModule {
-      pname = "nix-search";
-      version = "0.4.0";
-      src = pkgs.fetchFromGitHub {
-        owner = "diamondburned";
-        repo = "nix-search";
-        rev = "v0.4.0";
-        hash = "sha256-dOdcXKfSwi0THOjtgP3O/46SWoUY+T7LL9nGwOXXJfw=";
-      };
-      vendorHash = "sha256-bModWDH5Htl5rZthtk/UTw/PXT+LrgyBjsvE6hgIePY=";
-    }
-  );
 in
 {
   imports = [
