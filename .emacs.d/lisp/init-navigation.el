@@ -7,6 +7,13 @@
   (avy-all-windows nil)
   (avy-all-windows-alt t)
   (avy-timeout-seconds 0.3)
+  :init
+  ;; Allow C-[ to be bound (instead of being equivalent to ESC), but only in GUI Emacs
+  ;; https://emacs.stackexchange.com/a/52334
+  (let ((frame (framep (selected-frame))))
+    (or (eq  t  frame)
+        (eq 'pc frame)
+        (define-key input-decode-map (kbd "C-[") [control-bracketleft])))
   :config
   ;; https://karthinks.com/software/avy-can-do-anything/#avy-plus-embark-any-action-anywhere
   (defun avy-action-embark (pt)
@@ -38,7 +45,7 @@
   ("C-c C-;" . avy-copy-as-kill-in-line))
 
 (use-package casual-avy
-  :bind ("C-M-;" . casual-avy-tmenu))
+  :bind ([control-bracketleft] . casual-avy-tmenu))
 
 (use-package smartscan
   :custom (smartscan-symbol-selector "symbol")
