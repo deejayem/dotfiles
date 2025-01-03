@@ -521,6 +521,9 @@ The symbol at point is added to the future history."
 (use-package consult-ls-git
   :bind ("C-c g f" . consult-ls-git))
 
+(use-package consult-vc-modified-files
+  :bind (:map vc-prefix-map ("f" . consult-vc-modified-files)))
+
 (use-package consult-project-extra)
 
 (use-package marginalia
