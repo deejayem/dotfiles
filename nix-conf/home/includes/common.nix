@@ -50,6 +50,7 @@ in
     aspellDicts.en
     aspellDicts.en-computers
     aspellDicts.en-science
+    bandwhich
     bottom
     broot
     curl
@@ -83,6 +84,7 @@ in
     nixpkgs-review
     nvd
     pass
+    procs
     rage
     ripgrep
     rlwrap
