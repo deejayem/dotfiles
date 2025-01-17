@@ -196,6 +196,7 @@
         cider-connection-message-fn nil
         cider-show-error-buffer 'except-in-repl
         cider-test-fail-fast nil
+        cider-download-java-sources t
         clojure-toplevel-inside-comment-form t)
   (setq cider-clojure-compilation-error-phases nil)
   (setq-default cider-use-overlays t)
