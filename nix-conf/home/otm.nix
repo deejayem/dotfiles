@@ -166,6 +166,7 @@ in
     "certs/staging-internal-ca.pem".text = internal-staging-cert;
 
     ".skhdrc".text = "play : remote-toggle";
+    ".wgetrc".text = "ca_certificate=${zscaler-cert-file}";
   };
 
   sops.secrets = {
