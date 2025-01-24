@@ -138,8 +138,9 @@ let
   '';
 
   toggle = pkgs.writeShellScriptBin "remote-toggle" ''
-    ssh -nT pi "playerctl play-pause" 2>/dev/null
+    tmux send-keys -t 0:0 C-b p
   '';
+
 in
 {
   imports = [ ./includes/darwin.nix ];
