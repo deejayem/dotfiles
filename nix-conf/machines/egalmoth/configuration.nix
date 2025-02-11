@@ -183,6 +183,8 @@ in
     rofi
     st
     sway
+    vdhcoapp
+    ungoogled-chromium
     wayland
     wayst
     wezterm
