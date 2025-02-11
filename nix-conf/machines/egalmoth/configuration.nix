@@ -5,6 +5,9 @@
   ...
 }:
 
+let
+  unstable = import <nixos-unstable> { };
+in
 {
   imports = [ ./hardware-configuration.nix ];
 
@@ -204,6 +207,8 @@
     iosevka-bin
     jetbrains-mono
     meslo-lgs-nf
+    unstable.aporetic.sans-mono
+    unstable.aporetic.serif-mono
   ];
 
   programs.zsh.enable = true;
