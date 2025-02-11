@@ -4,7 +4,6 @@
   lib,
   ...
 }:
-
 let
   unstable = import <nixos-unstable> { };
 in
