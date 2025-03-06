@@ -192,6 +192,7 @@ in
     "certs/full-cert.pem".source = full-cert-file;
     "certs/internal-ca.pem".text = internal-cert;
     "certs/staging-internal-ca.pem".text = internal-staging-cert;
+    ".docker/certs.d/zcaler-cert.pem".source = zscaler-cert-file;
 
     ".skhdrc".text = "play : remote-toggle";
     ".wgetrc".text = "ca_certificate=${full-cert-file}";
