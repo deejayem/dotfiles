@@ -7,7 +7,6 @@
     irssi
     libtree
     msmtp
-    neomutt
     pinentry
     restic
     sword
