@@ -67,6 +67,11 @@ in
     wget
   ];
 
+  nixpkgs.config.permittedInsecurePackages = [
+    "emacs-mac-macport-29.1"
+    "emacs-mac-macport-with-packages-29.1"
+  ];
+
   nix.settings = {
     sandbox = true;
     keep-outputs = true;
