@@ -5,6 +5,7 @@
 (require 'subr-x)
 
 (use-package project
+  :ensure (:ref "87db670d045bea2d90139b1f741eea8db7c193ea" :pin t)
   :config
   (defun project--clojure-switch-to-test (filename project-root)
     (let* ((project-src-file (string-remove-prefix project-root filename))

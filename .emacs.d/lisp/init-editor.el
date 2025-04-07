@@ -183,7 +183,7 @@
           (list '+elpaca-unload-xref 'elpaca--activate-package)))
 
 (use-package xref
-  :ensure `(xref :build ,(+elpaca-xref-build-steps))
+  :ensure `(xref :build ,(+elpaca-xref-build-steps) :ref "87db670d045bea2d90139b1f741eea8db7c193ea" :pin t)
   :custom
   (xref-search-program 'ripgrep)
   (xref-show-xrefs-function #'consult-xref)
