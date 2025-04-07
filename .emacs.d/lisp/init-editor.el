@@ -313,5 +313,12 @@ With a prefix argument, moves up `current-prefix-arg' sexps first."
               ("x" . cider-eval-region)
               ("r" . cider-insert-region-in-repl)))
 
+(use-package repeat-fu
+  ;;:commands repeat-fu-mode
+  :bind ("M-+" . repeat-fu-execute)
+  :hook (after-change-mode-hook . (lambda ()
+                                    (when (and (not (minibufferp)) (not (derived-mode-p 'special-mode)))
+                                      (repeat-fu-mode)))))
+
 (provide 'init-editor)
 ;;; init-editor.el ends here
