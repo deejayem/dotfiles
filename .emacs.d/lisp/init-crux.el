@@ -15,6 +15,7 @@
   ("C-^" . crux-top-join-line)
   ("C-<backspace>" . crux-kill-line-backwards)
   ([remap kill-whole-line] . crux-kill-whole-line)
+  ([remap keyboard-quit] . crux-keyboard-quit-dwim)
   ;; TODO don't need all of these
   ("C-<return>" . crux-smart-open-line)
   ("S-<return>" . crux-smart-open-line)
