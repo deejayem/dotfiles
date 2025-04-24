@@ -169,8 +169,6 @@
 
 (defun +elpaca-unload-xref (e)
   (and (featurep 'xref) (unload-feature 'xref t))
-  ;; Make sure xref-find-definitions doesn't override this embark binding (unless https://github.com/oantolin/embark/issues/732 can be fixed)
-  (bind-key "M-." 'embark-dwim)
   ;; Make sure these aren't overwritten
   (setq xref-search-program 'ripgrep
         xref-show-xrefs-function #'consult-xref
@@ -221,9 +219,7 @@ With a prefix argument, moves up `current-prefix-arg' sexps first."
   (add-to-list 'xref-prompt-for-identifier 'xref-find-references-other-frame t)
   :bind
   ("C-c q" . xref-find-references-current-defun)
-  ("C-c C-M-." . xref-find-definitions-current-list-function)
-  ;; Make sure xref-find-definitions doesn't override this embark binding (unless https://github.com/oantolin/embark/issues/732 can be fixed)
-  ("M-." . embark-dwim))
+  ("C-c C-M-." . xref-find-definitions-current-list-function))
 
 (use-package ws-butler
   :diminish

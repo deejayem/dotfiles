@@ -535,8 +535,8 @@ The symbol at point is added to the future history."
 (use-package embark
   :bind
   (("C-." . embark-act)
-   ("M-." . embark-dwim)
    ([remap xref-find-definitions-current-list-function] . embark-dwim-beginning-of-list)
+   ([remap xref-find-definitions] . embark-dwim)
    ("C-c C-o" . embark-export)
    ("C-h b" . embark-bindings)
    ("C-h B" . describe-bindings)
