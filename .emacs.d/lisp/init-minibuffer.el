@@ -537,6 +537,7 @@ The symbol at point is added to the future history."
   (("C-." . embark-act)
    ([remap xref-find-definitions-current-list-function] . embark-dwim-beginning-of-list)
    ([remap xref-find-definitions] . embark-dwim)
+   ([remap xref-find-definitions-other-window] . embark-dwim-other-window)
    ("C-c C-o" . embark-export)
    ("C-h b" . embark-bindings)
    ("C-h B" . describe-bindings)
@@ -551,6 +552,11 @@ The symbol at point is added to the future history."
   :custom
   (prefix-help-command 'embark-prefix-help-command)
   :config
+  (defun embark-dwim-other-window ()
+    "Like `embark-dwim' but switch to the other window."
+    (interactive)
+    (other-window-prefix)
+    (embark-dwim))
   (defun embark-dwim-beginning-of-list ()
     "`embark-dwim' at the beginning of the current list.
 With a prefix argument, moves up `current-prefix-arg' sexps first."
