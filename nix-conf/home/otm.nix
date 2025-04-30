@@ -115,32 +115,6 @@ let
   zscaler-lein = pkgs.leiningen.override { jdk = zscaler-jdk; };
   zscaler-clojure = pkgs.clojure.override { jdk = zscaler-jdk; };
 
-  m = pkgs.mosh.overrideAttrs(old: {
-    postInstall =
-      old.postInstall + ''
-        ln -s $out/bin/mosh $out/bin/m
-        ln -s $out/bin/mosh-client $out/bin/mc
-      '';
-  });
-
-  p = pkgs.writeShellScriptBin "p" ''
-    m --client=${m}/bin/mc pi
-  '';
-
-  s1 = pkgs.writeShellScriptBin "sync1" ''
-    scp ~/.emacs.d/lisp/*.el djm:dotfiles/.emacs.d/lisp/
-  '';
-  s2 = pkgs.writeShellScriptBin "sync2" ''
-    scp ~/dotfiles/nix-conf/home/otm.nix djm:dotfiles/nix-conf/home/
-  '';
-  s3 = pkgs.writeShellScriptBin "sync3" ''
-    scp ~/dotfiles/nix-conf/home/includes/*.{nix,yaml} djm:dotfiles/nix-conf/home/includes/
-  '';
-
-  toggle = pkgs.writeShellScriptBin "remote-toggle" ''
-    tmux send-keys -t 0:0 C-b p
-  '';
-
 in
 {
   imports = [ ./includes/darwin.nix ];
@@ -176,12 +150,6 @@ in
   };
 
   home.packages = with pkgs; [
-    m
-    p
-    s1
-    s2
-    s3
-    toggle
     zscaler-clojure
     zscaler-lein
   ];
@@ -193,8 +161,6 @@ in
     "certs/internal-ca.pem".text = internal-cert;
     "certs/staging-internal-ca.pem".text = internal-staging-cert;
     ".docker/certs.d/zcaler-cert.pem".source = zscaler-cert-file;
-
-    ".skhdrc".text = "play : remote-toggle";
     ".wgetrc".text = "ca_certificate=${full-cert-file}";
   };
 
