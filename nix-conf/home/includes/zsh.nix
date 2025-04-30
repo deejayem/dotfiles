@@ -58,6 +58,10 @@ in
     autosuggestion = {
       enable = true;
       highlight = "fg=#808080";
+      strategy = [
+        "history"
+        "completion"
+      ];
     };
     defaultKeymap = "emacs";
     history = {
@@ -139,13 +143,6 @@ in
     localVariables = {
       PER_DIRECTORY_HISTORY_TOGGLE = "^\\\\"; # ^\\ is ^#
       HISTORY_START_WITH_GLOBAL = true;
-
-      # TODO move to programs.zsh.autosuggestion.strategy when 24.11 is released
-      ZSH_AUTOSUGGEST_STRATEGY = [
-        "history"
-        "completion"
-      ];
-
       LESS = "-iRXF";
     };
     initContent = lib.mkMerge [
