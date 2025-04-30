@@ -92,6 +92,10 @@ in
       ll = "\\eza --icons --git --colour --long --group-directories-first --classify";
       lla = "ll -a";
       t = "eza --tree";
+      p = "lsd";
+      pa = "lsd -a";
+      pll = "lsd -l";
+      pla = "lsd -la";
 
       pp = ''pushbullet push "Pixel" link "''${1}" "''${1}"'';
 
