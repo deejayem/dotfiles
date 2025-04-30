@@ -89,6 +89,7 @@ in
       mv = "mv -iv";
       mkdir = "mkdir -v";
       cat = "bat -p";
+      c = "bat -p";
       l = "eza";
       la = "eza -a";
       lg = "eza -G";
