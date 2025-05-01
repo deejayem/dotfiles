@@ -91,11 +91,12 @@ in
       cat = "bat -p";
       c = "bat -p";
       l = "eza";
-      la = "eza -a";
+      # TODO remove lib.mkForce (x3) when 25.05 is released and common.nix can be updated to disable lsd versions
+      la = lib.mkForce "eza -a";
       lg = "eza -G";
       lga = "eza -aG";
-      ll = "\\eza --icons --git --colour --long --group-directories-first --classify";
-      lla = "ll -a";
+      ll = lib.mkForce "\\eza --icons --git --colour --long --group-directories-first --classify";
+      lla = lib.mkForce "ll -a";
       t = "eza --tree";
       p = "lsd";
       pa = "lsd -a";
