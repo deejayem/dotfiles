@@ -147,191 +147,189 @@ in
       HISTORY_START_WITH_GLOBAL = true;
       LESS = "-iRXF";
     };
-    initContent = lib.mkMerge [
-      (lib.mkBefore ''
-        [[ $TERM == "tramp" ]] && unsetopt zle && PS1='$ ' && return
-      '')
-      ''
-        # Based on prezto tmux plugin
-        if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && (-z "$SSH_TTY" || -n "$TMUX_AUTO_ATTACH") ]]; then
-          tmux start-server
+    initExtraFirst = ''
+      [[ $TERM == "tramp" ]] && unsetopt zle && PS1='$ ' && return
+    '';
+    initExtra = ''
+      # Based on prezto tmux plugin
+      if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && (-z "$SSH_TTY" || -n "$TMUX_AUTO_ATTACH") ]]; then
+        tmux start-server
 
-          if ! tmux has-session 2> /dev/null; then
-            tmux new-session -d -s "0" \; set-option -t "0" destroy-unattached off &> /dev/null
-          fi
-
-          if [[ -n "$SSH_TTY" ]]; then
-            exec tmux -u attach-session
-          else
-            exec tmux -u attach-session -d
-          fi
+        if ! tmux has-session 2> /dev/null; then
+          tmux new-session -d -s "0" \; set-option -t "0" destroy-unattached off &> /dev/null
         fi
 
-        autopair-init
-        enable-fzf-tab
+        if [[ -n "$SSH_TTY" ]]; then
+          exec tmux -u attach-session
+        else
+          exec tmux -u attach-session -d
+        fi
+      fi
 
-        # make home and end work
-        [[ -z "$terminfo[khome]" ]] || bindkey -M emacs "$terminfo[khome]" beginning-of-line
-        [[ -z "$terminfo[kend]" ]] || bindkey -M emacs "$terminfo[kend]" end-of-line
+      autopair-init
+      enable-fzf-tab
 
-        # disable sort when completing `git checkout`
-        zstyle ':completion:*:git-checkout:*' sort false
-        # set descriptions format to enable group support
-        zstyle ':completion:*:descriptions' format '[%d]'
-        # Allow tab to expand aliases
-        zstyle ':completion:*' completer _expand_alias _complete _ignored
-        # set list-colors to enable filename colorizing
-        #zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
-        # preview directory's content with eza when completing cd
-        zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-        # switch group using `,` and `.`
-        zstyle ':fzf-tab:*' switch-group ',' '.'
+      # make home and end work
+      [[ -z "$terminfo[khome]" ]] || bindkey -M emacs "$terminfo[khome]" beginning-of-line
+      [[ -z "$terminfo[kend]" ]] || bindkey -M emacs "$terminfo[kend]" end-of-line
 
-        # functions modified from https://www.josean.com/posts/7-amazing-cli-tools
-        _fzf_compgen_path() {
-          fd --hidden --exclude .git --exclude node_modules . "$1"
-        }
-        _fzf_compgen_dir() {
-          fd --type=d --hidden --exclude .git --exclude node_modules . "$1"
-        }
-        _fzf_comprun() {
-          local command=$1
-          shift
+      # disable sort when completing `git checkout`
+      zstyle ':completion:*:git-checkout:*' sort false
+      # set descriptions format to enable group support
+      zstyle ':completion:*:descriptions' format '[%d]'
+      # Allow tab to expand aliases
+      zstyle ':completion:*' completer _expand_alias _complete _ignored
+      # set list-colors to enable filename colorizing
+      #zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+      # preview directory's content with eza when completing cd
+      zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+      # switch group using `,` and `.`
+      zstyle ':fzf-tab:*' switch-group ',' '.'
 
-          case "$command" in
-            cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
-            export|unset) fzf --preview "eval 'echo $'{}"         "$@" ;;
-            ssh)          fzf --preview 'dig {}'                   "$@" ;;
-            *)            fzf --preview "${show_file_or_dir_preview}" "$@" ;;
-          esac
-        }
+      # functions modified from https://www.josean.com/posts/7-amazing-cli-tools
+      _fzf_compgen_path() {
+        fd --hidden --exclude .git --exclude node_modules . "$1"
+      }
+      _fzf_compgen_dir() {
+        fd --type=d --hidden --exclude .git --exclude node_modules . "$1"
+      }
+      _fzf_comprun() {
+        local command=$1
+        shift
 
-        set -o noclobber
+        case "$command" in
+          cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+          export|unset) fzf --preview "eval 'echo $'{}"         "$@" ;;
+          ssh)          fzf --preview 'dig {}'                   "$@" ;;
+          *)            fzf --preview "${show_file_or_dir_preview}" "$@" ;;
+        esac
+      }
 
-        # disable flow control (so that fzf-git.sh's ^g^s can work)
-        stty -ixon
+      set -o noclobber
 
-        # These functions are called as follows, after using ea (using vip as an example):
-        # vip  # edits the first result from ea (roughly equivalent to vi `ea p 1`)
-        # vip <n> # edits the nth result from ea (vi `ea p <n>`)
-        # vip <n> foo # if the nth result from ea is a directory, edit foo in that directory (vi `ea p <n>`/foo)
-        # Will add +<line-number>, where the line number is available
-        function _vip () {
-          local cmd=(''${=1}) # zsh only, not portable; something like CMD=($(echo $1)) is more portable but is ugly
-          local idx=''${2:-1}
-          local base_path=$(ea p $idx)
-          local line=$(ea p $idx "{line}")
-          local ea_format="'{path}'"
+      # disable flow control (so that fzf-git.sh's ^g^s can work)
+      stty -ixon
 
-          if [ -z "$base_path" ]; then
-            echo "No file path found for index $2"
-            return 1
-          fi
+      # These functions are called as follows, after using ea (using vip as an example):
+      # vip  # edits the first result from ea (roughly equivalent to vi `ea p 1`)
+      # vip <n> # edits the nth result from ea (vi `ea p <n>`)
+      # vip <n> foo # if the nth result from ea is a directory, edit foo in that directory (vi `ea p <n>`/foo)
+      # Will add +<line-number>, where the line number is available
+      function _vip () {
+        local cmd=(''${=1}) # zsh only, not portable; something like CMD=($(echo $1)) is more portable but is ugly
+        local idx=''${2:-1}
+        local base_path=$(ea p $idx)
+        local line=$(ea p $idx "{line}")
+        local ea_format="'{path}'"
 
-          if [ $# -gt 2 -a ! -d "$base_path" ]; then
-            echo "$base_path is not a directory"
-            return 2
-          fi
+        if [ -z "$base_path" ]; then
+          echo "No file path found for index $2"
+          return 1
+        fi
 
-          if [ $# -lt 3 -a $line -ne 1 ]; then
-            ea_format+=" +{line}"
-          fi
+        if [ $# -gt 2 -a ! -d "$base_path" ]; then
+          echo "$base_path is not a directory"
+          return 2
+        fi
 
-          eval $(ea p $idx "$cmd ''${ea_format}$3")
-        }
+        if [ $# -lt 3 -a $line -ne 1 ]; then
+          ea_format+=" +{line}"
+        fi
 
-        function vip () {
-          _vip $EDITOR ''${@}
-        }
-        function bp () {
-          _vip bat ''${@}
-        }
-        function bpp () {
-          # this will be split into an array in _vip
-          CMD="bat -p"
-          _vip $CMD ''${@}
-        }
+        eval $(ea p $idx "$cmd ''${ea_format}$3")
+      }
 
-        function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
-        function fcd { cd $(fd -L --max-depth=''${1:-4} --type=d 2>/dev/null | fzf-tmux) }
+      function vip () {
+        _vip $EDITOR ''${@}
+      }
+      function bp () {
+        _vip bat ''${@}
+      }
+      function bpp () {
+        # this will be split into an array in _vip
+        CMD="bat -p"
+        _vip $CMD ''${@}
+      }
 
-        fif() {
-          if [ ! "$#" -gt 0  ]; then
-            echo "usage: fif <SEARCH_TERM>"
-            return 1;
-          fi
-          rg --files-with-matches --no-messages "$1" | fzf $FZF_PREVIEW_WINDOW --preview "rg --ignore-case --pretty --context 10 '$1' {}"
-        }
+      function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
+      function fcd { cd $(fd -L --max-depth=''${1:-4} --type=d 2>/dev/null | fzf-tmux) }
 
-        fe() {
-          IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
-          [[ -n "$files" ]] && ''${EDITOR:-vim} "''${files[@]}"
-        }
+      fif() {
+        if [ ! "$#" -gt 0  ]; then
+          echo "usage: fif <SEARCH_TERM>"
+          return 1;
+        fi
+        rg --files-with-matches --no-messages "$1" | fzf $FZF_PREVIEW_WINDOW --preview "rg --ignore-case --pretty --context 10 '$1' {}"
+      }
 
-        # TODO is there a way to do this in shellAliases
-        alias ..="cd .."
-        alias ...="cd ../.."
-        alias -- -="cd -"
+      fe() {
+        IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+        [[ -n "$files" ]] && ''${EDITOR:-vim} "''${files[@]}"
+      }
 
-        .,() {
-          local declare dirs=()
-          get_parent_dirs() {
-            if [[ -d "''${1}" ]]; then dirs+=("$1"); else return; fi
-            if [[ "''${1}" == '/' ]]; then
-              for _dir in "''${dirs[@]}"; do echo $_dir; done
-            else
-              get_parent_dirs $(dirname "$1")
-            fi
-          }
-          local DIR=$(get_parent_dirs $(realpath "$PWD/..") | fzf-tmux)
-          cd "$DIR"
-        }
+      # TODO is there a way to do this in shellAliases
+      alias ..="cd .."
+      alias ...="cd ../.."
+      alias -- -="cd -"
 
-        # From omz
-        function mkcd () {
-          mkdir -p $@ && cd ''${@:$#}
-        }
-
-        tre () { command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
-
-        function gcd () {
-          if [ $# -eq 0 ] ; then
-            echo "Number of days must be specified" >&2
-            return 1
-          fi
-          if ! [[ $1 =~ '^[0-9]+$' ]] ; then
-            echo "Number of days must be a number" >&2
-            return 2
-          fi
-
-          if [ $1 -eq 0 ] ; then
-           GC_ARGS=(-d)
+      .,() {
+        local declare dirs=()
+        get_parent_dirs() {
+          if [[ -d "''${1}" ]]; then dirs+=("$1"); else return; fi
+          if [[ "''${1}" == '/' ]]; then
+            for _dir in "''${dirs[@]}"; do echo $_dir; done
           else
-            GC_ARGS=(--delete-older-than ''${1}d)
+            get_parent_dirs $(dirname "$1")
           fi
-
-          DOAS=$(command -v doas)
-
-          # Run as the current user (as well as root) to clean up hm generations
-          nix-collect-garbage ''${GC_ARGS[@]}
-          if [ -n $DOAS ] ; then
-            $DOAS nix-collect-garbage ''${GC_ARGS[@]}
-          fi
-
-          df -h
-          date
         }
+        local DIR=$(get_parent_dirs $(realpath "$PWD/..") | fzf-tmux)
+        cd "$DIR"
+      }
 
-        function checkout-pr () {
-          git fetch ''${2:-upstream} pull/''${1}/head:pr-''${1}
-          git switch pr-''${1}
-        }
+      # From omz
+      function mkcd () {
+        mkdir -p $@ && cd ''${@:$#}
+      }
 
-        [[ ! -f ~/.zsh.local ]] || source ~/.zsh.local
+      tre () { command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
 
-        [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-      ''
-    ];
+      function gcd () {
+        if [ $# -eq 0 ] ; then
+          echo "Number of days must be specified" >&2
+          return 1
+        fi
+        if ! [[ $1 =~ '^[0-9]+$' ]] ; then
+          echo "Number of days must be a number" >&2
+          return 2
+        fi
+
+        if [ $1 -eq 0 ] ; then
+         GC_ARGS=(-d)
+        else
+          GC_ARGS=(--delete-older-than ''${1}d)
+        fi
+
+        DOAS=$(command -v doas)
+
+        # Run as the current user (as well as root) to clean up hm generations
+        nix-collect-garbage ''${GC_ARGS[@]}
+        if [ -n $DOAS ] ; then
+          $DOAS nix-collect-garbage ''${GC_ARGS[@]}
+        fi
+
+        df -h
+        date
+      }
+
+      function checkout-pr () {
+        git fetch ''${2:-upstream} pull/''${1}/head:pr-''${1}
+        git switch pr-''${1}
+      }
+
+      [[ ! -f ~/.zsh.local ]] || source ~/.zsh.local
+
+      [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+    '';
 
     plugins = with pkgs; [
       {
