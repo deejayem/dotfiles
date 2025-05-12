@@ -10,8 +10,6 @@
              paredit-close-curly))
 
 (use-package smartparens
-  ;; Use this fork until it is merged
-  :ensure (:host github :repo "thatismatt/smartparens")
   :diminish
   :custom
   (sp-base-key-bindings 'paredit)
