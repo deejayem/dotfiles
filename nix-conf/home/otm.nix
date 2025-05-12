@@ -145,8 +145,9 @@ in
     notify_success = ''( osascript -e 'display notification "The command finished" with title "Success"' && afplay /System/Library/Sounds/Ping.aiff && say done  )'';
     notify_failure = ''( osascript -e 'display notification "The command failed" with title "Failure"' && afplay /System/Library/Sounds/Sosumi.aiff && say failed  )'';
     notify = "notify_success || notify_failure";
+    ltn = "lein test && notify";
+    yb = "aws codeartifact login --tool npm --repository otm-js --domain otm --domain-owner 103567893073 --region eu-west-1 --profile aws_otm_dev_developers && yarn && yarn build && notify";
     auth = "auth2aws login -r aws_otm_dev_developers,aws_otm_prd_developers && osascript -e 'tell app \"iTerm\" to activate'";
-    yarn_build = "aws codeartifact login --tool npm --repository otm-js --domain otm --domain-owner 103567893073 --region eu-west-1 --profile aws_otm_dev_developers && yarn && yarn build && notify";
   };
 
   home.packages = with pkgs; [
