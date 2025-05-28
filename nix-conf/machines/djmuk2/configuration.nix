@@ -30,11 +30,7 @@
   services.sshguard.enable = true;
   services.oidentd.enable = true;
 
-  services.locate = {
-    enable = true;
-    package = pkgs.plocate;
-    localuser = null;
-  };
+  services.locate.enable = true;
 
   # Emulate nix-sops. Technically an anti-pattern, but this isn't a real secret, and this has to be embedded here, as we cannot set a file path to read it from.
   # Populate/update with:

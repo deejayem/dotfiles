@@ -29,11 +29,7 @@
   services.sshguard.enable = true;
   services.oidentd.enable = true;
 
-  services.locate = {
-    enable = true;
-    package = pkgs.plocate;
-    localuser = null;
-  };
+  services.locate.enable = true;
 
   users.users.djm = {
     isNormalUser = true;

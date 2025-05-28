@@ -159,11 +159,7 @@ in
     ];
   };
 
-  services.locate = {
-    enable = true;
-    package = pkgs.plocate;
-    localuser = null;
-  };
+  services.locate.enable = true;
 
   environment.systemPackages = with pkgs; [
     acpi
