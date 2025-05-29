@@ -1479,7 +1479,7 @@
    `(shortdoc-section (())) ; remove the default's variable-pitch style
 ;;;;; show-paren-mode
    `(show-paren-match ((,class :inherit bold :background "#7416b5" :foreground "#ffffff" :underline t)))
-   `(show-paren-match-expression ((,class :background "#221044")))
+   `(show-paren-match-expression ((,class :background "grey12")))
    `(show-paren-mismatch ((,class :background "#a4202a" :foreground "#ffffff")))
 ;;;;; shr
    `(shr-abbreviation ((,class :foreground "#9d9def" :underline (:color "#5f6fff" :style wave))))
