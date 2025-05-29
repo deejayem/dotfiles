@@ -215,6 +215,7 @@
         ("C-c M-l" . cider-load-file)
         ("C-c M-b" . cider-interrupt)
         ("C-c C-j C-;" . cider-pprint-eval-last-sexp-to-comment)
+        ("C-c C-M-p" . cider-pprint-eval-last-sexp-to-repl)
         ("C-x M-i e" . cider-inspect-last-sexp)
         ("C-x M-i f" . cider-inspect-defun-at-point)
         ("C-x M-i l" . cider-inspect-last-result)
