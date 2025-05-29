@@ -54,7 +54,6 @@ in
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-    # TODO: put strategy here after 24.11 is released
     autosuggestion = {
       enable = true;
       highlight = "fg=#808080";
