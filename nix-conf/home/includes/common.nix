@@ -129,8 +129,7 @@ in
   programs.eza = {
     enable = true;
     git = true;
-    # TODO remove when 24.11 is released
-    icons = if  builtins.substring 0 5 lib.version == "24.05" then true else "auto";
+    icons = "auto";
     enableBashIntegration = false;
     enableZshIntegration = false;
     enableFishIntegration = false;
