@@ -363,8 +363,7 @@ in
 
   programs.lsd = {
     enable = true;
-    # TODO uncomment the line below when 25.05 is released
-    #enableZshIntegration = false; # don't set aliases
+    enableZshIntegration = false; # don't set aliases
     settings = {
       indicators = true;
       #layout = "oneline";
