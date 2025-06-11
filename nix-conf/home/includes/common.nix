@@ -99,6 +99,7 @@ in
     uni
     unzip
     w3m
+    xan
     yq
     zip
     zstd
