@@ -102,12 +102,12 @@
   :init
   ;; Always show more of the path in clj buffer names.
   ;; Using setq-local in clojure-mode-hook is not enough, as it runs too late
-  (defun clj-uniquify-get-proposed-name (orig base dirname &optional depth original-dirname)
+  (defun clj-uniquify-get-proposed-name (orig base dirname &optional depth)
     (when (and (> (length base) 4)
                (string= ".clj" (substring base -4))
                (not (string= "project.clj" base)))
       (setq-local uniquify-min-dir-content 3))
-    (funcall orig base dirname depth original-dirname))
+    (funcall orig base dirname depth))
   (advice-add 'uniquify-get-proposed-name :around 'clj-uniquify-get-proposed-name)
   :hook
   (clojure-mode . clojure-mode-hook-fn))
