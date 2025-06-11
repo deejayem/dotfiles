@@ -26,9 +26,41 @@ let
         --prefix PYTHONPATH : $out/${pkgs.mopidyPackages.python.sitePackages}
     '';
   };
+
+  # emacs-unstable from emacs-overlay, with the patches used by emacs-plus
+  emacs-plus = pkgs.emacs-unstable.overrideAttrs (old: {
+        patches =
+          (old.patches or [])
+          ++ [
+            (pkgs.fetchpatch {
+              url = "https://raw.githubusercontent.com/d12frosted/homebrew-emacs-plus/master/patches/emacs-30/fix-window-role.patch";
+              sha256 = "0c41rgpi19vr9ai740g09lka3nkjk48ppqyqdnncjrkfgvm2710z";
+            })
+            (pkgs.fetchpatch {
+              url = "https://raw.githubusercontent.com/d12frosted/homebrew-emacs-plus/master/patches/emacs-30/round-undecorated-frame.patch";
+              sha256 = "uYIxNTyfbprx5mCqMNFVrBcLeo+8e21qmBE3lpcnd+4=";
+            })
+            (pkgs.fetchpatch {
+              url = "https://raw.githubusercontent.com/d12frosted/homebrew-emacs-plus/master/patches/emacs-30/system-appearance.patch";
+              sha256 = "3QLq91AQ6E921/W9nfDjdOUWR8YVsqBAT/W9c1woqAw=";
+            })
+          ];
+      });
+
+  emacs-plus-with-packages = (pkgs.emacsPackagesFor emacs-plus).emacsWithPackages (ps: [
+    ps.vterm
+    ps.multi-vterm
+  ]);
+
 in
 {
   imports = [ ./dev-common.nix ];
+
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
+    }))
+  ];
 
   home.packages = with pkgs; [
     awscli2
@@ -37,10 +69,7 @@ in
     coreutils
     curl
     diffutils
-    ((emacsPackagesFor emacs29-macport).emacsWithPackages (ps: [
-      ps.vterm
-      ps.multi-vterm
-    ]))
+    emacs-plus-with-packages
     findutils
     gh
     gh-dash
@@ -85,4 +114,6 @@ in
     })
   ];
 
+  # TODO is this a good idea?
+  #programs.zsh.shellAliases = { emacs = "${emacs-plus-with-packages}/Applications/Emacs.app/Contents/MacOS/Emacs"; };
 }
