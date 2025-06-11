@@ -49,6 +49,7 @@
   :bind ("C-c c C-u" . sqlup-capitalize-keywords-in-region))
 
 (use-package sql-indent
+  :diminish sqlind-minor-mode
   :commands sqlind-minor-mode)
 
 (use-package sqlformat
