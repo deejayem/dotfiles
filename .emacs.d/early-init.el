@@ -2,6 +2,11 @@
 ;;; Commentary:
 ;;; Code:
 
+
+;; To keep elpaca happy
+(when (eq system-type 'darwin)
+  (setq emacs-version "30.1"))
+
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
 
