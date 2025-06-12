@@ -83,10 +83,6 @@
   (orderless-component-separator 'orderless-escapable-split-on-space)
   (completion-styles '(orderless partial-completion basic))
   (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles partial-completion orderless))
-                                   (command (styles +orderless-with-strict-leading-initialism))
-                                   (variable (styles +orderless-with-strict-leading-initialism))
-                                   (symbol (styles +orderless-with-strict-leading-initialism))))
   (orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-initialism))
   (orderless-style-dispatchers (list #'+orderless-consult-dispatch
                                      #'orderless-affix-dispatch))
@@ -156,7 +152,12 @@ no words in between, beginning with the first word."
 
   ;; Based on https://github.com/minad/consult/wiki#minads-orderless-configuration
   (orderless-define-completion-style +orderless-with-strict-leading-initialism
-    (orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-leading-initialism))))
+    (orderless-matching-styles '(orderless-literal orderless-regexp orderless-strict-leading-initialism)))
+
+  (setopt completion-category-overrides '((file (styles partial-completion orderless))
+                                          (command (styles +orderless-with-strict-leading-initialism))
+                                          (variable (styles +orderless-with-strict-leading-initialism))
+                                          (symbol (styles +orderless-with-strict-leading-initialism)))))
 
 ;; code completion - corfu
 (use-package corfu
