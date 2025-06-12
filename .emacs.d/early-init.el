@@ -26,7 +26,8 @@
 
 (setq frame-inhibit-implied-resize t)
 
-(unless (eq system-type 'darwin)
+(if (eq system-type 'darwin)
+    (add-to-list 'default-frame-alist '(undecorated-round . t))
   (toggle-frame-maximized)
   (add-to-list 'default-frame-alist '(fullscreen . maximized)))
 
