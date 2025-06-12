@@ -123,6 +123,7 @@ candidate, in that order, at the beginning of words, with
 no words in between, beginning with the first word."
     (orderless-strict-initialism component t))
 
+  ;; Replace initialism (,) with strict-leading-initialism, and also add strict initialism
   (setf (alist-get ?, orderless-affix-dispatch-alist) #'orderless-strict-leading-initialism)
   (add-to-list 'orderless-affix-dispatch-alist '(?` . orderless-strict-initialism) t)
 
