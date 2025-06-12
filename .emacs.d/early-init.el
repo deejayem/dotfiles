@@ -6,7 +6,7 @@
 (when (eq system-type 'darwin)
   (setq frame-resize-pixelwise t
         ;; To keep elpaca happy
-        emacs-version "30.1"))
+        emacs-version (replace-regexp-in-string "\\(.*\\..*\\)\\..*" "\\1" emacs-version)))
 
 (setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6)
