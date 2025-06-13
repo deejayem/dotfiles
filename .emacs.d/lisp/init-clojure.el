@@ -203,6 +203,7 @@
   (unbind-key "C-c C-l" cider-mode-map)
   (unbind-key "C-c C-b" cider-mode-map)
   (unbind-key "C-c C-b" cider-repl-mode-map)
+  (unbind-key "M-." cider-repl-mode-map)
 
   (defun fix-duplicate-windows ()
     "When all windows are the same, delete all of them except the current one."
