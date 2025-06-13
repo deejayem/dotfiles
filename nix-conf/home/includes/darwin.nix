@@ -27,8 +27,19 @@ let
     '';
   };
 
+  # https://github.com/NixOS/nixpkgs/issues/395169
+  patched-pkgs = pkgs.extend (
+    _final: prev: {
+      ld64 = prev.ld64.overrideAttrs (old: {
+        patches = old.patches ++ [ ./Dedupe-RPATH-entries.patch  ];
+      });
+      libuv = prev.libuv.overrideAttrs (old: {
+        doCheck = false;
+      });
+    }
+  );
   # emacs-unstable from emacs-overlay, with the patches used by emacs-plus
-  emacs-plus = pkgs.emacs-unstable.overrideAttrs (old: {
+  emacs-plus = (patched-pkgs.emacs-unstable.overrideAttrs (old: {
         patches =
           (old.patches or [])
           ++ [
@@ -45,7 +56,7 @@ let
               sha256 = "3QLq91AQ6E921/W9nfDjdOUWR8YVsqBAT/W9c1woqAw=";
             })
           ];
-      });
+      })).override{ withNativeCompilation = true; };
 
   emacs-plus-with-packages = (pkgs.emacsPackagesFor emacs-plus).emacsWithPackages (ps: [
     ps.vterm
