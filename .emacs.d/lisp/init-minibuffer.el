@@ -143,7 +143,8 @@
         '((execute-extended-command
            (+vertico-transform-functions . +vertico-highlight-enabled-mode))))
   (setq vertico-multiform-categories
-        '((file (+vertico-transform-functions . +vertico-highlight-directory))
+        '((file (+vertico-transform-functions . +vertico-highlight-directory)
+                (:keymap . vertico-directory-map))
           (imenu grid)))
   :bind (:map vertico-multiform-map
               ("M-H" . vertico-multiform-buffer-grid)))
