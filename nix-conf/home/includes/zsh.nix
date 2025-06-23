@@ -250,6 +250,10 @@ in
           _vip $CMD ''${@}
         }
 
+        function ecd () {
+          cd $(ea p ''${1:-1})
+        }
+
         function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
         function fcd { cd $(fd -L --max-depth=''${1:-4} --type=d 2>/dev/null | fzf-tmux) }
 
