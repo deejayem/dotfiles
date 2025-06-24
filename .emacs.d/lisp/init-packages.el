@@ -164,14 +164,6 @@ using this command."
       (when package-features
         (message "Reloaded: %s" (mapconcat #'symbol-name package-features " "))))))
 
-(define-advice elpaca-merge (:after (id &optional _fetch _interactive) elpaca-merge-reload)
-  "Automically reload packages after they have been updated."
-  (cl-letf (((symbol-function 'yes-or-no-p) (cl-constantly t)))
-    (when (not (or (memq id elpaca-ignored-dependencies)
-                   ;; TODO why aren't xref and project already in the list?
-                   (memq id '(xref project perspective elpaca))))
-      (+elpaca-reload-package id))))
-
 ;; https://github.com/radian-software/radian/blob/e3aad124c8e0cc870ed09da8b3a4905d01e49769/emacs/radian.el#L352
 (defmacro use-feature (name &rest args)
   "Like `use-package', but without elpaca integration.
