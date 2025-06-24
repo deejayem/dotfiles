@@ -36,10 +36,30 @@ let
       libuv = prev.libuv.overrideAttrs (old: {
         doCheck = false;
       });
+      dbus = prev.dbus.overrideAttrs (old: {
+        doCheck = false;
+      });
+      python313 = prev.python313.override {
+        packageOverrides = self: super: {
+          execnet = super.execnet.overridePythonAttrs (old: {
+            doCheck = false;
+          });
+          pytest-xdist = super.pytest-xdist.overridePythonAttrs (old: {
+            doCheck = false;
+          });
+          requests = super.requests.overridePythonAttrs (old: {
+            doCheck = false;
+          });
+          sphinx = super.sphinx.overridePythonAttrs (old: {
+            doCheck = false;
+          });
+        };
+      };
     }
   );
-  # emacs-unstable from emacs-overlay, with the patches used by emacs-plus
-  emacs-plus = (patched-pkgs.emacs-unstable.overrideAttrs (old: {
+
+  # Use the patches from emacs-plus
+  emacs-plus = (patched-pkgs.emacs30-pgtk.overrideAttrs (old: {
         patches =
           (old.patches or [])
           ++ [
@@ -66,12 +86,6 @@ let
 in
 {
   imports = [ ./dev-common.nix ];
-
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
-    }))
-  ];
 
   home.packages = with pkgs; [
     awscli2
