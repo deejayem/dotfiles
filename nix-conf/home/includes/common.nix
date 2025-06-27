@@ -53,6 +53,7 @@ in
     bandwhich
     bottom
     broot
+    comma
     curl
     diff-so-fancy
     difftastic
