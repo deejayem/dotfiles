@@ -86,6 +86,7 @@ in
     nvd
     pass
     procs
+    pstree
     rage
     ripgrep
     rlwrap
