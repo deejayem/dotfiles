@@ -107,7 +107,6 @@ in
     zstd
 
     unstable.nixfmt-rfc-style
-    unstable.wcurl
   ];
 
   programs.bat = {
