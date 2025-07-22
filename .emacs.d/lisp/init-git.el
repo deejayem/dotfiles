@@ -293,7 +293,8 @@
   (magit-diff-refine-hunk 'all)
   (magit-diff-paint-whitespace-lines 'all)
   (magit-diff-refine-ignore-whitespace nil)
-  (magit-diff-highlight-trailing t))
+  (magit-diff-highlight-trailing t)
+  (magit-git-executable (file-truename "~/.nix-profile/bin/git")))
 
 (use-package magit-delta
   :after magit
