@@ -277,14 +277,14 @@
 
   ;; Based on https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html
   (transient-define-prefix my/magit-extra-commands ()
-    "Extra magit commands."
-    ["Extra commands"
-     ("u" "Set upstream" my/magit-set-upstream)
-     ("r" "Refresh state (update modeline)" my/magit-refresh-state)
-     ("m" "Update master/main" my/magit-update-master)
-     ("d" "Difftastic Diff (dwim)" my/magit-diff-with-difftastic)
-     ("s" "Difftastic Show" my/magit-show-with-difftastic)
-     ("D" "Toggle magit-delta-mode" my/toggle-delta-mode)])
+                           "Extra magit commands."
+                           ["Extra commands"
+                            ("u" "Set upstream" my/magit-set-upstream)
+                            ("r" "Refresh state (update modeline)" my/magit-refresh-state)
+                            ("m" "Update master/main" my/magit-update-master)
+                            ("d" "Difftastic Diff (dwim)" my/magit-diff-with-difftastic)
+                            ("s" "Difftastic Show" my/magit-show-with-difftastic)
+                            ("D" "Toggle magit-delta-mode" my/toggle-delta-mode)])
   (transient-append-suffix 'magit-dispatch "!"
     '("#" "Extra Magit Cmds" my/magit-extra-commands))
   (define-key magit-status-mode-map (kbd "#") #'my/magit-extra-commands)
