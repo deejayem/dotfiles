@@ -1,0 +1,3 @@
+- sops channel
+- unstable channel
+- use /etc/ssl/cert.pem ?
