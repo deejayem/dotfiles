@@ -97,7 +97,7 @@ let
   aws-cert-file = pkgs.writeText "aws-cert.pem" aws-cert;
   full-cert-file = pkgs.writeText "full-cert.pem" full-cert;
 
-  zscaler-jdk = pkgs.jdk.overrideAttrs (old: {
+  zscaler-jdk = pkgs.jdk24.overrideAttrs (old: {
     # passthru.home must be set to ensure JAVA_HOME is set correctly
     # See https://github.com/nix-community/home-manager/blob/086f619dd991a4d355c07837448244029fc2d9ab/modules/programs/java.nix#L39-L41
     # and https://github.com/NixOS/nixpkgs/blob/4877ea239f4d02410c3516101faf35a81af0c30e/pkgs/development/compilers/openjdk/jre.nix#L32
