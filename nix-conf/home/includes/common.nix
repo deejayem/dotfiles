@@ -2,17 +2,17 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 let
   hcr = pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
   scr = pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; };
-  #unstable = import <unstable> { };
 in
 {
   imports = [
     ./zsh.nix
-    #<sops-nix/modules/home-manager/sops.nix>
+    inputs.sops-nix.homeManagerModules.sops
   ];
 
   nixpkgs.config.allowUnfreePredicate =
@@ -28,15 +28,15 @@ in
     };
   };
 
-  #sops = {
-  #  age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
-  #  defaultSopsFile = builtins.path {
-  #    path = ./secrets.yaml;
-  #    name = "home-secrets.yaml";
-  #  };
-  #  secrets."ssh_config/oci" = { };
-  #  secrets."git_email_config/default" = { };
-  #};
+  sops = {
+    age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
+    defaultSopsFile = builtins.path {
+      path = ./secrets.yaml;
+      name = "home-secrets.yaml";
+    };
+    secrets."ssh_config/oci" = { };
+    secrets."git_email_config/default" = { };
+  };
 
   home.sessionVariables = {
     LSP_USE_PLISTS = "true";
@@ -106,8 +106,7 @@ in
     zip
     zstd
 
-    # TODO
-    #unstable.nixfmt-rfc-style
+    unstable.nixfmt-rfc-style
   ];
 
   programs.bat = {
@@ -215,7 +214,7 @@ in
     '';
     includes = [
       "~/.ssh/config_local"
-      #config.sops.secrets."ssh_config/oci".path
+      config.sops.secrets."ssh_config/oci".path
     ];
     matchBlocks = {
       "djm.ovh" = {
@@ -283,7 +282,7 @@ in
   programs.git = {
     enable = true;
     userName = "David Morgan";
-    #includes = [ { path = config.sops.secrets."git_email_config/default".path; } ];
+    includes = [ { path = config.sops.secrets."git_email_config/default".path; } ];
     aliases = {
       # difftastic
       logt = "!sh -c 'GIT_EXTERNAL_DIFF=\"difft --background=dark\" git log -p --ext-diff'";

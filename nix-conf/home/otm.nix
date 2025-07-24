@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 let
@@ -91,8 +92,7 @@ let
     + zscaler-cert;
 
   full-cert =
-    #(builtins.readFile /etc/ssl/cert.pem) + # TODO can this be an input?
-    aws-cert + internal-cert + internal-staging-cert;
+    (builtins.readFile inputs.darwin-system-certs) + aws-cert + internal-cert + internal-staging-cert;
 
   zscaler-cert-file = pkgs.writeText "zscaler-cert.pem" zscaler-cert;
   aws-cert-file = pkgs.writeText "aws-cert.pem" aws-cert;
@@ -166,10 +166,10 @@ in
     ".wgetrc".text = "ca_certificate=${full-cert-file}";
   };
 
-  #sops.secrets = {
-  #  "git_email_config/otm" = { };
-  #  "ssh_config/otm" = { };
-  #};
+  sops.secrets = {
+    "git_email_config/otm" = { };
+    "ssh_config/otm" = { };
+  };
 
   programs.java = {
     enable = true;
@@ -179,15 +179,15 @@ in
   programs.git = {
     signing.signByDefault = lib.mkForce false;
     includes = lib.mkForce [
-      #{ path = config.sops.secrets."git_email_config/otm".path; }
-      #{
-      #  path = config.sops.secrets."git_email_config/default".path;
-      #  condition = "gitdir:~/src/personal/";
-      #}
-      #{
-      #  path = config.sops.secrets."git_email_config/default".path;
-      #  condition = "gitdir:~/dotfiles/";
-      #}
+      { path = config.sops.secrets."git_email_config/otm".path; }
+      {
+        path = config.sops.secrets."git_email_config/default".path;
+        condition = "gitdir:~/src/personal/";
+      }
+      {
+        path = config.sops.secrets."git_email_config/default".path;
+        condition = "gitdir:~/dotfiles/";
+      }
       {
         contents = {
           commit.gpgSign = true;
@@ -219,7 +219,7 @@ in
     ];
   };
   programs.ssh = {
-    #includes = [ config.sops.secrets."ssh_config/otm".path ];
+    includes = [ config.sops.secrets."ssh_config/otm".path ];
     matchBlocks = {
       "github.com" = lib.mkForce {
         hostname = "github.com";

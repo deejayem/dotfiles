@@ -2,30 +2,39 @@
   description = "Home Manager configuration of dmorgan";
 
   inputs = {
-    # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    darwin-system-certs = {
+      url = "/private/etc/ssl/cert.pem";
+      flake = false;
+    };
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }:
+    { nixpkgs, nixpkgs-unstable, home-manager, sops-nix, ... }@inputs:
     let
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
+      overlay-unstable = final: prev: {
+        unstable = nixpkgs-unstable.legacyPackages.${system};
+      };
     in
     {
       homeConfigurations."dmorgan" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
-        modules = [ ./otm.nix ];
-
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
+        extraSpecialArgs = { inherit inputs system; };
+        modules = [
+          ({ config, pkgs, ...  }: { nixpkgs.overlays = [ overlay-unstable ]; })
+          ./otm.nix
+        ];
       };
     };
 }
