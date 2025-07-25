@@ -90,10 +90,9 @@ in
     wget
   ];
 
-  #nixpkgs.config.permittedInsecurePackages = [
-  #  "emacs-mac-macport-29.1"
-  #  "emacs-mac-macport-with-packages-29.1"
-  #];
+  home.sessionVariables = {
+    NH_DARWIN_FLAKE = "/etc/nix-darwin";
+  };
 
   nix.settings = {
     sandbox = true;

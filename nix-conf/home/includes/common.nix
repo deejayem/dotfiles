@@ -15,11 +15,7 @@ in
     inputs.sops-nix.homeManagerModules.sops
   ];
 
-  #nixpkgs.config.allowUnfreePredicate =
-  #  pkg: builtins.elem (lib.getName pkg) [ "aspell-dict-en-science" ];
-
   nix = {
-    #package = pkgs.nix;
     settings = {
       extra-experimental-features = [
         "nix-command"
@@ -381,4 +377,7 @@ in
       ];
     };
   };
+
+  programs.nh.enable = true;
 }
+
