@@ -2,24 +2,20 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 let
   hcr = pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
   scr = pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; };
-  unstable = import <unstable> { };
 in
 {
   imports = [
     ./zsh.nix
-    <sops-nix/modules/home-manager/sops.nix>
+    inputs.sops-nix.homeManagerModules.sops
   ];
 
-  nixpkgs.config.allowUnfreePredicate =
-    pkg: builtins.elem (lib.getName pkg) [ "aspell-dict-en-science" ];
-
   nix = {
-    package = pkgs.nix;
     settings = {
       extra-experimental-features = [
         "nix-command"
@@ -381,4 +377,7 @@ in
       ];
     };
   };
+
+  programs.nh.enable = true;
 }
+

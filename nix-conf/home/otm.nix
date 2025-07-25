@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 let
@@ -91,7 +92,7 @@ let
     + zscaler-cert;
 
   full-cert =
-    (builtins.readFile /etc/ssl/cert.pem) + aws-cert + internal-cert + internal-staging-cert;
+    (builtins.readFile inputs.darwin-system-certs) + aws-cert + internal-cert + internal-staging-cert;
 
   zscaler-cert-file = pkgs.writeText "zscaler-cert.pem" zscaler-cert;
   aws-cert-file = pkgs.writeText "aws-cert.pem" aws-cert;
