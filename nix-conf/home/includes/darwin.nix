@@ -73,7 +73,7 @@ in
     #mpc-cli
     #mpd
     #ncmpcpp
-    nix # on darwin we are not using nixos (duh)
+    nix
     nodejs
     pam-reattach
     pinentry_mac
