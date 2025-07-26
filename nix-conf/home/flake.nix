@@ -97,6 +97,7 @@
         ];
       };
       # WIP: TODO: migrate home configs to nixos config
+      # nh home switch -a ~/dotfiles/nix-conf/home -c $(whoami)-$(hostname)
       homeConfigurations."djm-egalmoth" = home-manager-stable.lib.homeManagerConfiguration {
         pkgs = linux-pkgs;
         extraSpecialArgs = {
@@ -107,7 +108,10 @@
           (
             { config, pkgs, ... }:
             {
+              nix.package = pkgs.nix;
               nixpkgs.overlays = [ linux-overlay-unstable ];
+              nixpkgs.config.allowUnfreePredicate =
+                pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "aspell-dict-en-science" ];
             }
           )
           ./egalmoth.nix
