@@ -200,7 +200,6 @@ in
 
   fonts.packages = with pkgs; [
     corefonts
-    iosevka-comfy.comfy
     iosevka-bin
     jetbrains-mono
     meslo-lgs-nf
