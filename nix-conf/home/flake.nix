@@ -69,6 +69,11 @@
               nix.settings.ssl-cert-file = "/Users/dmorgan/certs/full-cert.pem";
               system.configurationRevision = self.rev or self.dirtyRev or null;
               system.stateVersion = 6;
+              system.keyboard.enableKeyMapping = true;
+              system.keyboard.userKeyMapping = [
+                { HIDKeyboardModifierMappingSrc = 30064771296; HIDKeyboardModifierMappingDst = 30064771299; }
+                { HIDKeyboardModifierMappingSrc = 30064771299; HIDKeyboardModifierMappingDst = 30064771296; }
+              ];
               nixpkgs.hostPlatform = "aarch64-darwin";
               ids.gids.nixbld = 30000;
               users.users.dmorgan.home = "/Users/dmorgan";
