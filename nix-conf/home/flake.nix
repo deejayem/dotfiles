@@ -139,8 +139,7 @@
             {
               nix.package = pkgs.nix;
               nixpkgs.overlays = [ linux-overlay-unstable ];
-              nixpkgs.config.allowUnfreePredicate =
-                pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "aspell-dict-en-science" ];
+              nixpkgs.config = nixpkgs-config;
             }
           )
           ./egalmoth.nix
