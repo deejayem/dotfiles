@@ -4,9 +4,7 @@
   lib,
   ...
 }:
-let
-  unstable = import <unstable> { };
-in
+
 {
   imports = [ ./hardware-configuration.nix ];
 
@@ -212,11 +210,10 @@ in
 
   fonts.packages = with pkgs; [
     corefonts
-    iosevka-comfy.comfy
     iosevka-bin
     jetbrains-mono
     meslo-lgs-nf
-    unstable.aporetic
+    aporetic
   ];
 
   programs.zsh.enable = true;

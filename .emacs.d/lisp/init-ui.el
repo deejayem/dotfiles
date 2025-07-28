@@ -10,8 +10,6 @@
                          (cond
                           ((find-font (font-spec :name "aporetic serif mono"))
                            (set-face-attribute 'default nil :font "aporetic serif mono"))
-                          ((find-font (font-spec :name "iosevka comfy"))
-                           (set-face-attribute 'default nil :font "iosevka comfy"))
                           ((find-font (font-spec :name "iosevka"))
                            (set-face-attribute 'default nil :font "iosevka")))
 
