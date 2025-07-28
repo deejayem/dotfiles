@@ -161,7 +161,7 @@
               nixpkgs.config = nixpkgs-config;
             }
           )
-          ./egalmoth.nix
+          ./edrahil.nix
         ];
       };
       homeConfigurations."djm-djmuk1" = home-manager-stable.lib.homeManagerConfiguration {
