@@ -43,6 +43,7 @@
       darwin-system = "aarch64-darwin";
       linux-system = "x86_64-linux";
       linux-arm-system = "aarch64-linux";
+      darwin-pkgs = nixpkgs-stable.legacyPackages.${darwin-system};
       linux-pkgs = nixpkgs-stable.legacyPackages.${linux-system};
       darwin-overlay-unstable = final: prev: {
         unstable = nixpkgs-unstable.legacyPackages.${darwin-system};
@@ -52,6 +53,9 @@
       };
       linux-arm-overlay-unstable = final: prev: {
         unstable = nixpkgs-unstable.legacyPackages.${linux-arm-system};
+      };
+      nixpkgs-config = {
+        allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "aspell-dict-en-science" ];
       };
     in
     {
@@ -69,6 +73,24 @@
               nix.settings.ssl-cert-file = "/Users/dmorgan/certs/full-cert.pem";
               system.configurationRevision = self.rev or self.dirtyRev or null;
               system.stateVersion = 6;
+              #system.primaryUser = "dmorgan"; # required to update com.apple.symbolichotkeys
+              system.keyboard.enableKeyMapping = true;
+              system.keyboard.userKeyMapping = [
+                { HIDKeyboardModifierMappingSrc = 30064771296; HIDKeyboardModifierMappingDst = 30064771299; }
+                { HIDKeyboardModifierMappingSrc = 30064771299; HIDKeyboardModifierMappingDst = 30064771296; }
+              ];
+              #system.defaults.CustomUserPreferences = {
+              #  "com.apple.symbolichotkeys" = {
+              #    AppleSymbolicHotKeys = {
+              #      "60" = {
+              #        enabled = 0;
+              #      };
+              #      "61" = {
+              #        enabled = 0;
+              #      };
+              #    };
+              #  };
+              #};
               nixpkgs.hostPlatform = "aarch64-darwin";
               ids.gids.nixbld = 30000;
               users.users.dmorgan.home = "/Users/dmorgan";
@@ -82,8 +104,7 @@
           home-manager.darwinModules.home-manager
           {
             nixpkgs.overlays = [ darwin-overlay-unstable ];
-            nixpkgs.config.allowUnfreePredicate =
-              pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "aspell-dict-en-science" ];
+            nixpkgs.config = nixpkgs-config;
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
@@ -94,6 +115,14 @@
               users.dmorgan = ./otm.nix;
             };
           }
+        ];
+      };
+      homeConfigurations."dmorgan" = home-manager.lib.homeManagerConfiguration {
+        pkgs = darwin-pkgs;
+        extraSpecialArgs = { inherit inputs; system = darwin-system; };
+        modules = [
+          ({ config, pkgs, ...  }: { nixpkgs.overlays = [ darwin-overlay-unstable ]; nix.package = pkgs.nix; })
+          ./otm.nix
         ];
       };
       # WIP: TODO: migrate home configs to nixos config
@@ -115,6 +144,60 @@
             }
           )
           ./egalmoth.nix
+        ];
+      };
+      homeConfigurations."djm-edrahil" = home-manager-stable.lib.homeManagerConfiguration {
+        pkgs = linux-pkgs;
+        extraSpecialArgs = {
+          inherit inputs;
+          system = linux-system;
+        };
+        modules = [
+          (
+            { config, pkgs, ... }:
+            {
+              nix.package = pkgs.nix;
+              nixpkgs.overlays = [ linux-overlay-unstable ];
+              nixpkgs.config = nixpkgs-config;
+            }
+          )
+          ./egalmoth.nix
+        ];
+      };
+      homeConfigurations."djm-djmuk1" = home-manager-stable.lib.homeManagerConfiguration {
+        pkgs = linux-pkgs;
+        extraSpecialArgs = {
+          inherit inputs;
+          system = linux-system;
+        };
+        modules = [
+          (
+            { config, pkgs, ... }:
+            {
+              nix.package = pkgs.nix;
+              nixpkgs.overlays = [ linux-overlay-unstable ];
+              nixpkgs.config = nixpkgs-config;
+            }
+          )
+          ./djmuk1.nix
+        ];
+      };
+      homeConfigurations."djm-djmuk2" = home-manager-stable.lib.homeManagerConfiguration {
+        pkgs = linux-pkgs;
+        extraSpecialArgs = {
+          inherit inputs;
+          system = linux-arm-system;
+        };
+        modules = [
+          (
+            { config, pkgs, ... }:
+            {
+              nix.package = pkgs.nix;
+              nixpkgs.overlays = [ linux-arm-overlay-unstable ];
+              nixpkgs.config = nixpkgs-config;
+            }
+          )
+          ./djmuk2.nix
         ];
       };
     };
