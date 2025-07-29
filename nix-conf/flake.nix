@@ -1,5 +1,5 @@
 {
-  description = "Home Manager configuration";
+  description = "NixOS, nix-darwin, and Home Manager configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -60,6 +60,35 @@
       };
     in
     {
+      nixosConfigurations."egalmoth" = nixpkgs-stable.lib.nixosSystem {
+        system = linux-system;
+        modules = [
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
+          ./machines/egalmoth/configuration.nix
+        ];
+      };
+      nixosConfigurations."edrahil" = nixpkgs-stable.lib.nixosSystem {
+        system = linux-system;
+        modules = [
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
+          ./machines/edrahil/configuration.nix
+        ];
+      };
+      nixosConfigurations."djmuk1" = nixpkgs-stable.lib.nixosSystem {
+        system = linux-system;
+        modules = [
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
+          ./machines/djmuk1/configuration.nix
+        ];
+      };
+      nixosConfigurations."djmuk2" = nixpkgs-stable.lib.nixosSystem {
+        system = linux-arm-system;
+        modules = [
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-arm-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
+          ./machines/djmuk2/configuration.nix
+        ];
+      };
+
       darwinConfigurations."LDN-DMORGAN" = nix-darwin.lib.darwinSystem {
         modules = [
           # TODO move to separate file
@@ -113,7 +142,7 @@
                 inherit inputs;
                 system = darwin-system;
               };
-              users.dmorgan = ./otm.nix;
+              users.dmorgan = ./home/otm.nix;
             };
           }
         ];
@@ -123,7 +152,7 @@
         extraSpecialArgs = { inherit inputs; system = darwin-system; };
         modules = [
           ({ config, pkgs, ...  }: { nixpkgs.overlays = [ darwin-overlay-unstable ]; nixpkgs.config = nixpkgs-config; nix.package = pkgs.nix; })
-          ./otm.nix
+          ./home/otm.nix
         ];
       };
       # WIP: TODO: migrate home configs to nixos config
@@ -143,7 +172,7 @@
               nixpkgs.config = nixpkgs-config;
             }
           )
-          ./egalmoth.nix
+          ./home/egalmoth.nix
         ];
       };
       homeConfigurations."djm-edrahil" = home-manager-stable.lib.homeManagerConfiguration {
@@ -161,7 +190,7 @@
               nixpkgs.config = nixpkgs-config;
             }
           )
-          ./edrahil.nix
+          ./home/edrahil.nix
         ];
       };
       homeConfigurations."djm-djmuk1" = home-manager-stable.lib.homeManagerConfiguration {
@@ -179,7 +208,7 @@
               nixpkgs.config = nixpkgs-config;
             }
           )
-          ./djmuk1.nix
+          ./home/djmuk1.nix
         ];
       };
       homeConfigurations."djm-djmuk2" = home-manager-stable.lib.homeManagerConfiguration {
@@ -197,7 +226,7 @@
               nixpkgs.config = nixpkgs-config;
             }
           )
-          ./djmuk2.nix
+          ./home/djmuk2.nix
         ];
       };
     };
