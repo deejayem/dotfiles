@@ -122,7 +122,7 @@
         pkgs = darwin-pkgs;
         extraSpecialArgs = { inherit inputs; system = darwin-system; };
         modules = [
-          ({ config, pkgs, ...  }: { nixpkgs.overlays = [ darwin-overlay-unstable ]; nix.package = pkgs.nix; })
+          ({ config, pkgs, ...  }: { nixpkgs.overlays = [ darwin-overlay-unstable ]; nixpkgs.config = nixpkgs-config; nix.package = pkgs.nix; })
           ./otm.nix
         ];
       };
