@@ -1,4 +1,7 @@
 { config, pkgs, ... }:
+let
+  secrets = builtins.extraBuiltins.readSops secrets.yaml;
+in
 {
   imports = [ ./hardware-configuration.nix ];
 
@@ -35,8 +38,9 @@
   # Emulate nix-sops. Technically an anti-pattern, but this isn't a real secret, and this has to be embedded here, as we cannot set a file path to read it from.
   # Populate/update with:
   # SOPS_AGE_KEY=$(doas ssh-to-age -private-key -i /etc/ssh/ssh_host_ed25519_key) sops -d --extract '["openiscsi_name"]' machines/djmuk2/secrets.yaml | doas tee /root/.config/secrets/openiscsi_name
+  # TODO: comments
   services.openiscsi.enable = true;
-  services.openiscsi.name = builtins.readFile "/root/.config/secrets/openiscsi_name";
+  services.openiscsi.name = secrets.openiscsi_name;
   #services.openiscsi.enableAutoLoginOut = true;
 
   users.users.djm = {
@@ -76,6 +80,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    nix-plugins
     #procmail
     git
     wget
@@ -85,6 +90,12 @@
     "root"
     "djm"
   ];
+  nix = {
+    settings = {
+      plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins";
+      extra-builtins-file = [ ../libs/extra-builtins.nix ];
+    };
+  };
   nix.optimise.automatic = true;
   nix.optimise.dates = [ "03:00" ];
 
