@@ -3,7 +3,6 @@
   imports = [
     ./hardware-configuration.nix
     ./network-configuration.nix
-    inputs.sops-nix.homeManagerModules.sops
   ];
 
   boot.tmp.cleanOnBoot = true;

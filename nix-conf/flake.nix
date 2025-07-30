@@ -72,6 +72,7 @@
         modules = [
           ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
           ./machines/edrahil/configuration.nix
+          sops-nix.nixosModules.sops
         ];
       };
       nixosConfigurations."djmuk1" = nixpkgs-stable.lib.nixosSystem {
