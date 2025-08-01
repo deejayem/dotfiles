@@ -294,7 +294,8 @@
   (magit-diff-paint-whitespace-lines 'all)
   (magit-diff-refine-ignore-whitespace nil)
   (magit-diff-highlight-trailing t)
-  (magit-git-executable (file-truename "~/.nix-profile/bin/git")))
+  (magit-git-executable (or (executable-find (file-truename "~/.nix-profile/bin/git"))
+                            (executable-find (file-truename (concat "/etc/profiles/per-user/" (user-login-name) "/bin/git"))))))
 
 (use-package magit-delta
   :after magit
