@@ -1,5 +1,5 @@
 {
-  description = "Home Manager configuration";
+  description = "NixOS, nix-darwin, and Home Manager configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -123,7 +123,7 @@
         extraSpecialArgs = { inherit inputs; system = darwin-system; };
         modules = [
           ({ config, pkgs, ...  }: { nixpkgs.overlays = [ darwin-overlay-unstable ]; nixpkgs.config = nixpkgs-config; nix.package = pkgs.nix; })
-          ./otm.nix
+          ./home/otm.nix
         ];
       };
       homeConfigurations."djm@egalmoth" = home-manager-stable.lib.homeManagerConfiguration {
@@ -141,7 +141,7 @@
               nixpkgs.config = nixpkgs-config;
             }
           )
-          ./egalmoth.nix
+          ./home/egalmoth.nix
         ];
       };
       homeConfigurations."djm@edrahil" = home-manager-stable.lib.homeManagerConfiguration {
@@ -159,7 +159,7 @@
               nixpkgs.config = nixpkgs-config;
             }
           )
-          ./edrahil.nix
+          ./home/edrahil.nix
         ];
       };
       homeConfigurations."djm@djmuk1" = home-manager-stable.lib.homeManagerConfiguration {
@@ -177,7 +177,7 @@
               nixpkgs.config = nixpkgs-config;
             }
           )
-          ./djmuk1.nix
+          ./home/djmuk1.nix
         ];
       };
       homeConfigurations."djm@djmuk2" = home-manager-stable.lib.homeManagerConfiguration {
@@ -195,7 +195,7 @@
               nixpkgs.config = nixpkgs-config;
             }
           )
-          ./djmuk2.nix
+          ./home/djmuk2.nix
         ];
       };
     };
