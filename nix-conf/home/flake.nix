@@ -118,7 +118,7 @@
           }
         ];
       };
-      homeConfigurations."dmorgan" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."dmorgan@LDN-DMORGAN" = home-manager.lib.homeManagerConfiguration {
         pkgs = darwin-pkgs;
         extraSpecialArgs = { inherit inputs; system = darwin-system; };
         modules = [
@@ -126,9 +126,7 @@
           ./otm.nix
         ];
       };
-      # WIP: TODO: migrate home configs to nixos config
-      # nh home switch -a ~/dotfiles/nix-conf/home -c $(whoami)-$(hostname)
-      homeConfigurations."djm-egalmoth" = home-manager-stable.lib.homeManagerConfiguration {
+      homeConfigurations."djm@egalmoth" = home-manager-stable.lib.homeManagerConfiguration {
         pkgs = linux-pkgs;
         extraSpecialArgs = {
           inherit inputs;
@@ -146,7 +144,7 @@
           ./egalmoth.nix
         ];
       };
-      homeConfigurations."djm-edrahil" = home-manager-stable.lib.homeManagerConfiguration {
+      homeConfigurations."djm@edrahil" = home-manager-stable.lib.homeManagerConfiguration {
         pkgs = linux-pkgs;
         extraSpecialArgs = {
           inherit inputs;
@@ -164,7 +162,7 @@
           ./edrahil.nix
         ];
       };
-      homeConfigurations."djm-djmuk1" = home-manager-stable.lib.homeManagerConfiguration {
+      homeConfigurations."djm@djmuk1" = home-manager-stable.lib.homeManagerConfiguration {
         pkgs = linux-pkgs;
         extraSpecialArgs = {
           inherit inputs;
@@ -182,7 +180,7 @@
           ./djmuk1.nix
         ];
       };
-      homeConfigurations."djm-djmuk2" = home-manager-stable.lib.homeManagerConfiguration {
+      homeConfigurations."djm@djmuk2" = home-manager-stable.lib.homeManagerConfiguration {
         pkgs = linux-arm-pkgs;
         extraSpecialArgs = {
           inherit inputs;
