@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,7 +31,6 @@
       self,
       nixpkgs,
       nixpkgs-stable,
-      nixpkgs-unstable,
       nix-darwin,
       home-manager,
       home-manager-stable,
@@ -47,13 +45,13 @@
       linux-pkgs = nixpkgs-stable.legacyPackages.${linux-system};
       linux-arm-pkgs = nixpkgs-stable.legacyPackages.${linux-arm-system};
       darwin-overlay-unstable = final: prev: {
-        unstable = nixpkgs-unstable.legacyPackages.${darwin-system};
+        unstable = nixpkgs.legacyPackages.${darwin-system};
       };
       linux-overlay-unstable = final: prev: {
-        unstable = nixpkgs-unstable.legacyPackages.${linux-system};
+        unstable = nixpkgs.legacyPackages.${linux-system};
       };
       linux-arm-overlay-unstable = final: prev: {
-        unstable = nixpkgs-unstable.legacyPackages.${linux-arm-system};
+        unstable = nixpkgs.legacyPackages.${linux-arm-system};
       };
       nixpkgs-config = {
         allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "aspell-dict-en-science" ];
