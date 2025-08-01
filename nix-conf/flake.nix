@@ -87,6 +87,7 @@
         modules = [
           ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-arm-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
           ./machines/djmuk2/configuration.nix
+          sops-nix.nixosModules.sops
         ];
       };
 

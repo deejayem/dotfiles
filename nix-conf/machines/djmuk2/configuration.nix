@@ -1,6 +1,22 @@
 { config, pkgs, ... }:
 let
-  secrets = builtins.extraBuiltins.readSops secrets.yaml;
+  #secrets = builtins.extraBuiltins.readSops secrets.yaml;
+  #plugs = (pkgs.nix-plugins.override { nix = pkgs.nixVersions.nix_2_24; }).overrideAttrs (o: {
+  #  buildInputs = [pkgs.nixVersions.nix_2_24 pkgs.boost];
+  #  patches = (o.patches or []) ++ [../../nix-plugins.patch];
+  #});
+  plugs = pkgs.nix-plugins.overrideAttrs (o: {
+    #nix = pkgs.nixVersions.nix_2_24;
+    #buildInputs = [pkgs.nixVersions.nix_2_24 pkgs.boost];
+    buildInputs = [pkgs.nixVersions.latest pkgs.boost];
+    patches = (o.patches or []) ++ [
+      ../../nix-plugins.patch
+      (pkgs.fetchpatch {
+        url = "https://raw.githubusercontent.com/chayleaf/dotfiles/2f8865c3f5880dfc24bdd9d7ccf7e1b3880ba680/pkgs/nix-plugins-fix.patch";
+        hash = "sha256-IHNlIhYfnwFfwD/FxPXxbcvOqnsH5/XjA3fOyuoGj5c=";
+      })
+    ];
+  });
 in
 {
   imports = [ ./hardware-configuration.nix ];
@@ -13,6 +29,15 @@ in
     enable = true;
     allowedTCPPorts = [ 113 ];
   };
+
+
+  sops = {
+    defaultSopsFile = builtins.path {
+      path = ./secrets.yaml;
+      name = "djmuk2-secrets.yaml";
+    };
+  };
+
 
   services.openssh = {
     enable = true;
@@ -40,7 +65,10 @@ in
   # SOPS_AGE_KEY=$(doas ssh-to-age -private-key -i /etc/ssh/ssh_host_ed25519_key) sops -d --extract '["openiscsi_name"]' machines/djmuk2/secrets.yaml | doas tee /root/.config/secrets/openiscsi_name
   # TODO: comments
   services.openiscsi.enable = true;
-  services.openiscsi.name = secrets.openiscsi_name;
+  #services.openiscsi.name = (builtins.extraBuiltins.sopsFromYAML config.sops.defaultSopsFile).openiscsi_name;
+  #services.openiscsi.name = secrets.openiscsi_name;
+  services.openiscsi.name = "iqn.2015-12.com.oracleiaas:b729d5b6-d6b0-46cd-be60-820ec3023a16";
+  #services.openiscsi.name = builtins.readFile /home/djm/dotfiles/machines/djmuk2/openiscsi_name;
   #services.openiscsi.enableAutoLoginOut = true;
 
   users.users.djm = {
@@ -84,18 +112,28 @@ in
     #procmail
     git
     wget
+    #plugs
+    plugs
   ];
 
   nix.settings.trusted-users = [
     "root"
     "djm"
   ];
-  nix = {
-    settings = {
-      plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins";
-      extra-builtins-file = [ ../libs/extra-builtins.nix ];
-    };
-  };
+  #plugin-files = ${(pkgs.nix-plugins.override { nix = pkgs.nixVersions.nix_2_18; }).overrideAttrs (o: {
+  #  buildInputs = [pkgs.nixVersions.nix_2_18 pkgs.boost];
+  #  patches = (o.patches or []) ++ [../../nix-plugins.patch];
+  #})}/lib/nix/plugins
+  nix.extraOptions = ''
+    plugin-files = ${plugs}/lib/nix/plugins
+    extra-builtins-file = [ ../../lib/extra-builtins.nix ];
+'';
+  #nix = {
+  #  settings = {
+  #    plugin-files = "${pkgs.nix-plugins}/lib/nix/plugins";
+  #    extra-builtins-file = [ ../../lib/extra-builtins.nix ];
+  #  };
+  #};
   nix.optimise.automatic = true;
   nix.optimise.dates = [ "03:00" ];
 
