@@ -41,7 +41,7 @@
       darwin-system = "aarch64-darwin";
       linux-system = "x86_64-linux";
       linux-arm-system = "aarch64-linux";
-      darwin-pkgs = nixpkgs-stable.legacyPackages.${darwin-system};
+      darwin-pkgs = nixpkgs.legacyPackages.${darwin-system};
       linux-pkgs = nixpkgs-stable.legacyPackages.${linux-system};
       linux-arm-pkgs = nixpkgs-stable.legacyPackages.${linux-arm-system};
       darwin-overlay-unstable = final: prev: {
