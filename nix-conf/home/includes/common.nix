@@ -59,6 +59,7 @@ in
     file
     fzf
     git
+    git-agecrypt
     gnupg
     gopass
     htop
