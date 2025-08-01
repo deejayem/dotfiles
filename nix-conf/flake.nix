@@ -102,20 +102,21 @@
               ];
             }
           )
-          home-manager.darwinModules.home-manager
-          {
-            nixpkgs.overlays = [ darwin-overlay-unstable ];
-            nixpkgs.config = nixpkgs-config;
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = {
-                inherit inputs;
-                system = darwin-system;
-              };
-              users.dmorgan = ./otm.nix;
-            };
-          }
+          # TODO remove or re-enable?
+          #home-manager.darwinModules.home-manager
+          #{
+          #  nixpkgs.overlays = [ darwin-overlay-unstable ];
+          #  nixpkgs.config = nixpkgs-config;
+          #  home-manager = {
+          #    useGlobalPkgs = true;
+          #    useUserPackages = true;
+          #    extraSpecialArgs = {
+          #      inherit inputs;
+          #      system = darwin-system;
+          #    };
+          #    users.dmorgan = ./home/otm.nix;
+          #  };
+          #}
         ];
       };
       homeConfigurations."dmorgan@LDN-DMORGAN" = home-manager.lib.homeManagerConfiguration {
