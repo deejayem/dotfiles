@@ -7,7 +7,6 @@
     irssi
     libtree
     msmtp
-    pinentry
     restic
     sword
     yt-dlp
