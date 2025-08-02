@@ -3,7 +3,6 @@
   imports = [
     ./hardware-configuration.nix
     ./network-configuration.nix
-    <sops-nix/modules/sops>
   ];
 
   boot.tmp.cleanOnBoot = true;
@@ -20,7 +19,7 @@
 
   sops = {
     defaultSopsFile = builtins.path {
-      path = /etc/nixos/secrets.yaml;
+      path = ./secrets.yaml;
       name = "edrahil-secrets.yaml";
     };
     secrets.restic_password = {

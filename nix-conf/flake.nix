@@ -58,6 +58,36 @@
       };
     in
     {
+      nixosConfigurations."egalmoth" = nixpkgs-stable.lib.nixosSystem {
+        system = linux-system;
+        modules = [
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
+          ./machines/egalmoth/configuration.nix
+        ];
+      };
+      nixosConfigurations."edrahil" = nixpkgs-stable.lib.nixosSystem {
+        system = linux-system;
+        modules = [
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
+          ./machines/edrahil/configuration.nix
+          sops-nix.nixosModules.sops
+        ];
+      };
+      nixosConfigurations."djmuk1" = nixpkgs-stable.lib.nixosSystem {
+        system = linux-system;
+        modules = [
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
+          ./machines/djmuk1/configuration.nix
+        ];
+      };
+      nixosConfigurations."djmuk2" = nixpkgs-stable.lib.nixosSystem {
+        system = linux-arm-system;
+        modules = [
+          ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-arm-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
+          ./machines/djmuk2/configuration.nix
+        ];
+      };
+
       darwinConfigurations."LDN-DMORGAN" = nix-darwin.lib.darwinSystem {
         modules = [
           # TODO move to separate file
