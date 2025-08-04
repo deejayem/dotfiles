@@ -61,14 +61,26 @@
       nixosConfigurations."egalmoth" = nixpkgs-stable.lib.nixosSystem {
         system = linux-system;
         modules = [
-          ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
+          (
+            { config, pkgs, ... }:
+            {
+              nixpkgs.overlays = [ linux-overlay-unstable ];
+              nix.settings.experimental-features = "nix-command flakes";
+            }
+          )
           ./machines/egalmoth/configuration.nix
         ];
       };
       nixosConfigurations."edrahil" = nixpkgs-stable.lib.nixosSystem {
         system = linux-system;
         modules = [
-          ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
+          (
+            { config, pkgs, ... }:
+            {
+              nixpkgs.overlays = [ linux-overlay-unstable ];
+              nix.settings.experimental-features = "nix-command flakes";
+            }
+          )
           ./machines/edrahil/configuration.nix
           sops-nix.nixosModules.sops
         ];
@@ -76,14 +88,26 @@
       nixosConfigurations."djmuk1" = nixpkgs-stable.lib.nixosSystem {
         system = linux-system;
         modules = [
-          ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
+          (
+            { config, pkgs, ... }:
+            {
+              nixpkgs.overlays = [ linux-overlay-unstable ];
+              nix.settings.experimental-features = "nix-command flakes";
+            }
+          )
           ./machines/djmuk1/configuration.nix
         ];
       };
       nixosConfigurations."djmuk2" = nixpkgs-stable.lib.nixosSystem {
         system = linux-arm-system;
         modules = [
-          ({ config, pkgs, ... }: { nixpkgs.overlays = [ linux-arm-overlay-unstable ]; nix.settings.experimental-features = "nix-command flakes"; })
+          (
+            { config, pkgs, ... }:
+            {
+              nixpkgs.overlays = [ linux-arm-overlay-unstable ];
+              nix.settings.experimental-features = "nix-command flakes";
+            }
+          )
           ./machines/djmuk2/configuration.nix
         ];
       };
@@ -105,8 +129,14 @@
               #system.primaryUser = "dmorgan"; # required to update com.apple.symbolichotkeys
               system.keyboard.enableKeyMapping = true;
               system.keyboard.userKeyMapping = [
-                { HIDKeyboardModifierMappingSrc = 30064771296; HIDKeyboardModifierMappingDst = 30064771299; }
-                { HIDKeyboardModifierMappingSrc = 30064771299; HIDKeyboardModifierMappingDst = 30064771296; }
+                {
+                  HIDKeyboardModifierMappingSrc = 30064771296;
+                  HIDKeyboardModifierMappingDst = 30064771299;
+                }
+                {
+                  HIDKeyboardModifierMappingSrc = 30064771299;
+                  HIDKeyboardModifierMappingDst = 30064771296;
+                }
               ];
               #system.defaults.CustomUserPreferences = {
               #  "com.apple.symbolichotkeys" = {
@@ -149,9 +179,19 @@
       };
       homeConfigurations."dmorgan@LDN-DMORGAN" = home-manager.lib.homeManagerConfiguration {
         pkgs = darwin-pkgs;
-        extraSpecialArgs = { inherit inputs; system = darwin-system; };
+        extraSpecialArgs = {
+          inherit inputs;
+          system = darwin-system;
+        };
         modules = [
-          ({ config, pkgs, ...  }: { nixpkgs.overlays = [ darwin-overlay-unstable ]; nixpkgs.config = nixpkgs-config; nix.package = pkgs.nix; })
+          (
+            { config, pkgs, ... }:
+            {
+              nixpkgs.overlays = [ darwin-overlay-unstable ];
+              nixpkgs.config = nixpkgs-config;
+              nix.package = pkgs.nix;
+            }
+          )
           ./home/otm.nix
         ];
       };
