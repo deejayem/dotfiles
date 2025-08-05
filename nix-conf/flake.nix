@@ -53,9 +53,6 @@
       linux-arm-overlay-unstable = final: prev: {
         unstable = nixpkgs.legacyPackages.${linux-arm-system};
       };
-      nixpkgs-config = {
-        allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) [ "aspell-dict-en-science" ];
-      };
     in
     {
       nixosConfigurations."egalmoth" = nixpkgs-stable.lib.nixosSystem {
@@ -65,9 +62,9 @@
             { config, pkgs, ... }:
             {
               nixpkgs.overlays = [ linux-overlay-unstable ];
-              nix.settings.experimental-features = "nix-command flakes";
             }
           )
+          ./config.nix
           ./machines/egalmoth/configuration.nix
         ];
       };
@@ -78,9 +75,9 @@
             { config, pkgs, ... }:
             {
               nixpkgs.overlays = [ linux-overlay-unstable ];
-              nix.settings.experimental-features = "nix-command flakes";
             }
           )
+          ./config.nix
           ./machines/edrahil/configuration.nix
           sops-nix.nixosModules.sops
         ];
@@ -92,9 +89,9 @@
             { config, pkgs, ... }:
             {
               nixpkgs.overlays = [ linux-overlay-unstable ];
-              nix.settings.experimental-features = "nix-command flakes";
             }
           )
+          ./config.nix
           ./machines/djmuk1/configuration.nix
         ];
       };
@@ -105,9 +102,9 @@
             { config, pkgs, ... }:
             {
               nixpkgs.overlays = [ linux-arm-overlay-unstable ];
-              nix.settings.experimental-features = "nix-command flakes";
             }
           )
+          ./config.nix
           ./machines/djmuk2/configuration.nix
         ];
       };
@@ -118,7 +115,6 @@
           (
             { pkgs, ... }:
             {
-              nix.settings.experimental-features = "nix-command flakes";
               nix.settings.trusted-users = [
                 "dmorgan"
                 "@staff"
@@ -160,21 +156,7 @@
               ];
             }
           )
-          # TODO remove or re-enable?
-          #home-manager.darwinModules.home-manager
-          #{
-          #  nixpkgs.overlays = [ darwin-overlay-unstable ];
-          #  nixpkgs.config = nixpkgs-config;
-          #  home-manager = {
-          #    useGlobalPkgs = true;
-          #    useUserPackages = true;
-          #    extraSpecialArgs = {
-          #      inherit inputs;
-          #      system = darwin-system;
-          #    };
-          #    users.dmorgan = ./home/otm.nix;
-          #  };
-          #}
+          ./config.nix
         ];
       };
       homeConfigurations."dmorgan@LDN-DMORGAN" = home-manager.lib.homeManagerConfiguration {
@@ -188,10 +170,9 @@
             { config, pkgs, ... }:
             {
               nixpkgs.overlays = [ darwin-overlay-unstable ];
-              nixpkgs.config = nixpkgs-config;
-              nix.package = pkgs.nix;
             }
           )
+          ./config.nix
           ./home/otm.nix
         ];
       };
@@ -205,11 +186,10 @@
           (
             { config, pkgs, ... }:
             {
-              nix.package = pkgs.nix;
               nixpkgs.overlays = [ linux-overlay-unstable ];
-              nixpkgs.config = nixpkgs-config;
             }
           )
+          ./config.nix
           ./home/egalmoth.nix
         ];
       };
@@ -223,11 +203,10 @@
           (
             { config, pkgs, ... }:
             {
-              nix.package = pkgs.nix;
               nixpkgs.overlays = [ linux-overlay-unstable ];
-              nixpkgs.config = nixpkgs-config;
             }
           )
+          ./config.nix
           ./home/edrahil.nix
         ];
       };
@@ -241,11 +220,10 @@
           (
             { config, pkgs, ... }:
             {
-              nix.package = pkgs.nix;
               nixpkgs.overlays = [ linux-overlay-unstable ];
-              nixpkgs.config = nixpkgs-config;
             }
           )
+          ./config.nix
           ./home/djmuk1.nix
         ];
       };
@@ -259,11 +237,10 @@
           (
             { config, pkgs, ... }:
             {
-              nix.package = pkgs.nix;
               nixpkgs.overlays = [ linux-arm-overlay-unstable ];
-              nixpkgs.config = nixpkgs-config;
             }
           )
+          ./config.nix
           ./home/djmuk2.nix
         ];
       };
