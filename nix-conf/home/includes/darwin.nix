@@ -74,7 +74,6 @@ in
     #mpd
     #ncmpcpp
     nix
-    nodejs
     pinentry_mac
     pgcli
     pgformatter
