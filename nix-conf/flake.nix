@@ -20,10 +20,6 @@
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    darwin-system-certs = {
-      url = "/private/etc/ssl/cert.pem";
-      flake = false;
-    };
   };
 
   outputs =
@@ -109,57 +105,13 @@
         ];
       };
 
-      darwinConfigurations."LDN-DMORGAN" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations."Davids-MacBook-Pro" = nix-darwin.lib.darwinSystem {
         modules = [
-          # TODO move to separate file
-          (
-            { pkgs, ... }:
-            {
-              nix.settings.trusted-users = [
-                "dmorgan"
-                "@staff"
-              ];
-              nix.settings.ssl-cert-file = "/Users/dmorgan/certs/full-cert.pem";
-              system.configurationRevision = self.rev or self.dirtyRev or null;
-              system.stateVersion = 6;
-              #system.primaryUser = "dmorgan"; # required to update com.apple.symbolichotkeys
-              system.keyboard.enableKeyMapping = true;
-              system.keyboard.userKeyMapping = [
-                {
-                  HIDKeyboardModifierMappingSrc = 30064771296;
-                  HIDKeyboardModifierMappingDst = 30064771299;
-                }
-                {
-                  HIDKeyboardModifierMappingSrc = 30064771299;
-                  HIDKeyboardModifierMappingDst = 30064771296;
-                }
-              ];
-              #system.defaults.CustomUserPreferences = {
-              #  "com.apple.symbolichotkeys" = {
-              #    AppleSymbolicHotKeys = {
-              #      "60" = {
-              #        enabled = 0;
-              #      };
-              #      "61" = {
-              #        enabled = 0;
-              #      };
-              #    };
-              #  };
-              #};
-              nixpkgs.hostPlatform = "aarch64-darwin";
-              ids.gids.nixbld = 30000;
-              users.users.dmorgan.home = "/Users/dmorgan";
-              fonts.packages = [
-                pkgs.aporetic
-                pkgs.meslo-lgs-nf
-                pkgs.fira-code
-              ];
-            }
-          )
+          ./darwin/configuration.nix
           ./config.nix
         ];
       };
-      homeConfigurations."dmorgan@LDN-DMORGAN" = home-manager.lib.homeManagerConfiguration {
+      homeConfigurations."djm@grithnir" = home-manager.lib.homeManagerConfiguration {
         pkgs = darwin-pkgs;
         extraSpecialArgs = {
           inherit inputs;
@@ -173,7 +125,7 @@
             }
           )
           ./config.nix
-          ./home/otm.nix
+          ./home/kevel.nix
         ];
       };
       homeConfigurations."djm@egalmoth" = home-manager-stable.lib.homeManagerConfiguration {
