@@ -32,7 +32,6 @@
 
   home.sessionVariables = {
     LSP_USE_PLISTS = "true";
-    NH_FLAKE = config.home.homeDirectory;
   };
 
   home.packages = with pkgs; [
@@ -370,7 +369,7 @@
     };
   };
 
-  # TODO: programs.nh.flake bring in so many dependencies?
+  # TODO: why does programs.nh.flake bring in so many dependencies?
   programs.nh.enable = true;
 }
 
