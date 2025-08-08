@@ -67,7 +67,7 @@ in
     findutils
     gh
     gh-dash
-    #gnused
+    gnused
     #mopidy-with-extensions
     #mpdscribble
     #mpc-cli
@@ -106,6 +106,13 @@ in
       withRustFmt = false;
     })
   ];
+
+  home.shellAliases = {
+    notify_success = ''( osascript -e 'display notification "The command finished" with title "Success"' && afplay /System/Library/Sounds/Ping.aiff && say done  )'';
+    notify_failure = ''( osascript -e 'display notification "The command failed" with title "Failure"' && afplay /System/Library/Sounds/Sosumi.aiff && say failed  )'';
+    notify = "notify_success || notify_failure";
+    ltn = "lein test && notify";
+  };
 
   # TODO is this a good idea?
   #programs.zsh.shellAliases = { emacs = "${emacs-plus-with-packages}/Applications/Emacs.app/Contents/MacOS/Emacs"; };
