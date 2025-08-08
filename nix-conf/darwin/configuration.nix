@@ -32,6 +32,7 @@
   #};
   nixpkgs.hostPlatform = "aarch64-darwin";
   users.users.djm.home = "/Users/djm";
+  security.pam.services.sudo_local.touchIdAuth = true;
   fonts.packages = [
     pkgs.aporetic
     pkgs.meslo-lgs-nf

@@ -75,7 +75,6 @@ in
     #ncmpcpp
     nix
     nodejs
-    pam-reattach
     pinentry_mac
     pgcli
     pgformatter
