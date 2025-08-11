@@ -330,6 +330,10 @@ in
           git switch pr-''${1}
         }
 
+        if [ "$(uname -mo)" = "arm64 Darwin" ]; then
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+        fi
+
         [[ ! -f ~/.zsh.local ]] || source ~/.zsh.local
 
         [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
