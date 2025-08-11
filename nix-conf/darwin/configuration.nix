@@ -5,7 +5,7 @@
     "@staff"
   ];
   system.stateVersion = 6;
-  #system.primaryUser = "djm"; # required to update com.apple.symbolichotkeys
+  system.primaryUser = "djm";
   system.keyboard.enableKeyMapping = true;
   system.keyboard.userKeyMapping = [
     {
@@ -37,4 +37,11 @@
     pkgs.meslo-lgs-nf
     pkgs.fira-code
   ];
+
+  homebrew = {
+    enable = true;
+    casks = [
+      "orbstack"
+    ];
+  };
 }
