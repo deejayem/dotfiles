@@ -1,10 +1,9 @@
-{ inputs, pkgs, ... }:
+{ pkgs, ... }:
 {
   nix.settings.trusted-users = [
     "djm"
     "@staff"
   ];
-  system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
   system.stateVersion = 6;
   #system.primaryUser = "djm"; # required to update com.apple.symbolichotkeys
   system.keyboard.enableKeyMapping = true;

@@ -105,7 +105,8 @@
         ];
       };
 
-      darwinConfigurations."Davids-MacBook-Pro" = nix-darwin.lib.darwinSystem {
+      darwinConfigurations."grithnir" = nix-darwin.lib.darwinSystem {
+        system.configurationRevision = self.rev or self.dirtyRev or null;
         modules = [
           ./darwin/configuration.nix
           ./config.nix
