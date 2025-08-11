@@ -144,7 +144,6 @@ in
       PER_DIRECTORY_HISTORY_TOGGLE = "^\\\\"; # ^\\ is ^#
       HISTORY_START_WITH_GLOBAL = true;
       LESS = "-iRXF";
-      NH_FLAKE = "$HOME/dotfiles/nix-conf";
     };
     initContent = lib.mkMerge [
       (lib.mkBefore ''

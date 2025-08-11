@@ -369,7 +369,9 @@
     };
   };
 
-  # TODO: why does programs.nh.flake bring in so many dependencies?
-  programs.nh.enable = true;
+  programs.nh = {
+    enable = true;
+    flake = "${config.home.homeDirectory}/dotfiles/nix-conf";
+  };
 }
 
