@@ -22,6 +22,8 @@
   };
 
   home.packages = with pkgs; [
+    aws-sso-util
+    coffeescript
     granted
     nodejs
   ];

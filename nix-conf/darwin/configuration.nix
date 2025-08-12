@@ -40,6 +40,9 @@
 
   homebrew = {
     enable = true;
+    brews = [
+      "msgpack-tools" # Currently broken in nixpkgs
+    ];
     casks = [
       "orbstack"
     ];
