@@ -390,6 +390,16 @@ in
         };
         file = "per-directory-history.zsh";
       }
+      {
+        name = "omz-aws";
+        src = fetchFromGitHub {
+          owner = "ohmyzsh";
+          repo = "ohmyzsh";
+          rev = "2423b7a12dc4624a2d8a7c58be4ac75cb82fd8c7";
+          sha256 = "fCAwg6fzXw/mEa+xEnSCK88/ba8nR0FNY2tQ62CchbQ=";
+        };
+        file = "plugins/aws/aws.plugin.zsh";
+      }
     ];
   };
 }
