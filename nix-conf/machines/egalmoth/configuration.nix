@@ -86,14 +86,6 @@
     pkgs.hplipWithPlugin
   ];
 
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "corefonts"
-      "hplip"
-      "zoom"
-    ];
-
   hardware.sane.enable = true;
 
   services.udev.packages = [
