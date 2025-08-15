@@ -72,8 +72,8 @@ in
     };
     historySubstringSearch = {
       enable = true;
-      searchUpKey = "$terminfo[kcuu1]";
-      searchDownKey = "$terminfo[kcud1]";
+      searchUpKey   = if pkgs.stdenv.isDarwin then "^[[A" else "$terminfo[kcuu1]";
+      searchDownKey = if pkgs.stdenv.isDarwin then "^[[B" else "$terminfo[kcud1]";
     };
 
     profileExtra = ''
