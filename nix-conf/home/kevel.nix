@@ -13,12 +13,9 @@
   home.username = "djm";
   home.homeDirectory = "/Users/djm";
 
-  # TODO move to darwin.nix
-  home.shellAliases = {
-    notify_success = ''( osascript -e 'display notification "The command finished" with title "Success"' && afplay /System/Library/Sounds/Ping.aiff && say done  )'';
-    notify_failure = ''( osascript -e 'display notification "The command failed" with title "Failure"' && afplay /System/Library/Sounds/Sosumi.aiff && say failed  )'';
-    notify = "notify_success || notify_failure";
-    ltn = "lein test && notify";
+  home.sessionVariables = {
+    AWS_DEFAULT_SSO_REGION = "us-east-1";
+    AWS_DEFAULT_SSO_START_URL = "https://kevel.awsapps.com/start";
   };
 
   home.packages = with pkgs; [
