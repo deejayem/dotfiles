@@ -38,6 +38,10 @@
     reattach = true;
   };
 
+  environment.variables = {
+    EDITOR = "vim";
+  };
+
   fonts.packages = [
     pkgs.aporetic
     pkgs.meslo-lgs-nf
