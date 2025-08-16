@@ -35,112 +35,112 @@
     }@inputs:
     let
       inherit (self) outputs;
-      darwin-system = "aarch64-darwin";
-      linux-system = "x86_64-linux";
-      linux-arm-system = "aarch64-linux";
-      darwin-pkgs = nixpkgs.legacyPackages.${darwin-system};
-      linux-pkgs = nixpkgs-stable.legacyPackages.${linux-system};
-      linux-arm-pkgs = nixpkgs-stable.legacyPackages.${linux-arm-system};
+
+      mkSystem =
+        {
+          system,
+          nixpkgs,
+          modules,
+        }:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          specialArgs = { inherit inputs outputs; };
+          modules = [ ./config.nix ] ++ modules;
+        };
+
+      mkHome =
+        {
+          system,
+          home-manager,
+          nixpkgs,
+          modules,
+        }:
+        home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."${system}";
+          extraSpecialArgs = {
+            inherit inputs outputs system;
+          };
+          modules = [ ./config.nix ] ++ modules;
+        };
     in
     {
-      overlays = import ./overlays {inherit inputs;};
+      overlays = import ./overlays { inherit inputs; };
 
-      nixosConfigurations."egalmoth" = nixpkgs-stable.lib.nixosSystem {
-        system = linux-system;
-        specialArgs = {inherit inputs outputs;};
+      nixosConfigurations."egalmoth" = mkSystem {
+        system = "x86_64-linux";
+        nixpkgs = nixpkgs-stable;
         modules = [
-          ./config.nix
           ./machines/egalmoth/configuration.nix
         ];
       };
-      nixosConfigurations."edrahil" = nixpkgs-stable.lib.nixosSystem {
-        system = linux-system;
-        specialArgs = {inherit inputs outputs;};
+
+      nixosConfigurations."edrahil" = mkSystem {
+        system = "x86_64-linux";
+        nixpkgs = nixpkgs-stable;
         modules = [
-          ./config.nix
           ./machines/edrahil/configuration.nix
           sops-nix.nixosModules.sops
         ];
       };
-      nixosConfigurations."djmuk1" = nixpkgs-stable.lib.nixosSystem {
-        system = linux-system;
-        specialArgs = {inherit inputs outputs;};
+
+      nixosConfigurations."djmuk1" = mkSystem {
+        system = "x86_64-linux";
+        nixpkgs = nixpkgs-stable;
         modules = [
-          ./config.nix
           ./machines/djmuk1/configuration.nix
         ];
       };
-      nixosConfigurations."djmuk2" = nixpkgs-stable.lib.nixosSystem {
-        system = linux-arm-system;
-        specialArgs = {inherit inputs outputs;};
+
+      nixosConfigurations."djmuk2" = mkSystem {
+        system = "aarch64-linux";
+        nixpkgs = nixpkgs-stable;
         modules = [
-          ./config.nix
           ./machines/djmuk2/configuration.nix
         ];
       };
 
       darwinConfigurations."grithnir" = nix-darwin.lib.darwinSystem {
         system.configurationRevision = self.rev or self.dirtyRev or null;
-        specialArgs = {inherit inputs outputs;};
+        specialArgs = { inherit inputs outputs; };
         modules = [
           ./darwin/configuration.nix
           ./config.nix
         ];
       };
-      homeConfigurations."djm@grithnir" = home-manager.lib.homeManagerConfiguration {
-        pkgs = darwin-pkgs;
-        extraSpecialArgs = {
-          inherit inputs outputs;
-          system = darwin-system;
-        };
-        modules = [
-          ./config.nix
-          ./home/kevel.nix
-        ];
+
+      homeConfigurations."djm@egalmoth" = mkHome {
+        system = "x86_64-linux";
+        home-manager = home-manager-stable;
+        nixpkgs = nixpkgs-stable;
+        modules = [ ./home/egalmoth.nix ];
       };
-      homeConfigurations."djm@egalmoth" = home-manager-stable.lib.homeManagerConfiguration {
-        pkgs = linux-pkgs;
-        extraSpecialArgs = {
-          inherit inputs outputs;
-          system = linux-system;
-        };
-        modules = [
-          ./config.nix
-          ./home/egalmoth.nix
-        ];
+
+      homeConfigurations."djm@edrahil" = mkHome {
+        system = "x86_64-linux";
+        home-manager = home-manager-stable;
+        nixpkgs = nixpkgs-stable;
+        modules = [ ./home/edrahil.nix ];
       };
-      homeConfigurations."djm@edrahil" = home-manager-stable.lib.homeManagerConfiguration {
-        pkgs = linux-pkgs;
-        extraSpecialArgs = {
-          inherit inputs outputs;
-          system = linux-system;
-        };
-        modules = [
-          ./config.nix
-          ./home/edrahil.nix
-        ];
+
+      homeConfigurations."djm@djmuk1" = mkHome {
+        system = "x86_64-linux";
+        home-manager = home-manager-stable;
+        nixpkgs = nixpkgs-stable;
+        modules = [ ./home/djmuk1.nix ];
       };
-      homeConfigurations."djm@djmuk1" = home-manager-stable.lib.homeManagerConfiguration {
-        pkgs = linux-pkgs;
-        extraSpecialArgs = {
-          inherit inputs outputs;
-          system = linux-system;
-        };
-        modules = [
-          ./config.nix
-          ./home/djmuk1.nix
-        ];
+
+      homeConfigurations."djm@djmuk2" = mkHome {
+        system = "aarch64-linux";
+        home-manager = home-manager-stable;
+        nixpkgs = nixpkgs-stable;
+        modules = [ ./home/djmuk2.nix ];
       };
-      homeConfigurations."djm@djmuk2" = home-manager-stable.lib.homeManagerConfiguration {
-        pkgs = linux-arm-pkgs;
-        extraSpecialArgs = {
-          inherit inputs outputs;
-          system = linux-arm-system;
-        };
-        modules = [
-          ./config.nix
-          ./home/djmuk2.nix
-        ];
+
+      homeConfigurations."djm@grithnir" = mkHome {
+        system = "aarch64-darwin";
+        inherit home-manager nixpkgs;
+        modules = [ ./home/kevel.nix ];
       };
+
     };
 }
