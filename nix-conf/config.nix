@@ -2,7 +2,6 @@
   outputs,
   pkgs,
   lib,
-  nixpkgs,
   ...
 }:
 {
