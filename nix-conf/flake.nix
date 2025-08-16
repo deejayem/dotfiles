@@ -34,45 +34,29 @@
       ...
     }@inputs:
     let
+      inherit (self) outputs;
       darwin-system = "aarch64-darwin";
       linux-system = "x86_64-linux";
       linux-arm-system = "aarch64-linux";
       darwin-pkgs = nixpkgs.legacyPackages.${darwin-system};
       linux-pkgs = nixpkgs-stable.legacyPackages.${linux-system};
       linux-arm-pkgs = nixpkgs-stable.legacyPackages.${linux-arm-system};
-      darwin-overlay-unstable = final: prev: {
-        unstable = nixpkgs.legacyPackages.${darwin-system};
-      };
-      linux-overlay-unstable = final: prev: {
-        unstable = nixpkgs.legacyPackages.${linux-system};
-      };
-      linux-arm-overlay-unstable = final: prev: {
-        unstable = nixpkgs.legacyPackages.${linux-arm-system};
-      };
     in
     {
+      overlays = import ./overlays {inherit inputs;};
+
       nixosConfigurations."egalmoth" = nixpkgs-stable.lib.nixosSystem {
         system = linux-system;
+        specialArgs = {inherit inputs outputs;};
         modules = [
-          (
-            { config, pkgs, ... }:
-            {
-              nixpkgs.overlays = [ linux-overlay-unstable ];
-            }
-          )
           ./config.nix
           ./machines/egalmoth/configuration.nix
         ];
       };
       nixosConfigurations."edrahil" = nixpkgs-stable.lib.nixosSystem {
         system = linux-system;
+        specialArgs = {inherit inputs outputs;};
         modules = [
-          (
-            { config, pkgs, ... }:
-            {
-              nixpkgs.overlays = [ linux-overlay-unstable ];
-            }
-          )
           ./config.nix
           ./machines/edrahil/configuration.nix
           sops-nix.nixosModules.sops
@@ -80,26 +64,16 @@
       };
       nixosConfigurations."djmuk1" = nixpkgs-stable.lib.nixosSystem {
         system = linux-system;
+        specialArgs = {inherit inputs outputs;};
         modules = [
-          (
-            { config, pkgs, ... }:
-            {
-              nixpkgs.overlays = [ linux-overlay-unstable ];
-            }
-          )
           ./config.nix
           ./machines/djmuk1/configuration.nix
         ];
       };
       nixosConfigurations."djmuk2" = nixpkgs-stable.lib.nixosSystem {
         system = linux-arm-system;
+        specialArgs = {inherit inputs outputs;};
         modules = [
-          (
-            { config, pkgs, ... }:
-            {
-              nixpkgs.overlays = [ linux-arm-overlay-unstable ];
-            }
-          )
           ./config.nix
           ./machines/djmuk2/configuration.nix
         ];
@@ -107,6 +81,7 @@
 
       darwinConfigurations."grithnir" = nix-darwin.lib.darwinSystem {
         system.configurationRevision = self.rev or self.dirtyRev or null;
+        specialArgs = {inherit inputs outputs;};
         modules = [
           ./darwin/configuration.nix
           ./config.nix
@@ -115,16 +90,10 @@
       homeConfigurations."djm@grithnir" = home-manager.lib.homeManagerConfiguration {
         pkgs = darwin-pkgs;
         extraSpecialArgs = {
-          inherit inputs;
+          inherit inputs outputs;
           system = darwin-system;
         };
         modules = [
-          (
-            { config, pkgs, ... }:
-            {
-              nixpkgs.overlays = [ darwin-overlay-unstable ];
-            }
-          )
           ./config.nix
           ./home/kevel.nix
         ];
@@ -132,16 +101,10 @@
       homeConfigurations."djm@egalmoth" = home-manager-stable.lib.homeManagerConfiguration {
         pkgs = linux-pkgs;
         extraSpecialArgs = {
-          inherit inputs;
+          inherit inputs outputs;
           system = linux-system;
         };
         modules = [
-          (
-            { config, pkgs, ... }:
-            {
-              nixpkgs.overlays = [ linux-overlay-unstable ];
-            }
-          )
           ./config.nix
           ./home/egalmoth.nix
         ];
@@ -149,16 +112,10 @@
       homeConfigurations."djm@edrahil" = home-manager-stable.lib.homeManagerConfiguration {
         pkgs = linux-pkgs;
         extraSpecialArgs = {
-          inherit inputs;
+          inherit inputs outputs;
           system = linux-system;
         };
         modules = [
-          (
-            { config, pkgs, ... }:
-            {
-              nixpkgs.overlays = [ linux-overlay-unstable ];
-            }
-          )
           ./config.nix
           ./home/edrahil.nix
         ];
@@ -166,16 +123,10 @@
       homeConfigurations."djm@djmuk1" = home-manager-stable.lib.homeManagerConfiguration {
         pkgs = linux-pkgs;
         extraSpecialArgs = {
-          inherit inputs;
+          inherit inputs outputs;
           system = linux-system;
         };
         modules = [
-          (
-            { config, pkgs, ... }:
-            {
-              nixpkgs.overlays = [ linux-overlay-unstable ];
-            }
-          )
           ./config.nix
           ./home/djmuk1.nix
         ];
@@ -183,16 +134,10 @@
       homeConfigurations."djm@djmuk2" = home-manager-stable.lib.homeManagerConfiguration {
         pkgs = linux-arm-pkgs;
         extraSpecialArgs = {
-          inherit inputs;
+          inherit inputs outputs;
           system = linux-arm-system;
         };
         modules = [
-          (
-            { config, pkgs, ... }:
-            {
-              nixpkgs.overlays = [ linux-arm-overlay-unstable ];
-            }
-          )
           ./config.nix
           ./home/djmuk2.nix
         ];
