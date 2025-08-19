@@ -36,6 +36,7 @@ in
     plugins = with pkgs; [
       tmuxPlugins.copy-toolkit
       tmuxPlugins.copycat
+      tmuxPlugins.extrakto
       tmuxPlugins.fuzzback
       tmuxPlugins.fzf-tmux-url
       tmuxPlugins.jump
@@ -56,9 +57,6 @@ in
           #${lib.optionalString pkgs.stdenv.isDarwin "set -g @thumbs-upcase-command 'xargs open {}'"}
         '';
       }
-    ]
-    ++ optionals (!stdenv.isDarwin) [
-      tmuxPlugins.extrakto
     ];
     extraConfig = ''
       unbind-key R
