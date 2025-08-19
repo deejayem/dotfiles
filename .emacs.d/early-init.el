@@ -17,8 +17,7 @@
       byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local obsolete))
 
 (push '(menu-bar-lines . 0) default-frame-alist)
-(unless (eq system-type 'darwin)  ; causes issues in newer versions of macos
-  (push '(tool-bar-lines . 0) default-frame-alist))
+(push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 (when (featurep 'ns)
   (push '(ns-transparent-titlebar . t) default-frame-alist))
@@ -27,8 +26,9 @@
 
 (if (eq system-type 'darwin)
     (add-to-list 'default-frame-alist '(undecorated-round . t))
-  (toggle-frame-maximized)
-  (add-to-list 'default-frame-alist '(fullscreen . maximized)))
+  (toggle-frame-maximized))
+
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (menu-bar-mode -1)
 (when window-system
