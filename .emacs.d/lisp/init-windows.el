@@ -6,7 +6,7 @@
   :custom
   (switch-to-buffer-obey-display-actions t)
   (split-height-threshold nil)
-  (split-width-threshold 200))
+  (split-width-threshold 220))
 
 (use-feature ibuffer
   :bind
