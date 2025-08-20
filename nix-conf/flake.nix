@@ -20,6 +20,10 @@
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -31,6 +35,7 @@
       home-manager-unstable,
       sops-nix,
       nix-darwin,
+      nix-index-database,
       ...
     }@inputs:
     let
@@ -60,7 +65,7 @@
           extraSpecialArgs = {
             inherit inputs outputs system;
           };
-          modules = [ ./config.nix ] ++ modules;
+          modules = [ ./config.nix nix-index-database.homeModules.nix-index ] ++ modules;
         };
     in
     {

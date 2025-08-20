@@ -136,11 +136,7 @@
   };
 
   programs.gpg.enable = true;
-  programs.nix-index = {
-    enable = true;
-    enableZshIntegration = false;
-    enableBashIntegration = false;
-  };
+  programs.nix-index.enable = true;
 
   programs.vim = {
     enable = true;
