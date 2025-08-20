@@ -167,21 +167,7 @@
   :bind
   ("C-c +" . operate-on-number-at-point))
 
-(defun +elpaca-unload-xref (e)
-  (and (featurep 'xref) (unload-feature 'xref t))
-  ;; Make sure these aren't overwritten
-  (setq xref-search-program 'ripgrep
-        xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
-  (elpaca--continue-build e))
-
-(defun +elpaca-xref-build-steps ()
-  (append (butlast (if (file-exists-p (expand-file-name "xref" elpaca-builds-directory))
-                       elpaca--pre-built-steps elpaca-build-steps))
-          (list '+elpaca-unload-xref 'elpaca--activate-package)))
-
-(use-package xref
-  :ensure `(xref :build ,(+elpaca-xref-build-steps) :ref "87db670d045bea2d90139b1f741eea8db7c193ea" :pin t)
+(use-feature xref
   :custom
   (xref-search-program 'ripgrep)
   (xref-show-xrefs-function #'consult-xref)
