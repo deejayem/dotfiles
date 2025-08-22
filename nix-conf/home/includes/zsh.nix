@@ -100,6 +100,10 @@ in
       pll = "lsd -l";
       pla = "lsd -la";
 
+      ".." = "cd ..";
+      "..." = "cd ../..";
+      "-" = "cd -";
+
       pp = ''pushbullet push "Pixel" link "''${1}" "''${1}"'';
 
       upgrade_emacs = ''cp ~/.emacs.d/straight/versions/default.el ~/straight-versions-default-`date "+%Y-%m-%d-%H%M%S"`.el && emacs --batch -l "~/.emacs.d/init.el" -f "my/upgrade-packages"'';
@@ -268,11 +272,6 @@ in
           IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
           [[ -n "$files" ]] && ''${EDITOR:-vim} "''${files[@]}"
         }
-
-        # TODO is there a way to do this in shellAliases
-        alias ..="cd .."
-        alias ...="cd ../.."
-        alias -- -="cd -"
 
         .,() {
           local declare dirs=()
