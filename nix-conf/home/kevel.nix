@@ -38,7 +38,6 @@
     enable = true;
   };
 
-  # TODO
   programs.git = {
     signing.signByDefault = lib.mkForce false;
     includes = lib.mkForce [
@@ -75,7 +74,6 @@
       ".dir-locals.el"
     ];
   };
-  # TODO don't need different accounts, just different emails
   programs.ssh = {
     includes = [ config.sops.secrets."ssh_config/kevel".path ];
   };
