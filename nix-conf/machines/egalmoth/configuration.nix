@@ -97,6 +97,14 @@
 
       destination = "/etc/udev/rules.d/99-printer.rules";
     })
+    (pkgs.writeTextFile {
+      name = "iwlwifi_udev";
+      text = ''
+        SUBSYSTEM=="pci", KERNEL=="[0000:2e:00.0]", ATTR{d3cold_allowed}="0"
+      '';
+
+      destination = "/etc/udev/rules.d/99-iwlwifi.rules";
+    })
   ];
 
   services.libinput = {
