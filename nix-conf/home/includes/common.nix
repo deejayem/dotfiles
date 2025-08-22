@@ -5,6 +5,10 @@
   inputs,
   ...
 }:
+let
+  hcr = pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
+  scr = pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; };
+in
 {
   imports = [
     ./zsh.nix
@@ -35,6 +39,9 @@
   };
 
   home.packages = with pkgs; [
+    hcr
+    scr
+
     (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
     bandwhich
     bottom
