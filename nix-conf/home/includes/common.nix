@@ -85,8 +85,9 @@ in
     ripgrep
     rlwrap
     sd
-    shfmt
     sops
+    shfmt
+    shellcheck
     ssh-to-age
     tealdeer
     tre-command
