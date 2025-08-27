@@ -196,18 +196,21 @@ in
 
   programs.ssh = {
     enable = true;
-    extraConfig = ''
-      Host *
-        AddKeysToAgent yes
-        IgnoreUnknown UseKeychain
-        UseKeychain yes
-        User djm
-    '';
+    enableDefaultConfig = false;
     includes = [
       "~/.ssh/config_local"
       config.sops.secrets."ssh_config/oci".path
     ];
     matchBlocks = {
+      "*" = {
+        forwardAgent = true;
+        addKeysToAgent = "yes";
+        user = "djm";
+        extraOptions = {
+          "IgnoreUnknown" = "UseKeychain";
+          "UseKeychain" = "yes";
+        };
+      };
       "djm.ovh" = {
         hostname = "v.djm.ovh";
         port = 2222;
