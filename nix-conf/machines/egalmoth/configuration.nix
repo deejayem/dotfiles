@@ -106,6 +106,7 @@
       destination = "/etc/udev/rules.d/99-iwlwifi.rules";
     })
   ];
+  boot.extraModprobeConfig = "options iwlwifi disable_clkreq=y disable_aspm_l1=y disable_aspm_l1ss=y";
 
   services.libinput = {
     enable = true;
