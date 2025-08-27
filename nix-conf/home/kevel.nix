@@ -21,7 +21,6 @@
   home.packages = with pkgs; [
     aws-sso-util
     coffeescript
-    granted
     nodejs
   ];
 
@@ -76,6 +75,11 @@
   };
   programs.ssh = {
     includes = [ config.sops.secrets."ssh_config/kevel".path ];
+  };
+
+  programs.granted = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   home.stateVersion = "25.05";
