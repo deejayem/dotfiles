@@ -8,6 +8,8 @@
 let
   hcr = pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
   scr = pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; };
+
+  inherit (lib) optionalAttrs;
 in
 {
   imports = [
@@ -196,7 +198,6 @@ in
 
   programs.ssh = {
     enable = true;
-    enableDefaultConfig = false;
     includes = [
       "~/.ssh/config_local"
       config.sops.secrets."ssh_config/oci".path
@@ -204,10 +205,10 @@ in
     matchBlocks = {
       "*" = {
         forwardAgent = true;
-        addKeysToAgent = "yes";
         user = "djm";
+      } // optionalAttrs pkgs.stdenv.isDarwin {
+        addKeysToAgent = "yes"; # TODO move up after 25.11
         extraOptions = {
-          "IgnoreUnknown" = "UseKeychain";
           "UseKeychain" = "yes";
         };
       };
@@ -271,6 +272,12 @@ in
         identitiesOnly = true;
       };
     };
+    # TODO: remove after 25.11
+    # Handle differences between stable and unstable until 25.11 is released (assuming Linux = stable, and Darwin = unstable)
+  } // optionalAttrs pkgs.stdenv.isLinux {
+    addKeysToAgent = "yes";
+  } // optionalAttrs pkgs.stdenv.isDarwin {
+    enableDefaultConfig = false;
   };
 
   programs.git = {
