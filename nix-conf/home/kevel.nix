@@ -27,6 +27,7 @@
     aws-sso-util
     coffeescript
     nodejs
+    nodePackages.aws-cdk
     opentofu
   ];
 
