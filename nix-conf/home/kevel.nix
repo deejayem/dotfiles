@@ -19,6 +19,10 @@
     TERRAFORM_BINARY_NAME = "tofu";
   };
 
+  home.sessionPath = [
+    "$HOME/node_modules/bin"
+  ];
+
   home.packages = with pkgs; [
     aws-sso-util
     coffeescript
