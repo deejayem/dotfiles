@@ -20,7 +20,7 @@
   };
 
   home.sessionPath = [
-    "$HOME/node_modules/bin"
+    "$HOME/.npm-global/bin"
   ];
 
   home.packages = with pkgs; [
@@ -31,12 +31,18 @@
   ];
 
   # TODO
-  #home.file = {
-  #};
+  home.file = {
+    ".npmrc".text = ''
+      @adzerk:registry=https://npm.pkg.github.com/
+      //npm.pkg.github.com/:_authToken=''${ADZERK_GITHUB_PACKAGES_AUTH_TOKEN}
+      prefix=~/.npm-global
+    '';
+  };
 
   sops.secrets = {
     "git_email_config/kevel" = { };
     "ssh_config/kevel" = { };
+    "env/adzerk-packages-token" = { };
   };
 
   programs.java = {
@@ -87,6 +93,10 @@
     enable = true;
     enableZshIntegration = true;
   };
+
+  programs.zsh.envExtra = ''
+    export ADZERK_GITHUB_PACKAGES_AUTH_TOKEN=$(<${config.sops.secrets."env/adzerk-packages-token".path})
+  '';
 
   home.stateVersion = "25.05";
 }

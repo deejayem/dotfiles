@@ -28,6 +28,12 @@
   (sql-mode . lsp)
   (lsp-after-apply-edits . save-buffer)
   :config
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection '("coffeesense-language-server" "--stdio"))
+    :major-modes '(coffee-mode)
+    :server-id 'coffeesense))
+
   (defun really-diminish-lsp-lens-mode ()
     (diminish 'lsp-lens-mode)
     (remove-hook 'lsp-lens-mode-hook 'really-diminish-lsp-lens-mode))
