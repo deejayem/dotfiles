@@ -33,6 +33,7 @@
     :new-connection (lsp-stdio-connection '("coffeesense-language-server" "--stdio"))
     :major-modes '(coffee-mode)
     :server-id 'coffeesense))
+  (add-to-list 'lsp-language-id-configuration '(coffee-mode . "coffeescript") t)
 
   (defun really-diminish-lsp-lens-mode ()
     (diminish 'lsp-lens-mode)
