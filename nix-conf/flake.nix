@@ -130,7 +130,7 @@
         builtins.mapAttrs
           (username: cfg:
             let
-              hostname = builtins.elemAt (builtins.match "([^@]+)@([^@]+)" username) 1;
+              hostname = builtins.elemAt (builtins.split "@" username) 2;
             in
               mkHomeConfig ({ inherit hostname; } // cfg)
           )
