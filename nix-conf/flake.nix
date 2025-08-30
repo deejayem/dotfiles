@@ -41,53 +41,84 @@
     let
       inherit (self) outputs;
 
-      resolveVersions = version: {
-        stable = {
-          nixpkgs = nixpkgs-stable;
-          home-manager = home-manager-stable;
-        };
-        unstable = {
-          nixpkgs = nixpkgs-unstable;
-          home-manager = home-manager-unstable;
-        };
-      }.${version};
+      resolveVersions =
+        version:
+        {
+          stable = {
+            nixpkgs = nixpkgs-stable;
+            home-manager = home-manager-stable;
+          };
+          unstable = {
+            nixpkgs = nixpkgs-unstable;
+            home-manager = home-manager-unstable;
+          };
+        }
+        .${version};
 
-      extractHostname = userAtHost: 
-        builtins.elemAt (builtins.split "@" userAtHost) 2;
+      extractHostname = userAtHost: builtins.elemAt (builtins.split "@" userAtHost) 2;
 
-      mkNixosConfig = { hostname, system, version, extraModules ? [] }:
-        let versions = resolveVersions version;
-        in versions.nixpkgs.lib.nixosSystem {
+      mkNixosConfig =
+        {
+          hostname,
+          system,
+          version,
+          extraModules ? [ ],
+        }:
+        let
+          versions = resolveVersions version;
+        in
+        versions.nixpkgs.lib.nixosSystem {
           inherit system;
           specialArgs = { inherit inputs outputs; };
-          modules = [ 
-            ./config.nix 
-            ./machines/${hostname}/configuration.nix 
-          ] ++ extraModules;
+          modules = [
+            ./config.nix
+            ./machines/${hostname}/configuration.nix
+          ]
+          ++ extraModules;
         };
 
-      mkHomeConfig = { hostname, system, version, extraModules ? [] }:
-        let versions = resolveVersions version;
-        in versions.home-manager.lib.homeManagerConfiguration {
+      mkHomeConfig =
+        {
+          hostname,
+          system,
+          version,
+          extraModules ? [ ],
+        }:
+        let
+          versions = resolveVersions version;
+        in
+        versions.home-manager.lib.homeManagerConfiguration {
           pkgs = versions.nixpkgs.legacyPackages.${system};
           extraSpecialArgs = {
-            inherit inputs outputs system version;
+            inherit
+              inputs
+              outputs
+              system
+              version
+              ;
           };
-          modules = [ 
-            ./config.nix 
-            nix-index-database.homeModules.nix-index 
-            ./home/${hostname}.nix 
-          ] ++ extraModules;
+          modules = [
+            ./config.nix
+            nix-index-database.homeModules.nix-index
+            ./home/${hostname}.nix
+          ]
+          ++ extraModules;
         };
 
-      mkDarwinConfig = { hostname, system, extraModules ? [] }:
+      mkDarwinConfig =
+        {
+          hostname,
+          system,
+          extraModules ? [ ],
+        }:
         nix-darwin.lib.darwinSystem {
           system.configurationRevision = self.rev or self.dirtyRev or null;
           specialArgs = { inherit inputs outputs; };
-          modules = [ 
+          modules = [
             ./config.nix
             ./darwin/configuration.nix
-          ] ++ extraModules;
+          ]
+          ++ extraModules;
         };
 
       nixosHosts = {
@@ -142,22 +173,20 @@
     {
       overlays = import ./overlays { inherit inputs; };
 
-      nixosConfigurations =
-        builtins.mapAttrs
-          (hostname: cfg: mkNixosConfig ({ inherit hostname; } // cfg))
-          nixosHosts;
+      nixosConfigurations = builtins.mapAttrs (
+        hostname: cfg: mkNixosConfig ({ inherit hostname; } // cfg)
+      ) nixosHosts;
 
-      homeConfigurations =
-        builtins.mapAttrs
-          (username: cfg:
-            let hostname = extractHostname username;
-            in mkHomeConfig ({ inherit hostname; } // cfg)
-          )
-          homeHosts;
+      homeConfigurations = builtins.mapAttrs (
+        username: cfg:
+        let
+          hostname = extractHostname username;
+        in
+        mkHomeConfig ({ inherit hostname; } // cfg)
+      ) homeHosts;
 
-      darwinConfigurations =
-        builtins.mapAttrs
-          (hostname: cfg: mkDarwinConfig ({ inherit hostname; } // cfg))
-          darwinHosts;
+      darwinConfigurations = builtins.mapAttrs (
+        hostname: cfg: mkDarwinConfig ({ inherit hostname; } // cfg)
+      ) darwinHosts;
     };
 }
