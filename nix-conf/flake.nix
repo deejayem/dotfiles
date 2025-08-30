@@ -64,6 +64,7 @@
           pkgs = nixpkgs.legacyPackages."${system}";
           extraSpecialArgs = {
             inherit inputs outputs system;
+            systemType = if nixpkgs == nixpkgs-unstable then "unstable" else "stable";
           };
           modules = [ ./config.nix nix-index-database.homeModules.nix-index ] ++ modules;
         };

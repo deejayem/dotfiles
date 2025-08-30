@@ -86,6 +86,8 @@ in
     sqls
     #vimpc
     wget
+
+    (pkgs.callPackage ./scripts/darwin-update.nix { inherit pkgs inputs; })
   ];
 
   home.sessionVariables = {

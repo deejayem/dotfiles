@@ -3,12 +3,10 @@
   lib,
   pkgs,
   inputs,
+  systemType,
   ...
 }:
 let
-  hcr = pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; };
-  scr = pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; };
-
   inherit (lib) optionalAttrs;
 in
 {
@@ -41,9 +39,6 @@ in
   };
 
   home.packages = with pkgs; [
-    hcr
-    scr
-
     (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
     bandwhich
     bottom
@@ -104,6 +99,10 @@ in
     zstd
 
     unstable.nixfmt-rfc-style
+
+    (pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; })
+    (pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; })
+    (pkgs.callPackage ./scripts/nixos-update.nix { inherit pkgs inputs systemType; })
   ];
 
   programs.bat = {
