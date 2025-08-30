@@ -2,11 +2,11 @@
   description = "NixOS, nix-darwin, and Home Manager configuration";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";
-    home-manager = {
+    home-manager-stable = {
       url = "github:nix-community/home-manager/release-25.05";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     home-manager-unstable = {
       url = "github:nix-community/home-manager";
@@ -22,16 +22,16 @@
     };
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
 
   outputs =
     {
       self,
-      nixpkgs,
+      nixpkgs-stable,
       nixpkgs-unstable,
-      home-manager,
+      home-manager-stable,
       home-manager-unstable,
       sops-nix,
       nix-darwin,
@@ -43,8 +43,8 @@
 
       mkSystem =
         {
-          system,
-          nixpkgs,
+          system ? "x86_64-linux",
+          nixpkgs ? nixpkgs-stable,
           modules,
         }:
         nixpkgs.lib.nixosSystem {
@@ -55,9 +55,9 @@
 
       mkHome =
         {
-          system,
-          home-manager,
-          nixpkgs,
+          system ? "x86_64-linux",
+          home-manager ? home-manager-stable,
+          nixpkgs ? nixpkgs-stable,
           modules,
         }:
         home-manager.lib.homeManagerConfiguration {
@@ -73,16 +73,12 @@
       overlays = import ./overlays { inherit inputs; };
 
       nixosConfigurations."egalmoth" = mkSystem {
-        system = "x86_64-linux";
-        inherit nixpkgs;
         modules = [
           ./machines/egalmoth/configuration.nix
         ];
       };
 
       nixosConfigurations."edrahil" = mkSystem {
-        system = "x86_64-linux";
-        inherit nixpkgs;
         modules = [
           ./machines/edrahil/configuration.nix
           sops-nix.nixosModules.sops
@@ -90,8 +86,6 @@
       };
 
       nixosConfigurations."djmuk1" = mkSystem {
-        system = "x86_64-linux";
-        inherit nixpkgs;
         modules = [
           ./machines/djmuk1/configuration.nix
         ];
@@ -99,7 +93,6 @@
 
       nixosConfigurations."djmuk2" = mkSystem {
         system = "aarch64-linux";
-        inherit nixpkgs;
         modules = [
           ./machines/djmuk2/configuration.nix
         ];
@@ -115,26 +108,19 @@
       };
 
       homeConfigurations."djm@egalmoth" = mkHome {
-        system = "x86_64-linux";
-        inherit nixpkgs home-manager;
         modules = [ ./home/egalmoth.nix ];
       };
 
       homeConfigurations."djm@edrahil" = mkHome {
-        system = "x86_64-linux";
-        inherit nixpkgs home-manager;
         modules = [ ./home/edrahil.nix ];
       };
 
       homeConfigurations."djm@djmuk1" = mkHome {
-        system = "x86_64-linux";
-        inherit nixpkgs home-manager;
         modules = [ ./home/djmuk1.nix ];
       };
 
       homeConfigurations."djm@djmuk2" = mkHome {
         system = "aarch64-linux";
-        inherit nixpkgs home-manager;
         modules = [ ./home/djmuk2.nix ];
       };
 
