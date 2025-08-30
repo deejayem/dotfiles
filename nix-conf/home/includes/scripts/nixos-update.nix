@@ -1,10 +1,10 @@
-{ pkgs, inputs, systemType }:
+{ pkgs, inputs, version }:
 let
-  currentNixpkgsRev = if systemType == "unstable" then inputs.nixpkgs-unstable.rev else inputs.nixpkgs-stable.rev;
-  currentHMRev = if systemType == "unstable" then inputs.home-manager-unstable.rev else inputs.home-manager-stable.rev;
+  currentNixpkgsRev = if version == "unstable" then inputs.nixpkgs-unstable.rev else inputs.nixpkgs-stable.rev;
+  currentHMRev = if version == "unstable" then inputs.home-manager-unstable.rev else inputs.home-manager-stable.rev;
 
-  nixpkgsInput = if systemType == "unstable" then "nixpkgs-unstable" else "nixpkgs-stable";
-  hmInput = if systemType == "unstable" then "home-manager-unstable" else "home-manager-stable";
+  nixpkgsInput = if version == "unstable" then "nixpkgs-unstable" else "nixpkgs-stable";
+  hmInput = if version == "unstable" then "home-manager-unstable" else "home-manager-stable";
 in
 pkgs.writeShellScriptBin "nixos-update" ''
   set -euo pipefail

@@ -3,7 +3,7 @@
   lib,
   pkgs,
   inputs,
-  systemType,
+  version,
   ...
 }:
 let
@@ -102,7 +102,7 @@ in
 
     (pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; })
     (pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; })
-    (pkgs.callPackage ./scripts/nixos-update.nix { inherit pkgs inputs systemType; })
+    (pkgs.callPackage ./scripts/nixos-update.nix { inherit pkgs inputs version; })
   ];
 
   programs.bat = {
