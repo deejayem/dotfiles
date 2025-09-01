@@ -12,6 +12,7 @@
         "aspell-dict-en-science"
         "corefonts"
         "hplip"
+        "vscode"
         "zoom"
       ];
     overlays = [ outputs.overlays.unstable-packages ];

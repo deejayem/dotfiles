@@ -29,6 +29,7 @@
     nodejs
     nodePackages.aws-cdk
     opentofu
+    vscode
   ];
 
   # TODO
