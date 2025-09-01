@@ -71,6 +71,7 @@ in
     isync
     jd-diff-patch
     jq
+    json-table
     libqalculate
     lscolors
     lynx
