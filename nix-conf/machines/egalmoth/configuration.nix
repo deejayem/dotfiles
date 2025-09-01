@@ -226,6 +226,11 @@
 
   i18n.defaultLocale = "en_GB.UTF-8";
 
+  nix.settings.trusted-users = [
+    "root"
+    "djm"
+  ];
+
   system.stateVersion = "21.05"; # Did you read the comment?
 
 }
