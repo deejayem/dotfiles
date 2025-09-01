@@ -56,6 +56,7 @@
       "msgpack-tools" # Currently broken in nixpkgs
     ];
     casks = [
+      "ankerwork"
       "1password"
       "aws-vpn-client"
       "gcloud-cli"
