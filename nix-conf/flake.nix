@@ -41,19 +41,28 @@
     let
       inherit (self) outputs;
 
-      resolveVersions =
-        version:
-        {
-          stable = {
-            nixpkgs = nixpkgs-stable;
-            home-manager = home-manager-stable;
-          };
-          unstable = {
-            nixpkgs = nixpkgs-unstable;
-            home-manager = home-manager-unstable;
-          };
-        }
-        .${version};
+      versions = {
+        stable = "stable";
+        unstable = "unstable";
+      };
+
+      versionConfig = {
+        ${versions.stable} = {
+          nixpkgs = nixpkgs-stable;
+          home-manager = home-manager-stable;
+        };
+        ${versions.unstable} = {
+          nixpkgs = nixpkgs-unstable;
+          home-manager = home-manager-unstable;
+        };
+      };
+
+      getVersions =
+        v:
+        versionConfig.${v}
+          or (throw "Invalid version '${v}'. Must be one of: ${builtins.concatStringsSep ", " (builtins.attrNames versionConfig)}");
+
+      withVersions = version: f: f (getVersions version);
 
       extractHostname = userAtHost: builtins.elemAt (builtins.split "@" userAtHost) 2;
 
@@ -64,18 +73,18 @@
           version,
           extraModules ? [ ],
         }:
-        let
-          versions = resolveVersions version;
-        in
-        versions.nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = { inherit inputs outputs; };
-          modules = [
-            ./config.nix
-            ./machines/${hostname}/configuration.nix
-          ]
-          ++ extraModules;
-        };
+        withVersions version (
+          { nixpkgs, ... }:
+          nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = { inherit inputs outputs; };
+            modules = [
+              ./config.nix
+              ./machines/${hostname}/configuration.nix
+            ]
+            ++ extraModules;
+          }
+        );
 
       mkHomeConfig =
         {
@@ -84,26 +93,26 @@
           version,
           extraModules ? [ ],
         }:
-        let
-          versions = resolveVersions version;
-        in
-        versions.home-manager.lib.homeManagerConfiguration {
-          pkgs = versions.nixpkgs.legacyPackages.${system};
-          extraSpecialArgs = {
-            inherit
-              inputs
-              outputs
-              system
-              version
-              ;
-          };
-          modules = [
-            ./config.nix
-            nix-index-database.homeModules.nix-index
-            ./home/${hostname}.nix
-          ]
-          ++ extraModules;
-        };
+        withVersions version (
+          { nixpkgs, home-manager }:
+          home-manager.lib.homeManagerConfiguration {
+            pkgs = nixpkgs.legacyPackages.${system};
+            extraSpecialArgs = {
+              inherit
+                inputs
+                outputs
+                system
+                version
+                ;
+            };
+            modules = [
+              ./config.nix
+              nix-index-database.homeModules.nix-index
+              ./home/${hostname}.nix
+            ]
+            ++ extraModules;
+          }
+        );
 
       mkDarwinConfig =
         {
@@ -124,43 +133,43 @@
       nixosHosts = {
         egalmoth = {
           system = "x86_64-linux";
-          version = "stable";
+          version = versions.stable;
         };
         edrahil = {
           system = "x86_64-linux";
-          version = "stable";
+          version = versions.stable;
           extraModules = [ sops-nix.nixosModules.sops ];
         };
         djmuk1 = {
           system = "x86_64-linux";
-          version = "stable";
+          version = versions.stable;
         };
         djmuk2 = {
           system = "aarch64-linux";
-          version = "stable";
+          version = versions.stable;
         };
       };
 
       homeHosts = {
         "djm@egalmoth" = {
           system = "x86_64-linux";
-          version = "stable";
+          version = versions.stable;
         };
         "djm@edrahil" = {
           system = "x86_64-linux";
-          version = "stable";
+          version = versions.stable;
         };
         "djm@djmuk1" = {
           system = "x86_64-linux";
-          version = "stable";
+          version = versions.stable;
         };
         "djm@djmuk2" = {
           system = "aarch64-linux";
-          version = "stable";
+          version = versions.stable;
         };
         "djm@grithnir" = {
           system = "aarch64-darwin";
-          version = "unstable";
+          version = versions.unstable;
         };
       };
 
