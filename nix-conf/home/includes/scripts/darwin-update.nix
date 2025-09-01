@@ -22,8 +22,8 @@ pkgs.writeShellScriptBin "darwin-update" ''
   DARWIN_NEEDS_UPDATE=false
   HOME_NEEDS_UPDATE=false
 
-  if [ "$CURRENT_DARWIN_REV" != "$LOCKFILE_DARWIN_REV" ]; then
-    echo "nix-darwin revision changed: $CURRENT_DARWIN_REV → $LOCKFILE_DARWIN_REV"
+  if [ "$CURRENT_NIX_DARWIN_REV" != "$LOCKFILE_NIX_DARWIN_REV" ]; then
+    echo "nix-darwin revision changed: $CURRENT_NIX_DARWIN_REV → $LOCKFILE_NIX_DARWIN_REV"
     DARWIN_NEEDS_UPDATE=true
     HOME_NEEDS_UPDATE=true
   fi
