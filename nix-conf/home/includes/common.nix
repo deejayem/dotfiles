@@ -39,7 +39,13 @@ in
   };
 
   home.packages = with pkgs; [
-    (aspellWithDicts (dicts: with dicts; [ en en-computers en-science ]))
+    (aspellWithDicts (
+      dicts: with dicts; [
+        en
+        en-computers
+        en-science
+      ]
+    ))
     bandwhich
     bottom
     broot
@@ -205,7 +211,8 @@ in
       "*" = {
         forwardAgent = true;
         user = "djm";
-      } // optionalAttrs pkgs.stdenv.isDarwin {
+      }
+      // optionalAttrs pkgs.stdenv.isDarwin {
         addKeysToAgent = "yes"; # TODO move up after 25.11
         extraOptions = {
           "UseKeychain" = "yes";
@@ -273,9 +280,11 @@ in
     };
     # TODO: remove after 25.11
     # Handle differences between stable and unstable until 25.11 is released (assuming Linux = stable, and Darwin = unstable)
-  } // optionalAttrs pkgs.stdenv.isLinux {
+  }
+  // optionalAttrs pkgs.stdenv.isLinux {
     addKeysToAgent = "yes";
-  } // optionalAttrs pkgs.stdenv.isDarwin {
+  }
+  // optionalAttrs pkgs.stdenv.isDarwin {
     enableDefaultConfig = false;
   };
 
@@ -387,4 +396,3 @@ in
     flake = "${config.home.homeDirectory}/dotfiles/nix-conf";
   };
 }
-

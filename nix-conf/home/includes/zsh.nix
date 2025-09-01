@@ -71,7 +71,7 @@ in
     };
     historySubstringSearch = {
       enable = true;
-      searchUpKey   = if pkgs.stdenv.isDarwin then "^[[A" else "$terminfo[kcuu1]";
+      searchUpKey = if pkgs.stdenv.isDarwin then "^[[A" else "$terminfo[kcuu1]";
       searchDownKey = if pkgs.stdenv.isDarwin then "^[[B" else "$terminfo[kcud1]";
     };
 
@@ -134,7 +134,8 @@ in
       glola = ''git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset" --all'';
       glog = "git log --oneline --decorate --graph";
       gloga = "git log --oneline --decorate --graph --all";
-    } // optionalAttrs pkgs.stdenv.isDarwin { oemacs = "open -a /Applications/Emacs.app"; };
+    }
+    // optionalAttrs pkgs.stdenv.isDarwin { oemacs = "open -a /Applications/Emacs.app"; };
 
     localVariables = {
       PER_DIRECTORY_HISTORY_TOGGLE = "^\\\\"; # ^\\ is ^#

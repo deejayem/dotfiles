@@ -1,7 +1,13 @@
-{ pkgs, inputs, version }:
+{
+  pkgs,
+  inputs,
+  version,
+}:
 let
-  currentNixpkgsRev = if version == "unstable" then inputs.nixpkgs-unstable.rev else inputs.nixpkgs-stable.rev;
-  currentHMRev = if version == "unstable" then inputs.home-manager-unstable.rev else inputs.home-manager-stable.rev;
+  currentNixpkgsRev =
+    if version == "unstable" then inputs.nixpkgs-unstable.rev else inputs.nixpkgs-stable.rev;
+  currentHMRev =
+    if version == "unstable" then inputs.home-manager-unstable.rev else inputs.home-manager-stable.rev;
 
   nixpkgsInput = if version == "unstable" then "nixpkgs-unstable" else "nixpkgs-stable";
   hmInput = if version == "unstable" then "home-manager-unstable" else "home-manager-stable";
@@ -50,4 +56,3 @@ pkgs.writeShellScriptBin "nixos-update" ''
     echo "System and home are up to date!"
   fi
 ''
-

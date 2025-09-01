@@ -51,4 +51,3 @@ pkgs.writeShellScriptBin "darwin-update" ''
     echo "nix-darwin and home are up to date!"
   fi
 ''
-

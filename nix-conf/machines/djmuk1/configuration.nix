@@ -79,10 +79,12 @@
 
   i18n.defaultLocale = "en_GB.UTF-8";
 
-  swapDevices = [ {
-    device = "/var/lib/swapfile";
-    size = 2*1024;
-  } ];
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 2 * 1024;
+    }
+  ];
 
   system.stateVersion = "23.11";
 }

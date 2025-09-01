@@ -178,8 +178,23 @@
           system = "aarch64-darwin";
         };
       };
+
+      mkFormatters =
+        systems:
+        builtins.listToAttrs (
+          map (system: {
+            name = system;
+            value = (nixpkgs-unstable.legacyPackages.${system}).pkgs.nixfmt-tree;
+          }) systems
+        );
     in
     {
+      formatter = mkFormatters [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
+
       overlays = import ./overlays { inherit inputs; };
 
       nixosConfigurations = builtins.mapAttrs (
