@@ -41,6 +41,12 @@
     let
       inherit (self) outputs;
 
+      systems = {
+        x86_64-linux = "x86_64-linux";
+        aarch64-linux = "aarch64-linux";
+        aarch64-darwin = "aarch64-darwin";
+      };
+
       versions = {
         stable = "stable";
         unstable = "unstable";
@@ -132,68 +138,68 @@
 
       nixosHosts = {
         egalmoth = {
-          system = "x86_64-linux";
+          system = systems.x86_64-linux;
           version = versions.stable;
         };
         edrahil = {
-          system = "x86_64-linux";
+          system = systems.x86_64-linux;
           version = versions.stable;
           extraModules = [ sops-nix.nixosModules.sops ];
         };
         djmuk1 = {
-          system = "x86_64-linux";
+          system = systems.x86_64-linux;
           version = versions.stable;
         };
         djmuk2 = {
-          system = "aarch64-linux";
+          system = systems.aarch64-linux;
           version = versions.stable;
         };
       };
 
       homeHosts = {
         "djm@egalmoth" = {
-          system = "x86_64-linux";
+          system = systems.x86_64-linux;
           version = versions.stable;
         };
         "djm@edrahil" = {
-          system = "x86_64-linux";
+          system = systems.x86_64-linux;
           version = versions.stable;
         };
         "djm@djmuk1" = {
-          system = "x86_64-linux";
+          system = systems.x86_64-linux;
           version = versions.stable;
         };
         "djm@djmuk2" = {
-          system = "aarch64-linux";
+          system = systems.aarch64-linux;
           version = versions.stable;
         };
         "djm@grithnir" = {
-          system = "aarch64-darwin";
+          system = systems.aarch64-darwin;
           version = versions.unstable;
         };
       };
 
       darwinHosts = {
         grithnir = {
-          system = "aarch64-darwin";
+          system = systems.aarch64-darwin;
         };
       };
 
       mkFormatters =
         systems:
+        let
+          nixpkgsFor = system: nixpkgs-unstable.legacyPackages.${system};
+        in
         builtins.listToAttrs (
           map (system: {
             name = system;
-            value = (nixpkgs-unstable.legacyPackages.${system}).pkgs.nixfmt-tree;
+            value = (nixpkgsFor system).nixfmt-tree;
           }) systems
         );
+
     in
     {
-      formatter = mkFormatters [
-        "x86_64-linux"
-        "aarch64-linux"
-        "aarch64-darwin"
-      ];
+      formatter = mkFormatters (builtins.attrValues systems);
 
       overlays = import ./overlays { inherit inputs; };
 
