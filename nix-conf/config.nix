@@ -15,7 +15,10 @@
         "vscode"
         "zoom"
       ];
-    overlays = [ outputs.overlays.unstable-packages ];
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.unstable-packages
+    ];
   };
   nix = {
     package = pkgs.nix;
