@@ -3,7 +3,7 @@
 ;;; Code:
 
 (use-package exec-path-from-shell
-  :defer 5
+  :defer 1
   :if (memq window-system '(mac ns))
   :custom
   (exec-path-from-shell-arguments '("-l"))
