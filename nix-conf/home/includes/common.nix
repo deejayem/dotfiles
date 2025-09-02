@@ -85,6 +85,7 @@ in
     pass
     procs
     pstree
+    pv
     rage
     ripgrep
     rlwrap
