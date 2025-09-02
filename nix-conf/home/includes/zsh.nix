@@ -75,13 +75,6 @@ in
       searchDownKey = if pkgs.stdenv.isDarwin then "^[[B" else "$terminfo[kcud1]";
     };
 
-    profileExtra = ''
-      [[ -f ~/.nix-profile/etc/profile.d/nix.sh ]] && . ~/.nix-profile/etc/profile.d/nix.sh
-      path=(~/bin
-            ~/.local/bin
-            ~/go/bin/
-            $path)
-    '';
     shellAliases = {
       cp = "cp -iv";
       mv = "mv -iv";

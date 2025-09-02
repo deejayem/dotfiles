@@ -34,6 +34,12 @@ in
     secrets."git_email_config/default" = { };
   };
 
+  home.sessionPath = [
+    "$HOME/bin"
+    "$HOME/.local/bin"
+    "$HOME/go/bin"
+  ];
+
   home.sessionVariables = {
     LSP_USE_PLISTS = "true";
   };
