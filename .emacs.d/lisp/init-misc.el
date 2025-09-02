@@ -90,7 +90,5 @@
   (yaml-mode . whitespace-mode)
   (yaml-mode . subword-mode))
 
-(use-package coffee-mode)
-
 (provide 'init-misc)
 ;;; init-misc.el ends here

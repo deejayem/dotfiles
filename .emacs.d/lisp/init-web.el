@@ -54,5 +54,7 @@
   :init
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . mustache-mode)))
 
+(use-package coffee-mode)
+
 (provide 'init-web)
 ;;; init-web.el ends here
