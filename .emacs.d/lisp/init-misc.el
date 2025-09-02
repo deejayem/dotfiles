@@ -90,5 +90,8 @@
   (yaml-mode . whitespace-mode)
   (yaml-mode . subword-mode))
 
+(use-package dockerfile-mode)
+(use-package docker-compose-mode)
+
 (provide 'init-misc)
 ;;; init-misc.el ends here
