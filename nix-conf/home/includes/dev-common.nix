@@ -20,6 +20,7 @@ in
       docker-compose
       docker-credential-helpers
       gopass-jsonapi
+      imagemagick
       multimarkdown
       neovim
       ripgrep-all
