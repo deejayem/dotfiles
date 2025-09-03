@@ -7,18 +7,17 @@
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "json-table";
-  version = "2.0.0";
+  version = "4.3.3";
 
   src = fetchFromGitHub {
     owner = "micha";
     repo = "json-table";
     rev = finalAttrs.version;
-    hash = "sha256-WBD5lB4EJHqBcYANAIKtBLnf0r9DL+wGQvlmc+5KTps=";
+    hash = "sha256-VvoGFyYx7NfAf0sb9iw7dsK1ZLFfKv2kL/Msa72gFdo=";
   };
 
   makeFlags = [
     "PREFIX=${placeholder "out"}"
-    "CFLAGS=-Wno-int-conversion"
     "LDFLAGS=" # Disable static linking
   ];
 
