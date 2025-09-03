@@ -6,6 +6,7 @@
   :commands nix-repl-show)
 
 (use-package nixfmt
+  :diminish nixfmt-on-save-mode
   :hook (nix-mode . nixfmt-on-save-mode))
 
 (use-package nix-update
