@@ -5,6 +5,12 @@
   inputs,
   ...
 }:
+let
+  envSecrets = {
+    ADZERK_GITHUB_PACKAGES_AUTH_TOKEN = "adzerk-packages-token";
+    OPENAI_API_TOKEN = "openai-api-token";
+  };
+in
 {
   imports = [ ./darwin.nix ];
 
@@ -45,8 +51,8 @@
   sops.secrets = {
     "git_email_config/kevel" = { };
     "ssh_config/kevel" = { };
-    "env/adzerk-packages-token" = { };
-  };
+  }
+  // lib.mapAttrs' (_: secretName: lib.nameValuePair "env/${secretName}" { }) envSecrets;
 
   programs.java = {
     enable = true;
@@ -97,8 +103,12 @@
     enableZshIntegration = true;
   };
 
-  programs.zsh.envExtra = ''
-    export ADZERK_GITHUB_PACKAGES_AUTH_TOKEN=$(<${config.sops.secrets."env/adzerk-packages-token".path})
-  '';
+  programs.zsh.envExtra = lib.concatStringsSep "\n" (
+    lib.mapAttrsToList (envName: secretName: ''
+      if [ -e ${config.sops.secrets."env/${secretName}".path} ]; then
+        export ${envName}=$(<${config.sops.secrets."env/${secretName}".path})
+      fi
+    '') envSecrets
+  );
 
 }
