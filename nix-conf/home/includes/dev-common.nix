@@ -23,6 +23,7 @@ in
       imagemagick
       multimarkdown
       neovim
+      nixd
       ripgrep-all
     ]
     ++ optionals (!stdenv.isDarwin) [

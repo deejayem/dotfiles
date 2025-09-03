@@ -22,10 +22,9 @@
 (use-package lsp-mode
   :diminish
   :hook
-  (clojure-mode . lsp)
+  ((clojure-mode sql-mode nix-mode) . lsp)
   (lsp-lens-mode . really-diminish-lsp-lens-mode)
   (lsp-completion-mode . my/lsp-mode-setup-completion)
-  (sql-mode . lsp)
   (lsp-after-apply-edits . save-buffer)
   :config
   (lsp-register-client
