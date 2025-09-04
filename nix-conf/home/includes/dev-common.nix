@@ -24,7 +24,6 @@ in
       multimarkdown
       neovim
       nixd
-      mcp-nixos
       ripgrep-all
     ]
     ++ optionals (!stdenv.isDarwin) [

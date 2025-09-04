@@ -16,8 +16,7 @@
         "zoom"
       ];
     overlays = [
-      outputs.overlays.local-packages
-      outputs.overlays.remote-packages
+      outputs.overlays.additions
       outputs.overlays.unstable-packages
     ];
   };
