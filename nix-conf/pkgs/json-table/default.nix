@@ -18,6 +18,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   makeFlags = [
     "PREFIX=${placeholder "out"}"
+    "CFLAGS=-Wno-strict-prototypes"
     "LDFLAGS=" # Disable static linking
   ];
 
