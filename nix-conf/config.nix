@@ -10,6 +10,7 @@
       pkg:
       builtins.elem (lib.getName pkg) [
         "aspell-dict-en-science"
+        "copilot-language-server"
         "corefonts"
         "hplip"
         "vscode"

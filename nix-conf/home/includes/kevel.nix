@@ -32,6 +32,7 @@ in
 
   home.packages = with pkgs; [
     aws-sso-util
+    copilot-language-server
     coffeescript
     nodejs
     nodePackages.aws-cdk
