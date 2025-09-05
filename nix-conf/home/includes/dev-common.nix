@@ -21,6 +21,7 @@ in
       docker-credential-helpers
       gopass-jsonapi
       imagemagick
+      janet
       multimarkdown
       neovim
       nixd
