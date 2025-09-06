@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  outputs,
   ...
 }:
 let
@@ -13,6 +14,8 @@ in
     ./clojure.nix
   ];
 
+  nixpkgs.overlays = [ outputs.overlays.mcp-nixos ];
+
   home.packages =
     with pkgs;
     [
@@ -22,6 +25,7 @@ in
       gopass-jsonapi
       imagemagick
       janet
+      mcp-nixos
       multimarkdown
       neovim
       nixd
