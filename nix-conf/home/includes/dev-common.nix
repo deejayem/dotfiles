@@ -14,7 +14,7 @@ in
     ./clojure.nix
   ];
 
-  nixpkgs.overlays = [ outputs.overlays.mcp-nixos ];
+  nixpkgs.overlays = [ outputs.overlays.lazy-flakes ];
 
   home.packages =
     with pkgs;
