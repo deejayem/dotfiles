@@ -1,6 +1,11 @@
 { inputs, ... }:
-{
-  additions = import ./additions.nix { inherit inputs; };
-  unstable-packages = import ./unstable-packages.nix { inherit inputs; };
-  lazy-flakes = import ./lazy-flakes.nix { inherit inputs; };
-}
+let
+  files = builtins.filter (f: f != "default.nix") (builtins.attrNames (builtins.readDir ./.));
+in
+# Import every overlays/foo.nix file as overlays.foo (except for this file)
+builtins.listToAttrs (
+  map (file: {
+    name = builtins.replaceStrings [ ".nix" ] [ "" ] file;
+    value = import (./. + "/${file}") { inherit inputs; };
+  }) files
+)
