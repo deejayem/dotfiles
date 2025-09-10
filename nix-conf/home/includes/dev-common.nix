@@ -14,8 +14,6 @@ in
     ./clojure.nix
   ];
 
-  nixpkgs.overlays = [ outputs.overlays.lazy-flakes ];
-
   home.packages =
     with pkgs;
     [
@@ -25,11 +23,12 @@ in
       gopass-jsonapi
       imagemagick
       janet
-      mcp-nixos
       multimarkdown
       neovim
       nixd
       ripgrep-all
+
+      unstable.mcp-nixos
     ]
     ++ optionals (!stdenv.isDarwin) [
       ffmpeg
