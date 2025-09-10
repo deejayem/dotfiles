@@ -1,6 +1,11 @@
 { inputs, ... }:
 let
-  files = builtins.filter (f: f != "default.nix") (builtins.attrNames (builtins.readDir ./.));
+  # Sort the overlays, to make extra sure things are consistent
+  files = builtins.sort (a: b: a < b) (
+    builtins.filter (f: f != "default.nix" && builtins.match ".*\\.nix$" f != null) (
+      builtins.attrNames (builtins.readDir ./.)
+    )
+  );
 in
 # Import every overlays/foo.nix file as overlays.foo (except for this file)
 builtins.listToAttrs (
