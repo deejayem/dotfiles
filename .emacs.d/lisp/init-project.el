@@ -66,8 +66,8 @@
     "Treat DIR as a project if it contains a .project file."
     (if-let ((root (locate-dominating-file dir ".project")))
         (cons 'local root)))
-  ;; Add this hook last so so that vc takes precedence over local
-  (add-hook 'project-find-functions 'project-try-local 90)
+  ;; Add this hook last so that vc takes precedence over local
+  (add-hook 'project-find-functions #'project-try-local 90)
   :commands project-prompt-project-dir
   :bind
   ("C-x p P" . project-switch-src-project)
