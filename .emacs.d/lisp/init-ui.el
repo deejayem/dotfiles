@@ -67,7 +67,10 @@
     ;; After swapping control and command, this works nicely,
     ;; otherwise use (setq mac-command-modifier 'super)
     (setq mac-command-modifier 'control
-          mac-control-modifier 'super)))
+          mac-control-modifier 'super)
+
+    ;; Prevent C-h from hiding the Window
+    (setq mac-pass-command-to-system nil)))
 
 (use-feature view
   ;; http://yummymelon.com/devnull/enhancing-navigation-in-emacs-view-mode.html
