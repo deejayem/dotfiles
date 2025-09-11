@@ -58,6 +58,20 @@
   (add-to-list 'project-switch-commands '(?m "Magit" magit-status) t)
   (add-to-list 'project-switch-commands '(?q "Replace Regexp" project-query-replace-regexp) t)
 
+  (defun project-relative-buffer-name ()
+    "Rename buffer to show its path relative to the project root (or else `default-directory')."
+    (when buffer-file-name
+      (let* ((project (project-current))
+             (root (if project (project-root project) default-directory)))
+        (rename-buffer
+         (string-join
+          (let ((p (split-string (file-relative-name buffer-file-name root) "/" t)))
+            (if (> (length p) 4) (seq-drop p (- (length p) 4)) p))
+          "/")
+         t))))
+
+  (add-hook 'find-file-hook #'project-relative-buffer-name)
+
   ;; project-root and project-try-local copied/modified from https://github.com/karthink/project-x/blob/master/project-x.el
   (cl-defmethod project-root ((project (head local)))
     "Return root directory of current PROJECT."
