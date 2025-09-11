@@ -90,7 +90,6 @@ in
       ".envrc"
       ".clj-kondo"
       "shell.nix"
-      "default.nix"
       ".direnv"
       ".dir-locals.el"
     ];
