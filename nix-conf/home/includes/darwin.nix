@@ -85,6 +85,8 @@ in
     #python310Packages.sqlparse
     redis
     sqls
+    ssh-over-ssm
+    ssm-session-manager-plugin
     #vimpc
     wget
 
