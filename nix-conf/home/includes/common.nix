@@ -353,6 +353,7 @@ in
       rebase = {
         autostash = true;
       };
+      github.user= "deejayem";
     };
     delta = {
       enable = true;
