@@ -80,7 +80,12 @@ in
         style = "green";
       };
       aws.symbol = "󰸏 ";
-      directory.read_only = " 󰌾";
+      directory = {
+        read_only = " 󰌾";
+        format = " [$path]($style)[$read_only]($read_only_style) ";
+        style = "#5f87ff";
+      };
+      direnv.disabled = false;
       docker_context.symbol = " ";
       gcloud = {
         format = ''on [$symbol@$project (\($region\))]($style) '';
