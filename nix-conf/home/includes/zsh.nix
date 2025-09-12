@@ -79,7 +79,10 @@ in
         format = "[$symbol$output]($style) ";
         style = "green";
       };
-      aws.symbol = "󰸏 ";
+      aws.symbol = {
+        format = ''[$symbol($profile )(\($region\) )(\[$duration\] )]($style)'';
+        symbol = "󰸏 ";
+      };
       directory = {
         read_only = " 󰌾";
         format = " [$path]($style)[$read_only]($read_only_style) ";
@@ -88,10 +91,11 @@ in
       direnv.disabled = false;
       docker_context.symbol = " ";
       gcloud = {
-        format = ''on [$symbol@$project (\($region\))]($style) '';
+        format = ''[$symbol@$project (\($region\))]($style) '';
         symbol = "󱇶 ";
       };
       git_branch = {
+        format = "[$symbol$branch(:$remote_branch)]($style) ";
         style = "green";
         symbol = " ";
       };
