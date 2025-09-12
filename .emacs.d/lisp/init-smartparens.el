@@ -24,6 +24,7 @@
                                (sp-use-paredit-bindings)))
   :config
   (sp-pair "\"" "\"" :wrap "M-\"")
+  (sp-pair "'" "'" :wrap "C-c M-'")
   ;; From https://github.com/bodil/emacs.d/blob/master/bodil/bodil-paredit.el
   (defun duplicate-sexp-after-point ()
     "Duplicates the content of the line that is after the point."
