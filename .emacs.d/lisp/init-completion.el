@@ -33,7 +33,9 @@
             (primitive-undo 2 buffer-undo-list)
             (completion-at-point)))
       (mono-complete-expand-or-fallback)))
-  :hook ((text-mode prog-mode) . mono-complete-mode)
+  :hook
+  ((text-mode prog-mode) . mono-complete-mode)
+  (view-mode . (lambda () (mono-complete-mode -1)))
   :bind
   (:map mono-complete-mode-map ("M-/" . mono-complete-expand-or-complete)))
 
