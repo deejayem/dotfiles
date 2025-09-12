@@ -4,6 +4,8 @@
 
 
 (when (eq system-type 'darwin)
+  ;; Stop elpaca from giving a warning when not using a released version of Emacs
+  (setq emacs-version (replace-regexp-in-string "\\(.*\\..*\\)\\..*" "\\1" emacs-version))
   (setq frame-resize-pixelwise t))
 
 (setq gc-cons-threshold most-positive-fixnum
