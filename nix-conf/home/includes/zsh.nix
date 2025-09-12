@@ -54,6 +54,31 @@ in
     enable = true;
     enableZshIntegration = true;
     settings = {
+      format = "$all$clojure_deps$clojure_lein";
+
+      custom.clojure_deps = {
+        command = ''
+          ${pkgs.babashka}/bin/bb -e '(let [m (clojure.edn/read-string (slurp "deps.edn"))
+                                            v (get-in m [:aliases :clojure :mvn/version])]
+                                        (println (or v "?")))'
+        '';
+        detect_files = [ "deps.edn" ];
+        symbol = " ";
+        format = "[$symbol$output]($style) ";
+        style = "green";
+      };
+      custom.clojure_lein = {
+        command = ''
+          ${pkgs.babashka}/bin/bb -e '
+            (let [content (slurp "project.clj")
+                  m (re-find #"\[org\.clojure/clojure \"([^\"]+)\"\]" content)]
+              (println (or (second m) "?")))'
+        '';
+        detect_files = [ "project.clj" ];
+        symbol = " ";
+        format = "[$symbol$output]($style) ";
+        style = "green";
+      };
       aws.symbol = "󰸏 ";
       directory.read_only = " 󰌾";
       docker_context.symbol = " ";
