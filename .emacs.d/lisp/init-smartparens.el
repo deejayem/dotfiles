@@ -24,7 +24,6 @@
                                (sp-use-paredit-bindings)))
   :config
   (sp-pair "\"" "\"" :wrap "M-\"")
-  (sp-pair "'" "'" :wrap "C-c M-'")
   ;; From https://github.com/bodil/emacs.d/blob/master/bodil/bodil-paredit.el
   (defun duplicate-sexp-after-point ()
     "Duplicates the content of the line that is after the point."
@@ -85,6 +84,9 @@ Equivalent to raising then wrapping."
     (if (sp--raw-argument-p arg)
         (sp-beginning-of-sexp)
       (call-interactively 'sp-backward-sexp arg)))
+  (defun sp-wrap-single-quotation-marks (&optional arg)
+    (interactive "P")
+    (sp-wrap-with-pair "'"))
   (unbind-key "M-?" 'smartparens-mode-map)
   (unbind-key "M-?" 'sp-keymap)
   :bind (:map smartparens-mode-map
@@ -108,6 +110,7 @@ Equivalent to raising then wrapping."
               ("M-D" . sp-unwrap-sexp)
               ("C-M-S-d" . sp-backward-unwrap-sexp)
               ("C-c C-S-d" . duplicate-sexp-after-point)
+              ("C-c M-'" . sp-wrap-single-quotation-marks)
               ("C-c M-(" . wrap-round-from-behind)))
 
 (provide 'init-smartparens)
