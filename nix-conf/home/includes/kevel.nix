@@ -96,6 +96,23 @@ in
   };
   programs.ssh = {
     includes = [ config.sops.secrets."ssh_config/kevel".path ];
+    matchBlocks = {
+      "i-*" = {
+        user = "ubuntu";
+        proxyCommand = "ssh-ssm.sh %h %r";
+        identityFile = "~/.ssh/ssm-ssh-tmp";
+        userKnownHostsFile = "/dev/null";
+        forwardAgent = true;
+        serverAliveInterval = 5;
+        sendEnv = ["AWS_*" "ADZERK_*" ];
+        extraOptions = {
+          "ConnectTimeout" = "30";
+          "BatchMode" = "yes";
+          "LogLevel" = "QUIET";
+          "StrictHostKeyChecking" = "no";
+        };
+      };
+    };
   };
 
   programs.granted = {
