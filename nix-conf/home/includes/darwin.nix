@@ -87,6 +87,22 @@ in
     })
   ];
 
+  programs.ghostty = {
+    enable = true;
+    enableZshIntegration = true;
+    package = pkgs.ghostty-bin;
+    settings = {
+      font-family = "MesloLGS Nerd Font";
+      font-size = 13;
+      copy-on-select = "clipboard";
+      # This is proposed syntax for the future, but ghostty is unusable until it's implemented
+      #key-remap = [ "ctrl=super" "super=ctrl" ];
+      keybind = [
+        "shift+insert=paste_from_clipboard"
+      ];
+    };
+  };
+
   home.shellAliases = {
     notify_success = ''( osascript -e 'display notification "The command finished" with title "Success"' && afplay /System/Library/Sounds/Ping.aiff && say done  )'';
     notify_failure = ''( osascript -e 'display notification "The command failed" with title "Failure"' && afplay /System/Library/Sounds/Sosumi.aiff && say failed  )'';
