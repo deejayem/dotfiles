@@ -58,9 +58,9 @@ in
 
       custom.clojure_deps = {
         command = ''
-          ${pkgs.babashka}/bin/bb -e '(let [m (clojure.edn/read-string (slurp "deps.edn"))
-                                            v (get-in m [:aliases :clojure :mvn/version])]
-                                        (println (or v "?")))'
+          ${pkgs.babashka}/bin/bb -e "(let [m (clojure.edn/read-string (slurp \"deps.edn\"))
+                                            v (get-in m [:deps 'org.clojure/clojure :mvn/version])]
+                                        (println (or v \"?\")))"
         '';
         detect_files = [ "deps.edn" ];
         symbol = " ";
@@ -91,7 +91,10 @@ in
         format = ''on [$symbol@$project (\($region\))]($style) '';
         symbol = "󱇶 ";
       };
-      git_branch.symbol = " ";
+      git_branch = {
+        style = "green";
+        symbol = " ";
+      };
       haskell.symbol = " ";
       hostname.ssh_symbol = " ";
       java.symbol = " ";
