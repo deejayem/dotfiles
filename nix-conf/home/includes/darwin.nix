@@ -27,32 +27,6 @@ let
         --prefix PYTHONPATH : $out/${pkgs.mopidyPackages.python.sitePackages}
     '';
   };
-
-  # Use the patches from emacs-plus
-  emacs-plus = (
-    pkgs.emacs30-pgtk.overrideAttrs (old: {
-      patches = (old.patches or [ ]) ++ [
-        (pkgs.fetchpatch {
-          url = "https://raw.githubusercontent.com/d12frosted/homebrew-emacs-plus/master/patches/emacs-28/fix-window-role.patch";
-          sha256 = "+z/KfsBm1lvZTZNiMbxzXQGRTjkCFO4QPlEK35upjsE=";
-        })
-        (pkgs.fetchpatch {
-          url = "https://raw.githubusercontent.com/d12frosted/homebrew-emacs-plus/master/patches/emacs-30/round-undecorated-frame.patch";
-          sha256 = "uYIxNTyfbprx5mCqMNFVrBcLeo+8e21qmBE3lpcnd+4=";
-        })
-        (pkgs.fetchpatch {
-          url = "https://raw.githubusercontent.com/d12frosted/homebrew-emacs-plus/master/patches/emacs-30/system-appearance.patch";
-          sha256 = "3QLq91AQ6E921/W9nfDjdOUWR8YVsqBAT/W9c1woqAw=";
-        })
-      ];
-    })
-  );
-
-  emacs-plus-with-packages = (pkgs.emacsPackagesFor emacs-plus).emacsWithPackages (ps: [
-    ps.vterm
-    ps.multi-vterm
-  ]);
-
 in
 {
   imports = [ ./dev-common.nix ];
@@ -64,7 +38,10 @@ in
     coreutils
     curl
     diffutils
-    emacs-plus-with-packages
+    ((emacsPackagesFor emacs-macport).emacsWithPackages (ps: [
+      ps.vterm
+      ps.multi-vterm
+    ]))
     findutils
     gh
     gh-dash
