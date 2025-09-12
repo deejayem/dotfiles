@@ -60,7 +60,7 @@ in
         command = ''
           ${pkgs.babashka}/bin/bb -e "(let [m (clojure.edn/read-string (slurp \"deps.edn\"))
                                             v (get-in m [:deps 'org.clojure/clojure :mvn/version])]
-                                        (println (or v \"?\")))"
+                                        (println (or v \"\")))"
         '';
         detect_files = [ "deps.edn" ];
         symbol = " ";
@@ -72,7 +72,7 @@ in
           ${pkgs.babashka}/bin/bb -e '
             (let [content (slurp "project.clj")
                   m (re-find #"\[org\.clojure/clojure \"([^\"]+)\"\]" content)]
-              (println (or (second m) "?")))'
+              (println (or (second m) "")))'
         '';
         detect_files = [ "project.clj" ];
         symbol = " ";
@@ -97,7 +97,11 @@ in
       };
       haskell.symbol = " ";
       hostname.ssh_symbol = " ";
-      java.symbol = " ";
+      java = {
+        format = "[$symbol($version )]($style)";
+        symbol = " ";
+        style = "#ffa500";
+      };
       memory_usage.symbol = "󰍛 ";
       nix_shell.symbol = " ";
       nodejs.symbol = " ";
