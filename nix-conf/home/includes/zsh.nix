@@ -50,6 +50,33 @@ in
     ];
     #  extraFlags = [ "--quiet" "--ignore-missing" ];
   };
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      aws.symbol = "󰸏 ";
+      directory.read_only = " 󰌾";
+      docker_context.symbol = " ";
+      gcloud = {
+        format = ''on [$symbol@$project (\($region\))]($style) '';
+        symbol = "󱇶 ";
+      };
+      git_branch.symbol = " ";
+      haskell.symbol = " ";
+      hostname.ssh_symbol = " ";
+      java.symbol = " ";
+      memory_usage.symbol = "󰍛 ";
+      nix_shell.symbol = " ";
+      nodejs.symbol = " ";
+      os = {
+        disabled = false;
+        symbols = {
+          Macos = " ";
+          NixOS = " ";
+        };
+      };
+    };
+  };
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -319,8 +346,6 @@ in
         fi
 
         [[ ! -f ~/.zsh.local ]] || source ~/.zsh.local
-
-        [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
       ''
     ];
 
@@ -344,11 +369,6 @@ in
         name = "zsh-fast-syntax-highlighting";
         src = zsh-fast-syntax-highlighting;
         file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
-      }
-      {
-        name = "zsh-powerlevel10k";
-        src = zsh-powerlevel10k;
-        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
       }
       {
         name = "zsh-forgit";
