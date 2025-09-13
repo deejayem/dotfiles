@@ -79,7 +79,7 @@ in
         format = "[$symbol$output]($style) ";
         style = "green";
       };
-      aws.symbol = {
+      aws = {
         format = ''[$symbol($profile )(\($region\) )(\[$duration\] )]($style)'';
         symbol = "󰸏 ";
       };
