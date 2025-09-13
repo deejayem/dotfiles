@@ -55,6 +55,7 @@ in
     enableZshIntegration = true;
     settings = {
       format = "$all$clojure_deps$clojure_lein";
+      right_format = "$status$cmd_duration$aws$gcloud";
 
       custom.clojure_deps = {
         command = ''
@@ -116,6 +117,7 @@ in
           NixOS = " ";
         };
       };
+      status.disabled = false;
     };
   };
   programs.zsh = {
