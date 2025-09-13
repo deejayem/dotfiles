@@ -100,6 +100,20 @@ in
         style = "green";
         symbol = " ";
       };
+      git_status = {
+        style = "bold white";
+        format = ''([$all_status$ahead_behind]($style) )'';
+        stashed = "\$\${count} ";
+        ahead = "⇡\${count} ";
+        behind = "⇣\${count} ";
+        diverged = "⇕\${count} ";
+        conflicted = "=\${count} ";
+        deleted = "✘\${count} ";
+        renamed = "»\${count} ";
+        modified = "!\${count} ";
+        staged = "+\${count} ";
+        untracked = "?\${count} ";
+      };
       haskell.symbol = " ";
       hostname.ssh_symbol = " ";
       java = {
