@@ -85,9 +85,12 @@ in
         symbol = "󰸏 ";
       };
       directory = {
-        read_only = " 󰌾";
         format = " [$path]($style)[$read_only]($read_only_style) ";
-        style = "#5f87ff";
+        read_only = " 󰌾";
+        style = "bold fg:39";
+        truncate_to_repo = false;
+        truncation_length = 10;
+        truncation_symbol = "…/";
       };
       direnv.disabled = false;
       docker_context = {
