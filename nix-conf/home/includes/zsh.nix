@@ -117,11 +117,15 @@ in
         deleted = "✘\${count} ";
         renamed = "»\${count} ";
         modified = "!\${count} ";
+        #modified = "([!\${count} ](red))";
         staged = "+\${count} ";
         untracked = "?\${count} ";
       };
       haskell.symbol = " ";
-      hostname.ssh_symbol = " ";
+      hostname = {
+        format = "[$ssh_symbol$hostname]($style) ";
+        ssh_symbol = " ";
+      };
       java = {
         format = "[$symbol($version )]($style)";
         symbol = " ";
@@ -141,6 +145,7 @@ in
         };
       };
       status.disabled = false;
+      username.format = "[$user]($style) ";
     };
   };
   programs.zsh = {
