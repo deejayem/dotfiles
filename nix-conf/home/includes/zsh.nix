@@ -103,7 +103,7 @@ in
       git_status = {
         style = "bold white";
         format = ''([$all_status$ahead_behind]($style) )'';
-        stashed = "\$\${count} ";
+        stashed = "\\\$\${count} ";
         ahead = "⇡\${count} ";
         behind = "⇣\${count} ";
         diverged = "⇕\${count} ";
