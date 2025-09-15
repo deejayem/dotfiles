@@ -90,7 +90,10 @@ in
         style = "#5f87ff";
       };
       direnv.disabled = false;
-      docker_context.symbol = " ";
+      docker_context = {
+        format = "[$symbol$context]($style) ";
+        symbol = " ";
+      };
       gcloud = {
         format = ''[$symbol@$project (\($region\))]($style) '';
         symbol = "󱇶 ";
@@ -123,7 +126,10 @@ in
       };
       memory_usage.symbol = "󰍛 ";
       nix_shell.symbol = " ";
-      nodejs.symbol = " ";
+      nodejs = {
+        format = "[$symbol($version )]($style)";
+        symbol = " ";
+      };
       os = {
         disabled = false;
         symbols = {
