@@ -107,19 +107,17 @@ in
         symbol = " ";
       };
       git_status = {
-        style = "bold white";
         format = ''([$all_status$ahead_behind]($style) )'';
-        stashed = "\\\$\${count} ";
-        ahead = "⇡\${count} ";
-        behind = "⇣\${count} ";
-        diverged = "⇕\${count} ";
-        conflicted = "=\${count} ";
-        deleted = "✘\${count} ";
-        renamed = "»\${count} ";
-        modified = "!\${count} ";
-        #modified = "([!\${count} ](red))";
-        staged = "+\${count} ";
-        untracked = "?\${count} ";
+        stashed = "[\\\$\${count} ](fg:#5fd700)"; # xterm 76 (chartreuse3)
+        ahead = "[⇡\${count} ](fg:#87d700)"; # xterm 118 (chartreuse2)
+        behind = "[⇣\${count} ](fg:#ff5f5f)"; # xterm 203 (indianred1)
+        diverged = "[⇕\${count} ](fg:#af87ff)"; # xterm 141 (mediumpurple1)
+        conflicted = "[=\${count} ](bold fg:#ff0000)"; # xterm 196 (red1)
+        deleted = "[✘\${count} ](bold fg:#d70000)"; # xterm 160 (red3)
+        renamed = "[»\${count} ](fg:#00afff)"; # xterm 39 (deepskyblue1)
+        modified = "[!\${count} ](fg:#d7af00)"; # xterm 178 (gold3)
+        staged = "[+\${count} ](fg:#5fd700)"; # xterm 76 (chartreuse3)
+        untracked = "[?\${count} ](fg:#00afff)"; # xterm 39 (deepskyblue1)
       };
       haskell.symbol = " ";
       hostname = {
