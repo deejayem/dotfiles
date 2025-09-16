@@ -54,7 +54,11 @@ in
     enable = true;
     enableZshIntegration = true;
     settings = {
-      right_format = "$status$cmd_duration$aws$gcloud";
+      add_newline = false;
+      format = ''
+        $os$username$hostname$localip$shlvl$singularity$kubernetes$nats$directory$vcsh$fossil_branch$fossil_metrics$git_branch$git_commit$git_state$git_metrics$git_status$hg_branch$pijul_channel$docker_context$package$bun$c$cmake$cobol$cpp$daml$dart$deno$dotnet$elixir$elm$erlang$fennel$gleam$golang$gradle$haskell$haxe$helm$java$julia$kotlin$lua$mojo$nim$nodejs$ocaml$odin$opa$perl$php$pulumi$purescript$python$quarto$raku$rlang$red$ruby$rust$scala$solidity$swift$terraform$typst$vlang$vagrant$zig$buf$guix_shell$nix_shell$conda$pixi$meson$spack$memory_usage$openstack$azure$direnv$env_var$mise$crystal$custom$sudo$jobs$battery$time$container$netns$shell$fill$status$cmd_duration$aws$gcloud$line_break$character
+      '';
+      fill.symbol = " ";
       aws = {
         format = ''[$symbol($profile )(\($region\) )(\[$duration\] )]($style)'';
         symbol = "󰸏 ";
