@@ -87,7 +87,7 @@ in
       directory = {
         format = " [$path]($style)[$read_only]($read_only_style) ";
         read_only = " 󰌾";
-        style = "bold fg:39";
+        style = "bold fg:#00afff"; # xterm 39 (deepskyblue1)
         truncate_to_repo = false;
         truncation_length = 10;
         truncation_symbol = "…/";
