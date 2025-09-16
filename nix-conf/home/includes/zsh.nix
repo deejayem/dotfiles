@@ -144,6 +144,7 @@ in
           NixOS = " ";
         };
       };
+      package.format = "[$symbol$version]($style) ";
       status.disabled = false;
       username.format = "[$user]($style) ";
     };
