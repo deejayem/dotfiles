@@ -60,6 +60,7 @@ in
     poetry
     postgresql
     podman
+    procps
     #python310Packages.sqlparse
     redis
     sqls
