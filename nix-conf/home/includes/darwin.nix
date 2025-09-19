@@ -46,6 +46,7 @@ in
     gh
     gh-dash
     gnused
+    iterm2
     #mopidy-with-extensions
     #mpdscribble
     #mpc-cli
@@ -66,6 +67,7 @@ in
     ssm-session-manager-plugin
     #vimpc
     wget
+    _1password-gui
 
     (pkgs.callPackage ./scripts/darwin-update.nix { inherit pkgs inputs; })
   ];

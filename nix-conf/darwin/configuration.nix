@@ -57,7 +57,6 @@
     ];
     casks = [
       "ankerwork"
-      "1password"
       "aws-vpn-client"
       "gcloud-cli"
       "orbstack"
