@@ -80,6 +80,10 @@ in
         format = ''[$symbol@$project (\($region\))]($style) '';
         symbol = "󱇶 ";
       };
+      golang = {
+        format = "[$symbol($version )]($style)";
+        symbol = " ";
+      };
       git_branch = {
         format = "[$symbol$branch(:$remote_branch)]($style) ";
         style = "green";
