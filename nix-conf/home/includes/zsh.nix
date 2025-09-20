@@ -208,7 +208,7 @@ in
       glog = "git log --oneline --decorate --graph";
       gloga = "git log --oneline --decorate --graph --all";
     }
-    // optionalAttrs pkgs.stdenv.isDarwin { oemacs = "open -a /Applications/Emacs.app"; };
+    // optionalAttrs pkgs.stdenv.isDarwin { oemacs = "open -a /Applications/Nix\\ Apps/Emacs.app"; };
 
     localVariables = {
       PER_DIRECTORY_HISTORY_TOGGLE = "^\\\\"; # ^\\ is ^#
