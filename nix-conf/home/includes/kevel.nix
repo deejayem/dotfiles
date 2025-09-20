@@ -103,7 +103,10 @@ in
         userKnownHostsFile = "/dev/null";
         forwardAgent = true;
         serverAliveInterval = 5;
-        sendEnv = ["AWS_*" "ADZERK_*" ];
+        sendEnv = [
+          "AWS_*"
+          "ADZERK_*"
+        ];
         extraOptions = {
           "ConnectTimeout" = "30";
           "BatchMode" = "yes";
