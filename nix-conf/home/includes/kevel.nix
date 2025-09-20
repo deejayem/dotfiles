@@ -34,14 +34,9 @@ in
     aws-sso-util
     copilot-language-server
     coffeescript
-    firefox
-    google-chrome # chromium is not available on darwin
     nodejs
     nodePackages.aws-cdk
     opentofu
-    slack
-    vscode
-    zoom-us
   ];
 
   # TODO

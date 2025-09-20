@@ -42,10 +42,37 @@
     EDITOR = "vim";
   };
 
+  environment.systemPackages = with pkgs; [
+    ((emacsPackagesFor emacs-macport).emacsWithPackages (ps: [
+      ps.vterm
+      ps.multi-vterm
+    ]))
+    firefox
+    google-chrome # chromium is not available on darwin (in nixpkgs)
+    iterm2
+    pinentry_mac
+    slack
+    vscode
+    zoom-us
+    _1password-gui
+  ];
+
   fonts.packages = [
     pkgs.aporetic
     pkgs.meslo-lgs-nf
     pkgs.fira-code
+  ];
+
+  system.defaults.dock.persistent-apps = [
+    { app = "/System/Applications/System Settings.app"; }
+    { app = "/Applications/Nix Apps/Google Chrome.app"; }
+    { app = "/Applications/Nix Apps/Firefox.app"; }
+    { app = "/Applications/Nix Apps/Slack.app"; }
+    { app = "/Applications/Nix Apps/iTerm2.app"; }
+    { app = "/Applications/Nix Apps/Emacs.app"; }
+    { app = "/Applications/Nix Apps/zoom.us.app"; }
+    { app = "/Applications/Nix Apps/1Password.app"; }
+    { app = "/Applications/Nix Apps/OrbStack.app"; }
   ];
 
   homebrew = {
@@ -59,7 +86,6 @@
       "ankerwork"
       "aws-vpn-client"
       "gcloud-cli"
-      "orbstack"
     ];
   };
 }

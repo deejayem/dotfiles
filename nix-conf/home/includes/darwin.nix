@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   inputs,
@@ -38,22 +37,16 @@ in
     coreutils
     curl
     diffutils
-    ((emacsPackagesFor emacs-macport).emacsWithPackages (ps: [
-      ps.vterm
-      ps.multi-vterm
-    ]))
     findutils
     gh
     gh-dash
     gnused
-    iterm2
     #mopidy-with-extensions
     #mpdscribble
     #mpc-cli
     #mpd
     #ncmpcpp
     nix
-    pinentry_mac
     pgcli
     pgformatter
     #pms
@@ -68,7 +61,6 @@ in
     ssm-session-manager-plugin
     #vimpc
     wget
-    _1password-gui
 
     (pkgs.callPackage ./scripts/darwin-update.nix { inherit pkgs inputs; })
   ];
@@ -76,62 +68,6 @@ in
   home.sessionVariables = {
     NH_DARWIN_FLAKE = "/etc/nix-darwin";
   };
-
-  home.activation.applicationAliases = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    set -euo pipefail
-
-    SRC="$HOME/.nix-profile/Applications"
-    DST="/Applications"
-
-    changed=0
-
-    find_alias() {
-      /usr/bin/osascript - -- "''$1" <<'OSA' || true
-  on run argv
-    set p to POSIX file (item 1 of argv)
-    try
-      set a to (p as alias)
-      return POSIX path of a
-    on error
-      return ""
-    end try
-  end run
-  OSA
-    }
-
-    # Create aliases for everything in ~/.nix-profile/Applications in /Applications,
-    # skipping anything that already exists (as a non-alias), and only replacing
-    # things that have changed
-    ${pkgs.findutils}/bin/find -H "$SRC" -maxdepth 1 -name '*.app' -print0 |
-    while IFS= read -r -d $'\0' app; do
-      base="''${app##*/}"
-      target="$DST/$base"
-
-      if [ -e "$target" ]; then
-        # Check if this is an alias or a real app
-        if /usr/bin/mdls -name kMDItemKind "$target" 2>/dev/null | ${pkgs.gnugrep}/bin/grep -q 'Alias$'; then
-          current="$(find_alias "$target" || true)"
-          if [ -z "''${current:-}" ] || [ "$current" != "$app" ]; then
-            ${pkgs.coreutils}/bin/rm -rf "$target"
-            ${pkgs.mkalias}/bin/mkalias "$app" "$target"
-            changed=1
-          fi
-        else
-          echo "Warning: skipping $target because it exists and is not a finder alias"
-          continue
-        fi
-      else
-        ${pkgs.mkalias}/bin/mkalias "$app" "$target"
-        changed=1
-      fi
-    done
-
-    # Only poke LaunchServices/Spotlight if something changed
-    if [ "$changed" -eq 1 ]; then
-      /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$DST" >/dev/null 2>&1 || true
-      /usr/bin/mdimport "$DST" >/dev/null 2>&1 || true
-    fi
-  '';
 
   nix.settings = {
     sandbox = true;
