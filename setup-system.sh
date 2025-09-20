@@ -7,7 +7,6 @@
 NIX_CONF=$HOME/dotfiles/nix-conf
 
 ln -sf $NIX_CONF ~/.config/home-manager
-ln -sf ~/dotfiles/.p10k.zsh ~/
 ln -sf ~/dotfiles/.emacs.d ~/
 
 if [ -x "$(command -v nixos-version)" ]; then
