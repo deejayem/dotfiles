@@ -19,7 +19,6 @@ else
 
   if [ "$(uname 2> /dev/null)" = "Darwin"  ]; then
     ln -sf $NIX_CONF /etc/nix-darwin
-    ln -sf ~/.nix-profile/Applications/Emacs.app /Applications/
 
     sudo nix --extra-experimental-features nix-command --extra-experimental-features flakes run nix-darwin/master#darwin-rebuild -- switch
   fi
