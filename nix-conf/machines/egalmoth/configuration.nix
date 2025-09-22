@@ -18,6 +18,7 @@
   };
   services.thermald.enable = true;
   services.power-profiles-daemon.enable = false;
+  services.upower.enable = true;
   services.tlp = {
     enable = true;
     settings = {
@@ -65,20 +66,17 @@
 
   services.xserver.enable = true;
   services.xserver.exportConfiguration = true;
-
   services.xserver.displayManager.lightdm.greeters.slick.enable = true;
+  services.xserver.xkb.layout = "gb";
+  services.displayManager.sessionPackages = [ pkgs.sway ];
+  services.displayManager.defaultSession = "sway";
+
+  programs.xwayland.enable = true;
+
   programs.seahorse.enable = true;
   services.gnome.gnome-keyring.enable = true;
   security.pam.services.login.enableGnomeKeyring = true;
   security.pam.services.passwd.enableGnomeKeyring = true;
-  services.displayManager.sessionPackages = [ pkgs.sway ];
-  services.displayManager.defaultSession = "none+i3";
-  #services.xserver.displayManager.defaultSession = "sway";
-
-  services.xserver.windowManager.i3.enable = true;
-  services.upower.enable = true;
-
-  services.xserver.xkb.layout = "gb";
 
   services.printing.enable = true;
   services.printing.drivers = [

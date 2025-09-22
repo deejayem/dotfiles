@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 {
-  imports = [ ./includes/linux-dev.nix ];
+  imports = [
+    ./includes/linux-dev.nix
+    ./includes/sway.nix
+  ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
