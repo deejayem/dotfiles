@@ -34,6 +34,7 @@ in
     aws-sso-util
     copilot-language-server
     coffeescript
+    google-cloud-sdk
     nodejs
     nodePackages.aws-cdk
     opentofu

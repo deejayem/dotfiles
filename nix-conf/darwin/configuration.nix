@@ -85,7 +85,6 @@
     casks = [
       "ankerwork"
       "aws-vpn-client"
-      "gcloud-cli"
     ];
   };
 }
