@@ -53,6 +53,7 @@
     pinentry_mac
     slack
     vscode
+    youtube-music
     zoom-us
     _1password-gui
   ];
@@ -65,6 +66,7 @@
 
   system.defaults.dock.persistent-apps = [
     { app = "/System/Applications/System Settings.app"; }
+    { app = "/Applications/Nix Apps/YouTube Music.app"; }
     { app = "/Applications/Nix Apps/Google Chrome.app"; }
     { app = "/Applications/Nix Apps/Firefox.app"; }
     { app = "/Applications/Nix Apps/Slack.app"; }
