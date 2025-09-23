@@ -53,13 +53,13 @@ in
     poetry
     postgresql
     podman
-    procps
     #python310Packages.sqlparse
     redis
     sqls
     ssh-over-ssm
     ssm-session-manager-plugin
     #vimpc
+    watch
     wget
 
     (pkgs.callPackage ./scripts/darwin-update.nix { inherit pkgs inputs; })
