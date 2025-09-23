@@ -50,6 +50,7 @@
     firefox
     google-chrome # chromium is not available on darwin (in nixpkgs)
     iterm2
+    orbstack
     pinentry_mac
     slack
     vscode

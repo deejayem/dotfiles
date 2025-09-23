@@ -15,8 +15,9 @@
         "corefonts"
         "google-chrome" # only for darwin where chromium is not available
         "hplip"
-        "vscode"
+        "orbstack"
         "slack"
+        "vscode"
         "zoom"
       ];
     overlays = [
