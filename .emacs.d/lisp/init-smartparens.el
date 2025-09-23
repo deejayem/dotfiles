@@ -87,6 +87,9 @@ Equivalent to raising then wrapping."
   (defun sp-wrap-single-quotation-marks (&optional arg)
     (interactive "P")
     (sp-wrap-with-pair "'"))
+  (defun sp-wrap-backticks (&optional arg)
+    (interactive "P")
+    (sp-wrap-with-pair "`"))
   (unbind-key "M-?" 'smartparens-mode-map)
   (unbind-key "M-?" 'sp-keymap)
   :bind (:map smartparens-mode-map
@@ -111,6 +114,7 @@ Equivalent to raising then wrapping."
               ("C-M-S-d" . sp-backward-unwrap-sexp)
               ("C-c C-S-d" . duplicate-sexp-after-point)
               ("C-c M-'" . sp-wrap-single-quotation-marks)
+              ("C-c M-`" . sp-wrap-backticks)
               ("C-c M-(" . wrap-round-from-behind)))
 
 (provide 'init-smartparens)
