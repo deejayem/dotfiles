@@ -131,4 +131,8 @@ in
     '') envSecrets
   );
 
+  programs.zsh.initContent = ''
+    source "${pkgs.google-cloud-sdk}/share/zsh/site-functions/_gcloud"
+  '';
+
 }
