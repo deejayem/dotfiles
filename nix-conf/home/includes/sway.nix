@@ -8,6 +8,11 @@
 {
   programs.home-manager.enable = true;
 
+  home.packages = with pkgs; [
+    networkmanagerapplet
+    pavucontrol
+  ];
+
   wayland.windowManager.sway = {
     enable = true;
     package = pkgs.sway;
@@ -63,12 +68,8 @@
 
       bars = [
         {
+          command = "waybar";
           position = "top";
-          statusCommand = "${pkgs.i3status}/bin/i3status";
-          fonts = {
-            names = [ "monospace" ];
-            size = 8.0;
-          };
         }
       ];
 
@@ -82,6 +83,8 @@
       ];
     };
   };
+
+  programs.waybar.enable = true;
 
   programs.foot = {
     enable = true;

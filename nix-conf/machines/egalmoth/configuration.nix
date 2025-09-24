@@ -135,6 +135,7 @@
       "plocate"
       "cdrom"
       "disk"
+      "input"
     ];
     shell = pkgs.zsh;
     openssh.authorizedKeys.keys = [
