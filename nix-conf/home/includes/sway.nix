@@ -62,7 +62,7 @@
 
       assigns = {
         "2" = [ { app_id = "firefox"; } ];
-        "3" = [ { class = "emacs"; } ];
+        "3" = [ { app_id = "emacs"; } ];
         "4" = [ { app_id = "chromium-browser"; } ];
       };
 
