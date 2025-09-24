@@ -3,6 +3,7 @@
   imports = [
     ./includes/linux-dev.nix
     ./includes/sway.nix
+    ./includes/ghostty.nix
   ];
 
   # Let Home Manager install and manage itself.
