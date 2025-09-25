@@ -43,9 +43,7 @@
     ;; Remove this, as we use cape-clojure (in init-clojure.el), which includes
     ;; lsp-completion-at-point
     (remove-hook 'completion-at-point-functions #'lsp-completion-at-point t))
-  (if (eq system-type 'darwin)
-      (setq lsp-keymap-prefix "s-l")
-    (setq lsp-keymap-prefix "C-c C-l"))
+  (setq lsp-keymap-prefix "s-.")
   (define-key lsp-mode-map (kbd lsp-keymap-prefix) lsp-command-map)
   (setq lsp-sqls-workspace-config-path nil)
   (setq read-process-output-max (* 1024 1024)
