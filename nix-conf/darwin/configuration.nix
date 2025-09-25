@@ -21,6 +21,7 @@
 
   environment.systemPackages = with pkgs; [
     alacritty
+    doll
     ((emacsPackagesFor emacs-macport).emacsWithPackages (ps: [
       ps.vterm
       ps.multi-vterm
