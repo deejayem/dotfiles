@@ -30,6 +30,7 @@ in
 {
   imports = [
     ./dev-common.nix
+    ./alacritty.nix
     ./ghostty.nix
     ./karabiner.nix
   ];

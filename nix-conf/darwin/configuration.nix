@@ -20,6 +20,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    alacritty
     ((emacsPackagesFor emacs-macport).emacsWithPackages (ps: [
       ps.vterm
       ps.multi-vterm
@@ -43,14 +44,14 @@
     pkgs.fira-code
   ];
 
+  system.defaults.dock.autohide = true;
   system.defaults.dock.persistent-apps = [
     { app = "/System/Applications/System Settings.app"; }
     { app = "/Applications/Nix Apps/YouTube Music.app"; }
     { app = "/Applications/Nix Apps/Google Chrome.app"; }
     { app = "/Applications/Nix Apps/Firefox.app"; }
     { app = "/Applications/Nix Apps/Slack.app"; }
-    { app = "/Applications/Nix Apps/iTerm2.app"; }
-    { app = "/Applications/Nix Apps/Ghostty.app"; }
+    { app = "/Applications/Nix Apps/Alacritty.app"; }
     { app = "/Applications/Nix Apps/Emacs.app"; }
     { app = "/Applications/Nix Apps/zoom.us.app"; }
     { app = "/Applications/Nix Apps/1Password.app"; }
