@@ -44,3 +44,6 @@ ielm
 .org-id-locations
 eca
 .extension
+.chatgpt-shell.el
+.mc-lists.el
+request/
