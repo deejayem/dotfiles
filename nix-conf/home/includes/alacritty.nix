@@ -9,11 +9,11 @@
         normal.family = "MesloLGS NF";
         size = 12;
       };
-      
+
       selection = {
         save_to_clipboard = true;
       };
-      
+
       keyboard.bindings = [
         {
           key = "Insert";
@@ -21,38 +21,38 @@
           action = "Paste";
         }
       ];
-      
+
       window = lib.optionalAttrs pkgs.stdenv.isDarwin {
         option_as_alt = "OnlyLeft";
       };
-      
+
       colors = {
         primary = {
           background = "#000000";
           foreground = "#c7c7c7";
         };
-        
+
         cursor = {
           text = "#000000";
           cursor = "#c7c7c7";
         };
-        
+
         selection = {
           text = "#000000";
           background = "#b5d5ff";
         };
-        
+
         normal = {
           black = "#000000";
           red = "#c91b00";
           green = "#00c200";
           yellow = "#c7c400";
-          blue = "#4169e1";
+          blue = "#3366cc";
           magenta = "#ca30c7";
           cyan = "#00c5c7";
           white = "#c7c7c7";
         };
-        
+
         bright = {
           black = "#686868";
           red = "#ff6e67";
