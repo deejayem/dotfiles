@@ -25,6 +25,7 @@
       ps.multi-vterm
     ]))
     firefox
+    ghostty-bin
     google-chrome # chromium is not available on darwin (in nixpkgs)
     iterm2
     orbstack
@@ -49,6 +50,7 @@
     { app = "/Applications/Nix Apps/Firefox.app"; }
     { app = "/Applications/Nix Apps/Slack.app"; }
     { app = "/Applications/Nix Apps/iTerm2.app"; }
+    { app = "/Applications/Nix Apps/Ghostty.app"; }
     { app = "/Applications/Nix Apps/Emacs.app"; }
     { app = "/Applications/Nix Apps/zoom.us.app"; }
     { app = "/Applications/Nix Apps/1Password.app"; }

@@ -1,5 +1,7 @@
-{ pkgs, ... }:
-
+{ lib, pkgs, ... }:
+let
+  inherit (lib) optionalAttrs;
+in
 {
   programs.ghostty = {
     enable = true;
@@ -9,7 +11,7 @@
 
     settings = {
       font-family = "MesloLGS Nerd Font";
-      font-size = 8;
+      font-size = if pkgs.stdenv.isDarwin then 12 else 8;
       copy-on-select = "clipboard";
       # This is proposed syntax for the future, but ghostty is unusable on darwin until it's implemented
       #key-remap = [ "ctrl=super" "super=ctrl" ];
@@ -41,6 +43,9 @@
         "14=#34e2e2"
         "15=#eeeeec"
       ];
+    }
+    // optionalAttrs pkgs.stdenv.isDarwin {
+      macos-option-as-alt = "left";
     };
   };
 }
