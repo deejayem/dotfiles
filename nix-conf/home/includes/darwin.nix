@@ -31,6 +31,7 @@ in
   imports = [
     ./dev-common.nix
     ./ghostty.nix
+    ./karabiner.nix
   ];
 
   home.packages = with pkgs; [

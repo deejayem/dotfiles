@@ -6,29 +6,6 @@
   ];
   system.stateVersion = 6;
   system.primaryUser = "djm";
-  system.keyboard.enableKeyMapping = true;
-  system.keyboard.userKeyMapping = [
-    {
-      HIDKeyboardModifierMappingSrc = 30064771296;
-      HIDKeyboardModifierMappingDst = 30064771299;
-    }
-    {
-      HIDKeyboardModifierMappingSrc = 30064771299;
-      HIDKeyboardModifierMappingDst = 30064771296;
-    }
-  ];
-  #system.defaults.CustomUserPreferences = {
-  #  "com.apple.symbolichotkeys" = {
-  #    AppleSymbolicHotKeys = {
-  #      "60" = {
-  #        enabled = 0;
-  #      };
-  #      "61" = {
-  #        enabled = 0;
-  #      };
-  #    };
-  #  };
-  #};
   nixpkgs.hostPlatform = "aarch64-darwin";
   users.users.djm.home = "/Users/djm";
 
@@ -88,6 +65,8 @@
     casks = [
       "ankerwork"
       "aws-vpn-client"
+      "karabiner-elements" # services.karabiner-elements.enable = true; causes problems
     ];
   };
+
 }
