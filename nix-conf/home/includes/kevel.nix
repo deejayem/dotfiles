@@ -115,6 +115,14 @@ in
           "StrictHostKeyChecking" = "no";
         };
       };
+      "*.orb.local" = {
+        identityFile = "~/.orbstack/ssh/id_ed25519";
+        forwardAgent = true;
+        sendEnv = [
+          "AWS_*"
+          "ADZERK_*"
+        ];
+      };
     };
   };
 
