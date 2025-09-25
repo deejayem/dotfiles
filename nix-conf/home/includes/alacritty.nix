@@ -47,7 +47,7 @@
           red = "#c91b00";
           green = "#00c200";
           yellow = "#c7c400";
-          blue = "#0225c7";
+          blue = "#4169e1";
           magenta = "#ca30c7";
           cyan = "#00c5c7";
           white = "#c7c7c7";

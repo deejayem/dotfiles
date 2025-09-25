@@ -29,7 +29,7 @@ in
         "1=#c91b00" # Red
         "2=#00c200" # Green
         "3=#c7c400" # Yellow
-        "4=#0225c7" # Blue
+        "4=#4169e1" # Blue
         "5=#ca30c7" # Magenta
         "6=#00c5c7" # Cyan
         "7=#c7c7c7" # White
