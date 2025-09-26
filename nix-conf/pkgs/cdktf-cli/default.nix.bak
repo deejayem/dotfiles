@@ -1,0 +1,67 @@
+{ lib
+, mkYarnPackage
+, fetchYarnDeps
+, fetchFromGitHub
+}:
+
+mkYarnPackage rec {
+  pname = "cdktf-cli";
+  version = "0.21.0";
+
+  src = fetchFromGitHub {
+    owner = "hashicorp";
+    repo = "terraform-cdk";
+    rev = "v${version}";
+    hash = "sha256-iqy8j1bqwjSRBOj8kjFtAq9dLiv6dDbJsiFGQUhGW7k=";
+  };
+
+  packageJSON = ./package.json;
+  yarnLock = ./yarn.lock;
+
+  offlineCache = fetchYarnDeps {
+    yarnLock = ./yarn.lock;
+    hash = "sha256-qGjzy/+u8Ui9aHK0sX3MfYbkj5Cqab4RlhOgrwbEmGs=";
+  };
+
+  # The terminal error suggests the build is trying to use a pseudo-terminal
+  # Let's skip the full build and just compile what we need
+  buildPhase = ''
+    runHook preBuild
+    
+    export HOME=$(mktemp -d)
+    # Disable pseudo-terminal usage that's failing in sandbox
+    export CI=true
+    export NODE_ENV=production
+    
+    # Build only the CLI package to avoid the terminal issues
+    yarn --offline build
+    
+    runHook postBuild
+  '';
+
+  installPhase = ''
+    runHook preInstall
+    
+    mkdir -p $out/bin
+    
+    # The CLI should be in the workspace output
+    if [ -d "deps/${pname}/packages/cdktf-cli/dist" ]; then
+      cp -r deps/${pname}/packages/cdktf-cli/dist/* $out/
+    elif [ -d "deps/${pname}/packages/cdktf-cli/bin" ]; then
+      cp -r deps/${pname}/packages/cdktf-cli/bin/* $out/bin/
+    fi
+    
+    # Make executable
+    find $out/bin -type f -name "cdktf*" -exec chmod +x {} \;
+    
+    runHook postInstall
+  '';
+
+  meta = with lib; {
+    description = "CDK for Terraform CLI";
+    homepage = "https://github.com/hashicorp/terraform-cdk";
+    license = licenses.mpl20;
+    platforms = platforms.all;
+    mainProgram = "cdktf";
+  };
+}
