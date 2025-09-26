@@ -89,6 +89,7 @@
   programs.foot = {
     enable = true;
     settings = {
+      main.font = "MesloLGS NF:size=8";
       colors = {
         background = "000000";
         foreground = "bbbbbb";
@@ -96,7 +97,7 @@
         regular1 = "cc0403"; # red
         regular2 = "19cb00"; # green
         regular3 = "cecb00"; # yellow
-        regular4 = "001cd1"; # blue
+        regular4 = "3366cc"; # blue
         regular5 = "cb1ed1"; # magenta
         regular6 = "0dcdcd"; # cyan
         regular7 = "e5e5e5"; # white
