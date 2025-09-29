@@ -45,6 +45,14 @@
     pkgs.fira-code
   ];
 
+  system.defaults.CustomUserPreferences = {
+    "com.xiaogd.Doll" = {
+      KeyboardShortcuts_toggleConfigWindow = "{\"carbonKeyCode\":2,\"carbonModifiers\":768}";
+      SETTINGS_Show_As_Red_Badge = true;
+      SETTING_MONITORED_APP_IDS = "com.tinyspeck.slackmacgap";
+    };
+  };
+
   system.defaults.dock.autohide = true;
   system.defaults.dock.persistent-apps = [
     { app = "/System/Applications/System Settings.app"; }

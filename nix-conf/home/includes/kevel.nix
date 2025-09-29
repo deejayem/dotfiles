@@ -69,7 +69,6 @@ in
       //npm.pkg.github.com/:_authToken=''${ADZERK_GITHUB_PACKAGES_AUTH_TOKEN}
       prefix=~/.npm-global
     '';
-    "Library/Preferences/com.xiaogd.Doll.plist".source = dollPlistBinary;
   };
 
   sops.secrets = {
