@@ -63,7 +63,6 @@
     enable = true;
     greedyCasks = true;
     brews = [
-      "cdktf" # Currently broken in nixpkgs
       "msgpack-tools" # Currently broken in nixpkgs
     ];
     casks = [

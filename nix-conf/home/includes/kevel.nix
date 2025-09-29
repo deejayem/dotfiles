@@ -53,6 +53,7 @@ in
 
   home.packages = with pkgs; [
     aws-sso-util
+    cdktf-cli
     copilot-language-server
     coffeescript
     google-cloud-sdk

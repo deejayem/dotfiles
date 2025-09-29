@@ -1966,13 +1966,13 @@ let
         sha512 = "mhVF2BnD4BO+jtOp7z1CdzaK4mbuK0LLQYAvdOLqHTavxFNq4zA1EmYkpnFjP8HOUzedfQkRnp0E2ulSAYSzAw==";
       };
     };
-    "@types/react-19.1.14" = {
+    "@types/react-19.1.15" = {
       name = "_at_types_slash_react";
       packageName = "@types/react";
-      version = "19.1.14";
+      version = "19.1.15";
       src = fetchurl {
-        url = "https://registry.npmjs.org/@types/react/-/react-19.1.14.tgz";
-        sha512 = "ukd93VGzaNPMAUPy0gRDSC57UuQbnH9Kussp7HBjM06YFi9uZTFhOvMSO2OKqXm1rSgzOE+pVx1k1PYHGwlc8Q==";
+        url = "https://registry.npmjs.org/@types/react/-/react-19.1.15.tgz";
+        sha512 = "+kLxJpaJzXybyDyFXYADyP1cznTO8HSuBpenGlnKOAkH4hyNINiywvXS/tGJhsrGGP/gM185RA3xpjY0Yg4erA==";
       };
     };
     "@types/stack-utils-2.0.3" = {
@@ -2416,13 +2416,13 @@ let
         sha512 = "AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==";
       };
     };
-    "baseline-browser-mapping-2.8.7" = {
+    "baseline-browser-mapping-2.8.9" = {
       name = "baseline-browser-mapping";
       packageName = "baseline-browser-mapping";
-      version = "2.8.7";
+      version = "2.8.9";
       src = fetchurl {
-        url = "https://registry.npmjs.org/baseline-browser-mapping/-/baseline-browser-mapping-2.8.7.tgz";
-        sha512 = "bxxN2M3a4d1CRoQC//IqsR5XrLh0IJ8TCv2x6Y9N0nckNz/rTjZB3//GGscZziZOxmjP55rzxg/ze7usFI9FqQ==";
+        url = "https://registry.npmjs.org/baseline-browser-mapping/-/baseline-browser-mapping-2.8.9.tgz";
+        sha512 = "hY/u2lxLrbecMEWSB0IpGzGyDyeoMFQhCvZd2jGFSE5I17Fh01sYUBPCJtkWERw7zrac9+cIghxm/ytJa2X8iA==";
       };
     };
     "binary-extensions-2.3.0" = {
@@ -3271,13 +3271,13 @@ let
         sha512 = "WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==";
       };
     };
-    "electron-to-chromium-1.5.224" = {
+    "electron-to-chromium-1.5.227" = {
       name = "electron-to-chromium";
       packageName = "electron-to-chromium";
-      version = "1.5.224";
+      version = "1.5.227";
       src = fetchurl {
-        url = "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.224.tgz";
-        sha512 = "kWAoUu/bwzvnhpdZSIc6KUyvkI1rbRXMT0Eq8pKReyOyaPZcctMli+EgvcN1PAvwVc7Tdo4Fxi2PsLNDU05mdg==";
+        url = "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.227.tgz";
+        sha512 = "ITxuoPfJu3lsNWUi2lBM2PaBPYgH3uqmxut5vmBxgYvyI4AlJ6P3Cai1O76mOrkJCBzq0IxWg/NtqOrpu/0gKA==";
       };
     };
     "emoji-regex-8.0.0" = {
@@ -3343,13 +3343,13 @@ let
         sha512 = "WiyBqoomrwMdFG1e0kqvASYfnlb0lp8M5o5Fw2OFq1hNZxxcNk8Ik0Xm7LxzBhuidnZB/UtBqVCgUz3kBOP51Q==";
       };
     };
-    "envinfo-7.14.0" = {
+    "envinfo-7.15.0" = {
       name = "envinfo";
       packageName = "envinfo";
-      version = "7.14.0";
+      version = "7.15.0";
       src = fetchurl {
-        url = "https://registry.npmjs.org/envinfo/-/envinfo-7.14.0.tgz";
-        sha512 = "CO40UI41xDQzhLB1hWyqUKgFhs250pNcGbyGKe1l/e4FSaI/+YE4IMG76GDt0In67WLPACIITC+sOi08x4wIvg==";
+        url = "https://registry.npmjs.org/envinfo/-/envinfo-7.15.0.tgz";
+        sha512 = "chR+t7exF6y59kelhXw5I3849nTy7KIRO+ePdLMhCD+JRP/JvmkenDWP7QSFGlsHX+kxGxdDutOPrmj5j1HR6g==";
       };
     };
     "error-ex-1.3.4" = {
@@ -8257,7 +8257,7 @@ in
       sources."@types/mute-stream-0.0.1"
       sources."@types/node-24.5.2"
       sources."@types/node-forge-1.3.14"
-      sources."@types/react-19.1.14"
+      sources."@types/react-19.1.15"
       sources."@types/stack-utils-2.0.3"
       sources."@types/wrap-ansi-3.0.0"
       sources."@types/yargs-15.0.19"
@@ -8327,7 +8327,7 @@ in
       sources."balanced-match-1.0.2"
       sources."bare-events-2.7.0"
       sources."base64-js-1.5.1"
-      sources."baseline-browser-mapping-2.8.7"
+      sources."baseline-browser-mapping-2.8.9"
       sources."binary-extensions-2.3.0"
       sources."bl-4.1.0"
       sources."brace-expansion-2.0.2"
@@ -8463,7 +8463,7 @@ in
       sources."dunder-proto-1.0.1"
       sources."eastasianwidth-0.2.0"
       sources."ee-first-1.1.1"
-      sources."electron-to-chromium-1.5.224"
+      sources."electron-to-chromium-1.5.227"
       sources."emoji-regex-9.2.2"
       sources."encodeurl-1.0.2"
       (sources."encoding-0.1.13" // {
@@ -8473,7 +8473,7 @@ in
       })
       sources."end-of-stream-1.4.5"
       sources."entities-3.0.1"
-      sources."envinfo-7.14.0"
+      sources."envinfo-7.15.0"
       sources."error-ex-1.3.4"
       sources."error-stack-parser-2.1.4"
       sources."errorhandler-1.5.1"
