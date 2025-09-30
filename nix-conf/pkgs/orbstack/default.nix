@@ -6,23 +6,24 @@
 }:
 let
   inherit (stdenvNoCC.hostPlatform) system;
-  version = "2.0.1-19784";
-  version' = lib.replaceString "-" "_" version;
+  version = "2.0.2-19855";
   sourceData = {
     aarch64-darwin = {
       arch = "arm64";
-      hash = "sha256-J4fmZJ0uQ9eYc9pzTh0cil54BYp2zsBga5zU2Drld4g=";
+      hash = "sha256-8Fta+vOdgctCEIYwaBeCYr4Anc0o/I9itXThIAmEQKc=";
     };
     x86_64-darwin = {
       arch = "amd64";
-      hash = "sha256-KUF5LBTAF8syr9OQhmNg+SAEvjjrwkI2qFhhkILR5Es=";
+      hash = "sha256-sYIe1NF9upPhAHwUg/aiBoqTo+hyeq9JY6B6LRH3VFk=";
     };
   };
   sources = lib.mapAttrs (
     system:
     { arch, hash }:
     fetchurl {
-      url = "https://cdn-updates.orbstack.dev/${arch}/OrbStack_v${version'}_${arch}.dmg";
+      url = "https://cdn-updates.orbstack.dev/${arch}/OrbStack_v${
+        lib.replaceString "-" "_" version
+      }_${arch}.dmg";
       inherit hash;
     }
   ) sourceData;
