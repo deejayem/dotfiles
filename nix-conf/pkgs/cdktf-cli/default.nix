@@ -9,9 +9,11 @@
   go,
   makeWrapper,
   nodejs,
-  yarn,
-  testers,
   nix-update-script,
+  patchelf,
+  removeReferencesTo,
+  testers,
+  yarn,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -53,6 +55,7 @@ stdenv.mkDerivation (finalAttrs: {
     }).goModules;
 
   strictDeps = true;
+  disallowedReferences = [ go ];
 
   nativeBuildInputs = [
     faketty
@@ -60,6 +63,8 @@ stdenv.mkDerivation (finalAttrs: {
     go
     makeWrapper
     nodejs
+    patchelf
+    removeReferencesTo
     yarn
   ];
 
@@ -125,6 +130,13 @@ stdenv.mkDerivation (finalAttrs: {
       --add-flags "$out/lib/node_modules/cdktf-cli/bundle/bin/cdktf.js"
 
     runHook postInstall
+  '';
+
+  postInstall = ''
+    # Go isn't needed at runtime, so remove these to decrease the closure size
+    remove-references-to -t ${go} \
+      "$out/lib/node_modules/cdktf-cli/node_modules/@cdktf/hcl-tools/main.wasm" \
+      "$out/lib/node_modules/cdktf-cli/node_modules/@cdktf/hcl2json/main.wasm"
   '';
 
   passthru = {
