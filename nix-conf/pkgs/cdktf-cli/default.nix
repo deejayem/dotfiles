@@ -40,7 +40,7 @@ stdenv.mkDerivation (finalAttrs: {
       vendorHash = "sha256-OiKPq0CHkOxJaFzgsaNJ02tasvHtHWylmaPRPayJob4=";
       proxyVendor = true;
       doCheck = false;
-      GOWORK = "off";
+      env.GOWORK = "off";
     }).goModules;
 
   hcltools-go-modules =
@@ -51,7 +51,7 @@ stdenv.mkDerivation (finalAttrs: {
       vendorHash = "sha256-orGxkYEQVtTKvXb7/FD/CLwqSINgBQFTF5arbR0xAvE=";
       proxyVendor = true;
       doCheck = false;
-      GOWORK = "off";
+      env.GOWORK = "off";
     }).goModules;
 
   strictDeps = true;
