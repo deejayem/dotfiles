@@ -90,7 +90,7 @@ in
         symbol = " ";
       };
       git_status = {
-        format = ''([$all_status$ahead_behind]($style) )'';
+        format = ''([$all_status$ahead_behind]($style))'';
         stashed = "[\\\$\${count} ](fg:#5fd700)"; # xterm 76 (chartreuse3)
         ahead = "[⇡\${count} ](fg:#87d700)"; # xterm 118 (chartreuse2)
         behind = "[⇣\${count} ](fg:#ff5f5f)"; # xterm 203 (indianred1)
