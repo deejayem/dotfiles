@@ -128,6 +128,7 @@ in
       package.format = "[$symbol$version]($style) ";
       status.disabled = false;
       username.format = "[$user]($style) ";
+      terraform.format = "[$symbol$workspace]($style) ";
     };
   };
   programs.zsh = {
