@@ -129,6 +129,11 @@ in
       status.disabled = false;
       username.format = "[$user]($style) ";
       terraform.format = "[$symbol$workspace]($style) ";
+      time = {
+        disabled = false;
+        format = "[ $time]($style) ";
+        style = "bright-black"; # TODO is "white dimmed" better?
+      };
     };
   };
   programs.zsh = {
