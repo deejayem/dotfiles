@@ -18,6 +18,7 @@ in
       keybind = [
         "shift+insert=paste_from_clipboard"
       ];
+      macos-titlebar-proxy-icon = "hidden";
 
       background = "#000000";
       foreground = "#c7c7c7";
