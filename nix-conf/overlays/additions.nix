@@ -1,1 +1,1 @@
-{ inputs, ... }: final: _prev: import ../pkgs final.pkgs
+{ inputs, ... }: final: prev: import ../pkgs prev
