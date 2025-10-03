@@ -57,6 +57,7 @@ in
     copilot-language-server
     coffeescript
     google-cloud-sdk
+    msgpack-tools
     nodejs
     nodePackages.aws-cdk
     opentofu

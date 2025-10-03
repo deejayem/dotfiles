@@ -70,9 +70,6 @@
   homebrew = {
     enable = true;
     greedyCasks = true;
-    brews = [
-      "msgpack-tools" # Currently broken in nixpkgs
-    ];
     casks = [
       "ankerwork"
       "aws-vpn-client"
