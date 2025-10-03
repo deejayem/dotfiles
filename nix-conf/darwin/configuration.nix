@@ -46,6 +46,9 @@
   ];
 
   system.defaults.CustomUserPreferences = {
+    "com.tinyspeck.slackmacgap" = {
+      AutoUpdate = false;
+    };
     "com.xiaogd.Doll" = {
       KeyboardShortcuts_toggleConfigWindow = "{\"carbonKeyCode\":2,\"carbonModifiers\":768}";
       SETTINGS_Show_As_Red_Badge = true;
