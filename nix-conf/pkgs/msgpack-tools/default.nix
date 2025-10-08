@@ -54,6 +54,8 @@ stdenv.mkDerivation (finalAttrs: {
     cp ${mpack} $sourceRoot/contrib/mpack-df17e83f0fa8571b9cd0d8ccf38144fa90e244d1.tar.gz
   '';
 
+  cmakeFlags = [ "-DCMAKE_POLICY_VERSION_MINIMUM=3.5" ];
+
   nativeInstallCheckInputs = [ versionCheckHook ];
   versionCheckProgram = "${placeholder "out"}/bin/json2msgpack";
   versionCheckProgramArg = "-v";
