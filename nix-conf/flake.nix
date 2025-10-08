@@ -39,7 +39,6 @@
       ...
     }@inputs:
     let
-      inherit (self) outputs;
 
       systems = {
         x86_64-linux = "x86_64-linux";
@@ -83,7 +82,7 @@
           { nixpkgs, ... }:
           nixpkgs.lib.nixosSystem {
             inherit system;
-            specialArgs = { inherit inputs outputs; };
+            specialArgs = { inherit inputs; };
             modules = [
               ./config.nix
               ./machines/${hostname}/configuration.nix
@@ -106,7 +105,6 @@
             extraSpecialArgs = {
               inherit
                 inputs
-                outputs
                 system
                 version
                 ;
@@ -128,7 +126,7 @@
         }:
         nix-darwin.lib.darwinSystem {
           system.configurationRevision = self.rev or self.dirtyRev or null;
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = { inherit inputs; };
           modules = [
             ./config.nix
             ./darwin/configuration.nix
