@@ -60,7 +60,10 @@
 
   (defun project-relative-buffer-name ()
     "Rename buffer to show its path relative to the project root (or else `default-directory')."
-    (when buffer-file-name
+    (when (and buffer-file-name
+               ;; TODO: disable in clojure-mode for now, to avoid duplicate paths caused by uniquify
+               ;; config in inti-clojure.el
+               (not (derived-mode-p 'clojure-mode)))
       (let* ((project (project-current))
              (root (if project (project-root project) default-directory)))
         (rename-buffer
