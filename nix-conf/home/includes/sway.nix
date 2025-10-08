@@ -97,7 +97,7 @@
         regular1 = "cc0403"; # red
         regular2 = "19cb00"; # green
         regular3 = "cecb00"; # yellow
-        regular4 = "0050ff"; # blue
+        regular4 = "3366ff"; # TODO or "4080ff"; # blue
         regular5 = "cb1ed1"; # magenta
         regular6 = "0dcdcd"; # cyan
         regular7 = "e5e5e5"; # white
