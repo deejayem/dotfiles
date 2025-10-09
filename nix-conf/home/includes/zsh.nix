@@ -400,6 +400,12 @@ in
           git switch pr-''${1}
         }
 
+        # Use pushd with zoxide
+        setopt PUSHDSILENT
+        function __zoxide_cd () {
+          \builtin pushd -- "$@"
+        }
+
         if [ "$(uname -mo)" = "arm64 Darwin" ]; then
           eval "$(/opt/homebrew/bin/brew shellenv)"
         fi
