@@ -22,6 +22,7 @@
       ];
     overlays = [
       inputs.self.overlays.additions
+      inputs.self.overlays.lazy-flakes
       inputs.self.overlays.modifications
       inputs.self.overlays.unstable-packages
     ];

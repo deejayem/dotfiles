@@ -46,6 +46,7 @@ in
     gh
     gh-dash
     gnused
+    mac-app-util
     #mopidy-with-extensions
     #mpdscribble
     #mpc-cli
