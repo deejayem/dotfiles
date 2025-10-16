@@ -344,7 +344,7 @@ in
           cmd = ''difft "$LOCAL" "$REMOTE"'';
         };
       };
-      merge.conflictstyle = "diff3";
+      merge.conflictstyle = "zdiff3";
       pull = {
         ff = "only";
         rebase = false;
@@ -353,7 +353,7 @@ in
       rebase = {
         autostash = true;
       };
-      github.user= "deejayem";
+      github.user = "deejayem";
     };
     delta = {
       enable = true;
