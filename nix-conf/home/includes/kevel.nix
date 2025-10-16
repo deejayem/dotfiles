@@ -61,6 +61,7 @@ in
     nodejs
     nodePackages.aws-cdk
     opentofu
+    ruby
   ];
 
   # TODO
