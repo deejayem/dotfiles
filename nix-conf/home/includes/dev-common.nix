@@ -18,7 +18,6 @@ in
       imagemagick
       janet
       multimarkdown
-      neovim
       nixd
       ripgrep-all
 

@@ -11,6 +11,7 @@ let
 in
 {
   imports = [
+    ./nvim.nix
     ./zsh.nix
     inputs.sops-nix.homeManagerModules.sops
   ];
@@ -160,54 +161,6 @@ in
 
   programs.gpg.enable = true;
   programs.nix-index.enable = true;
-
-  programs.vim = {
-    enable = true;
-    extraConfig = ''
-      colorscheme molokai
-      " highlight doesn't work properly without this
-      syntax enable
-      highlight Normal ctermfg=white ctermbg=black
-      set hlsearch
-      set showmatch
-      set pastetoggle=<F2>
-      nmap <silent> <F3> :silent nohlsearch<CR>
-      imap <silent> <F3> <C-o>:silent nohlsearch<CR>
-      nmap <silent> <F4> :silent setlocal spell spelllang=en_gb<CR>
-      imap <silent> <F4> <C-o>:silent setlocal spell spelllang=en_gb<CR>
-      nmap <silent> <F5> :silent setlocal nospell<CR>
-      imap <silent> <F5> <C-o>:silent setlocal nospell<CR>
-      nmap <silent> <F6> :silent set diffopt+=iwhite<CR>
-      imap <silent> <F6> <C-o>:silent set diffopt+=iwhite<CR>
-      nmap <silent> <F7> :silent set diffopt-=iwhite<CR>
-      imap <silent> <F7> <C-o>:silent set diffopt-=iwhite<CR>
-    '';
-    plugins = [
-      pkgs.vimPlugins.sensible
-      pkgs.vimPlugins.auto-pairs
-      pkgs.vimPlugins.ctrlp
-      pkgs.vimPlugins.editorconfig-vim
-      pkgs.vimPlugins.inkpot
-      pkgs.vimPlugins.molokai
-      pkgs.vimPlugins.surround
-      pkgs.vimPlugins.vim-lastplace
-      pkgs.vimPlugins.vim-nix
-      pkgs.vimPlugins.vim-pasta
-      pkgs.vimPlugins.vim-repeat
-      pkgs.vimPlugins.vim-sexp-mappings-for-regular-people
-      pkgs.vimPlugins.vim-sleuth
-    ];
-    settings = {
-      background = "dark";
-      copyindent = true;
-      expandtab = true;
-      ignorecase = true;
-      number = true;
-      shiftwidth = 4;
-      smartcase = true;
-      tabstop = 4;
-    };
-  };
 
   programs.ssh = {
     enable = true;
