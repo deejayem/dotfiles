@@ -100,7 +100,7 @@ in
     shfmt
     shellcheck
     ssh-to-age
-    tealdeer
+    tlrc
     tre-command
     tree
     ugrep
