@@ -56,6 +56,7 @@ in
     cdktf-cli
     copilot-language-server
     coffeescript
+    git-remote-codecommit
     google-cloud-sdk
     msgpack-tools
     nodejs
