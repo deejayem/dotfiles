@@ -21,9 +21,10 @@
 
   programs.tmux = {
     enable = true;
-    terminal = "screen-256color";
+    terminal = "tmux-256color";
     prefix = "C-a";
     #tmuxp.enable = true;
+    plugins = [ pkgs.tmuxPlugins.fuzzback ];
     extraConfig = ''
       unbind-key R
       bind-key R run-shell ' \
