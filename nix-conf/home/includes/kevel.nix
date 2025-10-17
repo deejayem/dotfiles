@@ -9,28 +9,6 @@ let
     ADZERK_GITHUB_PACKAGES_AUTH_TOKEN = "adzerk-packages-token";
     OPENAI_API_TOKEN = "openai-api-token";
   };
-
-  dollPlistXml = pkgs.writeText "com.xiaogd.Doll.xml" ''
-    <?xml version="1.0" encoding="UTF-8"?>
-    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-    <plist version="1.0">
-    <dict>
-            <key>KeyboardShortcuts_toggleConfigWindow</key>
-            <string>{"carbonKeyCode":2,"carbonModifiers":768}</string>
-            <key>SETTINGS_Show_As_Red_Badge</key>
-            <true/>
-            <key>SETTING_MONITORED_APP_IDS</key>
-            <string>com.tinyspeck.slackmacgap</string>
-    </dict>
-    </plist>
-  '';
-
-  dollPlistBinary =
-    pkgs.runCommand "com.xiaogd.Doll.plist" { nativeBuildInputs = [ pkgs.libplist ]; }
-      # Should be compatible with Apple's binary plist format
-      ''
-        plistutil -i ${dollPlistXml} -o $out -f binary1
-      '';
 in
 {
   imports = [ ./darwin.nix ];
