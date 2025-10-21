@@ -1,16 +1,13 @@
 {
   config,
-  lib,
   pkgs,
   inputs,
   version,
   ...
 }:
-let
-  inherit (lib) optionalAttrs;
-in
 {
   imports = [
+    ./git.nix
     ./nvim.nix
     ./ssh.nix
     ./starship.nix
@@ -33,7 +30,6 @@ in
       path = ./secrets.yaml;
       name = "home-secrets.yaml";
     };
-    secrets."git_email_config/default" = { };
   };
 
   home.sessionPath = [
@@ -69,8 +65,6 @@ in
     fd
     file
     fzf
-    git
-    git-crypt
     gnupg
     gopass
     htop
@@ -162,178 +156,6 @@ in
 
   programs.gpg.enable = true;
   programs.nix-index.enable = true;
-
-  programs.ssh = {
-    enable = true;
-    includes = [
-      "~/.ssh/config_local"
-      config.sops.secrets."ssh_config/oci".path
-    ];
-    matchBlocks = {
-      "*" = {
-        forwardAgent = true;
-        user = "djm";
-      }
-      // optionalAttrs pkgs.stdenv.isDarwin {
-        addKeysToAgent = "yes"; # TODO move up after 25.11
-        extraOptions = {
-          "UseKeychain" = "yes";
-        };
-      };
-      "djm.ovh" = {
-        hostname = "v.djm.ovh";
-        port = 2222;
-      };
-      "devio" = {
-        hostname = "devio.us";
-        user = "deejayem";
-        port = 2222;
-      };
-      "sdf" = {
-        hostname = "sdf.org";
-        user = "deejayem";
-      };
-      "sdfeu" = {
-        hostname = "sdf-eu.org";
-        user = "deejayem";
-      };
-      "grex" = {
-        hostname = "grex.org";
-        user = "deejayem";
-      };
-      "blinkenshell" = {
-        hostname = "ssh.blinkenshell.org";
-        port = 2222;
-      };
-      "hashbang" = {
-        hostname = "de1.hashbang.sh";
-      };
-      "tilde.institute" = {
-        hostname = "tilde.institute";
-      };
-      "tilde.team" = {
-        hostname = "tilde.team";
-      };
-      "ctrl-c.club" = {
-        hostname = "ctrl-c.club";
-      };
-      "github.com" = {
-        hostname = "github.com";
-        user = "git";
-        identityFile = "~/.ssh/id_ed25519";
-        identitiesOnly = true;
-      };
-      "hb-backup" = {
-        hostname = "de1.hashbang.sh";
-        identityFile = "~/.ssh/hb_backup_key";
-        identitiesOnly = true;
-      };
-      "bs-backup" = {
-        hostname = "ssh.blinkenshell.org";
-        port = 2222;
-        identityFile = "~/.ssh/bs_backup_key";
-        identitiesOnly = true;
-      };
-      "tt-backup" = {
-        hostname = "tilde.team";
-        identityFile = "~/.ssh/tt_backup_key";
-        identitiesOnly = true;
-      };
-    };
-    # TODO: remove after 25.11
-    # Handle differences between stable and unstable until 25.11 is released (assuming Linux = stable, and Darwin = unstable)
-  }
-  // optionalAttrs pkgs.stdenv.isLinux {
-    addKeysToAgent = "yes";
-  }
-  // optionalAttrs pkgs.stdenv.isDarwin {
-    enableDefaultConfig = false;
-  };
-
-  programs.git = {
-    enable = true;
-    userName = "David Morgan";
-    includes = [ { path = config.sops.secrets."git_email_config/default".path; } ];
-    aliases = {
-      # difftastic
-      logt = "!sh -c 'GIT_EXTERNAL_DIFF=\"difft --background=dark\" git log -p --ext-diff'";
-      showt = "!show() { GIT_EXTERNAL_DIFF=difft git show \${1} --ext-diff; }; show";
-      difft = "difftool";
-      # "raw" output
-      rlog = "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less log"; # usually used with -p
-      rshow = "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less show";
-      rdiff = "!git -c delta.raw=true -c core.pager=${pkgs.less}/bin/less diff";
-      #  copiable output (without line numbers or +/- indicators)
-      clog = "!git -c delta.line-numbers=false log"; # usually used with -p
-      cshow = "!git -c delta.line-numbers=false show";
-      cdiff = "!git -c delta.line-numbers=false diff";
-      # diff-so-fancy
-      flog = ''!git -c core.pager="diff-so-fancy | less" log''; # usually used with -p
-      fshow = ''!git -c core.pager="diff-so-fancy | less" show'';
-      fdiff = ''!git -c core.pager="diff-so-fancy | less" diff'';
-
-      upstream = "!git push -u origin HEAD";
-      update-master = "!git fetch origin master:master";
-      update-main = "!git fetch origin main:main";
-    };
-    attributes = [
-      "*.el diff=elisp"
-      "*.clj diff=clojure"
-    ];
-    extraConfig = {
-      core.editor = "vim";
-      diff = {
-        tool = "difftastic";
-        colorMoved = "default";
-        elisp = {
-          xfuncname = "^\\((((def\\S+)|use-package)\\s+\\S+)";
-        };
-        clojure = {
-          xfuncname = "^\\((def\\S+\\s+\\S+)";
-        };
-      };
-      difftool = {
-        prompt = false;
-        difftastic = {
-          cmd = ''difft "$LOCAL" "$REMOTE"'';
-        };
-      };
-      merge.conflictstyle = "zdiff3";
-      pull = {
-        ff = "only";
-        rebase = false;
-      };
-      push.autoSetupRemote = true;
-      rebase = {
-        autostash = true;
-      };
-      github.user = "deejayem";
-    };
-    delta = {
-      enable = true;
-      options = {
-        line-numbers = true;
-        navigate = true;
-        light = false;
-        file-style = "bold yellow ul";
-        hunk-header-line-number-style = "brightyellow";
-      };
-    };
-    ignores = [
-      ".lein-repl-history"
-      ".lsp"
-      ".rebel_readline_history"
-      ".cider-repl-history"
-      "nohup.out"
-      "*.elc"
-      "*.eln"
-      "*~"
-    ];
-    signing = {
-      key = "9B436B1477A879C26CDB6604C171251002C200F2";
-      signByDefault = true;
-    };
-  };
 
   programs.lsd = {
     enable = true;
