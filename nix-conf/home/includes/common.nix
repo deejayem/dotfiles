@@ -12,6 +12,7 @@ in
 {
   imports = [
     ./nvim.nix
+    ./ssh.nix
     ./starship.nix
     ./zsh.nix
     inputs.sops-nix.homeManagerModules.sops
@@ -32,7 +33,6 @@ in
       path = ./secrets.yaml;
       name = "home-secrets.yaml";
     };
-    secrets."ssh_config/oci" = { };
     secrets."git_email_config/default" = { };
   };
 
