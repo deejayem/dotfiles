@@ -12,6 +12,7 @@ in
 {
   imports = [
     ./nvim.nix
+    ./starship.nix
     ./zsh.nix
     inputs.sops-nix.homeManagerModules.sops
   ];
