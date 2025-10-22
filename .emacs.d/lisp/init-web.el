@@ -57,5 +57,8 @@
 (use-package coffee-mode
   :custom (coffee-tab-width 2))
 
+(use-package typescript-mode
+  :custom (typescript-indent-level 2))
+
 (provide 'init-web)
 ;;; init-web.el ends here
