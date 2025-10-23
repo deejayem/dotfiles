@@ -63,23 +63,23 @@ in
         tmux source-file ~/.config/tmux/tmux.conf > /dev/null; \
         tmux display-message "Sourced .config/tmux/tmux.conf!"'
 
-        set -ga terminal-overrides ",alacritty:Tc"
+      set -ga terminal-overrides ",alacritty:Tc"
 
-        bind-key £ split-window -h
+      bind-key £ split-window -h
 
-        set-option -g status-bg '#666666'
-        set-option -g status-fg '#aaaaaa'
-        set-option -g status-left-length 50
-        set-option -g status-right " %a, %b %d - %H:%M "
+      set-option -g status-bg '#666666'
+      set-option -g status-fg '#aaaaaa'
+      set-option -g status-left-length 50
+      set-option -g status-right " %a, %b %d - %H:%M "
 
-        ${lib.optionalString pkgs.stdenv.isLinux ''
-          bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "xsel -i -p && xsel -o -p | xsel -i -b"
-          bind-key C-y run "xsel -o | tmux load-buffer - ; tmux paste-buffer"
-        ''}
-        ${lib.optionalString pkgs.stdenv.isDarwin ''
-          bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
-          bind-key C-y run "reattach-to-user-namespace pbpaste | tmux load-buffer - ; tmux paste-buffer"
-        ''}
+      ${lib.optionalString pkgs.stdenv.isLinux ''
+        bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "xsel -i -p && xsel -o -p | xsel -i -b"
+        bind-key C-y run "xsel -o | tmux load-buffer - ; tmux paste-buffer"
+      ''}
+      ${lib.optionalString pkgs.stdenv.isDarwin ''
+        bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
+        bind-key C-y run "reattach-to-user-namespace pbpaste | tmux load-buffer - ; tmux paste-buffer"
+      ''}
     '';
   };
 
