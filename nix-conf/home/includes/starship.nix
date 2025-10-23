@@ -13,6 +13,7 @@
         format = ''[$symbol($profile )(\($region\) )(\[$duration\] )]($style)'';
         symbol = "󰸏 ";
       };
+      cmake.format = "[$symbol($version )]($style)";
       directory = {
         format = " [$path]($style)[$read_only]($read_only_style) ";
         read_only = " 󰌾";
