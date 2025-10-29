@@ -58,7 +58,7 @@
     diff-so-fancy
     difftastic
     duf
-    du-dust
+    dust
     ea
     elinks
     entr
