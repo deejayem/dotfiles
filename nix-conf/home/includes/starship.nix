@@ -15,7 +15,7 @@
       };
       cmake.format = "[$symbol($version )]($style)";
       directory = {
-        format = " [$path]($style)[$read_only]($read_only_style) ";
+        format = "[$path]($style)[$read_only]($read_only_style) ";
         read_only = " 󰌾";
         style = "bold fg:#00afff"; # xterm 39 (deepskyblue1)
         truncate_to_repo = false;
