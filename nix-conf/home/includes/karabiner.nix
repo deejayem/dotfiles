@@ -103,6 +103,7 @@ let
     bundle_identifiers = [
       "^com\\.mitchellh\\.ghostty$"
       "^org\\.alacritty$"
+      "^net\\.kovidgoyal\\.kitty$"
     ];
   };
 

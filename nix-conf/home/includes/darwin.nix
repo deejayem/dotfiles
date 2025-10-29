@@ -33,6 +33,7 @@ in
     ./alacritty.nix
     ./ghostty.nix
     ./karabiner.nix
+    ./kitty.nix
   ];
 
   home.packages = with pkgs; [
