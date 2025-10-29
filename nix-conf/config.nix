@@ -20,13 +20,9 @@
         "vscode"
         "zoom"
       ];
-    overlays = [
-      inputs.self.overlays.additions
-      inputs.self.overlays.lazy-flakes
-      inputs.self.overlays.modifications
-      inputs.self.overlays.unstable-packages
-    ];
+    overlays = builtins.attrValues inputs.self.overlays;
   };
+
   nix = {
     package = pkgs.nix;
     settings = {
