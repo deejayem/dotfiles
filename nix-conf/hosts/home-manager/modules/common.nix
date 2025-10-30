@@ -9,19 +9,11 @@
   imports = [
     ./git.nix
     ./nvim.nix
+    ./sops.nix
     ./ssh.nix
     ./starship.nix
     ./zsh.nix
-    inputs.sops-nix.homeManagerModules.sops
   ];
-
-  sops = {
-    age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
-    defaultSopsFile = builtins.path {
-      path = ./secrets.yaml;
-      name = "home-secrets.yaml";
-    };
-  };
 
   home.sessionPath = [
     "$HOME/bin"
@@ -83,7 +75,6 @@
     ripgrep
     rlwrap
     sd
-    sops
     shfmt
     shellcheck
     ssh-to-age
