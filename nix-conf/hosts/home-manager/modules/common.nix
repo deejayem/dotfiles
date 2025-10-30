@@ -15,15 +15,6 @@
     inputs.sops-nix.homeManagerModules.sops
   ];
 
-  nix = {
-    settings = {
-      extra-experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-    };
-  };
-
   sops = {
     age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
     defaultSopsFile = builtins.path {
