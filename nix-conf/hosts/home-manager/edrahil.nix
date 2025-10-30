@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 {
   imports = [
-    ./includes/linux-server.nix
-    ./includes/irssi.nix
+    ./modules/linux-server.nix
+    ./modules/irssi.nix
   ];
 
   # Let Home Manager install and manage itself.

@@ -1,9 +1,9 @@
 { config, pkgs, ... }:
 {
   imports = [
-    ./includes/linux-dev.nix
-    ./includes/sway.nix
-    ./includes/ghostty.nix
+    ./modules/linux-dev.nix
+    ./modules/sway.nix
+    ./modules/ghostty.nix
   ];
 
   # Let Home Manager install and manage itself.
