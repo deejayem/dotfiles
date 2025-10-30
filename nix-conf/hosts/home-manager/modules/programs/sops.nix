@@ -12,7 +12,7 @@
   sops = {
     age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
     defaultSopsFile = builtins.path {
-      path = ./secrets.yaml;
+      path = ../secrets.yaml;
       name = "home-secrets.yaml";
     };
   };

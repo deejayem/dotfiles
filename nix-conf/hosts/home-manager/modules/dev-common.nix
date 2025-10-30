@@ -5,7 +5,7 @@ in
 {
   imports = [
     ./common.nix
-    ./clojure.nix
+    ./programs/clojure.nix
   ];
 
   home.packages =

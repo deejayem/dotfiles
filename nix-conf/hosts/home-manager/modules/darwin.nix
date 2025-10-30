@@ -30,10 +30,10 @@ in
 {
   imports = [
     ./dev-common.nix
-    ./alacritty.nix
-    ./ghostty.nix
-    ./karabiner.nix
-    ./kitty.nix
+    ./programs/alacritty.nix
+    ./programs/ghostty.nix
+    ./programs/karabiner.nix
+    ./programs/kitty.nix
   ];
 
   home.packages = with pkgs; [

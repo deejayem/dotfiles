@@ -7,12 +7,12 @@
 }:
 {
   imports = [
-    ./git.nix
-    ./nvim.nix
-    ./sops.nix
-    ./ssh.nix
-    ./starship.nix
-    ./zsh.nix
+    ./programs/git.nix
+    ./programs/nvim.nix
+    ./programs/sops.nix
+    ./programs/ssh.nix
+    ./programs/starship.nix
+    ./programs/zsh.nix
   ];
 
   home.sessionPath = [

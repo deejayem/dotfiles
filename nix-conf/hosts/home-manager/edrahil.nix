@@ -2,7 +2,7 @@
 {
   imports = [
     ./modules/linux-server.nix
-    ./modules/irssi.nix
+    ./modules/programs/irssi.nix
   ];
 
   # Let Home Manager install and manage itself.
