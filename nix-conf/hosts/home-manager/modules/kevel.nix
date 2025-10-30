@@ -144,6 +144,7 @@ in
 
   programs.zsh.initContent = ''
     source "${pkgs.google-cloud-sdk}/share/zsh/site-functions/_gcloud"
+    packcat () { ${lib.getExe' pkgs.zstd "zstdcat"} "''${1}" | ${lib.getExe pkgs.gnused} '1d;$d' | ${lib.getExe' pkgs.msgpack-tools "msgpack2json"} -c | ${lib.getExe pkgs.jq} | ${lib.getExe pkgs.bat} }
   '';
 
 }
