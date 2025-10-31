@@ -1,6 +1,8 @@
 {
   config,
+  lib,
   pkgs,
+  system,
   inputs,
   version,
   ...
@@ -16,7 +18,9 @@
     ./programs/starship.nix
     ./programs/tmux.nix
     ./programs/zsh.nix
-  ];
+  ]
+  # pkgs.stdenv cannot be used here, as it causes infinite recursion
+  ++ lib.optionals (lib.hasSuffix "-linux" system) [ ./os/linux.nix ];
 
   home.sessionPath = [
     "$HOME/bin"
