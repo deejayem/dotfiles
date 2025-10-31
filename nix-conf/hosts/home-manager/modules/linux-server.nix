@@ -14,13 +14,6 @@
     yt-dlp
   ];
 
-  services.gpg-agent = {
-    enable = true;
-    pinentry.package = pkgs.pinentry-curses;
-    defaultCacheTtl = 34560000;
-    maxCacheTtl = 34560000;
-  };
-
   programs.tmux = {
     enable = true;
     terminal = "tmux-256color";
