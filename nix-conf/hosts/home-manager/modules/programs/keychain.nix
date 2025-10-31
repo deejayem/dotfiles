@@ -1,7 +1,7 @@
-{ lib, pkgs, ... }:
+{ ... }:
 {
   programs.keychain = {
-    enable = lib.mkIf pkgs.stdenv.isLinux true;
+    enable = true;
     agents = [
       "ssh"
       "gpg"

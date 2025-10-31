@@ -6,7 +6,10 @@
 }:
 
 {
-  imports = [ ../programs/gpg-agent.nix ];
+  imports = [
+    ../programs/gpg-agent.nix
+    ../programs/keychain.nix
+  ];
 
   home.packages =
     with pkgs;
