@@ -8,6 +8,7 @@
 {
   imports = [
     ./programs/git.nix
+    ./programs/keychain.nix
     ./programs/nvim.nix
     ./programs/sops.nix
     ./programs/ssh.nix
