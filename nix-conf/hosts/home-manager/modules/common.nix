@@ -7,6 +7,9 @@
   version,
   ...
 }:
+let
+  inherit (lib) optionals hasSuffix;
+in
 {
   imports = [
     ./options.nix
@@ -20,8 +23,8 @@
     ./programs/zsh.nix
   ]
   # pkgs.stdenv cannot be used here, as it causes infinite recursion
-  ++ lib.optionals (lib.hasSuffix "-linux" system) [ ./os/linux.nix ]
-  ++ lib.optionals (lib.hasSuffix "-darwin" system) [ ./os/darwin.nix ];
+  ++ optionals (hasSuffix "-linux" system) [ ./os/linux.nix ]
+  ++ optionals (hasSuffix "-darwin" system) [ ./os/darwin.nix ];
 
   home.sessionPath = [
     "$HOME/bin"
