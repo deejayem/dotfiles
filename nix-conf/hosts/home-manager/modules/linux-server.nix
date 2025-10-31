@@ -1,45 +1,20 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   imports = [ ./common.nix ];
 
   host.role = "server";
 
   home.packages = with pkgs; [
-    emacs-nox
-    irssi
-    libtree
-    msmtp
-    restic
-    sword
-    yt-dlp
+    emacs-nox # will go in emacs.nix
+    libtree # common, when not darwin
+    msmtp # remove
+    restic # common
+    sword # common
+    yt-dlp # common
   ];
-
-  programs.tmux = {
-    enable = true;
-    terminal = "tmux-256color";
-    prefix = "C-a";
-    #tmuxp.enable = true;
-    plugins = [ pkgs.tmuxPlugins.fuzzback ];
-    extraConfig = ''
-      unbind-key R
-      bind-key R run-shell ' \
-        tmux source-file ~/.config/tmux/tmux.conf > /dev/null; \
-        tmux display-message "Sourced .config/tmux/tmux.conf!"'
-      bind-key C-a last-window
-      bind-key a send-prefix
-
-      set -g status-bg black
-      set -g status-fg white
-
-      setw -g window-status-current-format "#[fg=red,bold][#[fg=default]#F#I:#W#F#[fg=red,bold]]#[default]"
-      setw -g window-status-format "#[fg=green]{#[default]#F#I:#W#F#[fg=green]}#[default]"
-
-      set -g status-left-length 17
-
-      set -g status-interval 1
-
-      set -g status-left "#[fg=yellow]#h#[default]"
-      set -g status-right "#[fg=blue]%a%d/%m#[fg=yellow]%H:%M:%S"
-    '';
-  };
 }
