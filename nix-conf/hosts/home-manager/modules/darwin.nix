@@ -36,6 +36,8 @@ in
     ./programs/kitty.nix
   ];
 
+  host.role = "workstation";
+
   home.packages = with pkgs; [
     awscli2
     cacert

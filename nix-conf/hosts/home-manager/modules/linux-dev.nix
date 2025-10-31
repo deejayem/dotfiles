@@ -2,6 +2,8 @@
 {
   imports = [ ./dev-common.nix ];
 
+  host.role = "workstation";
+
   programs.emacs = {
     enable = true;
     package = pkgs.emacs-pgtk;

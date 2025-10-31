@@ -7,6 +7,7 @@
 }:
 {
   imports = [
+    ./options.nix
     ./programs/git.nix
     ./programs/keychain.nix
     ./programs/nvim.nix

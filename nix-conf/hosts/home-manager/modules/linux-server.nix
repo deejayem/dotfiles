@@ -2,6 +2,8 @@
 {
   imports = [ ./common.nix ];
 
+  host.role = "server";
+
   home.packages = with pkgs; [
     emacs-nox
     irssi
