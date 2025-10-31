@@ -5,7 +5,7 @@
   ...
 }:
 let
-  inherit (lib) optionals;
+  inherit (lib) optionals optionalString;
   isServer = config.host.role == "server";
   isWorkstation = config.host.role == "workstation";
 in
@@ -39,8 +39,8 @@ in
             set -g @thumbs-unique enabled
             set -g @thumbs-position right
             set -g @thumbs-contrast 1
-            #${lib.optionalString pkgs.stdenv.isLinux "set -g @thumbs-upcase-command 'xargs xdg-open {}'"}
-            #${lib.optionalString pkgs.stdenv.isDarwin "set -g @thumbs-upcase-command 'xargs open {}'"}
+            #${optionalString pkgs.stdenv.isLinux "set -g @thumbs-upcase-command 'xargs xdg-open {}'"}
+            #${optionalString pkgs.stdenv.isDarwin "set -g @thumbs-upcase-command 'xargs open {}'"}
           '';
         }
       ];
@@ -52,7 +52,7 @@ in
 
        bind-key £ split-window -h
 
-      ${lib.optionalString isWorkstation ''
+      ${optionalString isWorkstation ''
         set -ga terminal-overrides ",alacritty:Tc"
 
         set-option -g status-bg '#666666'
@@ -61,7 +61,7 @@ in
         set-option -g status-right " %a, %b %d - %H:%M "
       ''}
 
-      ${lib.optionalString isServer ''
+      ${optionalString isServer ''
         bind-key C-a last-window
         bind-key a send-prefix
 
@@ -79,11 +79,11 @@ in
         set -g status-right "#[fg=blue]%a%d/%m#[fg=yellow]%H:%M:%S"
       ''}
 
-       ${lib.optionalString pkgs.stdenv.isLinux ''
+       ${optionalString pkgs.stdenv.isLinux ''
          bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "xsel -i -p && xsel -o -p | xsel -i -b"
          bind-key C-y run "xsel -o | tmux load-buffer - ; tmux paste-buffer"
        ''}
-       ${lib.optionalString pkgs.stdenv.isDarwin ''
+       ${optionalString pkgs.stdenv.isDarwin ''
          bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
          bind-key C-y run "reattach-to-user-namespace pbpaste | tmux load-buffer - ; tmux paste-buffer"
        ''}
