@@ -11,8 +11,6 @@ let
   };
 in
 {
-  imports = [ ./darwin.nix ];
-
   programs.home-manager.enable = true;
 
   home.username = "djm";
