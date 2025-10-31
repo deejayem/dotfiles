@@ -13,6 +13,7 @@ in
 {
   imports = [
     ./options.nix
+    ./programs/emacs.nix
     ./programs/git.nix
     ./programs/keychain.nix
     ./programs/nvim.nix
