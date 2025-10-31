@@ -19,6 +19,7 @@
     ]
     ++ lib.optionals (config.host.role == "workstation") [
       ffmpeg
+      lame
       mpv
     ];
 }
