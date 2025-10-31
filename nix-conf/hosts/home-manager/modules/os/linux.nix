@@ -1,12 +1,24 @@
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+
 {
   imports = [ ../programs/gpg-agent.nix ];
 
-  home.packages = with pkgs; [
-    libtree
-    msmtp
-    restic
-    sword
-    yt-dlp
-  ];
+  home.packages =
+    with pkgs;
+    [
+      libtree
+      msmtp
+      restic
+      sword
+      yt-dlp
+    ]
+    ++ lib.optionals (config.host.role == "workstation") [
+      ffmpeg
+      mpv
+    ];
 }
