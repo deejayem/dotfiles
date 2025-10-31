@@ -137,7 +137,10 @@
   };
 
   programs.gpg.enable = true;
-  programs.nix-index.enable = true;
+  programs.nix-index = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 
   programs.lsd = {
     enable = true;
