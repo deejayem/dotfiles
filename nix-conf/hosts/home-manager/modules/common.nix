@@ -69,6 +69,7 @@
     lscolors
     lynx
     mercurial
+    mu
     nix-info
     nix-prefetch-git
     nix-prefetch-github
