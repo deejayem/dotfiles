@@ -69,9 +69,11 @@
 
   programs.zsh.enable = true;
 
-  programs.vim = {
+  programs.neovim = {
     enable = true;
     defaultEditor = true;
+    withRuby = false;
+    withPython3 = false;
   };
 
   environment.systemPackages = with pkgs; [

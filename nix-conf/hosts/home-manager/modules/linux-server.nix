@@ -42,6 +42,4 @@
       set -g status-right "#[fg=blue]%a%d/%m#[fg=yellow]%H:%M:%S"
     '';
   };
-
-  programs.vim.packageConfigurable = pkgs.vim;
 }
