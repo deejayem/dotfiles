@@ -21,7 +21,7 @@
   sops = {
     defaultSopsFile = builtins.path {
       path = ./secrets.yaml;
-      name = "edrahil-secrets.yaml";
+      name = "${config.networking.hostName}-secrets.yaml";
     };
     secrets.restic_password = {
       owner = config.users.users.djm.name;
