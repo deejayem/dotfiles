@@ -1,8 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 {
   imports = [
     ./hardware-configuration.nix
     ./network-configuration.nix
+    inputs.sops-nix.nixosModules.sops
   ];
 
   boot.tmp.cleanOnBoot = true;

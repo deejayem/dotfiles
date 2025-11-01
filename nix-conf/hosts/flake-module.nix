@@ -30,7 +30,6 @@ let
 
   inherit (versions) stable unstable withVersions;
 
-  sops-nix = inputs.sops-nix;
   nix-darwin = inputs.nix-darwin;
 
   systems = {
@@ -52,7 +51,7 @@ let
       system = systems.x86_64-linux;
       version = stable;
       role = roles.server;
-      nixos.extraModules = [ sops-nix.nixosModules.sops ];
+      nixos.extraModules = [ ];
       home.djm = { };
     };
 
