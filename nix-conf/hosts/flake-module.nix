@@ -51,7 +51,7 @@ let
       system = systems.x86_64-linux;
       version = stable;
       role = roles.server;
-      nixos.extraModules = [ ];
+      nixos = { };
       home.djm = { };
     };
 
@@ -85,7 +85,6 @@ let
     {
       system,
       version,
-      nixos,
       role,
       ...
     }:
@@ -97,15 +96,13 @@ let
         modules = [
           ../config.nix
           ./nixos/${hostname}/configuration.nix
-        ]
-        ++ (nixos.extraModules or [ ]);
+        ];
       }
     );
 
   mkDarwinConfig =
     hostname:
     {
-      darwin,
       role,
       ...
     }:
@@ -115,8 +112,7 @@ let
       modules = [
         ../config.nix
         ./darwin/configuration.nix
-      ]
-      ++ (darwin.extraModules or [ ]);
+      ];
     };
 
   mkHomeConfig =
