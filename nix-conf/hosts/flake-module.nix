@@ -143,7 +143,6 @@ let
         };
         modules = [
           ../config.nix
-          nix-index-database.homeModules.nix-index
           ./home-manager/${hostname}.nix
         ];
       }
