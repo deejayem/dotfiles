@@ -4,11 +4,12 @@
   pkgs,
   system,
   inputs,
+  role,
   version,
   ...
 }:
 let
-  inherit (lib) optionals hasSuffix;
+  os = lib.last (lib.splitString "-" system);
 in
 {
   imports = [
@@ -22,10 +23,11 @@ in
     ./programs/starship.nix
     ./programs/tmux.nix
     ./programs/zsh.nix
-  ]
-  # pkgs.stdenv cannot be used here, as it causes infinite recursion
-  ++ optionals (hasSuffix "-linux" system) [ ./os/linux.nix ]
-  ++ optionals (hasSuffix "-darwin" system) [ ./os/darwin.nix ];
+    ./roles/${role}.nix
+    ./os/${os}.nix
+  ];
+
+  host.role = role;
 
   home.sessionPath = [
     "$HOME/bin"

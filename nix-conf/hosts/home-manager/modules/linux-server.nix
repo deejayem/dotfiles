@@ -1,4 +1,0 @@
-{ ... }:
-{
-  host.role = "server";
-}

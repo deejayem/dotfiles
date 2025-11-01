@@ -1,11 +1,8 @@
 { pkgs, ... }:
 {
   imports = [
-    ./common.nix
-    ./programs/clojure.nix
+    ../programs/clojure.nix
   ];
-
-  host.role = "workstation";
 
   home.packages = with pkgs; [
     docker

@@ -29,14 +29,11 @@ let
 in
 {
   imports = [
-    ./dev-common.nix
     ./programs/alacritty.nix
     ./programs/ghostty.nix
     ./programs/karabiner.nix
     ./programs/kitty.nix
   ];
-
-  host.role = "workstation";
 
   home.packages = with pkgs; [
     awscli2

@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 {
-  imports = [ ./modules/linux-server.nix ];
+  imports = [ ./modules/common.nix ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

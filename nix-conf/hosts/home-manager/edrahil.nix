@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   imports = [
-    ./modules/linux-server.nix
+    ./modules/common.nix
     ./modules/programs/irssi.nix
   ];
 
