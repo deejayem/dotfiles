@@ -32,7 +32,6 @@ let
 
   sops-nix = inputs.sops-nix;
   nix-darwin = inputs.nix-darwin;
-  nix-index-database = inputs.nix-index-database;
 
   systems = {
     x86_64-linux = "x86_64-linux";
