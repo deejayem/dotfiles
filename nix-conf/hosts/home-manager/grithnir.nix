@@ -1,7 +1,7 @@
 { ... }:
 {
   imports = [
-    ./common.nix
+    ./modules/base.nix
     ./modules/orgs/kevel.nix
   ];
 

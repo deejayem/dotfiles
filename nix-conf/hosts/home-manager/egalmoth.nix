@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   imports = [
-    ./modules/common.nix
+    ./modules/base.nix
     ./modules/programs/sway.nix
     ./modules/programs/ghostty.nix
   ];
