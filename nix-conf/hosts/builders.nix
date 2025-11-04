@@ -33,7 +33,7 @@ let
       specialArgs = { inherit inputs role; };
       modules = [
         ../config.nix
-        ./darwin/configuration.nix
+        ./darwin/${hostname}.nix
       ];
     };
 

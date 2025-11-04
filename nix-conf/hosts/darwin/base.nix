@@ -1,13 +1,13 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 {
   nix.settings.trusted-users = [
-    "djm"
+    username
     "@staff"
   ];
-  system.stateVersion = 6;
-  system.primaryUser = "djm";
+
+  system.primaryUser = username;
   nixpkgs.hostPlatform = "aarch64-darwin";
-  users.users.djm.home = "/Users/djm";
+  users.users.${username}.home = "/Users/${username}";
 
   security.pam.services.sudo_local = {
     enable = true;
@@ -79,5 +79,4 @@
       "karabiner-elements" # services.karabiner-elements.enable = true; causes problems
     ];
   };
-
 }
