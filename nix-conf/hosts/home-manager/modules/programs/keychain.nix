@@ -2,10 +2,6 @@
 {
   programs.keychain = {
     enable = true;
-    agents = [
-      "ssh"
-      "gpg"
-    ];
     keys = [
       "id_rsa"
       "id_ed25519"
