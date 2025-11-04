@@ -16,7 +16,7 @@ let
         inherit system;
         specialArgs = { inherit inputs role; };
         modules = [
-          ../config.nix
+          ../nix.nix
           ./nixos/${hostname}/configuration.nix
         ];
       }
@@ -32,7 +32,7 @@ let
       system.configurationRevision = self.rev or self.dirtyRev or null;
       specialArgs = { inherit inputs role; };
       modules = [
-        ../config.nix
+        ../nix.nix
         ./darwin/${hostname}.nix
       ];
     };
@@ -58,7 +58,7 @@ let
             ;
         };
         modules = [
-          ../config.nix
+          ../nix.nix
           ./home-manager/${hostname}.nix
         ];
       }
