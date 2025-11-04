@@ -13,7 +13,7 @@ let
 in
 {
   imports = [
-    ./options.nix
+    .../../../../options.nix
     ./programs/emacs.nix
     ./programs/git.nix
     ./programs/nix-index.nix

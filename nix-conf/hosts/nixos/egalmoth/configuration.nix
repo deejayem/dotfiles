@@ -1,24 +1,18 @@
+{ pkgs, ... }:
 {
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+  imports = [
+    ./hardware-configuration.nix
+    ../modules/base.nix
+  ];
 
-{
-  imports = [ ./hardware-configuration.nix ];
+  networking.hostName = "egalmoth";
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  networking.useDHCP = false;
+  networking.interfaces.enp45s0.useDHCP = true;
+  networking.interfaces.wlp46s0.useDHCP = true;
+
   boot.kernelParams = [ "intel_pstate=enable" ];
-  powerManagement = {
-    enable = true;
-    #cpuFreqGovernor = "powersave";
-    powertop.enable = true;
-  };
-  services.thermald.enable = true;
-  services.power-profiles-daemon.enable = false;
-  services.upower.enable = true;
+
   services.tlp = {
     enable = true;
     settings = {
@@ -53,39 +47,6 @@
     };
   };
 
-  hardware.graphics.enable = true;
-
-  networking.hostName = "egalmoth"; # Define your hostname.
-  networking.networkmanager.enable = true;
-
-  time.timeZone = "Europe/London";
-
-  networking.useDHCP = false;
-  networking.interfaces.enp45s0.useDHCP = true;
-  networking.interfaces.wlp46s0.useDHCP = true;
-
-  services.xserver.enable = true;
-  services.xserver.exportConfiguration = true;
-  services.xserver.displayManager.lightdm.greeters.slick.enable = true;
-  services.xserver.xkb.layout = "gb";
-  services.displayManager.sessionPackages = [ pkgs.sway ];
-  services.displayManager.defaultSession = "sway";
-
-  programs.xwayland.enable = true;
-
-  programs.seahorse.enable = true;
-  services.gnome.gnome-keyring.enable = true;
-  security.pam.services.login.enableGnomeKeyring = true;
-  security.pam.services.passwd.enableGnomeKeyring = true;
-
-  services.printing.enable = true;
-  services.printing.drivers = [
-    pkgs.gutenprint
-    pkgs.hplipWithPlugin
-  ];
-
-  hardware.sane.enable = true;
-
   services.udev.packages = [
     (pkgs.writeTextFile {
       name = "epson_udev";
@@ -106,132 +67,5 @@
   ];
   boot.extraModprobeConfig = "options iwlwifi disable_clkreq=y disable_aspm_l1=y disable_aspm_l1ss=y";
 
-  services.libinput = {
-    enable = true;
-    touchpad = {
-      clickMethod = "clickfinger";
-      naturalScrolling = true;
-      tappingButtonMap = "lmr";
-    };
-  };
-
-  services.dbus.enable = true;
-
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
-
-  users.users.djm = {
-    isNormalUser = true;
-    description = "David Morgan";
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "scanner"
-      "lp"
-      "plocate"
-      "cdrom"
-      "disk"
-      "input"
-    ];
-    shell = pkgs.zsh;
-    openssh.authorizedKeys.keys = [
-      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCurCpxZCHtByB5wXzsjTXwMyDSB4+B8rq5XY6EGss58NwD8jc5cII4i+QUbCOGTiAggSZUSC9YIP24hjpOeNT/IYs5m7Qn1B9MtBAiUSrIYew8eDwnMLlPzN+k2x9zCrJeCHIvGJaFHPXTh1Lf5Jt2fPVGW9lksE/XUVOe6ht4N/b+nqqszXFhc8Ug6le2bC1YeTCVEf8pjlh/I7DkDBl6IB8uEXc3X2vxxbV0Z4vlBrFkkAywcD3j5VlS/QYfBr4BICNmq/sO3fMkbMbtAPwuFxeL4+h6426AARQZiSS0qVEc8OoFRBVx3GEH5fqVAWfB1geyLzei22HbjUcT9+xN davidmo@gendros"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK9UDTaVnUOU/JknrNdihlhhGOk53LmHq9I1ASri3aga djm@gaius"
-    ];
-  };
-  security.sudo.extraConfig = ''
-    djm ALL=(ALL) NOPASSWD: ALL
-  '';
-  security.doas = {
-    enable = true;
-    extraRules = [
-      {
-        users = [ "djm" ];
-        noPass = true;
-        keepEnv = true;
-      }
-    ];
-  };
-
-  services.locate.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    acpi
-    acpitool
-    alsa-utils
-    bemenu
-    #dbus-sway-environment
-    firefox
-    foot
-    ghostscript
-    git
-    i3
-    imagemagick
-    lm_sensors
-    playerctl
-    rofi
-    st
-    sway
-    vdhcoapp
-    ungoogled-chromium
-    wayland
-    wayst
-    wezterm
-    wl-clipboard
-    wget
-    xclip
-    xorg.xkill
-    xurls
-    xst
-    zoom-us
-
-    libreoffice
-    onlyoffice-bin
-  ];
-  programs.nix-ld.enable = true;
-
-  programs.nix-ld.libraries = with pkgs; [ xorg.libxcb ];
-
-  fonts.packages = with pkgs; [
-    corefonts
-    iosevka-bin
-    jetbrains-mono
-    meslo-lgs-nf
-    aporetic
-  ];
-
-  programs.zsh.enable = true;
-
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-  };
-
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    withRuby = false;
-    withPython3 = false;
-  };
-
-  services.openssh.enable = true;
-
-  i18n.defaultLocale = "en_GB.UTF-8";
-
-  nix.settings.trusted-users = [
-    "root"
-    "djm"
-  ];
-
-  system.stateVersion = "21.05"; # Did you read the comment?
-
+  system.stateVersion = "21.05";
 }
