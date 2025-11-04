@@ -29,10 +29,10 @@ let
 in
 {
   imports = [
-    ./programs/alacritty.nix
-    ./programs/ghostty.nix
-    ./programs/karabiner.nix
-    ./programs/kitty.nix
+    ../programs/alacritty.nix
+    ../programs/ghostty.nix
+    ../programs/karabiner.nix
+    ../programs/kitty.nix
   ];
 
   home.packages = with pkgs; [
@@ -68,7 +68,7 @@ in
     watch
     wget
 
-    (pkgs.callPackage ./scripts/darwin-update.nix { inherit pkgs inputs; })
+    (pkgs.callPackage ../scripts/darwin-update.nix { inherit pkgs inputs; })
   ];
 
   home.sessionVariables = {
