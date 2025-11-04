@@ -47,3 +47,4 @@ eca
 .chatgpt-shell.el
 .mc-lists.el
 request/
+.dap-breakpoints
