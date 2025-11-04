@@ -16,7 +16,6 @@ in
     ./options.nix
     ./programs/emacs.nix
     ./programs/git.nix
-    ./programs/keychain.nix
     ./programs/nix-index.nix
     ./programs/nvim.nix
     ./programs/sops.nix
