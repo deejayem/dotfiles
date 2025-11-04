@@ -10,7 +10,8 @@
   :custom
   (eshell-directory-name (expand-file-name "eshell" save-dir))
   ;; https://lambdaland.org/posts/2024-08-19_fancy_eshell_prompt/#eshell-prompt
-  (eshell-highlight-prompt nil)
+  ;; TODO fix this
+  ;;(eshell-highlight-prompt nil)
   (eshell-prompt-regexp "^[^#$\n]* [$#] ")
   (eshell-prompt-function
    (lambda ()
