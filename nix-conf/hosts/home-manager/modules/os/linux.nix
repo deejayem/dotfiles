@@ -8,6 +8,7 @@
 {
   imports = [
     ../programs/gpg-agent.nix
+    ../programs/keychain.nix
   ];
 
   home.packages =
