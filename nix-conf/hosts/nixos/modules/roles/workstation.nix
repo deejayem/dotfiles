@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   imports = [
+    ../gnome-keyring.nix
     ../pipewire.nix
     ../power.nix
     ../printing.nix
