@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   imports = [
-    ../audio.nix
+    ../pipewire.nix
     ../power.nix
     ../printing.nix
     ../touchpad.nix
