@@ -25,6 +25,8 @@
 
   networking.networkmanager.enable = true;
 
+  services.dbus.enable = true;
+
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
@@ -32,6 +34,8 @@
 
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [ xorg.libxcb ];
+
+  programs.xwayland.enable = true;
 
   fonts.packages = with pkgs; [
     corefonts

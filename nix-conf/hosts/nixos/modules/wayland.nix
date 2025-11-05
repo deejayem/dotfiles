@@ -6,8 +6,4 @@
   services.xserver.xkb.layout = "gb";
   services.displayManager.sessionPackages = [ pkgs.sway ];
   services.displayManager.defaultSession = "sway";
-
-  programs.xwayland.enable = true;
-
-  services.dbus.enable = true;
 }
