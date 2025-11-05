@@ -80,6 +80,7 @@
           command = "${pkgs.swayidle}/bin/swayidle -w timeout 300 '${pkgs.swaylock}/bin/swaylock -f' timeout 600 'swaymsg \"output * power off\"' resume 'swaymsg \"output * power on\"'";
         }
         { command = "swaymsg workspace number 1"; }
+        { command = "${lib.getExe pkgs.sway-audio-idle-inhibit}"; }
       ];
     };
   };
