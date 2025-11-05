@@ -35,6 +35,14 @@
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [ xorg.libxcb ];
 
+  # This is installed by home-manager, but without programs.sway.enable = true
+  # we cannot unlock swaylock
+  programs.sway = {
+    enable = true;
+    package = null;
+    extraPackages = [ ];
+  };
+
   programs.xwayland.enable = true;
 
   fonts.packages = with pkgs; [
