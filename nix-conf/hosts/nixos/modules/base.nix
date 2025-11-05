@@ -7,7 +7,7 @@
   imports = [
     ../../options.nix
     ./users.nix
-    ./ssh.nix
+    ./services/ssh.nix
     ./roles/${role}.nix
   ];
 

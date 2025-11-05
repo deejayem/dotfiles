@@ -1,12 +1,12 @@
 { pkgs, ... }:
 {
   imports = [
-    ../gnome-keyring.nix
-    ../greeter.nix
-    ../pipewire.nix
-    ../power.nix
-    ../printing.nix
-    ../touchpad.nix
+    ../services/gnome-keyring.nix
+    ../services/greeter.nix
+    ../services/pipewire.nix
+    ../services/power.nix
+    ../services/printing.nix
+    ../services/touchpad.nix
   ];
 
   users.users.djm.extraGroups = [
