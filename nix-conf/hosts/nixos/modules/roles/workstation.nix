@@ -2,11 +2,11 @@
 {
   imports = [
     ../gnome-keyring.nix
+    ../greeter.nix
     ../pipewire.nix
     ../power.nix
     ../printing.nix
     ../touchpad.nix
-    ../wayland.nix
   ];
 
   users.users.djm.extraGroups = [
