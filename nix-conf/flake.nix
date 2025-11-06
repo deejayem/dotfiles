@@ -45,9 +45,11 @@
       ];
 
       perSystem =
-        { pkgs, ... }:
+        { pkgs, system, ... }:
         {
           formatter = pkgs.nixfmt-tree;
+
+          legacyPackages.unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
         };
     };
 }
