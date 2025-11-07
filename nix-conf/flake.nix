@@ -49,7 +49,13 @@
         {
           formatter = pkgs.nixfmt-tree;
 
-          legacyPackages.unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
+          legacyPackages = builtins.mapAttrs (
+            name: overlay:
+            (import inputs.nixpkgs {
+              inherit system;
+              overlays = [ overlay ];
+            })
+          ) inputs.self.overlays;
         };
     };
 }
