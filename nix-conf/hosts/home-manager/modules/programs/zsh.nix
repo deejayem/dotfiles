@@ -304,6 +304,10 @@ in
 
         awsget () { ${lib.getExe pkgs.awscli2} s3 cp "''${1}" "''${2:-.}" }
 
+        nix-eval () {
+          nix eval --json "$NH_FLAKE#nixosConfigurations.$HOST.config.$1" | jq
+        }
+
         # Use pushd with zoxide
         setopt PUSHDSILENT
         function __zoxide_cd () {
