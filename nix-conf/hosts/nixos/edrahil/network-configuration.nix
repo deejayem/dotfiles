@@ -1,12 +1,13 @@
-{ ... }:
+{ private, ... }:
 {
-  imports = [
-    ./private.nix
-  ];
+  networking = {
+    defaultGateway6 = {
+      address = "fe80::1";
+      interface = "ens3";
+    };
 
-  # networking.interfaces.ens3.ipv6.addresses configured in private.nix
-  networking.defaultGateway6 = {
-    address = "fe80::1";
-    interface = "ens3";
+    interfaces = {
+      inherit (private.networking.interfaces) ens3;
+    };
   };
 }

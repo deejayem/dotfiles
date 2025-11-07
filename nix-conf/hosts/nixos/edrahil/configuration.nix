@@ -1,5 +1,10 @@
 { config, inputs, ... }:
+let
+  private = import ./private.nix;
+in
 {
+  _module.args = { inherit private; };
+
   imports = [
     ./hardware-configuration.nix
     ./network-configuration.nix
