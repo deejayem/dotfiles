@@ -9,8 +9,16 @@ let
     ADZERK_GITHUB_PACKAGES_AUTH_TOKEN = "adzerk-packages-token";
     OPENAI_API_TOKEN = "openai-api-token";
   };
+
+  private = import ./private.nix;
 in
 {
+  _module.args = { inherit private; };
+
+  imports = [
+    ./aws.nix
+  ];
+
   programs.home-manager.enable = true;
 
   home.username = "djm";
