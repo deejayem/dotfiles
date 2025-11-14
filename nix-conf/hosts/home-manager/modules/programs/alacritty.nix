@@ -5,6 +5,11 @@
     # On darwin we will install this with nix-darwin instead
     package = if pkgs.stdenv.isDarwin then null else pkgs.alacritty;
     settings = {
+
+      terminal.shell = {
+        program = "/run/current-system/sw/bin/zsh";
+      };
+
       font = {
         normal.family = "MesloLGS NF";
         size = 12;
