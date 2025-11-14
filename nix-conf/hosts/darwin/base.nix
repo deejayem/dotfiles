@@ -8,6 +8,7 @@
   system.primaryUser = username;
   nixpkgs.hostPlatform = "aarch64-darwin";
   users.users.${username}.home = "/Users/${username}";
+  programs.zsh.enable = true;
 
   security.pam.services.sudo_local = {
     enable = true;
