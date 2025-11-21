@@ -54,11 +54,7 @@
       vim.opt.tabstop = 4
       vim.opt.hlsearch = true
       vim.opt.showmatch = true
-      vim.opt.clipboard = 'unnamedplus'
       vim.api.nvim_set_hl(0, "Normal", { bg = "#000000" })
-      if vim.fn.has('clipboard') == 1 then
-        vim.opt.clipboard = 'unnamedplus'
-      end
 
       vim.api.nvim_create_autocmd('BufEnter', {
         callback = function() vim.opt.formatoptions:remove({'c','r','o'}) end
