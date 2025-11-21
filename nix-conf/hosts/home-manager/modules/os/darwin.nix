@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   inputs,
@@ -94,6 +95,15 @@ in
     notify = "notify_success || notify_failure";
     ltn = "lein test && notify";
   };
+
+  # Force ~/.nix-profile/bin to be at the start of $PATH
+  programs.zsh.initContent =
+    let
+      nixProfileBin = "${config.home.homeDirectory}/.nix-profile/bin";
+    in
+    lib.mkAfter ''
+      path=(${nixProfileBin} ''${path:#${nixProfileBin}})
+    '';
 
   # TODO is this a good idea?
   #programs.zsh.shellAliases = { emacs = "${emacs-plus-with-packages}/Applications/Emacs.app/Contents/MacOS/Emacs"; };
