@@ -232,6 +232,37 @@ in
           cd $(ea p ''${1:-1})
         }
 
+        # Expand e<n><tab> to the corresponding path, or complete with fzf-tab for e<tab>
+        _ea_completer () {
+          emulate -L zsh
+          setopt extendedglob
+
+          if [[ $PREFIX == (#b)e([0-9]##) ]]; then
+            local num="$match[1]"
+            local expanded
+            expanded=$(ea p "$num") || return 1
+            compadd -U -- "$expanded"
+            return 0
+          elif [[ $PREFIX == e ]]; then
+            local -a paths
+            local line
+            for line in "''${(@f)$(ea list 2>/dev/null)}"; do
+              if [[ $line == (#b)\[([0-9]##)\]\ (*) ]]; then
+                paths+=("$match[2]")
+              fi
+            done
+            (( ''${#paths[@]} )) || return 1
+            compadd -U -a paths
+            return 0
+          fi
+
+          return 1
+        }
+
+        zstyle -g _completers ':completion:*' completer
+        _completers=(''${_completers:#_ea_completer})
+        zstyle ':completion:*' completer _ea_completer "''${_completers[@]}"
+
         function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
         function fcd { cd $(fd -L --max-depth=''${1:-4} --type=d 2>/dev/null | fzf-tmux) }
 
