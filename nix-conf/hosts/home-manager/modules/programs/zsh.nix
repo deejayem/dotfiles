@@ -244,15 +244,27 @@ in
             compadd -U -- "$expanded"
             return 0
           elif [[ $PREFIX == e ]]; then
-            local -a paths
-            local line
+            local -a nums paths descr
+            local line n
+            local -i max_width=0
+
             for line in "''${(@f)$(ea list 2>/dev/null)}"; do
               if [[ $line == (#b)\[([0-9]##)\]\ (*) ]]; then
+                n="$match[1]"
                 paths+=("$match[2]")
+                nums+=("$n")
+                (( ''${#n} > max_width )) && max_width=''${#n}
               fi
             done
+
             (( ''${#paths[@]} )) || return 1
-            compadd -U -a paths
+
+            local -i i
+            for (( i=1; i<= ''${#paths}; i++ )); do
+              descr+=("[$(printf '%0*d' max_width ''${nums[i]})] ''${paths[i]}")
+            done
+
+            compadd -U -d descr -a paths
             return 0
           fi
 
