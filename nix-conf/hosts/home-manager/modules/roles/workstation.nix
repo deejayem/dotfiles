@@ -14,7 +14,5 @@
     multimarkdown
     nixd
     ripgrep-all
-
-    unstable.mcp-nixos
   ];
 }
