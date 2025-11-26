@@ -129,7 +129,7 @@ in
       '')
       ''
         # Based on prezto tmux plugin
-        if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && (-z "$SSH_TTY" || -n "$TMUX_AUTO_ATTACH") ]]; then
+        if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && "$TERM_PROGRAM" != "vscode" && (-z "$SSH_TTY" || -n "$TMUX_AUTO_ATTACH") ]]; then
           tmux start-server
 
           if ! tmux has-session 2> /dev/null; then
