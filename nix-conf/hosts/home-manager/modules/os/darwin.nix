@@ -96,14 +96,25 @@ in
     ltn = "lein test && notify";
   };
 
-  # Force ~/.nix-profile/bin to be at the start of $PATH
-  programs.zsh.initContent =
-    let
-      nixProfileBin = "${config.home.homeDirectory}/.nix-profile/bin";
-    in
-    lib.mkAfter ''
-      path=(${nixProfileBin} ''${path:#${nixProfileBin}})
-    '';
+  programs.zsh = {
+    initContent =
+      let
+        nixProfileBin = "${config.home.homeDirectory}/.nix-profile/bin";
+      in
+      lib.mkMerge [
+        ''
+          eval "$(/opt/homebrew/bin/brew shellenv)"
+        ''
+        # Force ~/.nix-profile/bin to be at the start of $PATH
+        (lib.mkAfter ''
+          path=(${nixProfileBin} ''${path:#${nixProfileBin}})
+        '')
+      ];
+
+    shellAliases = {
+      oemacs = "open -a /Applications/Nix\\ Apps/Emacs.app";
+    };
+  };
 
   # TODO is this a good idea?
   #programs.zsh.shellAliases = { emacs = "${emacs-plus-with-packages}/Applications/Emacs.app/Contents/MacOS/Emacs"; };

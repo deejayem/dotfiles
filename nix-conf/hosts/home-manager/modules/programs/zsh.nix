@@ -5,7 +5,6 @@
   ...
 }:
 let
-  inherit (lib) optionalAttrs optionals;
   show_file_or_dir_preview = "if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi";
 in
 {
@@ -115,8 +114,7 @@ in
       glola = ''git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset" --all'';
       glog = "git log --oneline --decorate --graph";
       gloga = "git log --oneline --decorate --graph --all";
-    }
-    // optionalAttrs pkgs.stdenv.isDarwin { oemacs = "open -a /Applications/Nix\\ Apps/Emacs.app"; };
+    };
 
     localVariables = {
       PER_DIRECTORY_HISTORY_TOGGLE = "^\\\\"; # ^\\ is ^#
@@ -356,10 +354,6 @@ in
         function __zoxide_cd () {
           \builtin pushd -- "$@"
         }
-
-        if [ "$(uname -mo)" = "arm64 Darwin" ]; then
-          eval "$(/opt/homebrew/bin/brew shellenv)"
-        fi
 
         [[ ! -f ~/.zsh.local ]] || source ~/.zsh.local
       ''
