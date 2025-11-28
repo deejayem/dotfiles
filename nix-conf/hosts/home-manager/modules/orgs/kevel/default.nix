@@ -145,17 +145,18 @@ in
     style = "red bold dimmed";
   };
 
-  programs.zsh.envExtra = lib.concatStringsSep "\n" (
-    lib.mapAttrsToList (envName: secretName: ''
-      if [ -e ${config.sops.secrets."env/${secretName}".path} ]; then
-        export ${envName}=$(<${config.sops.secrets."env/${secretName}".path})
-      fi
-    '') envSecrets
-  );
+  programs.zsh = {
+    envExtra = lib.concatStringsSep "\n" (
+      lib.mapAttrsToList (envName: secretName: ''
+        if [ -e ${config.sops.secrets."env/${secretName}".path} ]; then
+          export ${envName}=$(<${config.sops.secrets."env/${secretName}".path})
+        fi
+      '') envSecrets
+    );
 
-  programs.zsh.initContent = ''
-    source "${pkgs.google-cloud-sdk}/share/zsh/site-functions/_gcloud"
-    packcat () { ${lib.getExe' pkgs.zstd "zstdcat"} "''${1}" | ${lib.getExe pkgs.gnused} '1d;$d' | ${lib.getExe' pkgs.msgpack-tools "msgpack2json"} -c | ${lib.getExe pkgs.jq} | ${lib.getExe pkgs.bat} }
-  '';
-
+    initContent = ''
+      source "${pkgs.google-cloud-sdk}/share/zsh/site-functions/_gcloud"
+      packcat () { ${lib.getExe' pkgs.zstd "zstdcat"} "''${1}" | ${lib.getExe pkgs.gnused} '1d;$d' | ${lib.getExe' pkgs.msgpack-tools "msgpack2json"} -c | ${lib.getExe pkgs.jq} | ${lib.getExe pkgs.bat} }
+    '';
+  };
 }
