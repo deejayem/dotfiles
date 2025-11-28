@@ -135,6 +135,11 @@ in
     };
   };
 
+  programs.starship.settings.env_var.TICKET = {
+    format = "[$env_value]($style) ";
+    style = "red bold dimmed";
+  };
+
   programs.granted = {
     enable = true;
     enableZshIntegration = true;
