@@ -14,9 +14,13 @@ in
 {
   imports = [
     .../../../../options.nix
+    ./programs/bat.nix
     ./programs/emacs.nix
+    ./programs/eza.nix
     ./programs/git.nix
+    ./programs/lsd.nix
     ./programs/nix-index.nix
+    ./programs/nh.nix
     ./programs/nvim.nix
     ./programs/sops.nix
     ./programs/ssh.nix
@@ -112,68 +116,5 @@ in
     (pkgs.callPackage ./scripts/nixos-update.nix { inherit pkgs inputs version; })
   ];
 
-  programs.bat = {
-    enable = true;
-    extraPackages = with pkgs.bat-extras; [
-      batdiff
-      batgrep
-      batman
-      batwatch
-      batpipe
-    ];
-    config = {
-      style = "full";
-      pager = "less -RXF";
-      map-syntax = [
-        ".ignore:Git Ignore"
-        "*.jenkinsfile:Groovy"
-      ];
-    };
-  };
-
-  programs.eza = {
-    enable = true;
-    git = true;
-    icons = "auto";
-    enableBashIntegration = false;
-    enableZshIntegration = false;
-    enableFishIntegration = false;
-    enableIonIntegration = false;
-    extraOptions = [
-      "--colour=auto"
-      "--long"
-      "--group-directories-first"
-      "--classify"
-      "--no-user"
-      "--no-time"
-      "--no-filesize"
-      "--no-permissions"
-    ];
-  };
-
   programs.gpg.enable = true;
-
-  programs.lsd = {
-    enable = true;
-    enableZshIntegration = false; # don't set aliases
-    settings = {
-      indicators = true;
-      #layout = "oneline";
-      sorting.dir-grouping = "first";
-      blocks = [
-        "git"
-        "permission"
-        "user"
-        "group"
-        "size"
-        "date"
-        "name"
-      ];
-    };
-  };
-
-  programs.nh = {
-    enable = true;
-    flake = "${config.home.homeDirectory}/dotfiles/nix-conf";
-  };
 }
