@@ -326,7 +326,7 @@ in
             GC_ARGS=(--delete-older-than ''${1}d)
           fi
 
-          DOAS=$(command -v doas)
+          DOAS=$(command -v doas || command -v sudo)
 
           # Run as the current user (as well as root) to clean up hm generations
           nix-collect-garbage ''${GC_ARGS[@]}
