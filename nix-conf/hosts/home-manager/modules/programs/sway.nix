@@ -43,9 +43,9 @@
           mod = config.wayland.windowManager.sway.config.modifier;
         in
         lib.mkOptionDefault {
-          "${mod}+Return" = "exec ${pkgs.foot}/bin/foot";
-          "${mod}+d" = "exec ${pkgs.rofi-wayland}/bin/rofi -modi drun -show drun";
-          "${mod}+p" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+          "${mod}+Return" = "exec ${lib.getExe pkgs.foot}";
+          "${mod}+d" = "exec ${lib.getExe pkgs.rofi} -modi drun -show drun";
+          "${mod}+p" = "exec ${lib.getExe pkgs.playerctl} play-pause";
           "${mod}+o" = "move workspace to output right";
         };
 
