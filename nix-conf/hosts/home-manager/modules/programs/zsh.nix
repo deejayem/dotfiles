@@ -368,7 +368,7 @@ in
       {
         name = "zsh-bd";
         src = zsh-bd;
-        file = "share/zsh-bd/bd.zsh";
+        file = "share/plugins/zsh-bd/bd.plugin.zsh";
       }
       {
         name = "zsh-fzf-tab";
@@ -378,7 +378,7 @@ in
       {
         name = "zsh-fast-syntax-highlighting";
         src = zsh-fast-syntax-highlighting;
-        file = "share/zsh/site-functions/fast-syntax-highlighting.plugin.zsh";
+        file = "share/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh";
       }
       {
         name = "zsh-forgit";
