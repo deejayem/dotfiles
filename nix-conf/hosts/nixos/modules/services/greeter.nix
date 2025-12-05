@@ -8,6 +8,7 @@
           ${lib.getExe pkgs.tuigreet} \
             --time \
             --asterisks \
+            --remember \
             --cmd sway
         '';
       };
