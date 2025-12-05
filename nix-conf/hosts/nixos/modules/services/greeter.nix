@@ -11,7 +11,6 @@
           --cmd sway
       '';
     };
-    vt = 2;
   };
 
   environment.etc."greetd/environments".text = ''
