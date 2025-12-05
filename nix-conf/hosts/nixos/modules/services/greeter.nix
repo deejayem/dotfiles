@@ -4,7 +4,7 @@
     enable = true;
     settings = {
       default_session.command = ''
-        ${lib.getExe pkgs.greetd.tuigreet} \
+        ${lib.getExe pkgs.tuigreet} \
           --time \
           --asterisks \
           --user-menu \
