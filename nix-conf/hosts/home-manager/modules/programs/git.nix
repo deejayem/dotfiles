@@ -16,37 +16,48 @@ in
     git-crypt
   ];
 
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      line-numbers = true;
+      navigate = true;
+      light = false;
+      file-style = "bold yellow ul";
+      hunk-header-line-number-style = "brightyellow";
+    };
+  };
+
   programs.git = {
     enable = true;
-    userName = "David Morgan";
     includes = [ { path = config.sops.secrets."git_email_config/default".path; } ];
-    aliases = {
-      # difftastic
-      logt = "!sh -c 'GIT_EXTERNAL_DIFF=\"difft --background=dark\" git log -p --ext-diff'";
-      showt = "!show() { GIT_EXTERNAL_DIFF=difft git show \${1} --ext-diff; }; show";
-      difft = "difftool";
-      # "raw" output
-      rlog = "!git -c delta.raw=true -c core.pager=${less} log"; # usually used with -p
-      rshow = "!git -c delta.raw=true -c core.pager=${less} show";
-      rdiff = "!git -c delta.raw=true -c core.pager=${less} diff";
-      #  copiable output (without line numbers or +/- indicators)
-      clog = "!git -c delta.line-numbers=false log"; # usually used with -p
-      cshow = "!git -c delta.line-numbers=false show";
-      cdiff = "!git -c delta.line-numbers=false diff";
-      # diff-so-fancy
-      flog = ''!git -c core.pager="diff-so-fancy | ${less}" log''; # usually used with -p
-      fshow = ''!git -c core.pager="diff-so-fancy | ${less}" show'';
-      fdiff = ''!git -c core.pager="diff-so-fancy | ${less}" diff'';
-
-      upstream = "!git push -u origin HEAD";
-      update-master = "!git fetch origin master:master";
-      update-main = "!git fetch origin main:main";
-    };
     attributes = [
       "*.el diff=elisp"
       "*.clj diff=clojure"
     ];
-    extraConfig = {
+    settings = {
+      alias = {
+        # difftastic
+        logt = "!sh -c 'GIT_EXTERNAL_DIFF=\"difft --background=dark\" git log -p --ext-diff'";
+        showt = "!show() { GIT_EXTERNAL_DIFF=difft git show \${1} --ext-diff; }; show";
+        difft = "difftool";
+        # "raw" output
+        rlog = "!git -c delta.raw=true -c core.pager=${less} log"; # usually used with -p
+        rshow = "!git -c delta.raw=true -c core.pager=${less} show";
+        rdiff = "!git -c delta.raw=true -c core.pager=${less} diff";
+        #  copiable output (without line numbers or +/- indicators)
+        clog = "!git -c delta.line-numbers=false log"; # usually used with -p
+        cshow = "!git -c delta.line-numbers=false show";
+        cdiff = "!git -c delta.line-numbers=false diff";
+        # diff-so-fancy
+        flog = ''!git -c core.pager="diff-so-fancy | ${less}" log''; # usually used with -p
+        fshow = ''!git -c core.pager="diff-so-fancy | ${less}" show'';
+        fdiff = ''!git -c core.pager="diff-so-fancy | ${less}" diff'';
+
+        upstream = "!git push -u origin HEAD";
+        update-master = "!git fetch origin master:master";
+        update-main = "!git fetch origin main:main";
+      };
       core.editor = "vim";
       diff = {
         tool = "difftastic";
@@ -74,16 +85,7 @@ in
         autostash = true;
       };
       github.user = "deejayem";
-    };
-    delta = {
-      enable = true;
-      options = {
-        line-numbers = true;
-        navigate = true;
-        light = false;
-        file-style = "bold yellow ul";
-        hunk-header-line-number-style = "brightyellow";
-      };
+      user.name = "David Morgan";
     };
     ignores = [
       ".lein-repl-history"
