@@ -12,17 +12,18 @@ in
 
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
     includes = [
       "~/.ssh/config_local"
       config.sops.secrets."ssh_config/oci".path
     ];
     matchBlocks = {
       "*" = {
+        addKeysToAgent = "yes";
         forwardAgent = true;
         user = "djm";
       }
       // optionalAttrs pkgs.stdenv.isDarwin {
-        addKeysToAgent = "yes"; # TODO move up after 25.11
         extraOptions = {
           "UseKeychain" = "yes";
         };
@@ -87,13 +88,5 @@ in
         identitiesOnly = true;
       };
     };
-    # TODO: remove after 25.11
-    # Handle differences between stable and unstable until 25.11 is released (assuming Linux = stable, and Darwin = unstable)
-  }
-  // optionalAttrs pkgs.stdenv.isLinux {
-    addKeysToAgent = "yes";
-  }
-  // optionalAttrs pkgs.stdenv.isDarwin {
-    enableDefaultConfig = false;
   };
 }
