@@ -57,6 +57,12 @@
     };
   };
 
+  system.activationScripts.postActivation.text = ''
+    echo "Restarting Doll"
+    pkill Doll || true
+    open -a "/Applications/Nix Apps/Doll.app"
+  '';
+
   system.defaults.dock.autohide = true;
   system.defaults.dock.persistent-apps = [
     { app = "/System/Applications/System Settings.app"; }
