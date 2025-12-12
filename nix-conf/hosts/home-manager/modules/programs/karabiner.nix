@@ -4,7 +4,7 @@ let
   json = pkgs.formats.json { };
 
   # For things that should only apply to Emacs
-  emacsCondition = {
+  emacsIfCondition = {
     type = "frontmost_application_if";
     bundle_identifiers = [
       "^org\\.gnu\\.Emacs$"
@@ -17,7 +17,7 @@ let
     type = "basic";
     inherit from;
     to = [ { key_code = "vk_none"; } ];
-    conditions = [ emacsCondition ];
+    conditions = [ emacsIfCondition ];
   };
 
   # macOS shortcuts to disable (note that this is affected by how we swap ctrl and cmd)
@@ -98,7 +98,7 @@ let
   ];
 
   # For things that should NOT apply to certain terminals
-  terminalsCondition = {
+  terminalsUnlessCondition = {
     type = "frontmost_application_unless";
     bundle_identifiers = [
       "^com\\.mitchellh\\.ghostty$"
@@ -109,17 +109,115 @@ let
 
   swapModifiers = pair: {
     type = "basic";
-    from = { key_code = pair.from; };
-    to   = [ { key_code = pair.to; } ];
-    conditions = [ terminalsCondition ];
+    from = {
+      key_code = pair.from;
+    };
+    to = [ { key_code = pair.to; } ];
+    conditions = [ terminalsUnlessCondition ];
   };
 
   modifierPairs = [
-    { from = "left_command";  to = "left_control";  }
-    { from = "left_control";  to = "left_command";  }
-    { from = "right_command"; to = "right_control"; }
-    { from = "right_control"; to = "right_command"; }
+    {
+      from = "left_command";
+      to = "left_control";
+    }
+    {
+      from = "left_control";
+      to = "left_command";
+    }
+    {
+      from = "right_command";
+      to = "right_control";
+    }
+    {
+      from = "right_control";
+      to = "right_command";
+    }
   ];
+
+  allKeys = [
+    "a"
+    "b"
+    "c"
+    "d"
+    "e"
+    "f"
+    "g"
+    "h"
+    "i"
+    "j"
+    "k"
+    "l"
+    "m"
+    "n"
+    "o"
+    "p"
+    "q"
+    "r"
+    "s"
+    "t"
+    "u"
+    "v"
+    "w"
+    "x"
+    "y"
+    "z"
+    "1"
+    "2"
+    "3"
+    "4"
+    "5"
+    "6"
+    "7"
+    "8"
+    "9"
+    "0"
+    "spacebar"
+    "return_or_enter"
+    "escape"
+    "delete_or_backspace"
+    "tab"
+    "hyphen"
+    "equal_sign"
+    "open_bracket"
+    "close_bracket"
+    "backslash"
+    "semicolon"
+    "quote"
+    "grave_accent_and_tilde"
+    "comma"
+    "period"
+    "slash"
+    "up_arrow"
+    "down_arrow"
+    "left_arrow"
+    "right_arrow"
+  ];
+
+  fixTripleModifier = key: {
+    type = "basic";
+    from = {
+      key_code = key;
+      modifiers = {
+        mandatory = [
+          "control"
+          "option"
+          "shift"
+        ];
+      };
+    };
+    to = [
+      {
+        key_code = key;
+        modifiers = [
+          "command"
+          "option"
+          "shift"
+        ];
+      }
+    ];
+    conditions = [ emacsIfCondition ];
+  };
 
   karabiner = {
     profiles = [
@@ -165,6 +263,11 @@ let
             {
               description = "Disable various macOS shortcuts in Emacs";
               manipulators = builtins.map disableShortcut shortcuts;
+            }
+
+            {
+              description = "Fix Control-Option-Shift combinations in Emacs";
+              manipulators = builtins.map fixTripleModifier allKeys;
             }
           ];
         };
