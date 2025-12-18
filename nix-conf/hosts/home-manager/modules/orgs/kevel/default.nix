@@ -46,6 +46,7 @@ in
     nodejs
     nodePackages.aws-cdk
     opentofu
+    (pacs.override { npmToken = private.adzerkPackagesToken; })
     ruby
     tailscale
   ];
