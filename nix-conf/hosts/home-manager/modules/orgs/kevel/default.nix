@@ -47,6 +47,7 @@ in
     nodePackages.aws-cdk
     opentofu
     ruby
+    tailscale
   ];
 
   # TODO

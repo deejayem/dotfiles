@@ -46,6 +46,10 @@
     pkgs.fira-code
   ];
 
+  services.tailscale = {
+    enable = true;
+  };
+
   system.defaults.CustomUserPreferences = {
     "com.tinyspeck.slackmacgap" = {
       AutoUpdate = false;
