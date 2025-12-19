@@ -345,6 +345,33 @@ in
 
         awsget () { ${lib.getExe pkgs.awscli2} s3 cp "''${1}" "''${2:-.}" }
 
+        aws_logged_in() {
+          local cache_dir="''${HOME}/.aws/sso/cache"
+          [[ -d "$cache_dir" ]] || return 1
+
+          ${lib.getExe pkgs.jq} -e '
+            select(.startUrl?)
+            | .expiresAt
+            | sub("UTC$"; "Z")
+            | strptime("%Y-%m-%dT%H:%M:%SZ")
+            | mktime > now
+          ' "$cache_dir"/*.json(N) >/dev/null 2>&1
+        }
+
+        aspl() {
+          [[ -n "$1" ]] || { print -u2 "aspl: missing profile"; return 2; }
+          local profile="$1"
+          shift || true
+
+          if ! aws_logged_in; then
+            echo "Logging in to profile $profile"
+            asp "$profile" login
+          else
+            echo "Setting profile $profile"
+            asp "$profile" "$@"
+          fi
+        }
+
         nix-eval () {
           nix eval --json "$NH_FLAKE#nixosConfigurations.$HOST.config.$1" | jq
         }
