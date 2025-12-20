@@ -10,6 +10,8 @@ let
     OPENAI_API_TOKEN = "openai-api-token";
   };
 
+  gcpIapProxy = (pkgs.callPackage ../../scripts/gcp-iap-proxy.nix { inherit pkgs; });
+
   private = import ./private.nix;
 in
 {
@@ -40,6 +42,7 @@ in
     cdktf-cli
     copilot-language-server
     coffeescript
+    gcpIapProxy
     git-remote-codecommit
     google-cloud-sdk
     msgpack-tools
@@ -113,6 +116,7 @@ in
   programs.ssh = {
     includes = [ config.sops.secrets."ssh_config/kevel".path ];
     matchBlocks = {
+      # aws
       "i-*" = {
         user = "ubuntu";
         proxyCommand = "ssh-ssm.sh %h %r";
@@ -131,6 +135,34 @@ in
           "StrictHostKeyChecking" = "no";
         };
       };
+
+      # gcp
+      "gcp1-*" = {
+        forwardAgent = true;
+        proxyCommand = "${lib.getExe gcpIapProxy} %n %p";
+        serverAliveInterval = 5;
+        sendEnv = [
+          "ADZERK_*"
+        ];
+      };
+      "pg1-*" = {
+        forwardAgent = true;
+        proxyCommand = "${lib.getExe gcpIapProxy} %n %p";
+        serverAliveInterval = 5;
+        sendEnv = [
+          "ADZERK_*"
+        ];
+      };
+      "scylladb-*" = {
+        forwardAgent = true;
+        proxyCommand = "${lib.getExe gcpIapProxy} %n %p";
+        serverAliveInterval = 5;
+        sendEnv = [
+          "ADZERK_*"
+        ];
+      };
+
+      # orbstack
       "*.orb.local" = {
         identityFile = "~/.orbstack/ssh/id_ed25519";
         forwardAgent = true;
