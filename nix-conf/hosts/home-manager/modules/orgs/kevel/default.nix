@@ -37,6 +37,10 @@ in
     "$HOME/src/kevel/cli-tools/micha"
   ];
 
+  home.shellAliases = {
+    update-gcp-ssh = "gcloud compute config-ssh --ssh-config-file=~/.ssh/config_local";
+  };
+
   home.packages = with pkgs; [
     aws-sso-util
     cdktf-cli
