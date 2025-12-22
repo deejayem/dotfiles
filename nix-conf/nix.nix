@@ -17,6 +17,7 @@
         "hplip"
         "orbstack"
         "slack"
+        "terraform"
         "vscode"
         "zoom"
       ];

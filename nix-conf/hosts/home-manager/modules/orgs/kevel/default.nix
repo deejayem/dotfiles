@@ -29,7 +29,6 @@ in
   home.sessionVariables = {
     AWS_DEFAULT_SSO_REGION = "us-east-1";
     AWS_DEFAULT_SSO_START_URL = "https://kevel.awsapps.com/start";
-    TERRAFORM_BINARY_NAME = "tofu";
   };
 
   home.sessionPath = [
@@ -56,6 +55,7 @@ in
     (pacs.override { npmToken = private.adzerkPackagesToken; })
     ruby
     tailscale
+    terraform
   ];
 
   # TODO
