@@ -2,9 +2,11 @@
   lib,
   stdenv,
   fetchurl,
+  fetchPnpmDeps,
   runCommand,
   nodejs_22,
   pnpm_9,
+  pnpmConfigHook,
   makeWrapper,
   npmToken ? throw "npmToken is missing",
 }:
@@ -29,8 +31,9 @@ let
     cp ${./pnpm-lock.yaml} $out/pnpm-lock.yaml
   '';
 
-  pnpmDeps = pnpm_9.fetchDeps {
+  pnpmDeps = fetchPnpmDeps {
     inherit pname version src;
+    pnpm = pnpm_9;
     fetcherVersion = 2;
     hash = "sha256-vh4MiZvtIyGJOWKuycDH044pdQiYfOGEhrApiSFrLyc=";
   };
@@ -42,7 +45,7 @@ stdenv.mkDerivation {
   nativeBuildInputs = [
     nodejs_22
     pnpm_9
-    pnpm_9.configHook
+    pnpmConfigHook
     makeWrapper
   ];
 
