@@ -4,6 +4,11 @@
   lib,
   ...
 }:
+let
+  nix-plugins = pkgs.nix-plugins.override {
+    nixComponents = pkgs.nixVersions.nixComponents_2_31;
+  };
+in
 {
   nixpkgs = {
     config.allowUnfreePredicate =
@@ -28,6 +33,8 @@
     package = pkgs.nix;
     settings = {
       experimental-features = "nix-command flakes";
+      plugin-files = "${nix-plugins}/lib/nix/plugins";
+      extra-builtins-file = ./extra-builtins.nix;
     };
   };
 }
