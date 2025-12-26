@@ -1,6 +1,6 @@
 { ... }:
 let
-  private = import ./private.nix;
+  secrets = builtins.extraBuiltins.readSopsForHost ./secrets.yaml;
 in
 {
   imports = [
@@ -12,7 +12,7 @@ in
 
   services.openiscsi = {
     enable = true;
-    inherit (private.services.openiscsi) name;
+    inherit (secrets.services.openiscsi) name;
   };
 
   system.stateVersion = "22.05";
