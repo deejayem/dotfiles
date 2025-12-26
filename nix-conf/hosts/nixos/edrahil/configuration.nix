@@ -1,16 +1,11 @@
 { config, inputs, ... }:
-let
-  private = import ./private.nix;
-in
 {
-  _module.args = { inherit private; };
-
   imports = [
     ./hardware-configuration.nix
     ./network-configuration.nix
     ./backups.nix
     ../modules/base.nix
-    inputs.sops-nix.nixosModules.sops
+    ../modules/host-secrets.nix
   ];
 
   networking.hostName = "edrahil";
@@ -19,11 +14,6 @@ in
 
   services.openssh.ports = [ 2222 ];
   services.openssh.allowSFTP = true;
-
-  sops.defaultSopsFile = builtins.path {
-    path = ./secrets.yaml;
-    name = "${config.networking.hostName}-secrets.yaml";
-  };
 
   system.stateVersion = "22.05";
 }
