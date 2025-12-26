@@ -1,7 +1,7 @@
 { exec, ... }:
 {
   # Based on https://github.com/Mic92/sops-nix/issues/624#issuecomment-3070348728
-  readSops = key-file: secrets-file: exec [ "sh" "-c"
+  readSopsForKey = key-file: secrets-file: exec [ "sh" "-c"
     ("nix eval --expr \"builtins.fromJSON(''\$(SOPS_AGE_KEY_FILE=" + key-file + " sops --output-type json -d '" + secrets-file + "')'')\"")
   ];
 
