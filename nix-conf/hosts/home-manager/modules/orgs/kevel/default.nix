@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  private,
   ...
 }:
 let
@@ -11,12 +12,8 @@ let
   };
 
   gcpIapProxy = (pkgs.callPackage ../../scripts/gcp-iap-proxy.nix { inherit pkgs; });
-
-  private = import ./private.nix;
 in
 {
-  _module.args = { inherit private; };
-
   imports = [
     ./aws.nix
   ];

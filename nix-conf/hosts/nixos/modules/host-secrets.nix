@@ -12,8 +12,10 @@ in
   # addresses that are not really secrets, but are better kept
   # private
   _module.args.private =
-    if builtins.extraBuiltins == null || !(builtins.extraBuiltins ? readSopsForHost) then
-      throw "extra-builtins is not set up correctly"
+    if builtins.extraBuiltins == null then
+      throw "extraBuiltins is not available"
+    else if !(builtins.extraBuiltins ? readSopsForHost) then
+      throw "extraBuiltins.readSopsForHost is not available"
     else if !builtins.pathExists sopsFile then
       throw "secrets.yaml does not exist for ${config.networking.hostName}"
     else

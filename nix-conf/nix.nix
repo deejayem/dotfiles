@@ -34,7 +34,7 @@ in
     settings = {
       experimental-features = "nix-command flakes";
       plugin-files = "${nix-plugins}/lib/nix/plugins";
-      extra-builtins-file = ./extra-builtins.nix;
+      extra-builtins-file = [ ./extra-builtins.nix ];
     };
   };
 }

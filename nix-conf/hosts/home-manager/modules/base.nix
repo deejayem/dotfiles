@@ -13,7 +13,8 @@ let
 in
 {
   imports = [
-    .../../../../options.nix
+    ../../options.nix
+    ./home-secrets.nix
     ./programs/bat.nix
     ./programs/emacs.nix
     ./programs/eza.nix
