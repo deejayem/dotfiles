@@ -1,11 +1,11 @@
 { config, inputs, ... }:
 {
   imports = [
+    ../modules/base.nix
+    ../modules/host-secrets.nix
     ./hardware-configuration.nix
     ./network-configuration.nix
     ./backups.nix
-    ../modules/base.nix
-    ../modules/host-secrets.nix
   ];
 
   networking.hostName = "edrahil";

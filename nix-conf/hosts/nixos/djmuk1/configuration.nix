@@ -1,8 +1,8 @@
 { ... }:
 {
   imports = [
-    ./hardware-configuration.nix
     ../modules/base.nix
+    ./hardware-configuration.nix
   ];
 
   networking.hostName = "djmuk1";
