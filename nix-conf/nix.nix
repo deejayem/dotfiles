@@ -5,9 +5,7 @@
   ...
 }:
 let
-  nix-plugins = pkgs.nix-plugins.override {
-    nixComponents = pkgs.nixVersions.nixComponents_2_31;
-  };
+  nix-plugins = import ./plugins/nix-plugins.nix { inherit pkgs; };
 in
 {
   nixpkgs = {
@@ -34,7 +32,7 @@ in
     settings = {
       experimental-features = "nix-command flakes";
       plugin-files = "${nix-plugins}/lib/nix/plugins";
-      extra-builtins-file = [ ./extra-builtins.nix ];
+      extra-builtins-file = [ ./plugins/extra-builtins.nix ];
     };
   };
 }
