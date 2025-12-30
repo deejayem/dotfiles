@@ -42,7 +42,7 @@
       imports = [
         ./hosts/flake-module.nix
         ./overlays/flake-module.nix
-        ./plugins/flake-module.nix
+        ./nix-plugins/flake-module.nix
       ];
 
       perSystem =

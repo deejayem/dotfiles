@@ -376,6 +376,18 @@ in
           nix eval --json "$NH_FLAKE#nixosConfigurations.$HOST.config.$1" | jq
         }
 
+        bootstrap-nix-plugins() {
+          local nix_conf_dir="$HOME/dotfiles/nix-conf"
+
+          local nix_plugins
+          nix_plugins="$(nix build --no-link --print-out-paths "''${nix_conf_dir}#nix-plugins")" || return 1
+
+          local extra_builtins
+          extra_builtins="$(nix store add-file "''${nix_conf_dir}/nix-plugins/extra-builtins.nix")" || return 1
+
+          nh os switch -- --option plugin-files "''${nix_plugins}/lib/nix/plugins" --option extra-builtins-file "''${extra_builtins}"
+       }
+
         # Use pushd with zoxide
         setopt PUSHDSILENT
         function __zoxide_cd () {

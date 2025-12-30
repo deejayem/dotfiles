@@ -4,9 +4,6 @@
   lib,
   ...
 }:
-let
-  nix-plugins = import ./plugins/nix-plugins.nix { inherit pkgs; };
-in
 {
   nixpkgs = {
     config.allowUnfreePredicate =
@@ -31,8 +28,6 @@ in
     package = pkgs.nix;
     settings = {
       experimental-features = "nix-command flakes";
-      plugin-files = "${nix-plugins}/lib/nix/plugins";
-      extra-builtins-file = [ ./plugins/extra-builtins.nix ];
     };
   };
 }

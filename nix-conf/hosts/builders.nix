@@ -1,6 +1,7 @@
 { inputs, self }:
 let
   nix-darwin = inputs.nix-darwin;
+  inherit (inputs.nixpkgs.lib) optionals;
 
   mkNixosConfig =
     versions: hostname:
@@ -8,6 +9,7 @@ let
       system,
       version,
       role,
+      nixPlugins ? false,
       ...
     }:
     versions.withVersions version (
@@ -18,7 +20,8 @@ let
         modules = [
           ../nix.nix
           ./nixos/${hostname}/configuration.nix
-        ];
+        ]
+        ++ optionals nixPlugins [ ../nix-plugins ];
       }
     );
 
@@ -26,6 +29,7 @@ let
     versions: hostname:
     {
       role,
+      nixPlugins ? false,
       ...
     }:
     nix-darwin.lib.darwinSystem {
@@ -34,7 +38,8 @@ let
       modules = [
         ../nix.nix
         ./darwin/${hostname}.nix
-      ];
+      ]
+      ++ optionals nixPlugins [ ../nix-plugins ];
     };
 
   mkHomeConfig =
@@ -43,6 +48,7 @@ let
       system,
       version,
       role,
+      nixPlugins ? false,
       ...
     }:
     versions.withVersions version (
@@ -60,7 +66,8 @@ let
         modules = [
           ../nix.nix
           ./home-manager/${hostname}.nix
-        ];
+        ]
+        ++ optionals nixPlugins [ ../nix-plugins ];
       }
     );
 
