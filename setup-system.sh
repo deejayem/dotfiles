@@ -4,24 +4,31 @@
 
 [ -e ~/dotfiles ] || git clone git@codeberg.org:djm/dotfiles.git
 
-NIX_CONF=$HOME/dotfiles/nix-conf
+NIX_CONF_DIR=$HOME/dotfiles/nix-conf
 
-ln -sf $NIX_CONF ~/.config/home-manager
+ln -sf $NIX_CONF_DIR ~/.config/home-manager
 ln -sf ~/dotfiles/.emacs.d ~/
 
-if [ -x "$(command -v nixos-version)" ]; then
-  ln -sf $NIX_CONF /etc/nixos
+NIX_PLUGINS="$(nix build --no-link --print-out-paths "$NIX_CONF_DIR#nix-plugins")"
+EXTRA_BUILTINS="$(nix store add-file "$NIX_CONF_DIR/nix-plugins/extra-builtins.nix")"
 
-  nixos-rebuild --extra-experimental-features nix-command --extra-experimental-features switch --use-remote-sudo
+export NIX_CONFIG="experimental-features = nix-command flakes
+plugin-files = $NIX_PLUGINS/lib/nix/plugins
+extra-builtins-file = $EXTRA_BUILTINS"
+
+if [ -x "$(command -v nixos-version)" ]; then
+  ln -sf $NIX_CONF_DIR /etc/nixos
+
+  nixos-rebuild switch --sudo
 else
   [ -x "$(command -v nix)" ] || sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install)
 
   if [ "$(uname 2> /dev/null)" = "Darwin"  ]; then
-    ln -sf $NIX_CONF /etc/nix-darwin
+    ln -sf $NIX_CONF_DIR /etc/nix-darwin
 
-    sudo nix --extra-experimental-features nix-command --extra-experimental-features flakes run nix-darwin/master#darwin-rebuild -- switch
+    sudo nix run nix-darwin/master#darwin-rebuild -- switch
   fi
 fi
 
-nix run home-manager/master -- switch --flake ~/dotfiles/nix-conf
+nix run home-manager/master -- switch --flake $NIX_CONF_DIR
 
