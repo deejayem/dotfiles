@@ -14,7 +14,7 @@ in
 {
   imports = [
     ../../options.nix
-    ./home-secrets.nix
+    ./home-secrets
     ./programs/bat.nix
     ./programs/emacs.nix
     ./programs/eza.nix
@@ -23,7 +23,6 @@ in
     ./programs/nix-index.nix
     ./programs/nh.nix
     ./programs/nvim.nix
-    ./programs/sops.nix
     ./programs/ssh.nix
     ./programs/starship.nix
     ./programs/tmux.nix
