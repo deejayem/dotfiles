@@ -2,7 +2,7 @@
 {
   imports = [
     ../modules/base.nix
-    ../modules/host-secrets.nix
+    ../modules/host-secrets
     ./hardware-configuration.nix
     ./network-configuration.nix
     ./backups.nix

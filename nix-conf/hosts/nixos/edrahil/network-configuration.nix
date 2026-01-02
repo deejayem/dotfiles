@@ -1,4 +1,4 @@
-{ private, ... }:
+{ config, ... }:
 {
   networking = {
     defaultGateway6 = {
@@ -7,7 +7,7 @@
     };
 
     interfaces = {
-      inherit (private.networking.interfaces) ens3;
+      inherit (config.host.private.networking.interfaces) ens3;
     };
   };
 }

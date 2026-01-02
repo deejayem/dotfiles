@@ -1,8 +1,8 @@
-{ private, ... }:
+{ config, ... }:
 {
   imports = [
     ../modules/base.nix
-    ../modules/host-secrets.nix
+    ../modules/host-secrets
     ./hardware-configuration.nix
   ];
 
@@ -10,7 +10,7 @@
 
   services.openiscsi = {
     enable = true;
-    inherit (private.services.openiscsi) name;
+    inherit (config.host.private.services.openiscsi) name;
   };
 
   system.stateVersion = "22.05";
