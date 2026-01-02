@@ -7,6 +7,7 @@
 }:
 let
   sopsFile = ../../. + "/${config.networking.hostName}/secrets.yaml";
+  ageFile = ../../. + "/${config.networking.hostName}/private.nix.age";
 in
 {
   imports = [
@@ -17,15 +18,26 @@ in
   # addresses that are not really secrets, but are better kept
   # private
   host.private =
-    if builtins.extraBuiltins == null then
-      throw "extraBuiltins is not available"
-    else if !(builtins.extraBuiltins ? readSopsForHost) then
-      throw "extraBuiltins.readSopsForHost is not available"
-    else if !builtins.pathExists sopsFile then
-      throw "secrets.yaml does not exist for ${config.networking.hostName}"
-    else
-      builtins.extraBuiltins.readSopsForHost sopsFile;
-
+    (
+      if builtins.extraBuiltins == null then
+        throw "extraBuiltins is not available"
+      else if !(builtins.extraBuiltins ? readSopsForHost) then
+        throw "extraBuiltins.readSopsForHost is not available"
+      else if !builtins.pathExists sopsFile then
+        throw "secrets.yaml does not exist for ${config.networking.hostName}"
+      else
+        builtins.extraBuiltins.readSopsForHost sopsFile
+    )
+    // (
+      if builtins.extraBuiltins == null then
+        throw "extraBuiltins is not available"
+      else if !(builtins.extraBuiltins ? readRageForHost) then
+        throw "extraBuiltins.readRageForHost is not available"
+      else if !builtins.pathExists ageFile then
+        throw "private.nix.age does not exist for ${config.networking.hostName}"
+      else
+        builtins.extraBuiltins.readRageForHost ageFile
+    );
 
   environment.systemPackages = with pkgs; [
     sops
