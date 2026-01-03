@@ -30,7 +30,9 @@
   services.locate.enable = true;
 
   environment.systemPackages = with pkgs; [
+    doas
     git
+    rage
     wget
   ];
 
