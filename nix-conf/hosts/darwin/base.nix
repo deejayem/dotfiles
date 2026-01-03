@@ -33,6 +33,7 @@
     iterm2
     orbstack
     pinentry_mac
+    rage
     slack
     vscode
     youtube-music
