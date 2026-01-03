@@ -1,7 +1,7 @@
-{ private, ... }:
+{ config, ... }:
 let
   ssoRegion = "us-east-1";
-  inherit (private) accounts ssoStartUrl;
+  inherit (config.host.private) accounts ssoStartUrl;
 
   mkSsoProfile =
     {

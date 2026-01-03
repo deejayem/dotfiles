@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  private,
   ...
 }:
 let
@@ -49,7 +48,7 @@ in
     nodejs
     nodePackages.aws-cdk
     opentofu
-    (pacs.override { npmToken = private.adzerkPackagesToken; })
+    (pacs.override { npmToken = config.host.private.adzerkPackagesToken; })
     ruby
     tailscale
     terraform
