@@ -6,12 +6,11 @@
   ...
 }:
 let
-  sopsFile = ../../. + "/${config.networking.hostName}/secrets.yaml";
   ageFile = ../../. + "/${config.networking.hostName}/private.nix.age";
 in
 {
   imports = [
-    inputs.sops-nix.nixosModules.sops
+    inputs.agenix.nixosModules.default
   ];
 
   # This should only contain sensitive information such as email
@@ -27,13 +26,7 @@ in
     else
       builtins.extraBuiltins.readRageForHost ageFile;
 
-  environment.systemPackages = with pkgs; [
-    sops
-    ssh-to-age
+  environment.systemPackages = [
+    inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
-
-  sops.defaultSopsFile = builtins.path {
-    path = sopsFile;
-    name = "${config.networking.hostName}-secrets.yaml";
-  };
 }

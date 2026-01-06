@@ -6,7 +6,7 @@ let
     initialize = true;
     user = "djm";
     environmentFile = "/etc/restic-environment";
-    passwordFile = config.sops.secrets."restic/password".path;
+    passwordFile = config.age.secrets."restic/password".path;
     exclude = [
       "irclogs"
       ".cache"
@@ -34,7 +34,8 @@ let
     };
 in
 {
-  sops.secrets."restic/password" = {
+  age.secrets."restic/password" = {
+    file = ./restic.age;
     owner = config.users.users.djm.name;
   };
 
