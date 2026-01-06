@@ -3,10 +3,11 @@
   lib,
   pkgs,
   inputs,
+  hostname,
   ...
 }:
 let
-  ageFile = ../../. + "/${config.networking.hostName}/private.nix.age";
+  ageFile = ../../. + "/${hostname}/private.nix.age";
 in
 {
   imports = [
@@ -22,7 +23,7 @@ in
     else if !(builtins.extraBuiltins ? readRageForHost) then
       throw "extraBuiltins.readRageForHost is not available"
     else if !builtins.pathExists ageFile then
-      throw "private.nix.age does not exist for ${config.networking.hostName}"
+      throw "private.nix.age does not exist for ${hostname}"
     else
       builtins.extraBuiltins.readRageForHost ageFile;
 

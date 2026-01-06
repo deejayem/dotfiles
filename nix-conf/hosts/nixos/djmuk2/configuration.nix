@@ -6,8 +6,6 @@
     ./hardware-configuration.nix
   ];
 
-  networking.hostName = "djmuk2";
-
   services.openiscsi = {
     enable = true;
     inherit (config.host.private.services.openiscsi) name;

@@ -5,8 +5,6 @@
     ./hardware-configuration.nix
   ];
 
-  networking.hostName = "egalmoth";
-
   networking.useDHCP = false;
   networking.interfaces.enp45s0.useDHCP = true;
   networking.interfaces.wlp46s0.useDHCP = true;

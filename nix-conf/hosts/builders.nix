@@ -16,7 +16,7 @@ let
       { nixpkgs, ... }:
       nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs role; };
+        specialArgs = { inherit inputs hostname role; };
         modules = [
           ../nix.nix
           ./nixos/${hostname}/configuration.nix
@@ -34,7 +34,7 @@ let
     }:
     nix-darwin.lib.darwinSystem {
       system.configurationRevision = self.rev or self.dirtyRev or null;
-      specialArgs = { inherit inputs role; };
+      specialArgs = { inherit inputs hostname role; };
       modules = [
         ../nix.nix
         ./darwin/${hostname}.nix
@@ -58,6 +58,7 @@ let
         extraSpecialArgs = {
           inherit
             inputs
+            hostname
             system
             version
             role

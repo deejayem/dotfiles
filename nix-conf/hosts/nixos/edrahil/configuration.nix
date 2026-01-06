@@ -8,8 +8,6 @@
     ./backups.nix
   ];
 
-  networking.hostName = "edrahil";
-
   networking.firewall.allowedTCPPorts = [ 2222 ];
 
   services.openssh.ports = [ 2222 ];

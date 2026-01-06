@@ -5,8 +5,6 @@
     ./hardware-configuration.nix
   ];
 
-  networking.hostName = "djmuk1";
-
   swapDevices = [
     {
       device = "/var/lib/swapfile";
