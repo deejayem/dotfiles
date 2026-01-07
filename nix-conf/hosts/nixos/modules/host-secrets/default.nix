@@ -28,6 +28,6 @@ in
       builtins.extraBuiltins.readRageForHost ageFile;
 
   environment.systemPackages = [
-    inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
+    (inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default.override { ageBin = "${lib.getExe pkgs.rage}"; })
   ];
 }
