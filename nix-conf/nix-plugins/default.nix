@@ -5,6 +5,8 @@ in
 {
   nix.settings = {
     plugin-files = "${nix-plugins}/lib/nix/plugins";
-    extra-builtins-file = [ ./extra-builtins.nix ];
+    # Try to workround issue with non-existent /nix/store/<HASH>-source/nix-conf/nix-plugins/extra-builtins.nix
+    # paths ending up in /etc/nix/nix.conf
+    extra-builtins-file = "${nix-plugins}/share/nix-plugins/extra-builtins.nix";
   };
 }
