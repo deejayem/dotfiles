@@ -25,6 +25,7 @@ in
   ];
 
   age = {
+    secretsDir = "${config.xdg.stateHome}/agenix";
     identityPaths = [ "${config.home.homeDirectory}/.ssh/agenix" ];
     secrets = builtins.listToAttrs (map mkSecretEntry ageFiles);
   };
