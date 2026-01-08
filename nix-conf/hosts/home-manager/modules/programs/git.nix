@@ -73,7 +73,6 @@ in
           cmd = ''difft "$LOCAL" "$REMOTE"'';
         };
       };
-      merge.conflictstyle = "zdiff3";
       pull = {
         ff = "only";
         rebase = false;
