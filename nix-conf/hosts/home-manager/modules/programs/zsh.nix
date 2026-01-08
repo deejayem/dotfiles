@@ -372,8 +372,16 @@ in
           fi
         }
 
-        nix-eval () {
-          nix eval --json "$NH_FLAKE#nixosConfigurations.$HOST.config.$1" | jq
+        nixos-eval () {
+          nix eval --json $NH_FLAKE#nixosConfigurations.$HOST.config.$1 | jq
+        }
+
+        hm-eval () {
+          nix eval --json $NH_FLAKE#homeConfigurations."$USER@$HOST".config.$1 | jq
+        }
+
+        darwin-eval () {
+          nix eval --json $NH_FLAKE#darwinConfigurations.$HOST.config.$1 | jq
         }
 
         bootstrap-nix-plugins () {
