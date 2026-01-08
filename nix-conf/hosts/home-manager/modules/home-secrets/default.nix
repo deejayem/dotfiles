@@ -1,27 +1,38 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
   ...
 }:
 let
-  ageFile = ./private.nix.age;
+  privateFile = ./private.nix.age;
+
+  secretsDir = ./secrets;
+  ageFiles = lib.fileset.toList (lib.fileset.fileFilter (f: f.hasExt "age") secretsDir);
+
+  mkSecretEntry =
+    path:
+    let
+      relativePath = lib.removePrefix (toString secretsDir + "/") (toString path);
+      secretName = lib.removeSuffix ".age" relativePath;
+    in
+    lib.nameValuePair secretName { file = path; };
 in
 {
   imports = [
-    inputs.sops-nix.homeManagerModules.sops
+    inputs.agenix.homeManagerModules.default
   ];
 
-  sops = {
-    age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
-    defaultSopsFile = builtins.path {
-      path = ./secrets.yaml;
-      name = "home-secrets.yaml";
-    };
+  age = {
+    identityPaths = [ "${config.home.homeDirectory}/.ssh/agenix" ];
+    secrets = builtins.listToAttrs (map mkSecretEntry ageFiles);
   };
 
   home.packages = with pkgs; [
-    sops
+    (inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+      ageBin = "${lib.getExe pkgs.rage}";
+    })
   ];
 
   # This should only contain sensitive information such as email
@@ -32,8 +43,10 @@ in
       throw "extraBuiltins is not available"
     else if !(builtins.extraBuiltins ? readRageForHost) then
       throw "extraBuiltins.readRageForKey is not available"
-    else if !builtins.pathExists ageFile then
+    else if !builtins.pathExists privateFile then
       throw "private.nix.age does not exist for ${config.networking.hostName}"
     else
-      builtins.extraBuiltins.readRageForKey config.sops.age.keyFile ageFile;
+      # TODO
+      builtins.extraBuiltins.readRageForKey "${config.xdg.configHome}/sops/age/keys.txt" privateFile;
+
 }

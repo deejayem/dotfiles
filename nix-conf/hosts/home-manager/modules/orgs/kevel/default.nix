@@ -5,9 +5,11 @@
   ...
 }:
 let
+  secretsDir = ../../home-secrets/secrets;
+
   envSecrets = {
-    ADZERK_GITHUB_PACKAGES_AUTH_TOKEN = "adzerk-packages-token";
-    OPENAI_API_TOKEN = "openai-api-token";
+    ADZERK_GITHUB_PACKAGES_AUTH_TOKEN = "adzerk-packages";
+    OPENAI_API_TOKEN = "openai-api";
   };
 
   gcpIapProxy = (pkgs.callPackage ../../scripts/gcp-iap-proxy.nix { inherit pkgs; });
@@ -63,12 +65,6 @@ in
     '';
   };
 
-  sops.secrets = {
-    "git_email_config/kevel" = { };
-    "ssh_config/kevel" = { };
-  }
-  // lib.mapAttrs' (_: secretName: lib.nameValuePair "env/${secretName}" { }) envSecrets;
-
   programs.granted = {
     enable = true;
     enableZshIntegration = true;
@@ -81,13 +77,13 @@ in
   programs.git = {
     signing.signByDefault = lib.mkForce false;
     includes = lib.mkForce [
-      { path = config.sops.secrets."git_email_config/kevel".path; }
+      { path = config.age.secrets."git/kevel".path; }
       {
-        path = config.sops.secrets."git_email_config/default".path;
+        path = config.age.secrets."git/default".path;
         condition = "gitdir:~/src/ext/";
       }
       {
-        path = config.sops.secrets."git_email_config/default".path;
+        path = config.age.secrets."git/default".path;
         condition = "gitdir:~/dotfiles/";
       }
       {
@@ -114,7 +110,7 @@ in
     ];
   };
   programs.ssh = {
-    includes = [ config.sops.secrets."ssh_config/kevel".path ];
+    includes = [ config.age.secrets."ssh/kevel".path ];
     matchBlocks = {
       # aws
       "i-*" = {
@@ -182,8 +178,8 @@ in
   programs.zsh = {
     envExtra = lib.concatStringsSep "\n" (
       lib.mapAttrsToList (envName: secretName: ''
-        if [ -e ${config.sops.secrets."env/${secretName}".path} ]; then
-          export ${envName}=$(<${config.sops.secrets."env/${secretName}".path})
+        if [ -e ${config.age.secrets."env/${secretName}".path} ]; then
+          export ${envName}=$(<${config.age.secrets."env/${secretName}".path})
         fi
       '') envSecrets
     );

@@ -8,8 +8,6 @@ let
   less = lib.getExe pkgs.less;
 in
 {
-  sops.secrets."git_email_config/default" = { };
-
   home.packages = with pkgs; [
     diff-so-fancy
     difftastic
@@ -30,7 +28,7 @@ in
 
   programs.git = {
     enable = true;
-    includes = [ { path = config.sops.secrets."git_email_config/default".path; } ];
+    includes = [ { path = config.age.secrets."git/default".path; } ];
     attributes = [
       "*.el diff=elisp"
       "*.clj diff=clojure"

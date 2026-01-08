@@ -8,14 +8,14 @@ let
   inherit (lib) optionalAttrs;
 in
 {
-  sops.secrets."ssh_config/oci" = { };
+  age.secrets."ssh/oci".file = ../home-secrets/secrets/ssh/oci.age;
 
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
     includes = [
       "~/.ssh/config_local"
-      config.sops.secrets."ssh_config/oci".path
+      config.age.secrets."ssh/oci".path
     ];
     matchBlocks = {
       "*" = {
