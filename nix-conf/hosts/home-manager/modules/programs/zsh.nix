@@ -162,13 +162,13 @@ in
         zstyle ':fzf-tab:*' switch-group ',' '.'
 
         # functions modified from https://www.josean.com/posts/7-amazing-cli-tools
-        _fzf_compgen_path() {
+        _fzf_compgen_path () {
           fd --hidden --exclude .git --exclude node_modules . "$1"
         }
-        _fzf_compgen_dir() {
+        _fzf_compgen_dir () {
           fd --type=d --hidden --exclude .git --exclude node_modules . "$1"
         }
-        _fzf_comprun() {
+        _fzf_comprun () {
           local command=$1
           shift
 
@@ -276,7 +276,7 @@ in
         function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
         function fcd { cd $(fd -L --max-depth=''${1:-4} --type=d 2>/dev/null | fzf-tmux) }
 
-        fif() {
+        fif () {
           if [ ! "$#" -gt 0  ]; then
             echo "usage: fif <SEARCH_TERM>"
             return 1;
@@ -284,12 +284,12 @@ in
           rg --files-with-matches --no-messages "$1" | fzf $FZF_PREVIEW_WINDOW --preview "rg --ignore-case --pretty --context 10 '$1' {}"
         }
 
-        fe() {
+        fe () {
           IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
           [[ -n "$files" ]] && ''${EDITOR:-vim} "''${files[@]}"
         }
 
-        .,() {
+        ., () {
           local declare dirs=()
           get_parent_dirs() {
             if [[ -d "''${1}" ]]; then dirs+=("$1"); else return; fi
@@ -345,7 +345,7 @@ in
 
         awsget () { ${lib.getExe pkgs.awscli2} s3 cp "''${1}" "''${2:-.}" }
 
-        aws_logged_in() {
+        aws_logged_in () {
           local cache_dir="''${HOME}/.aws/sso/cache"
           [[ -d "$cache_dir" ]] || return 1
 
@@ -358,7 +358,7 @@ in
           ' "$cache_dir"/*.json(N) >/dev/null 2>&1
         }
 
-        aspl() {
+        aspl () {
           [[ -n "$1" ]] || { print -u2 "aspl: missing profile"; return 2; }
           local profile="$1"
           shift || true
@@ -376,7 +376,7 @@ in
           nix eval --json "$NH_FLAKE#nixosConfigurations.$HOST.config.$1" | jq
         }
 
-        bootstrap-nix-plugins() {
+        bootstrap-nix-plugins () {
           local nix_conf_dir="$HOME/dotfiles/nix-conf"
 
           local nix_plugins
