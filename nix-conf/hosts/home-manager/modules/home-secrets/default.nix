@@ -47,7 +47,5 @@ in
     else if !builtins.pathExists privateFile then
       throw "private.nix.age does not exist for ${config.networking.hostName}"
     else
-      # TODO
-      builtins.extraBuiltins.readRageForKey "${config.xdg.configHome}/sops/age/keys.txt" privateFile;
-
+      builtins.extraBuiltins.readRageForKey "${config.home.homeDirectory}/.ssh/agenix" privateFile;
 }
