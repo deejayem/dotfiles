@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
   imports = [
     ../modules/base.nix
@@ -8,7 +8,18 @@
 
   services.openiscsi = {
     enable = true;
-    inherit (config.host.private.services.openiscsi) name;
+  };
+
+  sops.templates."iscsi-initiatorname" = {
+    content = ''
+      InitiatorName=${config.sops.placeholder."iscsi/iqn"}
+    '';
+    mode = "0600";
+  };
+
+  environment.etc."iscsi/initiatorname.iscsi" = lib.mkForce {
+    source = config.sops.templates."iscsi-initiatorname".path;
+    mode = "0600";
   };
 
   system.stateVersion = "22.05";
