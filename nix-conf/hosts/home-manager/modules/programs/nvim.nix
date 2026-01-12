@@ -83,7 +83,7 @@
       end, silent)
 
       require('nvim-lastplace').setup({})
-      require('nvim-treesitter.configs').setup({
+      require('nvim-treesitter').setup({
         highlight = { enable = true },
         indent    = { enable = true },
       })
