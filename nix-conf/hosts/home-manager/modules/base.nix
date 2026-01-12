@@ -109,7 +109,7 @@ in
     zip
     zstd
 
-    unstable.nixfmt-rfc-style
+    unstable.nixfmt
 
     (pkgs.callPackage ./scripts/hm-changes-report.nix { inherit config pkgs; })
     (pkgs.callPackage ./scripts/system-changes-report.nix { inherit config pkgs; })
