@@ -110,7 +110,6 @@ in
     ];
   };
   programs.ssh = {
-    includes = [ config.age.secrets."ssh/kevel".path ];
     matchBlocks = {
       # aws
       "i-*" = {
