@@ -8,8 +8,6 @@ let
   inherit (lib) optionalAttrs;
 in
 {
-  age.secrets."ssh/oci".file = ../home-secrets/secrets/ssh/oci.age;
-
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
