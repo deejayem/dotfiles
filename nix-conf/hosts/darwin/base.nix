@@ -32,11 +32,11 @@
     google-chrome # chromium is not available on darwin (in nixpkgs)
     iterm2
     orbstack
+    pear-desktop
     pinentry_mac
     rage
     slack
     vscode
-    youtube-music
     zoom-us
     _1password-gui
   ];
