@@ -37,7 +37,7 @@
     rage
     slack
     vscode
-    zoom-us
+    # zoom-us # TODO: currently causing issues
     _1password-gui
   ];
 
@@ -77,7 +77,8 @@
     { app = "/Applications/Nix Apps/Slack.app"; }
     { app = "/Applications/Nix Apps/Alacritty.app"; }
     { app = "/Applications/Nix Apps/Emacs.app"; }
-    { app = "/Applications/Nix Apps/zoom.us.app"; }
+    # { app = "/Applications/Nix Apps/zoom.us.app"; } # TODO: currently causing issues
+    { app = "/Applications/zoom.us.app"; }
     { app = "/Applications/Nix Apps/1Password.app"; }
     { app = "/Applications/Nix Apps/OrbStack.app"; }
   ];
@@ -88,7 +89,8 @@
     casks = [
       "ankerwork"
       "aws-vpn-client"
-      "karabiner-elements" # services.karabiner-elements.enable = true; causes problems
+      "karabiner-elements" # services.karabiner-elements.enable = true; causes problems with SentinelOne
+      "zoom" # pkgs.zoom-us causes problems with SentinelOne
     ];
   };
 }
