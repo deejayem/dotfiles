@@ -356,7 +356,7 @@ DEFS is a plist associating completion categories to commands."
    consult-git-grep consult-grep
    consult-ripgrep-parent consult-ripgrep consult-ripgrep-case-sensitive consult-ripgrep-unrestricted
    consult-bookmark consult-recent-file consult-xref consult-buffer-no-preview
-   consult--source-recent-file consult--source-project-recent-file consult--source-bookmark;
+   consult-source-recent-file consult-source-project-recent-file consult-source-bookmark;
    :preview-key '("M-." :debounce 0.2 "C-S-n" :debounce 0.2 "C-S-p"))
 
   (defvar-local consult-toggle-preview-orig nil)
@@ -403,7 +403,7 @@ DEFS is a plist associating completion categories to commands."
       (setq unread-command-events (append unread-command-events (list key 32)))))
   (add-hook 'minibuffer-setup-hook #'consult-initial-narrow)
 
-  (defvar consult--source-perspective-buffer
+  (defvar consult-source-perspective-buffer
     `(:name     "Perspective Buffer"
                 :narrow   (?x . "Perspective")
                 :hidden   t
@@ -418,30 +418,30 @@ DEFS is a plist associating completion categories to commands."
                                           :predicate #'persp-is-current-buffer
                                           :as #'buffer-name)))
     "Perspective buffer candidate source for `consult-buffer'.")
-  (add-to-list 'consult-buffer-sources 'consult--source-perspective-buffer t)
+  (add-to-list 'consult-buffer-sources 'consult-source-perspective-buffer t)
 
-  ;; Copy of consult--source-project-file to use with perspective narrowing (identical except for narrowing key)
-  ;; Put before consult--source-project-file so we get recentf behaviour here
-  (defvar consult--source-perspective-files
-    (plist-put (plist-put (copy-sequence  consult--source-project-recent-file)
+  ;; Copy of consult-source-project-file to use with perspective narrowing (identical except for narrowing key)
+  ;; Put before consult-source-project-file so we get recentf behaviour here
+  (defvar consult-source-perspective-files
+    (plist-put (plist-put (copy-sequence  consult-source-project-recent-file)
                           :name "Project File")
                :narrow '(?x . "Perspective")))
-  (add-to-list 'consult-buffer-sources 'consult--source-perspective-files t)
+  (add-to-list 'consult-buffer-sources 'consult-source-perspective-files t)
 
-  ;; Versions of consult--source-project-buffer and consult--source-project-file for use by consult-project-buffer
+  ;; Versions of consult-source-project-buffer and consult-source-project-file for use by consult-project-buffer
   ;; They allow narrowing with b, f and a (instead of p)
   ;; f is the recentf version provided by consult
   ;; a is an "all files" version based on fd (respecting .gitignore, hidden by default)
   (defvar consult--project-source-project-buffer
-    (plist-put (plist-put (copy-sequence consult--source-project-buffer)
+    (plist-put (plist-put (copy-sequence consult-source-project-buffer)
                           :hidden nil)
                :narrow '(?b . "Buffer")))
   (defvar consult--project-source-project-file-recentf
-    (plist-put (plist-put (copy-sequence consult--source-project-recent-file)
+    (plist-put (plist-put (copy-sequence consult-source-project-recent-file)
                           :hidden nil)
                :narrow '(?f . "File (Recentf)")))
   (defvar consult--project-source-project-file-all
-    (plist-put (plist-put (copy-sequence consult--source-project-recent-file)
+    (plist-put (plist-put (copy-sequence consult-source-project-recent-file)
                           :narrow '(?a . "File (All)"))
                :items '(lambda ()
                          (when (eq 0 (call-process-shell-command "fd"))
