@@ -50,6 +50,7 @@ in
     };
     defaultKeymap = "emacs";
     history = {
+      append = true;
       expireDuplicatesFirst = true;
       ignoreSpace = true;
       save = 100000;
