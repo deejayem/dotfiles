@@ -1,5 +1,8 @@
 { ... }:
 {
+
+  imports = [ ../services/systemd-networkd.nix ];
+
   zramSwap.enable = true;
 
   networking.firewall = {
