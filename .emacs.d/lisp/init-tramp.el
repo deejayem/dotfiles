@@ -3,7 +3,7 @@
 ;;; Code:
 
 (use-feature tramp
-  :defer 5
+  :defer 8
   :config
   (add-to-list 'tramp-remote-path "/run/current-system/sw/bin")
   :custom
@@ -16,6 +16,11 @@
   (tramp-auto-save-directory (expand-file-name "tramp-auto-save" user-emacs-directory))
   (tramp-persistency-file-name (expand-file-name "tramp-connection-history" user-emacs-directory))
   (password-cache-expiry nil))
+
+(use-package tramp-hlo
+  :defer 11
+  :config
+  (tramp-hlo-setup))
 
 (provide 'init-tramp)
 ;;; init-tramp.el ends here
