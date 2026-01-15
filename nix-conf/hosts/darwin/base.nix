@@ -1,13 +1,19 @@
 { pkgs, username, ... }:
+let
+  homeDir = "/Users/${username}";
+in
 {
-  nix.settings.trusted-users = [
-    username
-    "@staff"
-  ];
+  nix.settings = {
+    netrc-file = homeDir + /.config/nix/netrc;
+    trusted-users = [
+      username
+      "@staff"
+    ];
+  };
 
   system.primaryUser = username;
   nixpkgs.hostPlatform = "aarch64-darwin";
-  users.users.${username}.home = "/Users/${username}";
+  users.users.${username}.home = homeDir;
   programs.zsh.enable = true;
 
   security.pam.services.sudo_local = {
