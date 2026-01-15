@@ -612,5 +612,9 @@ The leading # added by other consult commands is removed."
   ;; TODO use consult-todo-project when it works
   :bind ("C-c c t t" . consult-todo))
 
+(use-package consult-jq
+  :ensure (consult-jq :host github :repo "bigbuger/consult-jq")
+  :bind ("C-c M-q . consult-jq"))
+
 (provide 'init-minibuffer)
 ;;; init-minibuffer.el ends here
