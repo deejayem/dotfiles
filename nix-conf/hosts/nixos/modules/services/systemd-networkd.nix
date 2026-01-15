@@ -5,13 +5,7 @@
   ...
 }:
 let
-  # TODO: which is better? Checking if the secret exists make more sense semantically
-  # but checking the path might be more robust: E.g. I think config.sops won't exist
-  # if the secrets/sops directory doesn't exist for a host, but if (config ? sops) is
-  # false, that could fail silently and unexpectedly, e.g. could that happen if
-  # there's a module loading order issue?
-  #hasStaticV6 = (config ? sops) && (config.sops.secrets ? "network/v6");
-  hasStaticV6 = builtins.pathExists ../../${hostname}/secrets/sops/network/v6.yml;
+  hasStaticV6 = config.sops.secrets ? "network/v6";
 in
 {
   networking.useDHCP = false;
