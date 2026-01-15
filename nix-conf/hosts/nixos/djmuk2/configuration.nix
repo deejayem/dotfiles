@@ -13,12 +13,11 @@
     content = ''
       InitiatorName=${config.sops.placeholder."iscsi/iqn"}
     '';
-    mode = "0600";
+    mode = "0400";
   };
 
   environment.etc."iscsi/initiatorname.iscsi" = lib.mkForce {
     source = config.sops.templates."iscsi-initiatorname".path;
-    mode = "0600";
   };
 
   system.stateVersion = "22.05";
