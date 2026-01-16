@@ -2,7 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
-(use-feature tramp
+(use-package tramp
+  ;; TODO remove after next release
+  :ensure (:ref "4ae9b86ab682b699994bff58b7560ed1c9c47ece" :pin t)
   :defer 8
   :config
   (add-to-list 'tramp-remote-path "/run/current-system/sw/bin")
