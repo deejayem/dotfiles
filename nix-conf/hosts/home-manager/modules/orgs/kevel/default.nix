@@ -65,6 +65,25 @@ in
     '';
   };
 
+  sops.templates."nix-netrc" = {
+    content = ''
+      machine npm.pkg.github.com
+          login x-access-token
+          password ${config.sops.placeholder."github/packages-token"}
+
+      machine api.github.com
+          login x-access-token
+          password ${config.sops.placeholder."github/api-token"}
+
+      machine github.com
+          login x-access-token
+          password ${config.sops.placeholder."github/api-token"}
+    '';
+    mode = "0400";
+  };
+
+  xdg.configFile."nix/netrc".source = config.sops.templates."nix-netrc".path;
+
   programs.granted = {
     enable = true;
     enableZshIntegration = true;
