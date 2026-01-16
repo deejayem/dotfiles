@@ -4,7 +4,7 @@ let
 in
 {
   nix.settings = {
-    netrc-file = homeDir + /.config/nix/netrc;
+    netrc-file = homeDir + "/.config/nix/netrc";
     trusted-users = [
       username
       "@staff"
