@@ -5,8 +5,6 @@
   ...
 }:
 let
-  secretsDir = ../../home-secrets/secrets;
-
   envSecrets = {
     ADZERK_GITHUB_PACKAGES_AUTH_TOKEN = "adzerk-packages";
     OPENAI_API_TOKEN = "openai-api";
