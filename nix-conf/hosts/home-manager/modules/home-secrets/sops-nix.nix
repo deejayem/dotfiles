@@ -6,7 +6,7 @@
   ...
 }:
 let
-  sopsDir = ./secrets-sops;
+  sopsDir = ./secrets/sops;
   sopsDirExists = builtins.pathExists sopsDir;
 
   sopsFiles =
