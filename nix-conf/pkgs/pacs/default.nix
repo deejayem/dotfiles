@@ -4,7 +4,7 @@
   fetchurl,
   fetchPnpmDeps,
   runCommand,
-  nodejs_22,
+  nodejs_24,
   pnpm_9,
   pnpmConfigHook,
   makeWrapper,
@@ -13,12 +13,12 @@
 
 let
   pname = "pacs-client";
-  version = "0.0.12";
+  version = "1.0.2";
 
   tgz = fetchurl {
     name = "${pname}-${version}.tgz";
-    url = "https://npm.pkg.github.com/download/@adzerk/pacs-client/${version}/6281fea7fdbf81bb8e6737cbf3e217888b94bab1";
-    hash = "sha256-Howkc055M7CTAT8wH6L3JDUHbFHkzSosAIGtN1OQtgM=";
+    url = "https://npm.pkg.github.com/download/@adzerk/pacs-client/${version}/ed132c2ef5f061c27d3f5dbaea3229cefde4a892";
+    hash = "sha256-twlJEUFSD2KgZNZPoDhXDBOSOvbAxUTCtpqYMqJfzNI=";
     curlOptsList = [
       "-H"
       "Authorization: Bearer ${npmToken}"
@@ -43,7 +43,7 @@ stdenv.mkDerivation {
   inherit pname version src;
 
   nativeBuildInputs = [
-    nodejs_22
+    nodejs_24
     pnpm_9
     pnpmConfigHook
     makeWrapper
@@ -67,8 +67,10 @@ stdenv.mkDerivation {
     mkdir -p "$out/lib/${pname}" "$out/bin"
     cp -R dist package.json node_modules "$out/lib/${pname}/"
 
-    makeWrapper ${lib.getExe nodejs_22} "$out/bin/pacs" \
-      --add-flags "$out/lib/${pname}/dist/index.js"
+    makeWrapper ${lib.getExe nodejs_24} "$out/bin/pacs-aws" \
+      --add-flags "$out/lib/${pname}/dist/aws/aws.js"
+    makeWrapper ${lib.getExe nodejs_24} "$out/bin/pacs-gcp" \
+      --add-flags "$out/lib/${pname}/dist/gcp/gcp.js"
 
     runHook postInstall
   '';
