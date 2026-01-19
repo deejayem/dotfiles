@@ -78,9 +78,8 @@ in
           password ${config.sops.placeholder."github/api-token"}
     '';
     mode = "0400";
+    path = "${config.xdg.configHome}/nix/netrc";
   };
-
-  xdg.configFile."nix/netrc".source = config.sops.templates."nix-netrc".path;
 
   programs.granted = {
     enable = true;
