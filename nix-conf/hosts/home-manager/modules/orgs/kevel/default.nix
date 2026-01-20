@@ -44,6 +44,7 @@ in
     gcpIapProxy
     git-remote-codecommit
     google-cloud-sdk
+    lmdb-cli
     msgpack-tools
     nodejs
     nodePackages.aws-cdk
