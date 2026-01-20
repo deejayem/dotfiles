@@ -13,16 +13,15 @@ let
   pname = "pacs-client";
   version = "1.0.2";
 
-  # Use builtins.fetchurl as it supports netrc (nix.settings.netrc-file)
-  tgz = builtins.fetchurl {
-    name = "${pname}-${version}.tgz";
+  # Use builtins.fetchTree as it supports netrc (nix.settings.netrc-file)
+  baseSrc = builtins.fetchTree {
+    type = "tarball";
     url = "https://npm.pkg.github.com/download/@adzerk/pacs-client/${version}/ed132c2ef5f061c27d3f5dbaea3229cefde4a892";
-    sha256 = "1lncbyi3564snv149if0yqx944qcawwa0kyncjh643sj848lj2dp";
+    narHash = "sha256-wm/9zH5J4u2BfTzJ5OupdLhV0CdLqr9bPLiNNnzmWnA=";
   };
 
   src = runCommand "${pname}-${version}-src" { } ''
-    mkdir -p $out
-    tar -xzf ${tgz} -C $out --strip-components=1
+    cp -R --no-preserve=mode,ownership ${baseSrc} $out
     cp ${./pnpm-lock.yaml} $out/pnpm-lock.yaml
   '';
 
