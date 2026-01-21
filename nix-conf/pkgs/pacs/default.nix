@@ -12,11 +12,12 @@
 let
   pname = "pacs-client";
   version = "1.0.2";
+  downloadId = "ed132c2ef5f061c27d3f5dbaea3229cefde4a892";
 
   # Use builtins.fetchTree as it supports netrc (nix.settings.netrc-file)
   baseSrc = builtins.fetchTree {
     type = "tarball";
-    url = "https://npm.pkg.github.com/download/@adzerk/pacs-client/${version}/ed132c2ef5f061c27d3f5dbaea3229cefde4a892";
+    url = "https://npm.pkg.github.com/download/@adzerk/pacs-client/${version}/${downloadId}";
     narHash = "sha256-wm/9zH5J4u2BfTzJ5OupdLhV0CdLqr9bPLiNNnzmWnA=";
   };
 
@@ -29,7 +30,7 @@ let
     inherit pname version src;
     pnpm = pnpm_9;
     fetcherVersion = 2;
-    hash = "sha256-vh4MiZvtIyGJOWKuycDH044pdQiYfOGEhrApiSFrLyc=";
+    hash = "sha256-dplFyycPCO2aJg29Ic74fiHbvo61W/dtZNcdX15pLwk=";
   };
 in
 
