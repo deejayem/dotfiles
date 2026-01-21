@@ -9,30 +9,23 @@ let
   userSecrets = [ userKey ];
 
   findAgeFiles =
-    dir: prefix:
+    dir: prefix: recursive:
     let
       entries = builtins.readDir dir;
+      isAgeFile = name: builtins.match ".*\\.age$" name != null;
       processEntry =
         name: kind:
         let
           relPath = if prefix == "" then name else "${prefix}/${name}";
         in
         if kind == "directory" then
-          findAgeFiles (dir + "/${name}") relPath
-        else if builtins.match ".*\\.age$" name != null then
+          if recursive then findAgeFiles (dir + "/${name}") relPath true else [ ]
+        else if isAgeFile name then
           [ relPath ]
         else
           [ ];
     in
     builtins.concatLists (builtins.attrValues (builtins.mapAttrs processEntry entries));
-
-  findAgeFilesTopLevel =
-    dir:
-    let
-      entries = builtins.readDir dir;
-      names = builtins.attrNames entries;
-    in
-    builtins.filter (n: builtins.match ".*\\.age$" n != null) names;
 
   mkSecrets =
     {
@@ -41,29 +34,30 @@ let
       publicKeys,
       recursive ? true,
     }:
-    let
-      files =
-        if builtins.pathExists secretsDir then
-          (if recursive then findAgeFiles secretsDir "" else findAgeFilesTopLevel secretsDir)
-        else
-          [ ];
+    if publicKeys == [ ] then
+      throw "mkSecrets: publicKeys cannot be empty for ${secretsPath}"
+    else
+      let
+        files = if builtins.pathExists secretsDir then findAgeFiles secretsDir "" recursive else [ ];
 
-      mkSecret = filename: {
-        name = "${secretsPath}/${filename}";
-        value.publicKeys = publicKeys;
-      };
-    in
-    builtins.listToAttrs (map mkSecret files);
+        mkSecret = filename: {
+          name = "${secretsPath}/${filename}";
+          value.publicKeys = publicKeys;
+        };
+      in
+      builtins.listToAttrs (map mkSecret files);
 
   hostSecretsAttrs = builtins.foldl' (
     acc: hostname:
     let
       hostConfig = hosts.${hostname};
+      hostKey =
+        if hostConfig ? hostKey then hostConfig.hostKey else throw "hosts.${hostname}.hostKey is missing";
       hostKeys = [
-        hostConfig.hostKey
+        hostKey
         userKey
       ];
-      dir = ./hosts/nixos/${hostname};
+      dir = ./. + "/hosts/nixos/${hostname}";
     in
     acc
     // (mkSecrets {
