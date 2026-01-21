@@ -7,36 +7,24 @@
   ...
 }:
 let
-  ageDir = ../../${hostname}/secrets/age;
-  ageDirExists = builtins.pathExists ageDir;
+  secretsLib = import ../../../lib/secrets-indexer.nix { inherit lib; };
 
-  ageFiles =
-    if ageDirExists then
-      lib.fileset.toList (lib.fileset.fileFilter (f: f.hasExt "age") ageDir)
-    else
-      [ ];
+  secrets = secretsLib.discoverHostSecrets {
+    secretType = "age";
+    hostDir = ../../${hostname}/secrets;
+  };
 
-  mkAgeSecret =
-    path:
-    let
-      relativePath = lib.removePrefix (toString ageDir + "/") (toString path);
-      secretName = lib.removeSuffix ".age" relativePath;
-    in
-    lib.nameValuePair secretName { file = path; };
+  agenixPkg = inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+    ageBin = lib.getExe pkgs.rage;
+  };
 in
 {
   imports = [ inputs.agenix.nixosModules.default ];
-
-  config = lib.mkIf ageDirExists {
+  config = lib.mkIf secrets.hasSecrets {
     age = {
       identityPaths = [ "${config.users.users.djm.home}/.ssh/agenix" ];
-      secrets = builtins.listToAttrs (map mkAgeSecret ageFiles);
+      secrets = secrets.attrs;
     };
-
-    environment.systemPackages = [
-      (inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
-        ageBin = "${lib.getExe pkgs.rage}";
-      })
-    ];
+    environment.systemPackages = [ agenixPkg ];
   };
 }

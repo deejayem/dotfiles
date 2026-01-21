@@ -6,35 +6,21 @@
   ...
 }:
 let
-  sopsDir = ./secrets/sops;
-  sopsDirExists = builtins.pathExists sopsDir;
+  secretsLib = import ../../../lib/secrets-indexer.nix { inherit lib; };
 
-  sopsFiles =
-    if sopsDirExists then
-      lib.fileset.toList (lib.fileset.fileFilter (f: f.hasExt "yml") sopsDir)
-    else
-      [ ];
-
-  mkSopsSecret =
-    path:
-    let
-      relativePath = lib.removePrefix (toString sopsDir + "/") (toString path);
-      secretName = lib.removeSuffix ".yml" relativePath;
-    in
-    lib.nameValuePair secretName {
-      sopsFile = path;
-      key = "value";
-    };
+  secrets = secretsLib.discoverHomeSecrets {
+    secretType = "sops";
+    baseDir = ./secrets;
+    orgsDir = ../orgs;
+  };
 in
 {
   imports = [ inputs.sops-nix.homeManagerModules.sops ];
-
-  config = lib.mkIf sopsDirExists {
+  config = lib.mkIf secrets.hasSecrets {
     sops = {
       age.sshKeyPaths = [ "${config.home.homeDirectory}/.ssh/agenix" ];
-      secrets = builtins.listToAttrs (map mkSopsSecret sopsFiles);
+      secrets = secrets.attrs;
     };
-
     home.packages = [ pkgs.sops ];
   };
 }

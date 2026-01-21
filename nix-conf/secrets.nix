@@ -8,6 +8,53 @@ let
   userKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINAMhfR/+EKeBA3Avr3I19d7ZzkGbdJboXrDXEEL1Www djm@edrahil";
   userSecrets = [ userKey ];
 
+  findAgeFiles =
+    dir: prefix:
+    let
+      entries = builtins.readDir dir;
+      processEntry =
+        name: kind:
+        let
+          relPath = if prefix == "" then name else "${prefix}/${name}";
+        in
+        if kind == "directory" then
+          findAgeFiles (dir + "/${name}") relPath
+        else if builtins.match ".*\\.age$" name != null then
+          [ relPath ]
+        else
+          [ ];
+    in
+    builtins.concatLists (builtins.attrValues (builtins.mapAttrs processEntry entries));
+
+  findAgeFilesTopLevel =
+    dir:
+    let
+      entries = builtins.readDir dir;
+      names = builtins.attrNames entries;
+    in
+    builtins.filter (n: builtins.match ".*\\.age$" n != null) names;
+
+  mkSecrets =
+    {
+      secretsPath,
+      secretsDir,
+      publicKeys,
+      recursive ? true,
+    }:
+    let
+      files =
+        if builtins.pathExists secretsDir then
+          (if recursive then findAgeFiles secretsDir "" else findAgeFilesTopLevel secretsDir)
+        else
+          [ ];
+
+      mkSecret = filename: {
+        name = "${secretsPath}/${filename}";
+        value.publicKeys = publicKeys;
+      };
+    in
+    builtins.listToAttrs (map mkSecret files);
+
   hostSecretsAttrs = builtins.foldl' (
     acc: hostname:
     let
@@ -16,56 +63,45 @@ let
         hostConfig.hostKey
         userKey
       ];
-      hostSecretsDir = ./hosts/nixos/${hostname};
-
-      hostSecrets =
-        if builtins.pathExists hostSecretsDir then
-          let
-            entries = builtins.readDir hostSecretsDir;
-            ageFiles = builtins.filter (name: builtins.match ".*\\.age$" name != null) (
-              builtins.attrNames entries
-            );
-          in
-          builtins.listToAttrs (
-            map (filename: {
-              name = "hosts/nixos/${hostname}/${filename}";
-              value.publicKeys = hostKeys;
-            }) ageFiles
-          )
-        else
-          { };
+      dir = ./hosts/nixos/${hostname};
     in
-    acc // hostSecrets
+    acc
+    // (mkSecrets {
+      secretsPath = "hosts/nixos/${hostname}";
+      secretsDir = dir;
+      publicKeys = hostKeys;
+      recursive = false;
+    })
   ) { } (builtins.attrNames hosts);
 
   homeSecretsPath = "hosts/home-manager/modules/home-secrets/secrets/age";
-  homeSecretsDir = ./. + "/${homeSecretsPath}";
-
-  findAgeFiles =
-    dir: prefix:
-    let
-      entries = builtins.readDir dir;
-      processEntry =
-        name: kind:
-        let
-          path = if prefix == "" then name else "${prefix}/${name}";
-        in
-        if kind == "directory" then
-          findAgeFiles (dir + "/${name}") path
-        else if builtins.match ".*\\.age$" name != null then
-          [ path ]
-        else
-          [ ];
-    in
-    builtins.concatLists (builtins.attrValues (builtins.mapAttrs processEntry entries));
-
-  homeSecretFiles = findAgeFiles homeSecretsDir "";
-
-  mkSecret = filename: {
-    name = "${homeSecretsPath}/${filename}";
-    value.publicKeys = userSecrets;
+  homeSecretsAttrs = mkSecrets {
+    secretsPath = homeSecretsPath;
+    secretsDir = ./. + "/${homeSecretsPath}";
+    publicKeys = userSecrets;
+    recursive = true;
   };
 
-  homeSecretsAttrs = builtins.listToAttrs (map mkSecret homeSecretFiles);
+  orgsRootPath = "hosts/home-manager/modules/orgs";
+  orgsRootDir = ./. + "/${orgsRootPath}";
+  orgNames =
+    if builtins.pathExists orgsRootDir then
+      let
+        entries = builtins.readDir orgsRootDir;
+      in
+      builtins.filter (n: entries.${n} == "directory") (builtins.attrNames entries)
+    else
+      [ ];
+
+  orgSecretsAttrs = builtins.foldl' (
+    acc: org:
+    acc
+    // (mkSecrets {
+      secretsPath = "${orgsRootPath}/${org}/secrets/age";
+      secretsDir = orgsRootDir + "/${org}/secrets/age";
+      publicKeys = userSecrets;
+      recursive = true;
+    })
+  ) { } orgNames;
 in
-homeSecretsAttrs // hostSecretsAttrs
+homeSecretsAttrs // orgSecretsAttrs // hostSecretsAttrs

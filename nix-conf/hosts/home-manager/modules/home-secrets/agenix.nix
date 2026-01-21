@@ -6,64 +6,44 @@
   ...
 }:
 let
-  ageDir = ./secrets/age;
-  ageDirExists = builtins.pathExists ageDir;
+  secretsLib = import ../../../lib/secrets-indexer.nix { inherit lib; };
 
   sshKey = "${config.home.homeDirectory}/.ssh/agenix";
   rage = lib.getExe pkgs.rage;
-  agenixPkg = (
-    inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
-      ageBin = rage;
-    }
-  );
+  agenixPkg = inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
+    ageBin = rage;
+  };
   agenixCli = lib.getExe' agenixPkg "agenix";
 
-  ageFiles =
-    if ageDirExists then
-      lib.fileset.toList (lib.fileset.fileFilter (f: f.hasExt "age") ageDir)
-    else
-      [ ];
-
-  mkSecretEntry =
-    path:
-    let
-      relativePath = lib.removePrefix (toString ageDir + "/") (toString path);
-      secretName = lib.removeSuffix ".age" relativePath;
-    in
-    lib.nameValuePair secretName { file = path; };
+  secrets = secretsLib.discoverHomeSecrets {
+    secretType = "age";
+    baseDir = ./secrets;
+    orgsDir = ../orgs;
+  };
 
   agenixEdit = pkgs.writeShellScriptBin "agenix-edit" ''
-    set -e
-
+    set -euo pipefail
     if [ "$#" -ne 1 ]; then
       echo "usage: agenix-edit <path/to/secret.age>" >&2
       exit 2
     fi
-
     secret="$1"
-
     if [ ! -f "$secret" ]; then
-      echo "Secret does not exist"
+      echo "Secret does not exist; creating empty encrypted file."
       mkdir -p "$(dirname "$secret")"
-      printf "" | ${rage} -e -i ${sshKey} -o "$secret"
-    else
-      echo "Secret does exix"
+      ${rage} -e -i ${sshKey} -o "$secret" /dev/null
     fi
-
     ${agenixCli} -i ${sshKey} -e "$secret"
   '';
 in
 {
   imports = [ inputs.agenix.homeManagerModules.default ];
-
-  config = lib.mkIf ageDirExists {
-
+  config = lib.mkIf secrets.hasSecrets {
     age = {
       secretsDir = "${config.xdg.stateHome}/agenix";
       identityPaths = [ sshKey ];
-      secrets = builtins.listToAttrs (map mkSecretEntry ageFiles);
+      secrets = secrets.attrs;
     };
-
     home.packages = [
       agenixEdit
       agenixPkg
