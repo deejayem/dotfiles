@@ -402,8 +402,8 @@ in
        }
 
         # Use pushd with zoxide
-        setopt PUSHDSILENT
         function __zoxide_cd () {
+          setopt localoptions PUSHDSILENT
           \builtin pushd -- "$@"
         }
 
