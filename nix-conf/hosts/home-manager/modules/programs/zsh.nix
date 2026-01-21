@@ -117,6 +117,10 @@ in
       gloga = "git log --oneline --decorate --graph --all";
     };
 
+    setOptions = [
+      "INC_APPEND_HISTORY"
+    ];
+
     localVariables = {
       PER_DIRECTORY_HISTORY_TOGGLE = "^\\\\"; # ^\\ is ^#
       HISTORY_START_WITH_GLOBAL = true;
