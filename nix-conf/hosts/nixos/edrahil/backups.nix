@@ -34,10 +34,7 @@ let
     };
 in
 {
-  age.secrets."restic/password" = {
-    file = ./restic.age;
-    owner = config.users.users.djm.name;
-  };
+  age.secrets."restic/password".owner = config.users.users.djm.name;
 
   services.restic.backups = {
     hb = mkBackup "hb" "02:25";
