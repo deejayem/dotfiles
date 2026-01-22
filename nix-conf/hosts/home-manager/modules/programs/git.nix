@@ -59,6 +59,7 @@ in
         checkout-pr = "!f() { git fetch \${2:-upstream} pull/$1/head:pr-$1 && git switch pr-$1; }; f";
         check-stash = "!f() { git stash show -p stash@{\${1:-0}} | git apply --check --verbose; }; f";
         reset-branch = "!git fetch && git reset --hard origin/$(git branch --show-current)";
+        checkout-file = "!f() { sha=$1; shift; git restore -s $sha -- \"$@\"; }; f";
       };
       core.editor = "vim";
       diff = {
