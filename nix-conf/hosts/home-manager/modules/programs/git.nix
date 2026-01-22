@@ -55,6 +55,10 @@ in
         upstream = "!git push -u origin HEAD";
         update-master = "!git fetch origin master:master";
         update-main = "!git fetch origin main:main";
+
+        checkout-pr = "!f() { git fetch \${2:-upstream} pull/$1/head:pr-$1 && git switch pr-$1; }; f";
+        check-stash = "!f() { git stash show -p stash@{\${1:-0}} | git apply --check --verbose; }; f";
+        reset-branch = "!git fetch && git reset --hard origin/$(git branch --show-current)";
       };
       core.editor = "vim";
       diff = {

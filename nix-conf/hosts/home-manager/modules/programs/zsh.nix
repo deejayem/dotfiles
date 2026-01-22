@@ -98,8 +98,6 @@ in
       erg = "ea run grouped rg --";
       fd = "ea run linear fd --";
 
-      git-reset-branch = "git fetch && git reset --hard origin/$(git branch --show-current)";
-
       # Git log aliases from the omz git plugin
       gl = "git pull";
       glg = "git log --stat";
@@ -341,15 +339,6 @@ in
 
           df -h
           date
-        }
-
-        function checkout-pr () {
-          git fetch ''${2:-upstream} pull/''${1}/head:pr-''${1}
-          git switch pr-''${1}
-        }
-
-        function git-check-stash () {
-          git stash show -p stash@{''${1:-0}} | git apply --check --verbose
         }
 
         awsget () { ${lib.getExe pkgs.awscli2} s3 cp "''${1}" "''${2:-.}" }
