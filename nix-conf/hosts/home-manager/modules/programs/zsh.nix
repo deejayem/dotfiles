@@ -348,6 +348,10 @@ in
           git switch pr-''${1}
         }
 
+        function git-check-stash () {
+          git stash show -p stash@{''${1:-0}} | git apply --check --verbose
+        }
+
         awsget () { ${lib.getExe pkgs.awscli2} s3 cp "''${1}" "''${2:-.}" }
 
         aws_logged_in () {
