@@ -1,6 +1,18 @@
 { lib }:
 let
 
+  importPrivate =
+    file:
+    let
+      result = builtins.tryEval (import file);
+    in
+    if result.success then
+      result.value
+    else
+      throw "Failed to import ${toString file}. Perhaps it has not been decrypted.";
+
+  importPrivateIfExists = file: lib.optionalAttrs (builtins.pathExists file) (importPrivate file);
+
   backends = {
     age = {
       subdir = "age";
@@ -71,12 +83,10 @@ let
       subpath = "secrets/${backend.subdir}";
 
       orgDirs = lib.optionals (builtins.pathExists orgsDir) (
-        lib.mapAttrsToList
-          (org: _: {
-            dir = orgsDir + "/${org}/${subpath}";
-            namePrefix = "${org}/";
-          })
-          (lib.filterAttrs (_: t: t == "directory") (builtins.readDir orgsDir))
+        lib.mapAttrsToList (org: _: {
+          dir = orgsDir + "/${org}/${subpath}";
+          namePrefix = "${org}/";
+        }) (lib.filterAttrs (_: t: t == "directory") (builtins.readDir orgsDir))
       );
 
       dirs = [ { dir = secretsDir; } ] ++ orgDirs;
@@ -101,5 +111,5 @@ let
     };
 in
 {
-  inherit discoverHomeSecrets discoverHostSecrets;
+  inherit importPrivateIfExists discoverHomeSecrets discoverHostSecrets;
 }

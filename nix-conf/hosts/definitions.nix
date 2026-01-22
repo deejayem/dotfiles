@@ -50,7 +50,6 @@ in
       system = systems.x86_64-linux;
       version = versions.stable;
       role = roles.server;
-      nixPlugins = true;
       nixos = { };
       home.djm = { };
     };
@@ -67,7 +66,6 @@ in
       system = systems.aarch64-linux;
       version = versions.stable;
       role = roles.server;
-      nixPlugins = true;
       nixos = { };
       home.djm = { };
     };
@@ -76,7 +74,6 @@ in
       system = systems.aarch64-darwin;
       version = versions.unstable;
       role = roles.workstation;
-      nixPlugins = true;
       darwin = { };
       home.djm = { };
     };
