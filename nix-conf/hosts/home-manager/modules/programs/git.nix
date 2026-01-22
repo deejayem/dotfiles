@@ -28,7 +28,7 @@ in
 
   programs.git = {
     enable = true;
-    includes = [ { path = config.age.secrets."git/default".path; } ];
+    includes = [ { path = config.age.secrets."git/user".path; } ];
     attributes = [
       "*.el diff=elisp"
       "*.clj diff=clojure"

@@ -8,6 +8,7 @@ let
   envSecrets = {
     ADZERK_GITHUB_PACKAGES_AUTH_TOKEN = "adzerk-packages";
     OPENAI_API_TOKEN = "openai-api";
+    AWS_DEFAULT_SSO_START_URL = "sso-start-url";
   };
 
   gcpIapProxy = (pkgs.callPackage ../../scripts/gcp-iap-proxy.nix { inherit pkgs; });
@@ -24,7 +25,6 @@ in
 
   home.sessionVariables = {
     AWS_DEFAULT_SSO_REGION = "us-east-1";
-    AWS_DEFAULT_SSO_START_URL = "https://kevel.awsapps.com/start";
   };
 
   home.sessionPath = [
@@ -68,15 +68,15 @@ in
     content = ''
       machine npm.pkg.github.com
           login x-access-token
-          password ${config.sops.placeholder."github/packages-token"}
+          password ${config.sops.placeholder."kevel/github/packages-token"}
 
       machine api.github.com
           login x-access-token
-          password ${config.sops.placeholder."github/api-token"}
+          password ${config.sops.placeholder."kevel/github/api-token"}
 
       machine github.com
           login x-access-token
-          password ${config.sops.placeholder."github/api-token"}
+          password ${config.sops.placeholder."kevel/github/api-token"}
     '';
     mode = "0400";
     path = "${config.xdg.configHome}/nix/netrc";
@@ -94,13 +94,13 @@ in
   programs.git = {
     signing.signByDefault = lib.mkForce false;
     includes = lib.mkForce [
-      { path = config.age.secrets."git/kevel".path; }
+      { path = config.age.secrets."kevel/git/user".path; }
       {
-        path = config.age.secrets."git/default".path;
+        path = config.age.secrets."git/user".path;
         condition = "gitdir:~/src/ext/";
       }
       {
-        path = config.age.secrets."git/default".path;
+        path = config.age.secrets."git/user".path;
         condition = "gitdir:~/dotfiles/";
       }
       {
@@ -194,8 +194,8 @@ in
   programs.zsh = {
     envExtra = lib.concatStringsSep "\n" (
       lib.mapAttrsToList (envName: secretName: ''
-        if [ -e ${config.age.secrets."env/${secretName}".path} ]; then
-          export ${envName}=$(<${config.age.secrets."env/${secretName}".path})
+        if [ -e ${config.age.secrets."kevel/env/${secretName}".path} ]; then
+          export ${envName}=$(<${config.age.secrets."kevel/env/${secretName}".path})
         fi
       '') envSecrets
     );
