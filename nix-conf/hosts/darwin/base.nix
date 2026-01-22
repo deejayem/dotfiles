@@ -37,6 +37,7 @@ in
     ghostty-bin
     google-chrome # chromium is not available on darwin (in nixpkgs)
     iterm2
+    maccy
     orbstack
     pear-desktop
     pinentry_mac
