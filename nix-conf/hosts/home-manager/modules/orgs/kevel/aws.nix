@@ -1,88 +1,88 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   ssoRegion = "us-east-1";
-
-  encryptedConfig = "hosts/home-manager/modules/orgs/kevel/secrets/age/aws/config.age";
-
+  outputPath = "hosts/home-manager/modules/orgs/kevel/secrets/age/aws/config.age";
   accountsPath = config.age.secrets."kevel/aws/accounts".path;
   ssoStartUrlPath = config.age.secrets."kevel/env/sso-start-url".path;
+  bb = lib.getExe pkgs.babashka;
+  rage = lib.getExe pkgs.rage;
 
-  # Re-creates config.age from accounts.age (another switch is needed to update the actual aws config)
-  regenAwsSecret = pkgs.writeShellApplication {
-    name = "regenerate-aws-secret";
-    runtimeInputs = [
-      pkgs.coreutils
-      pkgs.jq
-      pkgs.rage
-    ];
-    text = ''
-      set -euo pipefail
-      umask 077
+  regenAwsSecret = pkgs.writeScriptBin "regenerate-aws-secret" ''
+    #!${bb}
+    (ns regenerate-aws-secret
+      (:require [babashka.fs :as fs]
+                [babashka.process :as p]
+                [clojure.edn :as edn]
+                [clojure.string :as str]))
 
-      encrypted_config="${encryptedConfig}"
+    (defn die! [msg]
+      (binding [*out* *err*]
+        (println msg))
+      (System/exit 1))
 
-      if [ ! -f ${accountsPath} ]; then
-        printf '%s\n' "Missing decrypted accounts JSON: ${accountsPath}" >&2
-        exit 1
-      fi
+    (defn check-file! [path desc]
+      (when-not (fs/exists? path)
+        (die! (str "Missing " desc ": " path))))
 
-      if [ ! -f ${ssoStartUrlPath} ]; then
-        printf '%s\n' "Missing decrypted sso-start-url: ${ssoStartUrlPath}" >&2
-        exit 1
-      fi
+    (defn ->sso-profile [account-name {:keys [account-id]} role sso-start-url]
+      (str/join "\n"
+        [(str "[profile " account-name "." role "]")
+         (str "credential_process=aws-sso-util credential-process --profile " account-name "." role)
+         "region=${ssoRegion}"
+         (str "sso_account_id=" account-id)
+         (str "sso_account_name=" account-name)
+         "sso_auto_populated=true"
+         "sso_region=${ssoRegion}"
+         (str "sso_role_name=" role)
+         (str "sso_start_url=" sso-start-url)]))
 
-      SSO_START_URL="$(<${ssoStartUrlPath})"
+    (defn ->escalation-profile [account-name]
+      (str/join "\n"
+        [(str "[profile " account-name ".DevOps]")
+         (str "credential_process=pacs-aws -x -p " account-name ".ReadOnlyDevOps")]))
 
-      tmp="$(mktemp)"
-      trap 'rm -f "$tmp"' EXIT
+    (defn ->account-profiles [sso-start-url [account-key {:keys [read-only enable-escalation] :as account}]]
+      (let [account-name (name account-key)
+            role (if read-only "ReadOnlyDevOps" "DevOps")]
+        (cond-> [(->sso-profile account-name account role sso-start-url)]
+          (and read-only enable-escalation) (conj (->escalation-profile account-name)))))
 
-      printf '%s\n' \
-        "[sso-session kevel-sso]" \
-        "sso_start_url=$SSO_START_URL" \
-        "sso_region=${ssoRegion}" \
-        "sso_registration_scopes=sso:account:access" \
-        "" \
-        > "$tmp"
+    (defn ->header [sso-start-url]
+      (str/join "\n"
+        ["[sso-session kevel-sso]"
+         (str "sso_start_url=" sso-start-url)
+         "sso_region=${ssoRegion}"
+         "sso_registration_scopes=sso:account:access"]))
 
-      jq -r \
-        --arg ssoStartUrl "$SSO_START_URL" \
-        --arg ssoRegion "${ssoRegion}" '
-        to_entries
-        | sort_by(.key)
-        | .[]
-        | .key as $name
-        | .value as $a
-        | ($a.readOnly // false) as $readOnly
-        | ($a.enableEscalation // false) as $enableEscalation
-        | (if $readOnly then "ReadOnlyDevOps" else "DevOps" end) as $role
-        | ($name + "." + $role) as $profile
-        | [
-            "[profile \($profile)]\n"
-            + "credential_process=aws-sso-util credential-process --profile \($profile)\n"
-            + "region=\($ssoRegion)\n"
-            + "sso_account_id=\($a.accountId)\n"
-            + "sso_account_name=\($name)\n"
-            + "sso_auto_populated=true\n"
-            + "sso_region=\($ssoRegion)\n"
-            + "sso_role_name=\($role)\n"
-            + "sso_start_url=\($ssoStartUrl)",
+    (defn generate-config []
+      (check-file! "${accountsPath}" "decrypted accounts EDN")
+      (check-file! "${ssoStartUrlPath}" "decrypted sso-start-url")
+      (let [sso-start-url (str/trim (slurp "${ssoStartUrlPath}"))
+            header (->header sso-start-url)
+            profiles (->> (edn/read-string (slurp "${accountsPath}"))
+                          (sort-by key)
+                          (mapcat #(->account-profiles sso-start-url %))
+                          (str/join "\n\n"))]
+        (str header "\n\n" profiles "\n")))
 
-            (if ($readOnly and $enableEscalation) then
-              "[profile \($name).DevOps]\n"
-              + "credential_process=pacs-aws -x -p \($name).ReadOnlyDevOps"
-            else empty end)
-        ]
-        | map(select(. != ""))
-        | join("\n\n")
-        | . + "\n"
-        ' < ${accountsPath} >> "$tmp"
+    (defn encrypt-to-file! [content path]
+      (fs/create-dirs (fs/parent path))
+      (let [{:keys [exit err]} (p/shell {:in content :err :string :continue true}
+                                        "${rage}" "-e" "-i"
+                                        (str (fs/expand-home "~/.ssh/agenix"))
+                                        "-o" path)]
+        (if (zero? exit)
+          (binding [*out* *err*]
+            (println (str "Wrote " path)))
+          (die! (str "rage encryption failed: " err)))))
 
-      mkdir -p "$(dirname "$encrypted_config")"
-      rage -e -i ~/.ssh/agenix < "$tmp" >| "$encrypted_config"
-
-      printf '%s\n' "Wrote $encrypted_config" >&2
-    '';
-  };
+    (encrypt-to-file! (generate-config) "${outputPath}")
+  '';
 in
 {
   age.secrets."kevel/aws/config".path = "${config.home.homeDirectory}/.aws/config";
