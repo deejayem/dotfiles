@@ -40,6 +40,7 @@ in
   home.packages = with pkgs; [
     aws-sso-util
     cdktf-cli
+    cli-tools
     copilot-language-server
     coffeescript
     instance-info
