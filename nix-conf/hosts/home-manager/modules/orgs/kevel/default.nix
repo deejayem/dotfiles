@@ -11,7 +11,8 @@ let
     AWS_DEFAULT_SSO_START_URL = "sso-start-url";
   };
 
-  gcpIapProxy = (pkgs.callPackage ../../scripts/gcp-iap-proxy.nix { inherit pkgs; });
+  gcp-iap-proxy = (pkgs.callPackage ../../scripts/gcp-iap-proxy.nix { inherit pkgs; });
+  instance-info = (pkgs.callPackage ../../scripts/instance-info.nix { inherit pkgs; });
 in
 {
   imports = [
@@ -41,7 +42,8 @@ in
     cdktf-cli
     copilot-language-server
     coffeescript
-    gcpIapProxy
+    instance-info
+    gcp-iap-proxy
     git-remote-codecommit
     google-cloud-sdk
     lmdb-cli
@@ -151,7 +153,7 @@ in
       # gcp
       "gcp1-*" = {
         forwardAgent = true;
-        proxyCommand = "${lib.getExe gcpIapProxy} %n %p";
+        proxyCommand = "${lib.getExe gcp-iap-proxy} %n %p";
         serverAliveInterval = 5;
         sendEnv = [
           "ADZERK_*"
@@ -159,7 +161,7 @@ in
       };
       "pg1-*" = {
         forwardAgent = true;
-        proxyCommand = "${lib.getExe gcpIapProxy} %n %p";
+        proxyCommand = "${lib.getExe gcp-iap-proxy} %n %p";
         serverAliveInterval = 5;
         sendEnv = [
           "ADZERK_*"
@@ -167,7 +169,7 @@ in
       };
       "scylladb-*" = {
         forwardAgent = true;
-        proxyCommand = "${lib.getExe gcpIapProxy} %n %p";
+        proxyCommand = "${lib.getExe gcp-iap-proxy} %n %p";
         serverAliveInterval = 5;
         sendEnv = [
           "ADZERK_*"
