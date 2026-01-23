@@ -1,6 +1,7 @@
 {
   lib,
   buildNpmPackage,
+  fetchFromPrivateGitHub,
   nodejs_20,
   lmdb,
   ...
@@ -9,10 +10,9 @@ buildNpmPackage {
   pname = "lmdb-cli";
   version = "1.0.0";
 
-  # Use fetchTree as it supports netrc (nix.settings.netrc-file)
-  src = builtins.fetchTree {
-    type = "git"; # type = "github" currently fails with a 404
-    url = "https://github.com/adzerk/lmdb-cli";
+  src = fetchFromPrivateGitHub {
+    owner = "adzerk";
+    repo = "lmdb-cli";
     rev = "dc331107dc374e047e21fb9262c51bf44f5b019d";
     narHash = "sha256-6oh+j7FmXM1PT9n0HgkpIeqnlTGpxmMHu2bfD633uz8=";
   };
