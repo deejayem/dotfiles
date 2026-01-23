@@ -44,6 +44,7 @@ in
     copilot-language-server
     coffeescript
     instance-info
+    firebase-tools
     gcp-iap-proxy
     git-remote-codecommit
     google-cloud-sdk

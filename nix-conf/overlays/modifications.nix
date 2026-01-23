@@ -9,4 +9,10 @@ final: prev: {
       [ "${prev.lib.getExe prev.nodejs_22}" ]
       oldAttrs.installPhase;
   });
+
+  firebase-tools = prev.firebase-tools.override {
+    buildNpmPackage = prev.buildNpmPackage.override {
+      nodejs = prev.nodejs_22;
+    };
+  };
 }
