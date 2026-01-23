@@ -2,7 +2,6 @@
   lib,
   stdenv,
   fetchFromGitHub,
-  glibc,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
@@ -22,10 +21,10 @@ stdenv.mkDerivation (finalAttrs: {
     "LDFLAGS=" # Disable static linking
   ];
 
-  meta = with lib; {
+  meta = {
     description = "Transform JSON data into tables";
     homepage = "https://github.com/micha/json-table";
-    license = licenses.epl10;
-    platforms = platforms.unix;
+    license = lib.licenses.epl10;
+    platforms = lib.platforms.unix;
   };
 })

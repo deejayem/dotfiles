@@ -1,26 +1,21 @@
 {
+  lib,
   buildNpmPackage,
   nodejs_20,
   lmdb,
   ...
 }:
-
-let
-  lmdbCliRev = "dc331107dc374e047e21fb9262c51bf44f5b019d";
-
-  # Use fetchTree as it supports netrc (nix.settings.netrc-file)
-  lmdbCliSrc = builtins.fetchTree {
-    type = "github";
-    owner = "adzerk";
-    repo = "lmdb-cli";
-    rev = lmdbCliRev;
-    narHash = "sha256-6oh+j7FmXM1PT9n0HgkpIeqnlTGpxmMHu2bfD633uz8=";
-  };
-in
 buildNpmPackage {
   pname = "lmdb-cli";
   version = "1.0.0";
-  src = lmdbCliSrc;
+
+  # Use fetchTree as it supports netrc (nix.settings.netrc-file)
+  src = builtins.fetchTree {
+    type = "git"; # type = "github" currently fails with a 404
+    url = "https://github.com/adzerk/lmdb-cli";
+    rev = "dc331107dc374e047e21fb9262c51bf44f5b019d";
+    narHash = "sha256-6oh+j7FmXM1PT9n0HgkpIeqnlTGpxmMHu2bfD633uz8=";
+  };
 
   nodejs = nodejs_20;
 
@@ -42,5 +37,6 @@ buildNpmPackage {
   meta = {
     description = "LMDB CLI tool";
     mainProgram = "lmdb-cli";
+    platforms = lib.platforms.unix;
   };
 }
