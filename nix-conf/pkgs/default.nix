@@ -1,28 +1,68 @@
 pkgs:
 let
-  # Functions copied from lib, to avoid infinite recursion (when using pkgs.lib)
-  filterAttrs =
-    pred: set:
-    builtins.removeAttrs set (builtins.filter (name: !pred name set.${name}) (builtins.attrNames set));
-  genAttrs' = xs: f: builtins.listToAttrs (map f xs);
-  nameValuePair = name: value: { inherit name value; };
-  genAttrs = names: f: genAttrs' names (n: nameValuePair n (f n));
+  inherit (builtins)
+    attrNames
+    concatStringsSep
+    elemAt
+    filter
+    genList
+    isString
+    length
+    listToAttrs
+    pathExists
+    readDir
+    replaceStrings
+    split
+    stringLength
+    substring
+    ;
 
-  skip = [ ];
+  # String utilities copied from lib.strings (using lib here causes infinite recursion)
+  stringToCharacters = s: genList (i: substring i 1 s) (stringLength s);
+  lowerChars = stringToCharacters "abcdefghijklmnopqrstuvwxyz";
+  upperChars = stringToCharacters "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  toUpper = replaceStrings lowerChars upperChars;
+  capitalize = s: (toUpper (substring 0 1 s)) + (substring 1 (-1) s);
+
+  kebabToCamel =
+    str:
+    let
+      parts = filter isString (split "-" str);
+      len = length parts;
+      indexed = genList (i: {
+        inherit i;
+        word = elemAt parts i;
+      }) len;
+      transformed = map (x: if x.i == 0 then x.word else capitalize x.word) indexed;
+    in
+    concatStringsSep "" transformed;
 
   dir = ./.;
 
-  # Include every foo/default.nix in this directory, unless it begins with . or _
-  # or has been explicitly skipped
-  packageDirs = builtins.attrNames (
-    filterAttrs (
-      name: type:
-      type == "directory"
-      && !(builtins.elem name skip)
-      && builtins.substring 0 1 name != "."
-      && builtins.substring 0 1 name != "_"
-      && builtins.pathExists (dir + "/${name}/default.nix")
-    ) (builtins.readDir dir)
-  );
+  isPackageDir =
+    path: name: type:
+    type == "directory" && pathExists (path + "/${name}/default.nix");
+
+  discoverPackages =
+    subdir: nameTransform:
+    let
+      path = if subdir == null then dir else dir + "/${subdir}";
+      contents = readDir path;
+      packageNames = filter (name: isPackageDir path name contents.${name}) (attrNames contents);
+    in
+    listToAttrs (
+      map (name: {
+        name = nameTransform name;
+        value = pkgs.callPackage (path + "/${name}") { };
+      }) packageNames
+    );
+
+  packages = discoverPackages null (name: name);
+  buildSupport = discoverPackages "build-support" kebabToCamel;
 in
-genAttrs packageDirs (name: pkgs.callPackage (dir + "/${name}") { })
+packages
+// buildSupport
+// {
+  # Yuck!
+  fetchFromPrivateGitHub = buildSupport.fetchFromPrivateGithub or null;
+}
