@@ -2,6 +2,7 @@
   lib,
   stdenv,
   fetchPnpmDeps,
+  fetchPrivateNpm,
   runCommand,
   nodejs_24,
   pnpm_9,
@@ -12,12 +13,13 @@
 let
   pname = "pacs-client";
   version = "1.0.2";
-  downloadId = "ed132c2ef5f061c27d3f5dbaea3229cefde4a892";
 
-  # Use builtins.fetchTree as it supports netrc (nix.settings.netrc-file)
-  baseSrc = builtins.fetchTree {
-    type = "tarball";
-    url = "https://npm.pkg.github.com/download/@adzerk/pacs-client/${version}/${downloadId}";
+  baseSrc = fetchPrivateNpm {
+    registry = "github";
+    owner = "adzerk";
+    name = pname;
+    inherit version;
+    downloadId = "ed132c2ef5f061c27d3f5dbaea3229cefde4a892";
     narHash = "sha256-wm/9zH5J4u2BfTzJ5OupdLhV0CdLqr9bPLiNNnzmWnA=";
   };
 
@@ -30,7 +32,7 @@ let
     inherit pname version src;
     pnpm = pnpm_9;
     fetcherVersion = 2;
-    hash = "sha256-dplFyycPCO2aJg29Ic74fiHbvo61W/dtZNcdX15pLwk=";
+    hash = "sha256-WUMgYDGFpUpjFYIgX/9+tE/tNE990iSh9msfmh0F6a0=";
   };
 in
 
