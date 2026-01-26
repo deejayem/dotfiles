@@ -1,6 +1,8 @@
-pkgs:
+{ pkgs, lib }:
 let
-  inherit (builtins)
+  inherit (builtins) readDir;
+
+  inherit (lib)
     attrNames
     concatStringsSep
     elemAt
@@ -10,18 +12,13 @@ let
     length
     listToAttrs
     pathExists
-    readDir
     replaceStrings
     split
     stringLength
     substring
+    toUpper
     ;
 
-  # String utilities copied from lib.strings (using lib here causes infinite recursion)
-  stringToCharacters = s: genList (i: substring i 1 s) (stringLength s);
-  lowerChars = stringToCharacters "abcdefghijklmnopqrstuvwxyz";
-  upperChars = stringToCharacters "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  toUpper = replaceStrings lowerChars upperChars;
   capitalize = s: (toUpper (substring 0 1 s)) + (substring 1 (-1) s);
 
   kebabToCamel =
