@@ -41,16 +41,16 @@ let
     in
     (head parts) + concatStringsSep "" (map capitaliseWord (tail parts));
 
-  dir = ./.;
-
   isPackageDir =
     path: name: type:
     type == "directory" && pathExists (path + "/${name}/default.nix");
 
   discoverPackages =
-    subdir: nameTransform:
+    path:
+    {
+      nameTransform ? (name: name),
+    }:
     let
-      path = if subdir == null then dir else dir + "/${subdir}";
       contents = readDir path;
       packageNames = filter (name: isPackageDir path name contents.${name}) (attrNames contents);
     in
@@ -61,4 +61,4 @@ let
       }) packageNames
     );
 in
-discoverPackages null (name: name) // discoverPackages "build-support" kebabToCamel
+discoverPackages ./. { } // discoverPackages ./build-support { nameTransform = kebabToCamel; }
