@@ -8,6 +8,7 @@ let
     elemAt
     filter
     genList
+    head
     isString
     length
     listToAttrs
@@ -16,23 +17,29 @@ let
     split
     stringLength
     substring
+    tail
+    toLower
     toUpper
     ;
 
-  capitalize = s: (toUpper (substring 0 1 s)) + (substring 1 (-1) s);
+  capitalise = s: (toUpper (substring 0 1 s)) + (substring 1 (-1) s);
+
+  capitaliseWord =
+    word:
+    let
+      overrides = {
+        github = "GitHub";
+        gitlab = "GitLab";
+      };
+    in
+    overrides.${toLower word} or (capitalise word);
 
   kebabToCamel =
     str:
     let
       parts = filter isString (split "-" str);
-      len = length parts;
-      indexed = genList (i: {
-        inherit i;
-        word = elemAt parts i;
-      }) len;
-      transformed = map (x: if x.i == 0 then x.word else capitalize x.word) indexed;
     in
-    concatStringsSep "" transformed;
+    (head parts) + concatStringsSep "" (map capitaliseWord (tail parts));
 
   dir = ./.;
 
@@ -53,13 +60,5 @@ let
         value = pkgs.callPackage (path + "/${name}") { };
       }) packageNames
     );
-
-  packages = discoverPackages null (name: name);
-  buildSupport = discoverPackages "build-support" kebabToCamel;
 in
-packages
-// buildSupport
-// {
-  # Yuck!
-  fetchFromPrivateGitHub = buildSupport.fetchFromPrivateGithub or null;
-}
+discoverPackages null (name: name) // discoverPackages "build-support" kebabToCamel
