@@ -1,5 +1,9 @@
 { pkgs, ... }:
 
+let
+  # Temporary workaround until the next release
+  luaConfig = if pkgs.stdenv.isDarwin then "initLua" else "extraLuaConfig";
+in
 {
   programs.neovim = {
     enable = true;
@@ -39,7 +43,7 @@
       ))
     ];
 
-    extraLuaConfig = ''
+    ${luaConfig} = ''
       vim.opt.termguicolors = true
       vim.cmd('colorscheme molokai')
       vim.cmd('highlight Normal ctermfg=white ctermbg=black')
