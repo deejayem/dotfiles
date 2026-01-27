@@ -6,13 +6,13 @@
 
 stdenvNoCC.mkDerivation {
   pname = "cli-tools";
-  version = "0-unstable-2025-04-10";
+  version = "0-unstable-2026-01-23";
 
   src = fetchFromPrivateGitHub {
     owner = "adzerk";
     repo = "cli-tools";
-    rev = "63b1fd6fb6c073d2f49d9a7a38e04988e787c45d";
-    narHash = "sha256-0lE/pUTxIN4E8eJTncNAfeD/AMEgzzJQ5kq3gwpUfBw=";
+    rev = "8689c89122c9a382d5f1d78020c82aa36ccc4944";
+    narHash = "sha256-py3I6hkhF7Bm/TOuCLAI9k1/mV9MPerNB2ENmQDNUpQ=";
   };
 
   installPhase = ''
