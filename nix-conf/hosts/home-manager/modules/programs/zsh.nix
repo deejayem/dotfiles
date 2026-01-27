@@ -387,6 +387,12 @@ in
           \builtin pushd -- "$@"
         }
 
+        function zs() {
+          local idx
+          idx=$(dirs -v | fzf --height=40% | awk '{print $1}') || return
+          [[ -n "$idx" ]] && __zoxide_cd ~$idx
+        }
+
         [[ ! -f ~/.zsh.local ]] || source ~/.zsh.local
       ''
     ];
