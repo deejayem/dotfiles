@@ -51,11 +51,10 @@ in
     defaultKeymap = "emacs";
     history = {
       append = true;
-      expireDuplicatesFirst = true;
       ignoreSpace = true;
-      save = 100000;
+      save = 300000;
       share = true;
-      size = 100000;
+      size = 150000;
     };
     historySubstringSearch = {
       enable = true;
