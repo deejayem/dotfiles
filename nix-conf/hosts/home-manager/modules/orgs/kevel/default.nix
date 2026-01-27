@@ -37,6 +37,7 @@ in
   };
 
   home.packages = with pkgs; [
+    aws-cdk-cli
     aws-sso-util
     cdktf-cli
     cli-tools
@@ -50,7 +51,6 @@ in
     lmdb-cli
     msgpack-tools
     nodejs
-    nodePackages.aws-cdk
     opentofu
     pacs
     ruby
