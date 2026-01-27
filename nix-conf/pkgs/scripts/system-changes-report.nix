@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 # https://github.com/gvolpe/nix-config/blob/e28a220d0087064e6bad6b992b4914a65eb545e5/home/scripts/changes-report.nix
 let

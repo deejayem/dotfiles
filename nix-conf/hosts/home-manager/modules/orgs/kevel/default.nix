@@ -11,8 +11,7 @@ let
     AWS_DEFAULT_SSO_START_URL = "sso-start-url";
   };
 
-  gcp-iap-proxy = (pkgs.callPackage ../../scripts/gcp-iap-proxy.nix { inherit pkgs; });
-  instance-info = (pkgs.callPackage ../../scripts/instance-info.nix { inherit pkgs; });
+  gcp-iap-proxy-bin = lib.getExe pkgs.gcp-iap-proxy;
 in
 {
   imports = [
@@ -155,7 +154,7 @@ in
       # gcp
       "gcp1-*" = {
         forwardAgent = true;
-        proxyCommand = "${lib.getExe gcp-iap-proxy} %n %p";
+        proxyCommand = "${gcp-iap-proxy-bin} %n %p";
         serverAliveInterval = 5;
         sendEnv = [
           "ADZERK_*"
@@ -163,7 +162,7 @@ in
       };
       "pg1-*" = {
         forwardAgent = true;
-        proxyCommand = "${lib.getExe gcp-iap-proxy} %n %p";
+        proxyCommand = "${gcp-iap-proxy-bin} %n %p";
         serverAliveInterval = 5;
         sendEnv = [
           "ADZERK_*"
@@ -171,7 +170,7 @@ in
       };
       "scylladb-*" = {
         forwardAgent = true;
-        proxyCommand = "${lib.getExe gcp-iap-proxy} %n %p";
+        proxyCommand = "${gcp-iap-proxy-bin} %n %p";
         serverAliveInterval = 5;
         sendEnv = [
           "ADZERK_*"

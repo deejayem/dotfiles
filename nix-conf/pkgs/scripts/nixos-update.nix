@@ -1,16 +1,13 @@
 {
   pkgs,
-  inputs,
-  version,
+  inputs ? throw "nixos-update requires inputs",
+  version ? throw "nixos-update requires version",
+  ...
 }:
-let
-  currentNixpkgsRev =
-    if version == "unstable" then inputs.nixpkgs-unstable.rev else inputs.nixpkgs-stable.rev;
-  currentHMRev =
-    if version == "unstable" then inputs.home-manager-unstable.rev else inputs.home-manager-stable.rev;
 
-  nixpkgsInput = if version == "unstable" then "nixpkgs-unstable" else "nixpkgs-stable";
-  hmInput = if version == "unstable" then "home-manager-unstable" else "home-manager-stable";
+let
+  nixpkgsInput = "nixpkgs-${version}";
+  hmInput = "home-manager-${version}";
 in
 pkgs.writeShellScriptBin "nixos-update" ''
   set -euo pipefail
@@ -24,8 +21,8 @@ pkgs.writeShellScriptBin "nixos-update" ''
   cd $NIX_CONF
   $NIX flake update
 
-  CURRENT_NIXPKGS_REV="${currentNixpkgsRev}"
-  CURRENT_HM_REV="${currentHMRev}"
+  CURRENT_NIXPKGS_REV="${inputs.${nixpkgsInput}.rev}"
+  CURRENT_HM_REV="${inputs.${hmInput}.rev}"
 
   LOCKFILE_NIXPKGS_REV=$($JQ -r '.nodes."${nixpkgsInput}".locked.rev' "$FLAKE_LOCK")
   LOCKFILE_HM_REV=$($JQ -r '.nodes."${hmInput}".locked.rev' "$FLAKE_LOCK")

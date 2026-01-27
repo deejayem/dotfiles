@@ -8,11 +8,13 @@ let
     elemAt
     filter
     genList
+    hasSuffix
     head
     isString
     length
     listToAttrs
     pathExists
+    removeSuffix
     replaceStrings
     split
     stringLength
@@ -52,13 +54,29 @@ let
     }:
     let
       contents = readDir path;
-      packageNames = filter (name: isPackageDir path name contents.${name}) (attrNames contents);
+
+      isPackage =
+        name: type:
+        (type == "directory" && pathExists (path + "/${name}/default.nix"))
+        || (type == "regular" && name != "default.nix" && hasSuffix ".nix" name);
+
+      packageName = name: type: if type == "directory" then name else removeSuffix ".nix" name;
+
+      packageEntries = filter (name: isPackage name contents.${name}) (attrNames contents);
     in
     listToAttrs (
-      map (name: {
-        name = nameTransform name;
-        value = pkgs.callPackage (path + "/${name}") { };
-      }) packageNames
+      map (
+        name:
+        let
+          type = contents.${name};
+        in
+        {
+          name = nameTransform (packageName name type);
+          value = pkgs.callPackage (path + "/${name}") { };
+        }
+      ) packageEntries
     );
 in
-discoverPackages ./. { } // discoverPackages ./build-support { nameTransform = kebabToCamel; }
+discoverPackages ./. { }
+// discoverPackages ./build-support { nameTransform = kebabToCamel; }
+// discoverPackages ./scripts { }

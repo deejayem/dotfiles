@@ -69,7 +69,7 @@ in
     watch
     wget
 
-    (pkgs.callPackage ../scripts/darwin-update.nix { inherit pkgs inputs; })
+    (pkgs.darwin-update.override { inherit inputs; })
   ];
 
   home.sessionVariables = {

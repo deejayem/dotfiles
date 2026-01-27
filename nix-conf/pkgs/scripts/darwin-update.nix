@@ -1,4 +1,9 @@
-{ pkgs, inputs }:
+{
+  pkgs,
+  inputs ? throw "darwin-update requires inputs",
+  ...
+}:
+
 pkgs.writeShellScriptBin "darwin-update" ''
   set -euo pipefail
 
