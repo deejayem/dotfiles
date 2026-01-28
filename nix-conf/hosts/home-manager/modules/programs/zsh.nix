@@ -16,6 +16,7 @@ let
   nixCollectGarbage = lib.getExe' pkgs.nix "nix-collect-garbage";
   nvim = lib.getExe pkgs.neovim;
   rg = lib.getExe pkgs.ripgrep;
+  sed = lib.getExe pkgs.gnused;
   tmux = lib.getExe pkgs.tmux;
   tre = lib.getExe pkgs.tre-command;
   show_file_or_dir_preview = "if [ -d {} ]; then ${eza} --tree --color=always {} | head -200; else ${bat} -n --color=always --line-range :500 {}; fi";
@@ -194,6 +195,10 @@ in
       fe = ''
         IFS=$'\n' files=($(${fzfTmux} --query="$1" --multi --select-1 --exit-0))
         [[ -n "$files" ]] && ''${EDITOR:-${nvim}} "''${files[@]}"
+      '';
+
+      denix = ''
+        ${sed} -E 's#/nix/store/[^/]+/bin/([[:alnum:]_.+-]+)#\1#g'
       '';
 
       "dotcomma" = ''
