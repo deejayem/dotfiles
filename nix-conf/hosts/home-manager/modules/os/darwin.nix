@@ -31,13 +31,13 @@ in
 {
   imports = [
     ../programs/alacritty.nix
+    ../programs/awscli.nix
     ../programs/ghostty.nix
     ../programs/karabiner.nix
     ../programs/kitty.nix
   ];
 
   home.packages = with pkgs; [
-    awscli2
     cacert
     caddy
     coreutils
@@ -65,8 +65,6 @@ in
     #python310Packages.sqlparse
     redis
     sqls
-    ssh-over-ssm
-    ssm-session-manager-plugin
     #vimpc
     watch
     wget

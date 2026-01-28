@@ -21,7 +21,7 @@ let
 in
 {
   imports = [
-    ./aws.nix
+    ./aws-config.nix
   ];
 
   programs.home-manager.enable = true;

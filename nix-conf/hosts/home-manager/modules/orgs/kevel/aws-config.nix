@@ -88,6 +88,4 @@ in
   age.secrets."kevel/aws/config".path = "${config.home.homeDirectory}/.aws/config";
 
   home.packages = [ regenAwsSecret ];
-
-  programs.awscli.enable = true;
 }

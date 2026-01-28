@@ -248,35 +248,6 @@ in
         date
       '';
 
-      awsget = ''aws s3 cp "$1" "''${2:-.}"'';
-
-      aws_logged_in = ''
-        local cache_dir="$HOME/.aws/sso/cache"
-        [[ -d "$cache_dir" ]] || return 1
-
-        ${jq} -e '
-          select(.startUrl?)
-          | .expiresAt
-          | sub("UTC$"; "Z")
-          | strptime("%Y-%m-%dT%H:%M:%SZ")
-          | mktime > now
-        ' "$cache_dir"/*.json(N) >/dev/null 2>&1
-      '';
-
-      aspl = ''
-        [[ -n "$1" ]] || { print -u2 "aspl: missing profile"; return 2; }
-        local profile="$1"
-        shift || true
-
-        if ! aws_logged_in; then
-          echo "Logging in to profile $profile"
-          asp "$profile" login
-        else
-          echo "Setting profile $profile"
-          asp "$profile" "$@"
-        fi
-      '';
-
       nixos-eval = "${nix} eval --json $NH_FLAKE#nixosConfigurations.$HOST.config.$1 | ${jq}";
 
       hm-eval = ''${nix} eval --json $NH_FLAKE#homeConfigurations."$USER@$HOST".config.$1 | ${jq}'';
@@ -449,16 +420,6 @@ in
           sha256 = "7Z0qaDhgopKt9BDKSqdziw9jsVgiLLafs30wPPbz+oo=";
         };
         file = "per-directory-history.zsh";
-      }
-      {
-        name = "omz-aws";
-        src = fetchFromGitHub {
-          owner = "ohmyzsh";
-          repo = "ohmyzsh";
-          rev = "2423b7a12dc4624a2d8a7c58be4ac75cb82fd8c7";
-          sha256 = "fCAwg6fzXw/mEa+xEnSCK88/ba8nR0FNY2tQ62CchbQ=";
-        };
-        file = "plugins/aws/aws.plugin.zsh";
       }
     ];
   };
