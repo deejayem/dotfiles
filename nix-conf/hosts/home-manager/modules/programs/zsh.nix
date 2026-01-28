@@ -5,7 +5,20 @@
   ...
 }:
 let
-  show_file_or_dir_preview = "if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi";
+  bat = lib.getExe pkgs.bat;
+  eza = lib.getExe pkgs.eza;
+  fd = lib.getExe pkgs.fd;
+  fzf = lib.getExe pkgs.fzf;
+  fzfTmux = lib.getExe' pkgs.fzf "fzf-tmux";
+  gopass = lib.getExe pkgs.gopass;
+  jq = lib.getExe pkgs.jq;
+  nix = lib.getExe pkgs.nix;
+  nixCollectGarbage = lib.getExe' pkgs.nix "nix-collect-garbage";
+  nvim = lib.getExe pkgs.neovim;
+  rg = lib.getExe pkgs.ripgrep;
+  tmux = lib.getExe pkgs.tmux;
+  tre = lib.getExe pkgs.tre-command;
+  show_file_or_dir_preview = "if [ -d {} ]; then ${eza} --tree --color=always {} | head -200; else ${bat} -n --color=always --line-range :500 {}; fi";
 in
 {
   home.packages = with pkgs; [ zsh-completions ];
@@ -127,11 +140,11 @@ in
     };
 
     siteFunctions = {
-        # These functions (vip, bp, bpp, ecd) are called as follows, after using ea (using vip as an example):
-        # vip  # edits the first result from ea (roughly equivalent to vi `ea p 1`)
-        # vip <n> # edits the nth result from ea (vi `ea p <n>`)
-        # vip <n> foo # if the nth result from ea is a directory, edit foo in that directory (vi `ea p <n>`/foo)
-        # Will add +<line-number>, where the line number is available
+      # These functions (vip, bp, bpp, ecd) are called as follows, after using ea (using vip as an example):
+      # vip  # edits the first result from ea (roughly equivalent to vi `ea p 1`)
+      # vip <n> # edits the nth result from ea (vi `ea p <n>`)
+      # vip <n> foo # if the nth result from ea is a directory, edit foo in that directory (vi `ea p <n>`/foo)
+      # Will add +<line-number>, where the line number is available
       _vip = ''
         local cmd=(''${=1}) # zsh only, not portable; something like CMD=($(echo $1)) is more portable but is ugly
         local idx=''${2:-1}
@@ -157,30 +170,30 @@ in
       '';
 
       vip = ''_vip $EDITOR "$@"'';
-      bp = ''_vip bat "$@"'';
+      bp = ''_vip ${bat} "$@"'';
       bpp = ''
         # this will be split into an array in _vip
-        local CMD="bat -p"
+        local CMD="${bat} -p"
         _vip $CMD "$@"
       '';
 
       ecd = "cd $(ea p \${1:-1})";
 
-      generate = "gopass generate -s -p $1 $((RANDOM % 14 + 45))";
+      generate = "${gopass} generate -s -p $1 $((RANDOM % 14 + 45))";
 
-      fcd = "cd $(fd -L --max-depth=\${1:-4} --type=d 2>/dev/null | fzf-tmux)";
+      fcd = "cd $(${fd} -L --max-depth=\${1:-4} --type=d 2>/dev/null | ${fzfTmux})";
 
       fif = ''
         if [ ! "$#" -gt 0 ]; then
           echo "usage: fif <SEARCH_TERM>"
           return 1
         fi
-        rg --files-with-matches --no-messages "$1" | fzf $FZF_PREVIEW_WINDOW --preview "rg --ignore-case --pretty --context 10 '$1' {}"
+        ${rg} --files-with-matches --no-messages "$1" | ${fzf} $FZF_PREVIEW_WINDOW --preview "${rg} --ignore-case --pretty --context 10 '$1' {}"
       '';
 
       fe = ''
-        IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
-        [[ -n "$files" ]] && ''${EDITOR:-vim} "''${files[@]}"
+        IFS=$'\n' files=($(${fzfTmux} --query="$1" --multi --select-1 --exit-0))
+        [[ -n "$files" ]] && ''${EDITOR:-${nvim}} "''${files[@]}"
       '';
 
       "dotcomma" = ''
@@ -193,14 +206,14 @@ in
             get_parent_dirs $(dirname "$1")
           fi
         }
-        local DIR=$(get_parent_dirs $(realpath "$PWD/..") | fzf-tmux)
+        local DIR=$(get_parent_dirs $(realpath "$PWD/..") | ${fzfTmux})
         cd "$DIR"
       '';
 
       # From omz
       mkcd = ''mkdir -p "$@" && cd ''${@:$#}'';
 
-      tre = ''command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null;'';
+      tre = ''command ${tre} "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null;'';
 
       gcd = ''
         if [ $# -eq 0 ]; then
@@ -221,9 +234,9 @@ in
 
         local DOAS=$(command -v doas || command -v sudo)
 
-        nix-collect-garbage ''${GC_ARGS[@]}
+        ${nixCollectGarbage} ''${GC_ARGS[@]}
         if [ -n "$DOAS" ]; then
-          $DOAS nix-collect-garbage ''${GC_ARGS[@]}
+          $DOAS ${nixCollectGarbage} ''${GC_ARGS[@]}
         fi
 
         df -h
@@ -236,7 +249,7 @@ in
         local cache_dir="$HOME/.aws/sso/cache"
         [[ -d "$cache_dir" ]] || return 1
 
-        jq -e '
+        ${jq} -e '
           select(.startUrl?)
           | .expiresAt
           | sub("UTC$"; "Z")
@@ -259,11 +272,11 @@ in
         fi
       '';
 
-      nixos-eval = ''nix eval --json $NH_FLAKE#nixosConfigurations.$HOST.config.$1 | jq'';
+      nixos-eval = "${nix} eval --json $NH_FLAKE#nixosConfigurations.$HOST.config.$1 | ${jq}";
 
-      hm-eval = ''nix eval --json $NH_FLAKE#homeConfigurations."$USER@$HOST".config.$1 | jq'';
+      hm-eval = ''${nix} eval --json $NH_FLAKE#homeConfigurations."$USER@$HOST".config.$1 | ${jq}'';
 
-      darwin-eval = ''nix eval --json $NH_FLAKE#darwinConfigurations.$HOST.config.$1 | jq'';
+      darwin-eval = "${nix} eval --json $NH_FLAKE#darwinConfigurations.$HOST.config.$1 | ${jq}";
 
       __zoxide_cd = ''
         setopt localoptions PUSHDSILENT
@@ -272,7 +285,7 @@ in
 
       zs = ''
         local idx
-        idx=$(dirs -v | fzf --height=40% | awk '{print $1}') || return
+        idx=$(dirs -v | ${fzf} --height=40% | awk '{print $1}') || return
         [[ -n "$idx" ]] && __zoxide_cd ~$idx
       '';
     };
@@ -284,16 +297,16 @@ in
       ''
         # Based on prezto tmux plugin
         if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" && -z "$INSIDE_EMACS" && "$TERM_PROGRAM" != "vscode" && (-z "$SSH_TTY" || -n "$TMUX_AUTO_ATTACH") ]]; then
-          tmux start-server
+          ${tmux} start-server
 
-          if ! tmux has-session 2> /dev/null; then
-            tmux new-session -d -s "0" \; set-option -t "0" destroy-unattached off &> /dev/null
+          if ! ${tmux} has-session 2> /dev/null; then
+            ${tmux} new-session -d -s "0" \; set-option -t "0" destroy-unattached off &> /dev/null
           fi
 
           if [[ -n "$SSH_TTY" ]]; then
-            exec tmux -u attach-session
+            exec ${tmux} -u attach-session
           else
-            exec tmux -u attach-session -d
+            exec ${tmux} -u attach-session -d
           fi
         fi
 
@@ -313,26 +326,26 @@ in
         # set list-colors to enable filename colorizing
         #zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
         # preview directory's content with eza when completing cd
-        zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+        zstyle ':fzf-tab:complete:cd:*' fzf-preview "${eza} -1 --color=always $realpath"
         # switch group using `,` and `.`
         zstyle ':fzf-tab:*' switch-group ',' '.'
 
         # functions modified from https://www.josean.com/posts/7-amazing-cli-tools
         _fzf_compgen_path () {
-          fd --hidden --exclude .git --exclude node_modules . "$1"
+          ${fd} --hidden --exclude .git --exclude node_modules . "$1"
         }
         _fzf_compgen_dir () {
-          fd --type=d --hidden --exclude .git --exclude node_modules . "$1"
+          ${fd} --type=d --hidden --exclude .git --exclude node_modules . "$1"
         }
         _fzf_comprun () {
           local command=$1
           shift
 
           case "$command" in
-            cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
-            export|unset) fzf --preview "eval 'echo $'{}"         "$@" ;;
-            ssh)          fzf --preview 'dig {}'                   "$@" ;;
-            *)            fzf --preview "${show_file_or_dir_preview}" "$@" ;;
+            cd)           ${fzf} --preview '${eza} --tree --color=always {} | head -200' "$@" ;;
+            export|unset) ${fzf} --preview "eval 'echo $'{}"         "$@" ;;
+            ssh)          ${fzf} --preview 'dig {}'                   "$@" ;;
+            *)            ${fzf} --preview "${show_file_or_dir_preview}" "$@" ;;
           esac
         }
 

@@ -11,7 +11,13 @@ let
     AWS_DEFAULT_SSO_START_URL = "sso-start-url";
   };
 
+  bat = lib.getExe pkgs.bat;
   gcp-iap-proxy-bin = lib.getExe pkgs.gcp-iap-proxy;
+  gcloud = lib.getExe pkgs.google-cloud-sdk;
+  jq = lib.getExe pkgs.jq;
+  msgpack2json = lib.getExe' pkgs.msgpack-tools "msgpack2json";
+  sed = lib.getExe pkgs.gnused;
+  zstdcat = lib.getExe' pkgs.zstd "zstdcat";
 in
 {
   imports = [
@@ -33,7 +39,7 @@ in
   ];
 
   home.shellAliases = {
-    update-gcp-ssh = "gcloud compute config-ssh --ssh-config-file=~/.ssh/config_local";
+    update-gcp-ssh = "${gcloud} compute config-ssh --ssh-config-file=~/.ssh/config_local";
   };
 
   home.packages = with pkgs; [
@@ -217,7 +223,7 @@ in
     '';
 
     siteFunctions = {
-      packcat = ''zstdcat "$1" | sed '1d;$d' | msgpack2json -c | jq | bat'';
+      packcat = ''${zstdcat} "$1" | ${sed} '1d;$d' | ${msgpack2json} -c | ${jq} | ${bat}'';
     };
   };
 }

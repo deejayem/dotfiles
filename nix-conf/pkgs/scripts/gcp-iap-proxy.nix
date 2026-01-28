@@ -1,4 +1,4 @@
-{ pkgs }:
+{ lib, pkgs }:
 
 pkgs.writeShellScriptBin "gcp-iap-proxy" ''
   set -euo pipefail
@@ -8,7 +8,7 @@ pkgs.writeShellScriptBin "gcp-iap-proxy" ''
 
   IFS='.' read -r instance zone project <<< "$host"
 
-  exec gcloud compute start-iap-tunnel "$instance" "$port" \
+  exec ${lib.getExe pkgs.google-cloud-sdk} compute start-iap-tunnel "$instance" "$port" \
     --zone="$zone" \
     --project="$project" \
     --listen-on-stdin \
