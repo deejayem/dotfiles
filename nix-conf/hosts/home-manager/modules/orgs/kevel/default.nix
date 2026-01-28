@@ -40,7 +40,9 @@ in
     aws-cdk-cli
     aws-sso-util
     cdktf-cli
+    claude-code
     cli-tools
+    codex
     copilot-language-server
     coffeescript
     instance-info
