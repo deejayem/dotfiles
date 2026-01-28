@@ -65,6 +65,13 @@ in
       //npm.pkg.github.com/:_authToken=''${ADZERK_GITHUB_PACKAGES_AUTH_TOKEN}
       prefix=~/.npm-global
     '';
+    ".cdk.json".text = ''
+      {
+        "context": {
+          "cli-telemetry": false
+        }
+      }
+    '';
   };
 
   sops.templates."nix-netrc" = {
