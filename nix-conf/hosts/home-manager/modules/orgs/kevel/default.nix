@@ -212,7 +212,10 @@ in
 
     initContent = ''
       source "${pkgs.google-cloud-sdk}/share/zsh/site-functions/_gcloud"
-      packcat () { ${lib.getExe' pkgs.zstd "zstdcat"} "''${1}" | ${lib.getExe pkgs.gnused} '1d;$d' | ${lib.getExe' pkgs.msgpack-tools "msgpack2json"} -c | ${lib.getExe pkgs.jq} | ${lib.getExe pkgs.bat} }
     '';
+
+    siteFunctions = {
+      packcat = ''zstdcat "$1" | sed '1d;$d' | msgpack2json -c | jq | bat'';
+    };
   };
 }

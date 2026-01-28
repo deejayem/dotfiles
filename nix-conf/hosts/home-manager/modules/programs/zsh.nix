@@ -82,6 +82,7 @@ in
 
       ".." = "cd ..";
       "..." = "cd ../..";
+      ".," = "dotcomma";
       "-" = "cd -";
 
       pp = ''pushbullet push "Pixel" link "''${1}" "''${1}"'';
@@ -124,6 +125,158 @@ in
       HISTORY_START_WITH_GLOBAL = true;
       LESS = "-iRXF";
     };
+
+    siteFunctions = {
+        # These functions (vip, bp, bpp, ecd) are called as follows, after using ea (using vip as an example):
+        # vip  # edits the first result from ea (roughly equivalent to vi `ea p 1`)
+        # vip <n> # edits the nth result from ea (vi `ea p <n>`)
+        # vip <n> foo # if the nth result from ea is a directory, edit foo in that directory (vi `ea p <n>`/foo)
+        # Will add +<line-number>, where the line number is available
+      _vip = ''
+        local cmd=(''${=1}) # zsh only, not portable; something like CMD=($(echo $1)) is more portable but is ugly
+        local idx=''${2:-1}
+        local base_path=$(ea p $idx)
+        local line=$(ea p $idx "{line}")
+        local ea_format="'{path}'"
+
+        if [ -z "$base_path" ]; then
+          echo "No file path found for index $2"
+          return 1
+        fi
+
+        if [ $# -gt 2 -a ! -d "$base_path" ]; then
+          echo "$base_path is not a directory"
+          return 2
+        fi
+
+        if [ $# -lt 3 -a $line -ne 1 ]; then
+          ea_format+=" +{line}"
+        fi
+
+        eval $(ea p $idx "$cmd ''${ea_format}$3")
+      '';
+
+      vip = ''_vip $EDITOR "$@"'';
+      bp = ''_vip bat "$@"'';
+      bpp = ''
+        # this will be split into an array in _vip
+        local CMD="bat -p"
+        _vip $CMD "$@"
+      '';
+
+      ecd = "cd $(ea p \${1:-1})";
+
+      generate = "gopass generate -s -p $1 $((RANDOM % 14 + 45))";
+
+      fcd = "cd $(fd -L --max-depth=\${1:-4} --type=d 2>/dev/null | fzf-tmux)";
+
+      fif = ''
+        if [ ! "$#" -gt 0 ]; then
+          echo "usage: fif <SEARCH_TERM>"
+          return 1
+        fi
+        rg --files-with-matches --no-messages "$1" | fzf $FZF_PREVIEW_WINDOW --preview "rg --ignore-case --pretty --context 10 '$1' {}"
+      '';
+
+      fe = ''
+        IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+        [[ -n "$files" ]] && ''${EDITOR:-vim} "''${files[@]}"
+      '';
+
+      "dotcomma" = ''
+        local declare dirs=()
+        get_parent_dirs() {
+          if [[ -d "$1" ]]; then dirs+=("$1"); else return; fi
+          if [[ "$1" == '/' ]]; then
+            for _dir in "''${dirs[@]}"; do echo $_dir; done
+          else
+            get_parent_dirs $(dirname "$1")
+          fi
+        }
+        local DIR=$(get_parent_dirs $(realpath "$PWD/..") | fzf-tmux)
+        cd "$DIR"
+      '';
+
+      # From omz
+      mkcd = ''mkdir -p "$@" && cd ''${@:$#}'';
+
+      tre = ''command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null;'';
+
+      gcd = ''
+        if [ $# -eq 0 ]; then
+          echo "Number of days must be specified" >&2
+          return 1
+        fi
+        if ! [[ $1 =~ '^[0-9]+$' ]]; then
+          echo "Number of days must be a number" >&2
+          return 2
+        fi
+
+        local GC_ARGS
+        if [ $1 -eq 0 ]; then
+          GC_ARGS=(-d)
+        else
+          GC_ARGS=(--delete-older-than ''${1}d)
+        fi
+
+        local DOAS=$(command -v doas || command -v sudo)
+
+        nix-collect-garbage ''${GC_ARGS[@]}
+        if [ -n "$DOAS" ]; then
+          $DOAS nix-collect-garbage ''${GC_ARGS[@]}
+        fi
+
+        df -h
+        date
+      '';
+
+      awsget = ''aws s3 cp "$1" "''${2:-.}"'';
+
+      aws_logged_in = ''
+        local cache_dir="$HOME/.aws/sso/cache"
+        [[ -d "$cache_dir" ]] || return 1
+
+        jq -e '
+          select(.startUrl?)
+          | .expiresAt
+          | sub("UTC$"; "Z")
+          | strptime("%Y-%m-%dT%H:%M:%SZ")
+          | mktime > now
+        ' "$cache_dir"/*.json(N) >/dev/null 2>&1
+      '';
+
+      aspl = ''
+        [[ -n "$1" ]] || { print -u2 "aspl: missing profile"; return 2; }
+        local profile="$1"
+        shift || true
+
+        if ! aws_logged_in; then
+          echo "Logging in to profile $profile"
+          asp "$profile" login
+        else
+          echo "Setting profile $profile"
+          asp "$profile" "$@"
+        fi
+      '';
+
+      nixos-eval = ''nix eval --json $NH_FLAKE#nixosConfigurations.$HOST.config.$1 | jq'';
+
+      hm-eval = ''nix eval --json $NH_FLAKE#homeConfigurations."$USER@$HOST".config.$1 | jq'';
+
+      darwin-eval = ''nix eval --json $NH_FLAKE#darwinConfigurations.$HOST.config.$1 | jq'';
+
+      __zoxide_cd = ''
+        setopt localoptions PUSHDSILENT
+        \builtin pushd -- "$@"
+      '';
+
+      zs = ''
+        local idx
+        idx=$(dirs -v | fzf --height=40% | awk '{print $1}') || return
+        [[ -n "$idx" ]] && __zoxide_cd ~$idx
+      '';
+    };
+
     initContent = lib.mkMerge [
       (lib.mkBefore ''
         [[ $TERM == "tramp" ]] && unsetopt zle && PS1='$ ' && return
@@ -186,51 +339,6 @@ in
         # disable flow control (so that fzf-git.sh's ^g^s can work)
         stty -ixon
 
-        # These functions are called as follows, after using ea (using vip as an example):
-        # vip  # edits the first result from ea (roughly equivalent to vi `ea p 1`)
-        # vip <n> # edits the nth result from ea (vi `ea p <n>`)
-        # vip <n> foo # if the nth result from ea is a directory, edit foo in that directory (vi `ea p <n>`/foo)
-        # Will add +<line-number>, where the line number is available
-        function _vip () {
-          local cmd=(''${=1}) # zsh only, not portable; something like CMD=($(echo $1)) is more portable but is ugly
-          local idx=''${2:-1}
-          local base_path=$(ea p $idx)
-          local line=$(ea p $idx "{line}")
-          local ea_format="'{path}'"
-
-          if [ -z "$base_path" ]; then
-            echo "No file path found for index $2"
-            return 1
-          fi
-
-          if [ $# -gt 2 -a ! -d "$base_path" ]; then
-            echo "$base_path is not a directory"
-            return 2
-          fi
-
-          if [ $# -lt 3 -a $line -ne 1 ]; then
-            ea_format+=" +{line}"
-          fi
-
-          eval $(ea p $idx "$cmd ''${ea_format}$3")
-        }
-
-        function vip () {
-          _vip $EDITOR ''${@}
-        }
-        function bp () {
-          _vip bat ''${@}
-        }
-        function bpp () {
-          # this will be split into an array in _vip
-          CMD="bat -p"
-          _vip $CMD ''${@}
-        }
-
-        function ecd () {
-          cd $(ea p ''${1:-1})
-        }
-
         # Expand e<n><tab> to the corresponding path, or complete with fzf-tab for e<tab>
         _ea_completer () {
           emulate -L zsh
@@ -273,124 +381,6 @@ in
         zstyle -g _completers ':completion:*' completer
         _completers=(''${_completers:#_ea_completer})
         zstyle ':completion:*' completer _ea_completer "''${_completers[@]}"
-
-        function generate () { gopass generate -s -p $1 $((RANDOM % 14 + 45)) }
-        function fcd { cd $(fd -L --max-depth=''${1:-4} --type=d 2>/dev/null | fzf-tmux) }
-
-        fif () {
-          if [ ! "$#" -gt 0  ]; then
-            echo "usage: fif <SEARCH_TERM>"
-            return 1;
-          fi
-          rg --files-with-matches --no-messages "$1" | fzf $FZF_PREVIEW_WINDOW --preview "rg --ignore-case --pretty --context 10 '$1' {}"
-        }
-
-        fe () {
-          IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
-          [[ -n "$files" ]] && ''${EDITOR:-vim} "''${files[@]}"
-        }
-
-        ., () {
-          local declare dirs=()
-          get_parent_dirs() {
-            if [[ -d "''${1}" ]]; then dirs+=("$1"); else return; fi
-            if [[ "''${1}" == '/' ]]; then
-              for _dir in "''${dirs[@]}"; do echo $_dir; done
-            else
-              get_parent_dirs $(dirname "$1")
-            fi
-          }
-          local DIR=$(get_parent_dirs $(realpath "$PWD/..") | fzf-tmux)
-          cd "$DIR"
-        }
-
-        # From omz
-        function mkcd () {
-          mkdir -p $@ && cd ''${@:$#}
-        }
-
-        tre () { command tre "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null; }
-
-        function gcd () {
-          if [ $# -eq 0 ] ; then
-            echo "Number of days must be specified" >&2
-            return 1
-          fi
-          if ! [[ $1 =~ '^[0-9]+$' ]] ; then
-            echo "Number of days must be a number" >&2
-            return 2
-          fi
-
-          if [ $1 -eq 0 ] ; then
-           GC_ARGS=(-d)
-          else
-            GC_ARGS=(--delete-older-than ''${1}d)
-          fi
-
-          DOAS=$(command -v doas || command -v sudo)
-
-          # Run as the current user (as well as root) to clean up hm generations
-          nix-collect-garbage ''${GC_ARGS[@]}
-          if [ -n $DOAS ] ; then
-            $DOAS nix-collect-garbage ''${GC_ARGS[@]}
-          fi
-
-          df -h
-          date
-        }
-
-        awsget () { ${lib.getExe pkgs.awscli2} s3 cp "''${1}" "''${2:-.}" }
-
-        aws_logged_in () {
-          local cache_dir="''${HOME}/.aws/sso/cache"
-          [[ -d "$cache_dir" ]] || return 1
-
-          ${lib.getExe pkgs.jq} -e '
-            select(.startUrl?)
-            | .expiresAt
-            | sub("UTC$"; "Z")
-            | strptime("%Y-%m-%dT%H:%M:%SZ")
-            | mktime > now
-          ' "$cache_dir"/*.json(N) >/dev/null 2>&1
-        }
-
-        aspl () {
-          [[ -n "$1" ]] || { print -u2 "aspl: missing profile"; return 2; }
-          local profile="$1"
-          shift || true
-
-          if ! aws_logged_in; then
-            echo "Logging in to profile $profile"
-            asp "$profile" login
-          else
-            echo "Setting profile $profile"
-            asp "$profile" "$@"
-          fi
-        }
-
-        nixos-eval () {
-          nix eval --json $NH_FLAKE#nixosConfigurations.$HOST.config.$1 | jq
-        }
-
-        hm-eval () {
-          nix eval --json $NH_FLAKE#homeConfigurations."$USER@$HOST".config.$1 | jq
-        }
-
-        darwin-eval () {
-          nix eval --json $NH_FLAKE#darwinConfigurations.$HOST.config.$1 | jq
-        }
-
-        # Use pushd with zoxide
-        function __zoxide_cd () {
-          setopt localoptions PUSHDSILENT
-          \builtin pushd -- "$@"
-        }
-
-        function zs() {
-          local idx
-          idx=$(dirs -v | fzf --height=40% | awk '{print $1}') || return
-          [[ -n "$idx" ]] && __zoxide_cd ~$idx
-        }
 
         [[ ! -f ~/.zsh.local ]] || source ~/.zsh.local
       ''
