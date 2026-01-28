@@ -47,6 +47,8 @@ in
     gh
     gh-dash
     gnused
+    less
+    lesspipe
     mac-app-util
     #mopidy-with-extensions
     #mpdscribble
