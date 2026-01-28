@@ -84,7 +84,7 @@ in
     nix-prefetch-git
     nix-prefetch-github
     nix-search
-    nixpkgs-review
+    nixpkgs-reviewFull
     nvd
     pass
     procs
