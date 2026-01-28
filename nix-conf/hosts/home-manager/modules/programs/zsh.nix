@@ -116,6 +116,7 @@ in
 
     setOptions = [
       "INC_APPEND_HISTORY"
+      "NO_CLOBBER"
     ];
 
     localVariables = {
@@ -181,8 +182,6 @@ in
             *)            fzf --preview "${show_file_or_dir_preview}" "$@" ;;
           esac
         }
-
-        set -o noclobber
 
         # disable flow control (so that fzf-git.sh's ^g^s can work)
         stty -ixon
