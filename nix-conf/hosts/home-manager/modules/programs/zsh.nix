@@ -416,8 +416,8 @@ in
         src = fetchFromGitHub {
           owner = "jimhester";
           repo = "per-directory-history";
-          rev = "0687bbfd736da566472a6d67c2b45c501b73d405";
-          sha256 = "7Z0qaDhgopKt9BDKSqdziw9jsVgiLLafs30wPPbz+oo=";
+          rev = "95f06973e9f2ff0ff75f3cebd0a2ee5485e27834";
+          hash = "sha256-EV9QPBndwAWzdOcghDXrIIgP0oagVMOTyXzoyt8tXRo=";
         };
         file = "per-directory-history.zsh";
       }
