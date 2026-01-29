@@ -93,5 +93,7 @@
 (use-package dockerfile-mode)
 (use-package docker-compose-mode)
 
+(use-package terraform-mode)
+
 (provide 'init-misc)
 ;;; init-misc.el ends here
