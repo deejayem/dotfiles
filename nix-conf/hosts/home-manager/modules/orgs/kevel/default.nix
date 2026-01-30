@@ -220,6 +220,32 @@ in
 
     initContent = ''
       source "${pkgs.google-cloud-sdk}/share/zsh/site-functions/_gcloud"
+
+      # Prevent spaces from being escaped
+      # e.g. gcloud compute ssh foo<tab> becomes gcloud compute ssh foo-bar\ --zone=us-east1-a
+      _bash_complete_gcloud() {
+        local ret=1
+        local -a suf matches
+        local -x COMP_POINT COMP_CWORD
+        local -a COMP_WORDS COMPREPLY BASH_VERSINFO
+        local -x COMP_LINE="$words"
+
+        (( COMP_POINT = ''${#COMP_LINE} ))
+        (( COMP_CWORD = CURRENT - 1 ))
+        COMP_WORDS=( $words )
+        BASH_VERSINFO=( 2 05b 0 1 release )
+
+        _python_argcomplete gcloud
+
+        local -a fixed=()
+        for m in "''${COMPREPLY[@]}"; do
+            fixed+=("''${m//\\/}")
+        done
+
+        compadd -Q -S ' ' -- "''${fixed[@]}"
+      }
+
+      compdef _bash_complete_gcloud gcloud
     '';
 
     siteFunctions = {
