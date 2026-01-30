@@ -17,6 +17,7 @@ in
       nvim-surround
       plenary-nvim
       telescope-nvim
+      vim-better-whitespace
       vim-pasta
       vim-repeat
       vim-sleuth
