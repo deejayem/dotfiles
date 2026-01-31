@@ -45,25 +45,9 @@
     };
   };
 
-  services.udev.packages = [
-    (pkgs.writeTextFile {
-      name = "epson_udev";
-      text = ''
-        ATTRS{idVendor}=="04b8", ATTRS{idProduct}=="084a", MODE="0664", GROUP="lp", ENV{libsane_matched}="yes"
-      '';
-
-      destination = "/etc/udev/rules.d/99-printer.rules";
-    })
-    (pkgs.writeTextFile {
-      name = "iwlwifi_udev";
-      text = ''
-        SUBSYSTEM=="pci", KERNEL=="[0000:2e:00.0]", ATTR{d3cold_allowed}="0"
-      '';
-
-      destination = "/etc/udev/rules.d/99-iwlwifi.rules";
-    })
-  ];
-  boot.extraModprobeConfig = "options iwlwifi disable_clkreq=y disable_aspm_l1=y disable_aspm_l1ss=y";
+  services.udev.extraRules = ''
+    SUBSYSTEM=="pci", KERNEL=="0000:2e:00.0", ATTR{d3cold_allowed}="0"
+  '';
 
   system.stateVersion = "21.05";
 }
