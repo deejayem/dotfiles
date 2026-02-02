@@ -9,11 +9,9 @@ let
   outputPath = "hosts/home-manager/modules/orgs/kevel/secrets/age/aws/config.age";
   accountsPath = config.age.secrets."kevel/aws/accounts".path;
   ssoStartUrlPath = config.age.secrets."kevel/env/sso-start-url".path;
-  bb = lib.getExe pkgs.babashka;
   rage = lib.getExe pkgs.rage;
 
-  regenAwsSecret = pkgs.writeScriptBin "regenerate-aws-secret" ''
-    #!${bb}
+  regenAwsSecret = pkgs.writers.writeBabashkaBin "regenerate-aws-secret" { } ''
     (ns regenerate-aws-secret
       (:require [babashka.fs :as fs]
                 [babashka.process :as p]
