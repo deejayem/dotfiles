@@ -1,4 +1,4 @@
-{ ... }:
+{ inputs, ... }:
 final: prev: {
   cdktf-cli = prev.cdktf-cli.overrideAttrs (oldAttrs: {
     nativeBuildInputs = builtins.map (
@@ -14,4 +14,6 @@ final: prev: {
       nodejs = prev.nodejs_22;
     };
   };
+
+  ssm-session-manager-plugin = inputs.nixpkgs-ssm.legacyPackages.${final.stdenv.hostPlatform.system}.ssm-session-manager-plugin;
 }

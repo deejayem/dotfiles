@@ -7,6 +7,7 @@
     nixpkgs-stable.url = "nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable";
     nixpkgs.follows = "nixpkgs-unstable";
+    nixpkgs-ssm.url = "github:NixOS/nixpkgs?rev=261c1aca4c7d6efe82fba2230e55105db337ec79";
 
     home-manager-stable = {
       url = "github:nix-community/home-manager/release-25.11";
