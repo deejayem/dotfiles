@@ -9,6 +9,8 @@ let
     ADZERK_GITHUB_PACKAGES_AUTH_TOKEN = "adzerk-packages";
     OPENAI_API_TOKEN = "openai-api";
     AWS_DEFAULT_SSO_START_URL = "sso-start-url";
+    GCP_DELIVERY_DEV = "gcp-delivery-dev";
+    GCP_DELIVERY_PROD = "gcp-delivery-prod";
   };
 
   bat = lib.getExe pkgs.bat;
@@ -37,10 +39,6 @@ in
     "$HOME/.npm-global/bin"
     "$HOME/src/kevel/cli-tools/micha"
   ];
-
-  home.shellAliases = {
-    update-gcp-ssh = "${gcloud} compute config-ssh --ssh-config-file=~/.ssh/config_local";
-  };
 
   home.packages = with pkgs; [
     aws-cdk-cli
@@ -246,6 +244,37 @@ in
       }
 
       compdef _bash_complete_gcloud gcloud
+
+
+      # ssh completion for gcp hosts
+      _gcp_ssh() {
+        local prefix project cache_file
+        local -a instances config_hosts
+
+        case "$words[CURRENT]" in
+            gcp1-*) prefix=gcp1; project="$GCP_DELIVERY_DEV" ;;
+            pg1-*)  prefix=pg1;  project="$GCP_DELIVERY_PROD" ;;
+            *)      _ssh "$@"; return ;;
+        esac
+
+        [[ -z "$project" ]] && { _ssh "$@"; return }
+
+        cache_file="''${XDG_CACHE_HOME:-$HOME/.cache}/gcp-instances-$prefix"
+
+        if [[ ! -f "$cache_file" ]]; then
+            gcloud compute instances list --project="$project" --format='value(name)' 2>/dev/null > "$cache_file"
+        elif [[ $(( $(date +%s) - $(stat -f%m "$cache_file" 2>/dev/null || stat -c%Y "$cache_file") )) -gt 300 ]]; then
+            { gcloud compute instances list --project="$project" --format='value(name)' 2>/dev/null > "$cache_file" } &!
+        fi
+
+        instances=(''${(f)"$(<$cache_file)"})
+
+        config_hosts=(''${(f)"$(grep -h '^Host ' ~/.ssh/config ~/.ssh/config.local ~/.ssh/config.d/* 2>/dev/null | awk '{print $2}' | grep "^''${prefix}-")"})
+
+        compadd -Q -- "''${instances[@]}" "''${config_hosts[@]}"
+      }
+
+      compdef _gcp_ssh ssh
     '';
 
     siteFunctions = {
