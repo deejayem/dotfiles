@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ ... }:
 final: prev: {
   cdktf-cli = prev.cdktf-cli.overrideAttrs (oldAttrs: {
     nativeBuildInputs = builtins.map (
@@ -15,5 +15,11 @@ final: prev: {
     };
   };
 
-  ssm-session-manager-plugin = inputs.nixpkgs-ssm.legacyPackages.${final.stdenv.hostPlatform.system}.ssm-session-manager-plugin;
+  ssm-session-manager-plugin = prev.ssm-session-manager-plugin.overrideAttrs (old: {
+    patches = [
+      ./0001-module-support.patch
+    ];
+    proxyVendor = true;
+    vendorHash = "sha256-pQAet0dYsLeXwpbCHSbqiIWXQ0mM2X/cKHqkx0BuwLY=";
+  });
 }
