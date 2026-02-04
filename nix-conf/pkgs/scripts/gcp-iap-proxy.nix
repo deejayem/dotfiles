@@ -26,7 +26,7 @@ pkgs.writeShellScriptBin "gcp-iap-proxy" ''
       COMP_POINT=''${#COMP_LINE} \
       _ARGCOMPLETE_COMP_WORDBREAKS="" \
       _ARGCOMPLETE=1 \
-      ${lib.getExe pkgs.google-cloud-sdk} 8>&1 9>&2 1>/dev/null | grep -oP '(?<=--zone=)[^ \\]+')
+      ${lib.getExe pkgs.google-cloud-sdk} 8>&1 9>&2 1>/dev/null | ${lib.getExe pkgs.gnugrep} -oP '(?<=--zone=)[^ \\]+')
     [[ -n "$zone" ]] && echo "$zone" > "$cache_file"
   fi
 

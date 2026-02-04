@@ -13,9 +13,11 @@ let
     GCP_DELIVERY_PROD = "gcp-delivery-prod";
   };
 
+  awk = lib.getExe pkgs.gawk;
   bat = lib.getExe pkgs.bat;
   gcp-iap-proxy-bin = lib.getExe pkgs.gcp-iap-proxy;
   gcloud = lib.getExe pkgs.google-cloud-sdk;
+  grep = lib.getExe pkgs.gnugrep;
   jq = lib.getExe pkgs.jq;
   msgpack2json = lib.getExe' pkgs.msgpack-tools "msgpack2json";
   sed = lib.getExe pkgs.gnused;
@@ -221,21 +223,19 @@ in
 
       # Prevent spaces from being escaped
       # e.g. gcloud compute ssh foo<tab> becomes gcloud compute ssh foo-bar\ --zone=us-east1-a
-      _bash_complete_gcloud() {
-        local ret=1
-        local -a suf matches
+      _complete_gcloud() {
         local -x COMP_POINT COMP_CWORD
-        local -a COMP_WORDS COMPREPLY BASH_VERSINFO
+        local -a COMP_WORDS COMPREPLY
         local -x COMP_LINE="$words"
 
         (( COMP_POINT = ''${#COMP_LINE} ))
         (( COMP_CWORD = CURRENT - 1 ))
         COMP_WORDS=( $words )
-        BASH_VERSINFO=( 2 05b 0 1 release )
 
-        _python_argcomplete gcloud
+        _python_argcomplete ${gcloud}
 
         local -a fixed=()
+        local m
         for m in "''${COMPREPLY[@]}"; do
             fixed+=("''${m//\\/}")
         done
@@ -243,8 +243,7 @@ in
         compadd -Q -S ' ' -- "''${fixed[@]}"
       }
 
-      compdef _bash_complete_gcloud gcloud
-
+      compdef _complete_gcloud gcloud
 
       # ssh completion for gcp hosts
       _gcp_ssh() {
@@ -262,14 +261,14 @@ in
         cache_file="''${XDG_CACHE_HOME:-$HOME/.cache}/gcp-instances-$prefix"
 
         if [[ ! -f "$cache_file" ]]; then
-            gcloud compute instances list --project="$project" --format='value(name)' 2>/dev/null > "$cache_file"
+            ${gcloud} compute instances list --project="$project" --format='value(name)' 2>/dev/null > "$cache_file"
         elif [[ $(( $(date +%s) - $(stat -f%m "$cache_file" 2>/dev/null || stat -c%Y "$cache_file") )) -gt 300 ]]; then
-            { gcloud compute instances list --project="$project" --format='value(name)' 2>/dev/null > "$cache_file" } &!
+            { ${gcloud} compute instances list --project="$project" --format='value(name)' 2>/dev/null > "$cache_file" } &!
         fi
 
         instances=(''${(f)"$(<$cache_file)"})
 
-        config_hosts=(''${(f)"$(grep -h '^Host ' ~/.ssh/config ~/.ssh/config.local ~/.ssh/config.d/* 2>/dev/null | awk '{print $2}' | grep "^''${prefix}-")"})
+        config_hosts=(''${(f)"$(${grep} -h '^Host ' ~/.ssh/config ~/.ssh/config.local ~/.ssh/config.d/* 2>/dev/null | ${awk} '{print $2}' | ${grep} "^''${prefix}-")"})
 
         compadd -Q -- "''${instances[@]}" "''${config_hosts[@]}"
       }
