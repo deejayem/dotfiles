@@ -61,6 +61,7 @@ in
     nodejs
     opentofu
     pacs
+    python3
     ruby
     tailscale
     terraform
