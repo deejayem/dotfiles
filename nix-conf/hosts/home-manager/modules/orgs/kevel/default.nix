@@ -34,7 +34,6 @@ in
 
   home.packages = with pkgs; [
     aws-cdk-cli
-    aws-sso-util
     cdktf-cli
     claude-code
     cli-tools
@@ -134,27 +133,6 @@ in
   };
   programs.ssh = {
     matchBlocks = {
-      # aws
-      "i-*" = {
-        user = "ubuntu";
-        proxyCommand = "ssh-ssm.sh %h %r";
-        identityFile = "~/.ssh/ssm-ssh-tmp";
-        userKnownHostsFile = "/dev/null";
-        forwardAgent = true;
-        serverAliveInterval = 5;
-        sendEnv = [
-          "AWS_*"
-          "ADZERK_*"
-        ];
-        extraOptions = {
-          "ConnectTimeout" = "30";
-          "BatchMode" = "yes";
-          "LogLevel" = "QUIET";
-          "StrictHostKeyChecking" = "no";
-        };
-      };
-
-      # orbstack
       "*.orb.local" = {
         identityFile = "~/.orbstack/ssh/id_ed25519";
         forwardAgent = true;

@@ -85,5 +85,35 @@ in
 {
   age.secrets."kevel/aws/config".path = "${config.home.homeDirectory}/.aws/config";
 
-  home.packages = [ regenAwsSecret ];
+  home.packages = with pkgs; [
+    aws-sso-util
+    regenAwsSecret
+  ];
+
+  home.sessionVariables = {
+    AWS_DEFAULT_SSO_REGION = "us-east-1";
+  };
+
+  programs.ssh = {
+    matchBlocks = {
+      "i-*" = {
+        user = "ubuntu";
+        proxyCommand = "ssh-ssm.sh %h %r";
+        identityFile = "~/.ssh/ssm-ssh-tmp";
+        userKnownHostsFile = "/dev/null";
+        forwardAgent = true;
+        serverAliveInterval = 5;
+        sendEnv = [
+          "AWS_*"
+          "ADZERK_*"
+        ];
+        extraOptions = {
+          "ConnectTimeout" = "30";
+          "BatchMode" = "yes";
+          "LogLevel" = "QUIET";
+          "StrictHostKeyChecking" = "no";
+        };
+      };
+    };
+  };
 }
