@@ -5,14 +5,6 @@
   ...
 }:
 let
-  envSecrets = {
-    ADZERK_GITHUB_PACKAGES_AUTH_TOKEN = "adzerk-packages";
-    OPENAI_API_TOKEN = "openai-api";
-    AWS_DEFAULT_SSO_START_URL = "sso-start-url";
-    GCP_DELIVERY_DEV = "gcp-delivery-dev";
-    GCP_DELIVERY_PROD = "gcp-delivery-prod";
-  };
-
   awk = lib.getExe pkgs.gawk;
   bat = lib.getExe pkgs.bat;
   gcp-iap-proxy-bin = lib.getExe pkgs.gcp-iap-proxy;
@@ -26,6 +18,7 @@ in
 {
   imports = [
     ./aws-config.nix
+    (import ../../home-secrets/env-secrets.nix { prefix = "kevel"; })
   ];
 
   programs.home-manager.enable = true;
@@ -71,7 +64,7 @@ in
   home.file = {
     ".npmrc".text = ''
       @adzerk:registry=https://npm.pkg.github.com/
-      //npm.pkg.github.com/:_authToken=''${ADZERK_GITHUB_PACKAGES_AUTH_TOKEN}
+      //npm.pkg.github.com/:_authToken=''${GITHUB_PACKAGES_TOKEN}
       prefix=~/.npm-global
     '';
     ".cdk.json".text = ''
@@ -211,14 +204,6 @@ in
   };
 
   programs.zsh = {
-    envExtra = lib.concatStringsSep "\n" (
-      lib.mapAttrsToList (envName: secretName: ''
-        if [ -e ${config.age.secrets."kevel/env/${secretName}".path} ]; then
-          export ${envName}=$(<${config.age.secrets."kevel/env/${secretName}".path})
-        fi
-      '') envSecrets
-    );
-
     initContent = ''
       source "${pkgs.google-cloud-sdk}/share/zsh/site-functions/_gcloud"
 

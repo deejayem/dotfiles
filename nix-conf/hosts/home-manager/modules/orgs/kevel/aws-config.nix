@@ -8,7 +8,7 @@ let
   ssoRegion = "us-east-1";
   outputPath = "hosts/home-manager/modules/orgs/kevel/secrets/age/aws/config.age";
   accountsPath = config.age.secrets."kevel/aws/accounts".path;
-  ssoStartUrlPath = config.age.secrets."kevel/env/sso-start-url".path;
+  ssoStartUrlPath = config.age.secrets."kevel/env/aws-default-sso-start-url".path;
   rage = lib.getExe pkgs.rage;
 
   regenAwsSecret = pkgs.writers.writeBabashkaBin "regenerate-aws-secret" { } ''
