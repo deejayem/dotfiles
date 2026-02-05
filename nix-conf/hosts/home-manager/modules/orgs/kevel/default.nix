@@ -29,7 +29,6 @@ in
 
   home.sessionPath = [
     "$HOME/.npm-global/bin"
-    "$HOME/src/kevel/cli-tools/micha"
   ];
 
   home.packages = with pkgs; [
