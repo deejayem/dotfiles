@@ -59,7 +59,6 @@ in
     pgcli
     pgformatter
     #pms
-    poetry
     postgresql
     podman
     #python310Packages.sqlparse
