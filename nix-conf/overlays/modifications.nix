@@ -14,12 +14,4 @@ final: prev: {
       nodejs = prev.nodejs_22;
     };
   };
-
-  ssm-session-manager-plugin = prev.ssm-session-manager-plugin.overrideAttrs (old: {
-    patches = [
-      ./0001-module-support.patch
-    ];
-    proxyVendor = true;
-    vendorHash = "sha256-pQAet0dYsLeXwpbCHSbqiIWXQ0mM2X/cKHqkx0BuwLY=";
-  });
 }
