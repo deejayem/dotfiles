@@ -19,6 +19,8 @@ let
   sed = lib.getExe pkgs.gnused;
   tmux = lib.getExe pkgs.tmux;
   tre = lib.getExe pkgs.tre-command;
+  tty = lib.getExe' pkgs.coreutils "tty";
+  wc = lib.getExe' pkgs.coreutils "wc";
   show_file_or_dir_preview = "if [ -d {} ]; then ${eza} --tree --color=always {} | head -200; else ${bat} -n --color=always --line-range :500 {}; fi";
 in
 {
@@ -264,6 +266,23 @@ in
         idx=$(dirs -v | ${fzf} --height=40% | awk '{print $1}') || return
         [[ -n "$idx" ]] && __zoxide_cd ~$idx
       '';
+
+      _histfile_watchdog = ''
+        local lines
+        lines=$(${wc} -l < "$HISTFILE" 2>/dev/null) || return
+
+        if [[ $lines -lt 1000 && -n $HISTFILE_LAST_GOOD_COUNT && $HISTFILE_LAST_GOOD_COUNT -gt 1000 ]]; then
+          local backup="''${HISTFILE}.emergency.$$"
+
+          print -u2 "WARNING: HISTFILE dropped from $HISTFILE_LAST_GOOD_COUNT to $lines lines"
+          print -u2 "Shell PID: $$, TTY: $(${tty}), SHLVL: $SHLVL"
+          print -u2 "Last command: $history[$((HISTCMD-1))]"
+
+          fc -W "$backup" 2>/dev/null && print -u2 "In-memory history saved to $backup"
+        fi
+
+        [[ $lines -gt 1000 ]] && HISTFILE_LAST_GOOD_COUNT=$lines
+      '';
     };
 
     initContent = lib.mkMerge [
@@ -285,6 +304,8 @@ in
             exec ${tmux} -u attach-session -d
           fi
         fi
+
+        precmd_functions+=(_histfile_watchdog)
 
         autopair-init
         enable-fzf-tab
