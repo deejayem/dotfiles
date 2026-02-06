@@ -26,6 +26,7 @@ in
     ./programs/ssh.nix
     ./programs/starship.nix
     ./programs/tmux.nix
+    ./programs/zoxide.nix
     ./programs/zsh.nix
     ./roles/${role}.nix
     ./os/${os}.nix

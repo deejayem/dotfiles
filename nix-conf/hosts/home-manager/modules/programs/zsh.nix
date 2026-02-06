@@ -44,10 +44,7 @@ in
       "--bind 'ctrl-t:toggle-preview'"
     ]; # FZF_CTRL_R_OPTS
   };
-  programs.zoxide = {
-    enable = true;
-    enableZshIntegration = true;
-  };
+
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
@@ -106,9 +103,6 @@ in
       nix-hammer = "nix shell -f https://github.com/jtojnar/nixpkgs-hammering/archive/master.tar.gz -c nixpkgs-hammer";
 
       fb = "fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}'";
-
-      # Restrict matches to subdirs of the current one (https://github.com/skywind3000/z.lua/blob/ef9a49d73d2b4f262c6fbb23262253dcda7c19a7/README.md#tips)
-      zz = "z $PWD";
 
       els = "ea run linear ls -- -1";
       erg = "ea run grouped rg --";
@@ -255,17 +249,6 @@ in
       hm-eval = ''${nix} eval --json $NH_FLAKE#homeConfigurations."$USER@$HOST".config.$1 | ${jq}'';
 
       darwin-eval = "${nix} eval --json $NH_FLAKE#darwinConfigurations.$HOST.config.$1 | ${jq}";
-
-      __zoxide_cd = ''
-        setopt localoptions PUSHDSILENT
-        \builtin pushd -- "$@"
-      '';
-
-      zs = ''
-        local idx
-        idx=$(dirs -v | ${fzf} --height=40% | awk '{print $1}') || return
-        [[ -n "$idx" ]] && __zoxide_cd ~$idx
-      '';
 
       _histfile_watchdog = ''
         local lines
