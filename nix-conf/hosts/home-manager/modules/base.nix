@@ -15,6 +15,7 @@ in
   imports = [
     ../../options.nix
     ./home-secrets
+    ./programs/atuin.nix
     ./programs/bat.nix
     ./programs/ea.nix
     ./programs/emacs.nix
