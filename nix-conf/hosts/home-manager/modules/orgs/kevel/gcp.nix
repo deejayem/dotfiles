@@ -1,15 +1,16 @@
 { lib, pkgs, ... }:
 let
+  gcloud-with-firestore = pkgs.google-cloud-sdk.withExtraComponents [pkgs.google-cloud-sdk.components.cloud-firestore-emulator];
   awk = lib.getExe pkgs.gawk;
   gcp-iap-proxy-bin = lib.getExe pkgs.gcp-iap-proxy;
-  gcloud = lib.getExe pkgs.google-cloud-sdk;
+  gcloud = lib.getExe gcloud-with-firestore;
   grep = lib.getExe pkgs.gnugrep;
 in
 {
   home.packages = with pkgs; [
     firebase-tools
     gcp-iap-proxy
-    google-cloud-sdk
+    gcloud-with-firestore
   ];
 
   programs.ssh = {
