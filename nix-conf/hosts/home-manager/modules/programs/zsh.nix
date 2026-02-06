@@ -41,6 +41,7 @@ in
     defaultKeymap = "emacs";
     history = {
       append = true;
+      extended = true;
       ignoreSpace = true;
       save = 300000;
       share = true;
