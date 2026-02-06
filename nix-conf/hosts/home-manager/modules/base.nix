@@ -66,7 +66,6 @@ in
     ea
     elinks
     entr
-    fd
     file
     gnupg
     gopass
@@ -116,6 +115,8 @@ in
     system-changes-report
     (pkgs.nixos-update.override { inherit inputs version; })
   ];
+
+  programs.fd.enable = true;
 
   programs.gpg.enable = true;
 
