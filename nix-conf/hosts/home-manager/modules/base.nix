@@ -16,6 +16,7 @@ in
     ../../options.nix
     ./home-secrets
     ./programs/bat.nix
+    ./programs/ea.nix
     ./programs/emacs.nix
     ./programs/eza.nix
     ./programs/fzf.nix
