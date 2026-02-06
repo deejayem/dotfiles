@@ -59,6 +59,8 @@ in
       vim.opt.tabstop = 4
       vim.opt.hlsearch = true
       vim.opt.showmatch = true
+      vim.opt.undofile = true
+      vim.opt.undodir = vim.fn.stdpath('data') .. '/undo'
       vim.api.nvim_set_hl(0, "Normal", { bg = "#000000" })
 
       vim.api.nvim_create_autocmd('BufEnter', {
