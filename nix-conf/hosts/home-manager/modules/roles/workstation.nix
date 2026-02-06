@@ -13,6 +13,5 @@
     janet
     multimarkdown
     nixd
-    ripgrep-all
   ];
 }

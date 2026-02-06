@@ -24,6 +24,7 @@ in
     ./programs/nix-index.nix
     ./programs/nh.nix
     ./programs/nvim.nix
+    ./programs/ripgrep.nix
     ./programs/ssh.nix
     ./programs/starship.nix
     ./programs/tmux.nix
@@ -92,7 +93,6 @@ in
     pstree
     pv
     rage
-    ripgrep
     rlwrap
     sd
     shfmt
