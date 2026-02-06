@@ -18,6 +18,7 @@ in
     ./programs/bat.nix
     ./programs/emacs.nix
     ./programs/eza.nix
+    ./programs/fzf.nix
     ./programs/git.nix
     ./programs/lsd.nix
     ./programs/nix-index.nix
@@ -66,7 +67,6 @@ in
     entr
     fd
     file
-    fzf
     gnupg
     gopass
     htop
