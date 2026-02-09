@@ -5,7 +5,10 @@
   ...
 }:
 let
+  dsf = lib.getExe pkgs.diff-so-fancy;
+  difft = lib.getExe pkgs.difftastic;
   less = lib.getExe pkgs.less;
+  sh = lib.getExe' pkgs.bash "sh";
 in
 {
   home.packages = with pkgs; [
@@ -36,8 +39,8 @@ in
     settings = {
       alias = {
         # difftastic
-        logt = "!sh -c 'GIT_EXTERNAL_DIFF=\"difft --background=dark\" git log -p --ext-diff'";
-        showt = "!show() { GIT_EXTERNAL_DIFF=difft git show \${1} --ext-diff; }; show";
+        logt = "!${sh} -c 'GIT_EXTERNAL_DIFF=\"${difft} --background=dark\" git log -p --ext-diff'";
+        showt = "!show() { GIT_EXTERNAL_DIFF=${difft} git show \${1} --ext-diff; }; show";
         difft = "difftool";
         # "raw" output
         rlog = "!git -c delta.raw=true -c core.pager=${less} log"; # usually used with -p
@@ -48,9 +51,9 @@ in
         cshow = "!git -c delta.line-numbers=false show";
         cdiff = "!git -c delta.line-numbers=false diff";
         # diff-so-fancy
-        flog = ''!git -c core.pager="diff-so-fancy | ${less}" log''; # usually used with -p
-        fshow = ''!git -c core.pager="diff-so-fancy | ${less}" show'';
-        fdiff = ''!git -c core.pager="diff-so-fancy | ${less}" diff'';
+        flog = ''!git -c core.pager="${dsf} | ${less}" log''; # usually used with -p
+        fshow = ''!git -c core.pager="${dsf} | ${less}" show'';
+        fdiff = ''!git -c core.pager="${dsf} | ${less}" diff'';
 
         upstream = "!git push -u origin HEAD";
         update-master = "!git fetch origin master:master";
@@ -75,7 +78,7 @@ in
       difftool = {
         prompt = false;
         difftastic = {
-          cmd = ''difft "$LOCAL" "$REMOTE"'';
+          cmd = ''${difft} "$LOCAL" "$REMOTE"'';
         };
       };
       pull = {
