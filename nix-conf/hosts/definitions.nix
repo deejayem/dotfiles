@@ -5,6 +5,10 @@ let
     server = "server";
   };
 
+  orgs = {
+    kevel = "kevel";
+  };
+
   versions = rec {
     stable = "stable";
     unstable = "unstable";
@@ -74,6 +78,7 @@ in
       system = systems.aarch64-darwin;
       version = versions.unstable;
       role = roles.workstation;
+      org = orgs.kevel;
       darwin = { };
       home.djm = { };
     };

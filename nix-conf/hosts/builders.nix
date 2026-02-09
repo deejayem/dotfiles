@@ -44,6 +44,7 @@ let
       system,
       version,
       role,
+      org ? null,
       ...
     }:
     versions.withVersions version (
@@ -57,6 +58,7 @@ let
             system
             version
             role
+            org
             ;
         };
         modules = [

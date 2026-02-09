@@ -15,7 +15,6 @@ in
   imports = [
     ./aws-config.nix
     ./gcp.nix
-    (import ../../home-secrets/env-secrets.nix { prefix = "kevel"; })
   ];
 
   programs.home-manager.enable = true;

@@ -1,6 +1,3 @@
-{
-  prefix ? null,
-}:
 { config, lib, ... }:
 
 let
@@ -11,22 +8,32 @@ let
     mapAttrs'
     mapAttrsToList
     nameValuePair
-    optionalString
     removePrefix
     replaceStrings
     toUpper
     ;
 
-  secretsPrefix = optionalString (prefix != null) "${prefix}/" + "env/";
+  org = config.host.org;
 
-  envSecrets = mapAttrs' (
-    key: _:
+  globalPrefix = "env/";
+  orgPrefix = lib.optionalString (org != null) "${org}/env/";
+
+  mkEnvPair =
+    prefix: key: _:
     let
-      secretName = removePrefix secretsPrefix key;
+      secretName = removePrefix prefix key;
       envName = toUpper (replaceStrings [ "-" "/" "." ] [ "_" "_" "_" ] secretName);
     in
-    nameValuePair envName key
-  ) (filterAttrs (k: _: hasPrefix secretsPrefix k) config.age.secrets);
+    nameValuePair envName key;
+
+  globalSecrets = mapAttrs' (mkEnvPair globalPrefix) (
+    filterAttrs (k: _: hasPrefix globalPrefix k) config.age.secrets
+  );
+  orgSecrets = lib.optionalAttrs (org != null) (
+    mapAttrs' (mkEnvPair orgPrefix) (filterAttrs (k: _: hasPrefix orgPrefix k) config.age.secrets)
+  );
+
+  envSecrets = globalSecrets // orgSecrets;
 in
 {
   programs.zsh.envExtra = concatStringsSep "\n" (

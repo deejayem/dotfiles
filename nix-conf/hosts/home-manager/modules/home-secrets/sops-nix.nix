@@ -11,7 +11,7 @@ let
   secrets = secretsLib.discoverHomeSecrets {
     secretType = "sops";
     baseDir = ./secrets;
-    orgsDir = ../orgs;
+    org = secretsLib.mkOrg config.host.org ../orgs;
   };
 in
 {

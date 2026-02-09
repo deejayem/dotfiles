@@ -74,22 +74,22 @@ let
     {
       secretType,
       baseDir,
-      orgsDir,
+      org ? null, # { name, dir } or null
     }:
     let
       backend = getBackend secretType;
-
       secretsDir = baseDir + "/${backend.subdir}";
       subpath = "secrets/${backend.subdir}";
 
-      orgDirs = lib.optionals (builtins.pathExists orgsDir) (
-        lib.mapAttrsToList (org: _: {
-          dir = orgsDir + "/${org}/${subpath}";
-          namePrefix = "${org}/";
-        }) (lib.filterAttrs (_: t: t == "directory") (builtins.readDir orgsDir))
-      );
-
-      dirs = [ { dir = secretsDir; } ] ++ orgDirs;
+      dirs = [
+        { dir = secretsDir; }
+      ]
+      ++ lib.optionals (org != null && builtins.pathExists org.dir) [
+        {
+          dir = org.dir + "/${subpath}";
+          namePrefix = "${org.name}/";
+        }
+      ];
     in
     discoverSecrets {
       inherit dirs;
@@ -109,7 +109,21 @@ let
       dirs = [ { inherit dir; } ];
       inherit (backend) fileExtension mkSecretValue;
     };
+  mkOrg =
+    orgName: orgsDir:
+    if orgName != null then
+      {
+        name = orgName;
+        dir = orgsDir + "/${orgName}";
+      }
+    else
+      null;
 in
 {
-  inherit importPrivateIfExists discoverHomeSecrets discoverHostSecrets;
+  inherit
+    importPrivateIfExists
+    discoverHomeSecrets
+    discoverHostSecrets
+    mkOrg
+    ;
 }

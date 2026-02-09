@@ -5,6 +5,7 @@
   system,
   inputs,
   role,
+  org,
   version,
   ...
 }:
@@ -34,9 +35,13 @@ in
     ./programs/zsh.nix
     ./roles/${role}.nix
     ./os/${os}.nix
+  ]
+  ++ lib.optionals (org != null) [
+    ./orgs/${org}
   ];
 
   host.role = role;
+  host.org = org;
 
   home.sessionPath = [
     "$HOME/bin"

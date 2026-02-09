@@ -8,6 +8,11 @@
       ];
       description = "Host role";
     };
+    org = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      description = "Organization for this host";
+    };
     private = lib.mkOption {
       readOnly = true;
       type = lib.types.attrs;

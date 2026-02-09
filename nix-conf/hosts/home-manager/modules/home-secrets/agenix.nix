@@ -18,7 +18,7 @@ let
   secrets = secretsLib.discoverHomeSecrets {
     secretType = "age";
     baseDir = ./secrets;
-    orgsDir = ../orgs;
+    org = secretsLib.mkOrg config.host.org ../orgs;
   };
 
   agenixEdit = pkgs.writeShellScriptBin "agenix-edit" ''
