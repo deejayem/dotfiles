@@ -25,6 +25,7 @@ stdenv.mkDerivation (finalAttrs: {
     description = "Transform JSON data into tables";
     homepage = "https://github.com/micha/json-table";
     license = lib.licenses.epl10;
+    mainProgram = "jt";
     platforms = lib.platforms.unix;
   };
 })
