@@ -39,7 +39,7 @@ in
     codex
     copilot-language-server
     coffeescript
-    instance-info
+    aws-instance-info
     git-remote-codecommit
     lmdb-cli
     msgpack-tools

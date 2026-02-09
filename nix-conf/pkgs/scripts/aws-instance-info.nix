@@ -1,6 +1,12 @@
-{ pkgs }:
+{ lib, pkgs }:
 
-pkgs.writeShellScriptBin "instance-info" ''
+let
+  aws = lib.getExe pkgs.awscli2;
+  join = lib.getExe' pkgs.coreutils "join";
+  jt = lib.getExe pkgs.json-table;
+  sort = lib.getExe' pkgs.coreutils "sort";
+in
+pkgs.writeShellScriptBin "aws-instance-info" ''
   set -euo pipefail
 
   if [ $# -eq 0 ]; then
@@ -11,9 +17,9 @@ pkgs.writeShellScriptBin "instance-info" ''
   instance_ids=("$@")
 
   # Get EC2 instance details
-  ec2_info=$(${pkgs.awscli2}/bin/aws ec2 describe-instances \
+  ec2_info=$(${aws} ec2 describe-instances \
       --instance-ids "''${instance_ids[@]}" \
-      | ${pkgs.json-table}/bin/jt Reservations [ ] Instances [ ] \
+      | ${jt} Reservations [ ] Instances [ ] \
           [ InstanceId % ] \
           [ LaunchTime % ] \
           [ Placement AvailabilityZone % ] \
@@ -22,21 +28,21 @@ pkgs.writeShellScriptBin "instance-info" ''
           [ LaunchTemplate Version % ] \
           [ State Name % ] \
           [ PrivateIpAddress % ] \
-      | sort)
+      | ${sort})
 
   # Get ASG information
-  asg_info=$(${pkgs.awscli2}/bin/aws autoscaling describe-auto-scaling-instances \
+  asg_info=$(${aws} autoscaling describe-auto-scaling-instances \
       --instance-ids "''${instance_ids[@]}" \
-      | ${pkgs.json-table}/bin/jt AutoScalingInstances [ ] \
+      | ${jt}/bin/jt AutoScalingInstances [ ] \
           [ InstanceId % ] \
           [ AutoScalingGroupName % ] \
           [ LifecycleState % ] \
           [ HealthStatus % ] \
           [ ProtectedFromScaleIn % ] \
-      | sort)
+      | ${sort})
 
   # Join the two on InstanceId
-  join -t $'\t' -1 1 -2 1 \
+  ${join} -t $'\t' -1 1 -2 1 \
       <(echo "$ec2_info") \
       <(echo "$asg_info")
 ''
