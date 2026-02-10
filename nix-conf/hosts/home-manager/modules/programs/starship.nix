@@ -199,6 +199,11 @@ in
       package.format = "[$symbol$version]($style) ";
       python.format = "[\${symbol}\${pyenv_prefix}(\${version} )(\($virtualenv\) )]($style)";
       ruby.format = "[$symbol($version )]($style)";
+      shlvl = {
+        disabled = false;
+        symbol = "󰆍 ";
+        threshold = 3;
+      };
       status.disabled = false;
       username.format = "[$user]($style) ";
       terraform.format = "[$symbol$workspace]($style) ";
