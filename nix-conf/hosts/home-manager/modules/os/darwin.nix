@@ -43,6 +43,7 @@ in
     coreutils
     curl
     diffutils
+    envsubst
     findutils
     gh
     gh-dash
