@@ -64,8 +64,6 @@ in
     bottom
     broot
     curl
-    diff-so-fancy
-    difftastic
     duf
     dust
     elinks

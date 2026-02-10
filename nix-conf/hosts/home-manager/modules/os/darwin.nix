@@ -41,7 +41,6 @@ in
     cacert
     caddy
     coreutils
-    curl
     diffutils
     envsubst
     findutils

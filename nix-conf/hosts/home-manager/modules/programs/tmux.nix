@@ -23,7 +23,6 @@ in
         tmuxPlugins.copy-toolkit
         tmuxPlugins.copycat
         tmuxPlugins.extrakto
-        tmuxPlugins.fuzzback
         tmuxPlugins.fzf-tmux-url
         tmuxPlugins.jump
         {
