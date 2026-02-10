@@ -17,11 +17,6 @@ in
     ./gcp.nix
   ];
 
-  programs.home-manager.enable = true;
-
-  home.username = "djm";
-  home.homeDirectory = "/Users/djm";
-
   home.sessionVariables = {
     AWS_DEFAULT_SSO_REGION = "us-east-1";
   };

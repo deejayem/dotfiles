@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  username,
   system,
   role,
   org,
@@ -41,6 +42,11 @@ in
 
   host.role = role;
   host.org = org;
+
+  programs.home-manager.enable = true;
+
+  home.username = username;
+  home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
 
   home.sessionPath = [
     "$HOME/bin"

@@ -1,7 +1,6 @@
 { inputs, self }:
 let
   nix-darwin = inputs.nix-darwin;
-  inherit (inputs.nixpkgs.lib) optionals;
 
   mkNixosConfig =
     versions: hostname:
@@ -55,6 +54,7 @@ let
           inherit
             inputs
             hostname
+            username
             system
             version
             role
