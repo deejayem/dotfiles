@@ -78,13 +78,13 @@ in
         set -g status-right "#[fg=blue]%a%d/%m#[fg=yellow]%H:%M:%S"
       ''}
 
-       ${optionalString pkgs.stdenv.isLinux ''
-         bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "xsel -i -p && xsel -o -p | xsel -i -b"
-         bind-key C-y run "xsel -o | tmux load-buffer - ; tmux paste-buffer"
+       ${optionalString (pkgs.stdenv.isLinux && isWorkstation) ''
+         bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "${lib.getExe' pkgs.wl-clipboard "wl-copy"}"
+         bind-key C-y run "${lib.getExe' pkgs.wl-clipboard "wl-paste"} --no-newline | tmux load-buffer - ; tmux paste-buffer"
        ''}
        ${optionalString pkgs.stdenv.isDarwin ''
-         bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
-         bind-key C-y run "reattach-to-user-namespace pbpaste | tmux load-buffer - ; tmux paste-buffer"
+         bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "pbcopy"
+         bind-key C-y run "pbpaste | tmux load-buffer - ; tmux paste-buffer"
        ''}
     '';
   };
