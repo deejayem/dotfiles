@@ -70,7 +70,6 @@ in
     difftastic
     duf
     dust
-    ea
     elinks
     entr
     file
@@ -92,6 +91,7 @@ in
     nix-prefetch-git
     nix-prefetch-github
     nix-search
+    nixpkgs-hammering
     nixpkgs-reviewFull
     nvd
     pass

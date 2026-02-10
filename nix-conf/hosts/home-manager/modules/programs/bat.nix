@@ -21,4 +21,8 @@
       ];
     };
   };
+
+  programs.zsh.shellAliases = {
+    cat = "bat -p";
+  };
 }

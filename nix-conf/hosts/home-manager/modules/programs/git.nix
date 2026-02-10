@@ -107,4 +107,22 @@ in
       signByDefault = true;
     };
   };
+
+  programs.zsh.shellAliases = {
+    # Git log aliases from the omz git plugin
+    gl = "git pull";
+    glg = "git log --stat";
+    glgp = "git log --stat -p";
+    glgg = "git log --graph";
+    glgga = "git log --graph --decorate --all";
+    glgm = "git log --graph --max-count=10";
+    glo_ = "git log --oneline --decorate";
+    glol = ''git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset"'';
+    glols = ''git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset" --stat'';
+    glod = ''git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset"'';
+    glods = ''git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset" --date=short'';
+    glola = ''git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset" --all'';
+    glog = "git log --oneline --decorate --graph";
+    gloga = "git log --oneline --decorate --graph --all";
+  };
 }

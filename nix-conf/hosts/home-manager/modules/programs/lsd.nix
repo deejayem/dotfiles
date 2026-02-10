@@ -20,4 +20,11 @@
       ];
     };
   };
+
+  programs.zsh.shellAliases = {
+    p = "lsd";
+    pa = "lsd -a";
+    pll = "lsd -l";
+    pla = "lsd -la";
+  };
 }

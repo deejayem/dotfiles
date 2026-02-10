@@ -1,18 +1,13 @@
 {
-  config,
   pkgs,
   lib,
   ...
 }:
 let
-  bat = lib.getExe pkgs.bat;
-  eza = lib.getExe pkgs.eza;
-  fd = lib.getExe pkgs.fd;
   gopass = lib.getExe pkgs.gopass;
   jq = lib.getExe pkgs.jq;
   nix = lib.getExe pkgs.nix;
   nixCollectGarbage = lib.getExe' pkgs.nix "nix-collect-garbage";
-  rg = lib.getExe pkgs.ripgrep;
   sed = lib.getExe pkgs.gnused;
   tmux = lib.getExe pkgs.tmux;
   tre = lib.getExe pkgs.tre-command;
@@ -57,43 +52,12 @@ in
       cp = "cp -iv";
       mv = "mv -iv";
       mkdir = "mkdir -v";
-      cat = "bat -p";
-      c = "bat -p";
-      l = "eza";
-      la = "eza -a";
-      lg = "eza -G";
-      lga = "eza -aG";
-      ll = "\\eza --icons --git --colour --long --group-directories-first --classify";
-      lla = "ll -a";
-      t = "eza --tree";
-      p = "lsd";
-      pa = "lsd -a";
-      pll = "lsd -l";
-      pla = "lsd -la";
 
       ".." = "cd ..";
       "..." = "cd ../..";
       "-" = "cd -";
 
       pp = ''pushbullet push "Pixel" link "''${1}" "''${1}"'';
-
-      nix-hammer = "nix shell -f https://github.com/jtojnar/nixpkgs-hammering/archive/master.tar.gz -c nixpkgs-hammer";
-
-      # Git log aliases from the omz git plugin
-      gl = "git pull";
-      glg = "git log --stat";
-      glgp = "git log --stat -p";
-      glgg = "git log --graph";
-      glgga = "git log --graph --decorate --all";
-      glgm = "git log --graph --max-count=10";
-      glo_ = "git log --oneline --decorate";
-      glol = ''git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset"'';
-      glols = ''git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset" --stat'';
-      glod = ''git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset"'';
-      glods = ''git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset" --date=short'';
-      glola = ''git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset" --all'';
-      glog = "git log --oneline --decorate --graph";
-      gloga = "git log --oneline --decorate --graph --all";
     };
 
     setOptions = [

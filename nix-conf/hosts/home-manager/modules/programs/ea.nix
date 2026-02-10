@@ -9,6 +9,10 @@ let
   ea = lib.getExe' pkgs.ea "ea";
 in
 {
+  home.packages = [
+    pkgs.ea
+  ];
+
   programs.zsh = {
     shellAliases = {
       els = "ea run linear ls -- -1";
