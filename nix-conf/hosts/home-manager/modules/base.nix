@@ -3,10 +3,8 @@
   lib,
   pkgs,
   system,
-  inputs,
   role,
   org,
-  version,
   ...
 }:
 let
@@ -24,6 +22,7 @@ in
     ./programs/fzf.nix
     ./programs/git.nix
     ./programs/lsd.nix
+    ./programs/nix.nix
     ./programs/nix-index.nix
     ./programs/nh.nix
     ./programs/nvim.nix
@@ -64,7 +63,6 @@ in
     bandwhich
     bottom
     broot
-    comma
     curl
     diff-so-fancy
     difftastic
@@ -87,13 +85,6 @@ in
     lynx
     mercurial
     mu
-    nix-info
-    nix-prefetch-git
-    nix-prefetch-github
-    nix-search
-    nixpkgs-hammering
-    nixpkgs-reviewFull
-    nvd
     pass
     procs
     pstree
@@ -116,11 +107,6 @@ in
     zip
     zstd
 
-    unstable.nixfmt
-
-    hm-changes-report
-    system-changes-report
-    (pkgs.nixos-update.override { inherit inputs version; })
   ];
 
   programs.fd.enable = true;

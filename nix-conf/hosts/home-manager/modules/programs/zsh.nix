@@ -5,10 +5,6 @@
 }:
 let
   gopass = lib.getExe pkgs.gopass;
-  jq = lib.getExe pkgs.jq;
-  nix = lib.getExe pkgs.nix;
-  nixCollectGarbage = lib.getExe' pkgs.nix "nix-collect-garbage";
-  sed = lib.getExe pkgs.gnused;
   tmux = lib.getExe pkgs.tmux;
   tre = lib.getExe pkgs.tre-command;
   tty = lib.getExe' pkgs.coreutils "tty";
@@ -74,48 +70,10 @@ in
     siteFunctions = {
       generate = "${gopass} generate -s -p $1 $((RANDOM % 14 + 45))";
 
-      denix = ''
-        ${sed} -E 's#/nix/store/[^/]+/bin/([[:alnum:]_.+-]+)#\1#g'
-      '';
-
       # From omz
       mkcd = ''mkdir -p "$@" && cd ''${@:$#}'';
 
       tre = ''command ${tre} "$@" -e && source "/tmp/tre_aliases_$USER" 2>/dev/null;'';
-
-      gcd = ''
-        if [ $# -eq 0 ]; then
-          echo "Number of days must be specified" >&2
-          return 1
-        fi
-        if ! [[ $1 =~ '^[0-9]+$' ]]; then
-          echo "Number of days must be a number" >&2
-          return 2
-        fi
-
-        local GC_ARGS
-        if [ $1 -eq 0 ]; then
-          GC_ARGS=(-d)
-        else
-          GC_ARGS=(--delete-older-than ''${1}d)
-        fi
-
-        local DOAS=$(command -v doas || command -v sudo)
-
-        ${nixCollectGarbage} ''${GC_ARGS[@]}
-        if [ -n "$DOAS" ]; then
-          $DOAS ${nixCollectGarbage} ''${GC_ARGS[@]}
-        fi
-
-        df -h
-        date
-      '';
-
-      nixos-eval = "${nix} eval --json $NH_FLAKE#nixosConfigurations.$HOST.config.$1 | ${jq}";
-
-      hm-eval = ''${nix} eval --json $NH_FLAKE#homeConfigurations."$USER@$HOST".config.$1 | ${jq}'';
-
-      darwin-eval = "${nix} eval --json $NH_FLAKE#darwinConfigurations.$HOST.config.$1 | ${jq}";
 
       _histfile_watchdog = ''
         local lines
