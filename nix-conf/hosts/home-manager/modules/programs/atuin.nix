@@ -10,6 +10,6 @@
   };
 
   programs.zsh.initContent = ''
-    bindkey '^e' atuin-search
+    bindkey '^[r' atuin-search
   '';
 }
