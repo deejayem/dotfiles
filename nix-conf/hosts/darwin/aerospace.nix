@@ -40,7 +40,7 @@
             run = [ "move-node-to-workspace 4" ];
           }
           {
-            "if".app-id = "com.tinyspeck.slackmacgui";
+            "if".app-id = "com.tinyspeck.slackmacgap";
             run = [ "move-node-to-workspace 5" ];
           }
           {
