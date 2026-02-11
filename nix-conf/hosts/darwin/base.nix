@@ -1,4 +1,9 @@
-{ pkgs, username, ... }:
+{
+  pkgs,
+  system,
+  username,
+  ...
+}:
 let
   homeDir = "/Users/${username}";
 in
@@ -12,7 +17,7 @@ in
   };
 
   system.primaryUser = username;
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  nixpkgs.hostPlatform = system;
   users.users.${username}.home = homeDir;
   programs.zsh.enable = true;
 

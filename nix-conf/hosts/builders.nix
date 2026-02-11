@@ -25,12 +25,13 @@ let
   mkDarwinConfig =
     versions: hostname:
     {
+      system,
       role,
       ...
     }:
     nix-darwin.lib.darwinSystem {
       system.configurationRevision = self.rev or self.dirtyRev or null;
-      specialArgs = { inherit inputs hostname role; };
+      specialArgs = { inherit inputs hostname role system; };
       modules = [
         ../nix.nix
         ./darwin/${hostname}.nix
