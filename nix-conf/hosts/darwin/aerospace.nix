@@ -22,11 +22,10 @@
         on-window-detected = [
           {
             "if".app-id = "org.gnu.Emacs";
-            run = [ "move-node-to-workspace 1" ];
-          }
-          {
-            "if".app-id = "org.gnu.Emacs";
-            run = [ "layout floating" ];
+            run = [
+              "move-node-to-workspace 1"
+              "layout floating"
+            ];
           }
           {
             "if".app-id = "com.github.th-ch.youtube-music";
