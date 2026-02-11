@@ -33,7 +33,7 @@ pkgs.writeShellScriptBin "aws-instance-info" ''
   # Get ASG information
   asg_info=$(${aws} autoscaling describe-auto-scaling-instances \
       --instance-ids "''${instance_ids[@]}" \
-      | ${jt}/bin/jt AutoScalingInstances [ ] \
+      | ${jt} AutoScalingInstances [ ] \
           [ InstanceId % ] \
           [ AutoScalingGroupName % ] \
           [ LifecycleState % ] \
