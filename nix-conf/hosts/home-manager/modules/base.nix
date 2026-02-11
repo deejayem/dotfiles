@@ -106,6 +106,7 @@ in
     uni
     unzip
     w3m
+    wget
     xan
     yq
     zip

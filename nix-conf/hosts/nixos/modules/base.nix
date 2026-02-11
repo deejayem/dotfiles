@@ -37,7 +37,6 @@
     doas
     git
     rage
-    wget
   ];
 
   nix.settings.trusted-users = [

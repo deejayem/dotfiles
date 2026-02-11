@@ -66,7 +66,6 @@
     ungoogled-chromium
     wayland
     wl-clipboard
-    wget
     xurls
     zoom-us
   ];

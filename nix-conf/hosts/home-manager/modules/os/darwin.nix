@@ -66,7 +66,6 @@ in
     sqls
     #vimpc
     watch
-    wget
 
     (pkgs.darwin-update.override { inherit inputs; })
   ];
