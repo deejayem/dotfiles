@@ -1,6 +1,7 @@
 {
   pkgs,
   hostname,
+  username,
   role,
   ...
 }:
@@ -41,6 +42,6 @@
 
   nix.settings.trusted-users = [
     "root"
-    "djm"
+    username
   ];
 }

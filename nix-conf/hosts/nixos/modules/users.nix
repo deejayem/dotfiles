@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 {
-  users.users.djm = {
+  users.users.${username} = {
     isNormalUser = true;
-    home = "/home/djm";
+    home = "/home/${username}";
     description = "David Morgan";
     extraGroups = [
       "wheel"
@@ -16,14 +16,14 @@
   };
 
   security.sudo.extraConfig = ''
-    djm ALL=(ALL) NOPASSWD: ALL
+    ${username} ALL=(ALL) NOPASSWD: ALL
   '';
 
   security.doas = {
     enable = true;
     extraRules = [
       {
-        users = [ "djm" ];
+        users = [ username ];
         noPass = true;
         keepEnv = true;
       }

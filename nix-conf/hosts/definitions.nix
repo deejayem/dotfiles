@@ -47,7 +47,8 @@ in
       version = versions.stable;
       role = roles.workstation;
       nixos = { };
-      home.djm = { };
+      username = "djm";
+      home = { };
     };
 
     edrahil = {
@@ -55,7 +56,8 @@ in
       version = versions.stable;
       role = roles.server;
       nixos = { };
-      home.djm = { };
+      username = "djm";
+      home = { };
     };
 
     djmuk1 = {
@@ -63,7 +65,8 @@ in
       version = versions.stable;
       role = roles.server;
       nixos = { };
-      home.djm = { };
+      username = "djm";
+      home = { };
     };
 
     djmuk2 = {
@@ -71,7 +74,8 @@ in
       version = versions.stable;
       role = roles.server;
       nixos = { };
-      home.djm = { };
+      username = "djm";
+      home = { };
     };
 
     grithnir = {
@@ -80,7 +84,8 @@ in
       role = roles.workstation;
       org = orgs.kevel;
       darwin = { };
-      home.djm = { };
+      username = "djm";
+      home = { };
     };
   };
 }

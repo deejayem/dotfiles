@@ -8,13 +8,21 @@ let
       system,
       version,
       role,
+      username,
       ...
     }:
     versions.withVersions version (
       { nixpkgs, ... }:
       nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs hostname role; };
+        specialArgs = {
+          inherit
+            inputs
+            hostname
+            role
+            username
+            ;
+        };
         modules = [
           ../nix.nix
           ./nixos/${hostname}/configuration.nix
@@ -27,11 +35,20 @@ let
     {
       system,
       role,
+      username,
       ...
     }:
     nix-darwin.lib.darwinSystem {
       system.configurationRevision = self.rev or self.dirtyRev or null;
-      specialArgs = { inherit inputs hostname role system; };
+      specialArgs = {
+        inherit
+          inputs
+          hostname
+          system
+          role
+          username
+          ;
+      };
       modules = [
         ../nix.nix
         ./darwin/${hostname}.nix
@@ -39,11 +56,12 @@ let
     };
 
   mkHomeConfig =
-    versions: hostname: username:
+    versions: hostname:
     {
       system,
       version,
       role,
+      username,
       org ? null,
       ...
     }:
@@ -112,10 +130,12 @@ let
       mapHosts (
         hostname: cfg:
         if cfg ? home then
-          builtins.map (username: {
-            name = "${username}@${hostname}";
-            value = (mkHomeConfig versions) hostname username cfg;
-          }) (builtins.attrNames cfg.home)
+          [
+            {
+              name = "${cfg.username}@${hostname}";
+              value = (mkHomeConfig versions) hostname cfg;
+            }
+          ]
         else
           [ ]
       ) hosts

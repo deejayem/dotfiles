@@ -4,6 +4,7 @@
   pkgs,
   inputs,
   hostname,
+  username,
   ...
 }:
 let
@@ -22,7 +23,7 @@ in
   imports = [ inputs.agenix.nixosModules.default ];
   config = lib.mkIf secrets.hasSecrets {
     age = {
-      identityPaths = [ "${config.users.users.djm.home}/.ssh/agenix" ];
+      identityPaths = [ "${config.users.users.${username}.home}/.ssh/agenix" ];
       secrets = secrets.attrs;
     };
     environment.systemPackages = [ agenixPkg ];

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, username, ... }:
 {
   imports = [
     ../services/gnome-keyring.nix
@@ -9,7 +9,7 @@
     ../services/touchpad.nix
   ];
 
-  users.users.djm.extraGroups = [
+  users.users.${username}.extraGroups = [
     "networkmanager"
     "scanner"
     "lp"

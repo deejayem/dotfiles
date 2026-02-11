@@ -1,10 +1,15 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  username,
+  ...
+}:
 
 let
   commonConfig = {
-    paths = [ "${config.users.users.djm.home}" ];
+    paths = [ "${config.users.users.${username}.home}" ];
     initialize = true;
-    user = "djm";
+    user = username;
     environmentFile = "/etc/restic-environment";
     passwordFile = config.age.secrets."restic/password".path;
     exclude = [
@@ -26,7 +31,7 @@ let
     host: time:
     commonConfig
     // {
-      repository = "sftp:djm@${host}-backup:/home/djm/backup/edrahil";
+      repository = "sftp:${username}@${host}-backup:/home/${username}/backup/edrahil";
       timerConfig = {
         OnCalendar = time;
         RandomizedDelaySec = "20min";
@@ -34,7 +39,7 @@ let
     };
 in
 {
-  age.secrets."restic/password".owner = config.users.users.djm.name;
+  age.secrets."restic/password".owner = config.users.users.${username}.name;
 
   services.restic.backups = {
     hb = mkBackup "hb" "02:25";

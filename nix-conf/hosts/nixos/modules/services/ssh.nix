@@ -1,4 +1,4 @@
-{ ... }:
+{ username, ... }:
 {
   services.openssh = {
     enable = true;
@@ -6,14 +6,14 @@
       PermitRootLogin = "no";
       PasswordAuthentication = false;
       KbdInteractiveAuthentication = false;
+      X11Forwarding = false;
+      AllowUsers = [ username ];
     };
     extraConfig = ''
       #AllowTcpForwarding yes
-      X11Forwarding no
       AllowAgentForwarding no
       AllowStreamLocalForwarding no
       AuthenticationMethods publickey
-      AllowUsers djm
     '';
   };
 
