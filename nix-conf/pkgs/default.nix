@@ -5,19 +5,14 @@ let
   inherit (lib)
     attrNames
     concatStringsSep
-    elemAt
     filter
-    genList
     hasSuffix
     head
     isString
-    length
     listToAttrs
     pathExists
     removeSuffix
-    replaceStrings
     split
-    stringLength
     substring
     tail
     toLower
@@ -42,10 +37,6 @@ let
       parts = filter isString (split "-" str);
     in
     (head parts) + concatStringsSep "" (map capitaliseWord (tail parts));
-
-  isPackageDir =
-    path: name: type:
-    type == "directory" && pathExists (path + "/${name}/default.nix");
 
   discoverPackages =
     path:
