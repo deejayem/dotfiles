@@ -62,8 +62,6 @@ in
     ];
 
     localVariables = {
-      PER_DIRECTORY_HISTORY_TOGGLE = "^\\\\"; # ^\\ is ^#
-      HISTORY_START_WITH_GLOBAL = true;
       LESS = "-iRXF";
     };
 
@@ -159,16 +157,6 @@ in
         name = "zsh-edit";
         src = zsh-edit;
         file = "share/zsh/zsh-edit/zsh-edit.plugin.zsh";
-      }
-      {
-        name = "per-directory-history";
-        src = fetchFromGitHub {
-          owner = "jimhester";
-          repo = "per-directory-history";
-          rev = "95f06973e9f2ff0ff75f3cebd0a2ee5485e27834";
-          hash = "sha256-EV9QPBndwAWzdOcghDXrIIgP0oagVMOTyXzoyt8tXRo=";
-        };
-        file = "per-directory-history.zsh";
       }
     ];
   };
