@@ -88,6 +88,7 @@ in
         fi
 
         [[ $lines -gt 1000 ]] && HISTFILE_LAST_GOOD_COUNT=$lines
+        return 0
       '';
     };
 
