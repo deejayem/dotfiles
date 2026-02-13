@@ -7,6 +7,11 @@
       "--disable-ctrl-r"
       "--disable-up-arrow"
     ];
+    forceOverwriteSettings = true;
+    settings = {
+      dialect = "uk";
+      update_check = false;
+    };
   };
 
   programs.zsh.initContent = lib.mkAfter ''
