@@ -83,6 +83,7 @@ in
     isync
     jd-diff-patch
     jq
+    jo
     json-table
     libqalculate
     lscolors
