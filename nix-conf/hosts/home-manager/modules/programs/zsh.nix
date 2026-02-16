@@ -76,18 +76,23 @@ in
       _histfile_watchdog = ''
         local lines
         lines=$(${wc} -l < "$HISTFILE" 2>/dev/null) || return
+        lines=''${lines##* }
 
-        if [[ $lines -lt 1000 && -n $HISTFILE_LAST_GOOD_COUNT && $HISTFILE_LAST_GOOD_COUNT -gt 1000 ]]; then
-          local backup="''${HISTFILE}.emergency.$$"
-
-          print -u2 "WARNING: HISTFILE dropped from $HISTFILE_LAST_GOOD_COUNT to $lines lines"
-          print -u2 "Shell PID: $$, TTY: $(${tty}), SHLVL: $SHLVL"
-          print -u2 "Last command: $history[$((HISTCMD-1))]"
-
-          fc -W "$backup" 2>/dev/null && print -u2 "In-memory history saved to $backup"
+        if [[ -n $HISTFILE_LAST_GOOD_COUNT && $HISTFILE_LAST_GOOD_COUNT -gt 0 ]]; then
+          local drop_pct=$(( 100 - (lines * 100 / HISTFILE_LAST_GOOD_COUNT) ))
+          if [[ $drop_pct -gt 10 ]]; then
+            local backup="''${HISTFILE}.emergency.$$"
+            print -u2 "WARNING: HISTFILE dropped by ''${drop_pct}% ($HISTFILE_LAST_GOOD_COUNT -> $lines lines)"
+            print -u2 "Shell PID: $$, TTY: $(${tty}), SHLVL: $SHLVL"
+            print -u2 "Last command: $history[$((HISTCMD-1))]"
+            fc -W "$backup" 2>/dev/null && print -u2 "In-memory history saved to $backup"
+          else
+            HISTFILE_LAST_GOOD_COUNT=$lines
+          fi
+        else
+          HISTFILE_LAST_GOOD_COUNT=$lines
         fi
 
-        [[ $lines -gt 1000 ]] && HISTFILE_LAST_GOOD_COUNT=$lines
         return 0
       '';
     };
