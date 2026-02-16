@@ -34,3 +34,5 @@ atuin_password=$(rage -i ~/.ssh/agenix -d "${NIX_CONF}/hosts/home-manager/module
 atuin_key=$(rage -i ~/.ssh/agenix -d "${NIX_CONF}/hosts/home-manager/modules/home-secrets/secrets/age/atuin/key.age")
 
 atuin login -u "$atuin_user" -p "$atuin_password" -k "$atuin_key"
+
+atuin sync
