@@ -1,6 +1,7 @@
 { lib, ... }:
 {
   programs.atuin = {
+    daemon.enable = true;
     enable = true;
     enableZshIntegration = true;
     flags = [
