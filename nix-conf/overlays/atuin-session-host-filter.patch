@@ -1,0 +1,132 @@
+diff --git a/crates/atuin-client/src/database.rs b/crates/atuin-client/src/database.rs
+index 7aa095f7..fb8e4615 100644
+--- a/crates/atuin-client/src/database.rs
++++ b/crates/atuin-client/src/database.rs
+@@ -350,6 +350,16 @@ impl Database for Sqlite {
+                     }
+                     &mut query
+                 }
++                FilterMode::SessionHost => {
++                    query.and_where_eq("session", quote(&context.session));
++                    if let Some(session_start) = session_start {
++                        query.or_where(format!(
++                            "hostname = {} and timestamp < {session_start}",
++                            quote(&context.hostname)
++                        ));
++                    }
++                    &mut query
++                }
+                 FilterMode::Directory => query.and_where_eq("cwd", quote(&context.cwd)),
+                 FilterMode::Workspace => query.and_where_like_left("cwd", &git_root),
+             };
+@@ -481,6 +491,16 @@ impl Database for Sqlite {
+                 }
+                 &mut sql
+             }
++            FilterMode::SessionHost => {
++                sql.and_where_eq("session", quote(&context.session));
++                if let Some(session_start) = session_start {
++                    sql.or_where(format!(
++                        "lower(hostname) = {} and timestamp < {session_start}",
++                        quote(context.hostname.to_lowercase())
++                    ));
++                }
++                &mut sql
++            }
+             FilterMode::Directory => sql.and_where_eq("cwd", quote(&context.cwd)),
+             FilterMode::Workspace => sql.and_where_like_left("cwd", git_root),
+         };
+diff --git a/crates/atuin-client/src/settings.rs b/crates/atuin-client/src/settings.rs
+index 1c35e6eb..45a5c170 100644
+--- a/crates/atuin-client/src/settings.rs
++++ b/crates/atuin-client/src/settings.rs
+@@ -84,6 +84,9 @@ pub enum FilterMode {
+ 
+     #[serde(rename = "session-preload")]
+     SessionPreload = 5,
++
++    #[serde(rename = "session-host")]
++    SessionHost = 6,
+ }
+ 
+ impl FilterMode {
+@@ -95,6 +98,7 @@ impl FilterMode {
+             FilterMode::Directory => "DIRECTORY",
+             FilterMode::Workspace => "WORKSPACE",
+             FilterMode::SessionPreload => "SESSION+",
++            FilterMode::SessionHost => "SESSION*",
+         }
+     }
+ }
+@@ -517,6 +521,7 @@ impl Default for Search {
+                 FilterMode::Host,
+                 FilterMode::Session,
+                 FilterMode::SessionPreload,
++                FilterMode::SessionHost,
+                 FilterMode::Workspace,
+                 FilterMode::Directory,
+             ],
+@@ -1096,6 +1101,7 @@ impl Settings {
+                     "workspace",
+                     "directory",
+                     "session-preload",
++                    "session-host",
+                 ],
+             )?
+             .set_default("theme.name", "default")?
+diff --git a/crates/atuin/src/command/client/search/engines/skim.rs b/crates/atuin/src/command/client/search/engines/skim.rs
+index cb7ce24f..2a436be4 100644
+--- a/crates/atuin/src/command/client/search/engines/skim.rs
++++ b/crates/atuin/src/command/client/search/engines/skim.rs
+@@ -122,6 +122,51 @@ async fn fuzzy_search(
+                     }
+                 }
+             }
++            // SessionHost: include current session + host history from before session start
++            FilterMode::SessionHost => {
++                let is_current_session = {
++                    history
++                        .session
++                        .as_bytes()
++                        .chunks(32)
++                        .any(|chunk| chunk == context.session.as_bytes())
++                };
++
++                if !is_current_session {
++                    let is_host_history = history
++                        .hostname
++                        .split(',')
++                        .contains(&context.hostname.as_str());
++                    if !is_host_history {
++                        continue;
++                    }
++
++                    let Ok(uuid) = uuid::Uuid::parse_str(&context.session) else {
++                        log::warn!("failed to parse session id '{}'", context.session);
++                        continue;
++                    };
++                    let Some(timestamp) = uuid.get_timestamp() else {
++                        log::warn!(
++                            "failed to get timestamp from uuid '{}'",
++                            uuid.as_hyphenated()
++                        );
++                        continue;
++                    };
++                    let (seconds, nanos) = timestamp.to_unix();
++                    let Ok(session_start) = time::OffsetDateTime::from_unix_timestamp_nanos(
++                        i128::from(seconds) * 1_000_000_000 + i128::from(nanos),
++                    ) else {
++                        log::warn!(
++                            "failed to create OffsetDateTime from second: {seconds}, nanosecond: {nanos}"
++                        );
++                        continue;
++                    };
++
++                    if history.timestamp >= session_start {
++                        continue;
++                    }
++                }
++            }
+             // we aggregate directory by ':' separating them
+             FilterMode::Directory if history.cwd.split(':').contains(&context.cwd.as_str()) => {}
+             FilterMode::Workspace if history.cwd.split(':').contains(&git_root) => {}

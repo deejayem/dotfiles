@@ -1,5 +1,11 @@
 { ... }:
 final: prev: {
+  atuin = prev.atuin.overrideAttrs (oldAttrs: {
+    patches = (oldAttrs.patches or [ ]) ++ [
+      ./atuin-session-host-filter.patch
+    ];
+  });
+
   cdktf-cli = prev.cdktf-cli.overrideAttrs (oldAttrs: {
     nativeBuildInputs = builtins.map (
       pkg: if pkg == prev.nodejs then prev.nodejs_22 else pkg
