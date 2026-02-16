@@ -306,6 +306,10 @@
     (call-interactively #'magit-delta-mode)
     (magit-refresh)))
 
+(use-package magit-gh
+  :after magit
+  :demand t)
+
 (use-package forge
   :after magit
   :bind (:map forge-pullreq-list-mode-map ("C-w" . forge-copy-url-at-point-as-kill)))
