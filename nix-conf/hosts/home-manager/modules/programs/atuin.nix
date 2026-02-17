@@ -11,6 +11,7 @@
     forceOverwriteSettings = true;
     settings = {
       dialect = "uk";
+      enter_accept = true;
       filter_mode = "host";
       filter_mode_shell_up_key_binding = "session-host";
       inline_height = 30;
