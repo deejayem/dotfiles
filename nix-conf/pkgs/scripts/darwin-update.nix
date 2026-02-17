@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   inputs ? throw "darwin-update requires inputs",
   ...
@@ -9,9 +10,15 @@ pkgs.writeShellScriptBin "darwin-update" ''
 
   NIX_CONF="$HOME/dotfiles/nix-conf/"
   FLAKE_LOCK="$NIX_CONF/flake.lock"
-  JQ=${pkgs.jq}/bin/jq
-  NH=${pkgs.nh}/bin/nh
-  NIX=${pkgs.nix}/bin/nix
+  JQ=${lib.getExe pkgs.jq}
+  NH=${lib.getExe pkgs.nh}
+  NIX=${lib.getExe pkgs.nix}
+
+  BACKUP_DIR="''${XDG_STATE_HOME:-$HOME/.local/state}/lock-backups/flake"
+  mkdir -p "$BACKUP_DIR"
+  TIMESTAMP=$(${lib.getExe' pkgs.coreutils "date"} +%Y-%m-%dT%H-%M-%S)
+  cp "$FLAKE_LOCK" "$BACKUP_DIR/flake.lock.$TIMESTAMP"
+  ${lib.getExe' pkgs.findutils "find"} "$BACKUP_DIR" -name "flake.lock.*" -mtime +30 -delete
 
   cd $NIX_CONF
   $NIX flake update
