@@ -194,5 +194,36 @@ using this command."
   (dolist (elt elts)
     (add-to-list list-var elt t)))
 
+(use-feature elpaca-ui
+  :config
+  (defun +elpaca-ui-mark-merge-next-package ()
+    "Mark current package for merge and move to the next package."
+    (interactive)
+    (let ((pkg (elpaca-ui-current-package)))
+      (elpaca-ui-mark-merge)
+      (while (and (not (eobp))
+                  (eq pkg (elpaca-ui-current-package)))
+        (forward-line 1))))
+  (defun +elpaca-backup-lock-file (&rest _)
+    "Backup elpaca lock file before executing marked packages."
+    (when-let* ((lock-file (expand-file-name "elpaca.lock" user-emacs-directory))
+                ((file-exists-p lock-file)))
+      (let* ((state-dir (or (getenv "XDG_STATE_HOME")
+                            (expand-file-name ".local/state/" "~")))
+             (backup-dir (expand-file-name "lock-backups/elpaca/" state-dir))
+             (timestamp (format-time-string "%Y-%m-%dT%H-%M-%S"))
+             (backup-file (expand-file-name
+                           (concat "elpaca.lock." timestamp) backup-dir)))
+        (make-directory backup-dir t)
+        (copy-file lock-file backup-file t)
+        (message "Backed up elpaca.lock to %s" backup-file)
+        (dolist (old-file (directory-files backup-dir t "\\`elpaca\\.lock\\."))
+          (when (> (float-time (time-since (file-attribute-modification-time
+                                            (file-attributes old-file))))
+                   (* 30 24 60 60))
+            (delete-file old-file))))))
+  (advice-add 'elpaca-ui-execute-marks :before #'+elpaca-backup-lock-file)
+  :bind (:map elpaca-ui-mode-map ("M" . +elpaca-ui-mark-merge-next-package)))
+
 (provide 'init-packages)
 ;;; init-packages.el ends here
