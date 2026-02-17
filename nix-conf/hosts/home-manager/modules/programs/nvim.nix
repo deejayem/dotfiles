@@ -59,9 +59,25 @@ in
       vim.opt.tabstop = 4
       vim.opt.hlsearch = true
       vim.opt.showmatch = true
+      vim.api.nvim_set_hl(0, "Normal", { bg = "#000000" })
+
       vim.opt.undofile = true
       vim.opt.undodir = vim.fn.stdpath('data') .. '/undo'
-      vim.api.nvim_set_hl(0, "Normal", { bg = "#000000" })
+
+      vim.api.nvim_create_autocmd('BufReadPost', {
+        callback = function()
+          -- Save the undo sequence number when the file is first opened
+          vim.b.undo_seq_on_open = vim.fn.undotree().seq_cur
+        end,
+      })
+
+      -- Undo to the state of the file when it was first opened
+      vim.keymap.set('n', '<leader>u0', function()
+        local seq = vim.b.undo_seq_on_open
+        if seq then
+          vim.cmd('undo ' .. seq)
+        end
+      end, { desc = 'Undo to state when file was opened' })
 
       vim.api.nvim_create_autocmd('BufEnter', {
         callback = function() vim.opt.formatoptions:remove({'c','r','o'}) end
