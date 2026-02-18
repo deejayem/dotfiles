@@ -27,7 +27,7 @@ in
 
   home.packages = with pkgs; [
     aws-cdk-cli
-    cdktf-cli
+    cdktn-cli
     claude-code
     cli-tools
     codex
