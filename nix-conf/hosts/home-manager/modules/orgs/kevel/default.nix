@@ -44,6 +44,7 @@ in
     ruby
     tailscale
     terraform
+    sqlcmd
   ];
 
   # TODO
