@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   lib,
   ...
@@ -30,6 +31,13 @@ in
       ];
     };
     defaultKeymap = "emacs";
+    dirHashes = {
+      src = "${config.home.homeDirectory}/src";
+      dotfiles = "${config.home.homeDirectory}/dotfiles";
+      emacs = "${config.home.homeDirectory}/.emacs.d";
+      nixc = "${config.home.homeDirectory}/dotfiles/nix-conf";
+      nixp = "${config.home.homeDirectory}/src/nixpkgs";
+    };
     history = {
       append = true;
       extended = true;

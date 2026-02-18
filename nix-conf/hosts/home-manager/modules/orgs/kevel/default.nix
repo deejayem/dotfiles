@@ -144,7 +144,14 @@ in
     style = "red bold dimmed";
   };
 
-  programs.zsh.siteFunctions = {
-    packcat = ''${zstdcat} "$1" | ${sed} '1d;$d' | ${msgpack2json} -c | ${jq} | ${bat}'';
+  programs.zsh = {
+    dirHashes = {
+      ext = "${config.home.homeDirectory}/src/ext";
+      kevel = "${config.home.homeDirectory}/src/kevel";
+      nixp = lib.mkForce "${config.home.homeDirectory}/src/ext/nixpkgs";
+    };
+    siteFunctions = {
+      packcat = ''${zstdcat} "$1" | ${sed} '1d;$d' | ${msgpack2json} -c | ${jq} | ${bat}'';
+    };
   };
 }
