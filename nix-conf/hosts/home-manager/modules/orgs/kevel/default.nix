@@ -1,5 +1,6 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -28,10 +29,7 @@ in
   home.packages = with pkgs; [
     aws-cdk-cli
     cdktn-cli
-    claude-code
     cli-tools
-    codex
-    copilot-language-server
     coffeescript
     aws-instance-info
     git-remote-codecommit
@@ -45,7 +43,12 @@ in
     tailscale
     terraform
     sqlcmd
-  ];
+  ]
+  ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
+    claude-code
+    codex
+    copilot-language-server
+  ]);
 
   # TODO
   home.file = {
