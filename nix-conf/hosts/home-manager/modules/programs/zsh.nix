@@ -22,6 +22,7 @@ in
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    autocd = true;
     autosuggestion = {
       enable = true;
       highlight = "fg=#808080";
