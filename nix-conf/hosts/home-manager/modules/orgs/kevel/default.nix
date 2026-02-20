@@ -150,8 +150,8 @@ in
   programs.zsh = {
     dirHashes = {
       ext = "${config.home.homeDirectory}/src/ext";
-      kevel = "${config.home.homeDirectory}/src/kevel";
-      nixp = lib.mkForce "${config.home.homeDirectory}/src/ext/nixpkgs";
+      kev = "${config.home.homeDirectory}/src/kevel";
+      np = lib.mkForce "${config.home.homeDirectory}/src/ext/nixpkgs";
     };
     siteFunctions = {
       packcat = ''${zstdcat} "$1" | ${sed} '1d;$d' | ${msgpack2json} -c | ${jq} | ${bat}'';

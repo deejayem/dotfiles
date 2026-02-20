@@ -34,10 +34,10 @@ in
     defaultKeymap = "emacs";
     dirHashes = {
       src = "${config.home.homeDirectory}/src";
-      dotfiles = "${config.home.homeDirectory}/dotfiles";
-      emacs = "${config.home.homeDirectory}/.emacs.d";
-      nixc = "${config.home.homeDirectory}/dotfiles/nix-conf";
-      nixp = "${config.home.homeDirectory}/src/nixpkgs";
+      df = "${config.home.homeDirectory}/dotfiles";
+      em = "${config.home.homeDirectory}/.emacs.d";
+      nc = "${config.home.homeDirectory}/dotfiles/nix-conf";
+      np = "${config.home.homeDirectory}/src/nixpkgs";
     };
     history = {
       append = true;
