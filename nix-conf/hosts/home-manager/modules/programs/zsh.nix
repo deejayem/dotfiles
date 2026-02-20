@@ -58,7 +58,6 @@ in
       mv = "mv -iv";
       mkdir = "mkdir -v";
 
-      ".." = "cd ..";
       "..." = "cd ../..";
       "-" = "cd -";
 
