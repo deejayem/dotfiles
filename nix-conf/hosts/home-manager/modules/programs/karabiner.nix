@@ -102,7 +102,6 @@ let
     type = "frontmost_application_unless";
     bundle_identifiers = [
       "^com\\.mitchellh\\.ghostty$"
-      "^org\\.alacritty$"
       "^net\\.kovidgoyal\\.kitty$"
     ];
   };
@@ -231,7 +230,7 @@ let
         complex_modifications = {
           rules = [
             {
-              description = "Swap cmd and ctrl (except in ghossty and alacritty";
+              description = "Swap cmd and ctrl (except in ghostty and kitty)";
               manipulators = builtins.map swapModifiers modifierPairs;
             }
 

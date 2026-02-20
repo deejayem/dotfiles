@@ -1,4 +1,134 @@
 { lib, pkgs, ... }:
+let
+  commandToControlBindings =
+    let
+      ctrlChars = {
+        A = "\\u0001";
+        B = "\\u0002";
+        C = "\\u0003";
+        D = "\\u0004";
+        E = "\\u0005";
+        F = "\\u0006";
+        G = "\\u0007";
+        H = "\\u0008";
+        I = "\\u0009";
+        J = "\\u000a";
+        K = "\\u000b";
+        L = "\\u000c";
+        M = "\\u000d";
+        N = "\\u000e";
+        O = "\\u000f";
+        P = "\\u0010";
+        Q = "\\u0011";
+        R = "\\u0012";
+        S = "\\u0013";
+        T = "\\u0014";
+        U = "\\u0015";
+        V = "\\u0016";
+        W = "\\u0017";
+        X = "\\u0018";
+        Y = "\\u0019";
+        Z = "\\u001a";
+      };
+    in
+    lib.mapAttrsToList (key: chars: {
+      inherit key chars;
+      mods = "Command";
+    }) ctrlChars;
+
+  mkCtrlCsiU = key: codepoint: {
+    inherit key;
+    mods = "Command";
+    chars = "\\u001b[${toString codepoint};5u";
+  };
+
+  commandToControlCsiUBindings = map (v: mkCtrlCsiU v.key v.codepoint) [
+    {
+      key = "0";
+      codepoint = 48;
+    }
+    {
+      key = "1";
+      codepoint = 49;
+    }
+    {
+      key = "2";
+      codepoint = 50;
+    }
+    {
+      key = "3";
+      codepoint = 51;
+    }
+    {
+      key = "4";
+      codepoint = 52;
+    }
+    {
+      key = "5";
+      codepoint = 53;
+    }
+    {
+      key = "6";
+      codepoint = 54;
+    }
+    {
+      key = "7";
+      codepoint = 55;
+    }
+    {
+      key = "8";
+      codepoint = 56;
+    }
+    {
+      key = "9";
+      codepoint = 57;
+    }
+    {
+      key = ".";
+      codepoint = 46;
+    }
+    {
+      key = ",";
+      codepoint = 44;
+    }
+    {
+      key = "/";
+      codepoint = 47;
+    }
+    {
+      key = ";";
+      codepoint = 59;
+    }
+    {
+      key = "'";
+      codepoint = 39;
+    }
+    {
+      key = "-";
+      codepoint = 45;
+    }
+    {
+      key = "=";
+      codepoint = 61;
+    }
+    {
+      key = "[";
+      codepoint = 91;
+    }
+    {
+      key = "]";
+      codepoint = 93;
+    }
+    {
+      key = "\\\\";
+      codepoint = 92;
+    }
+    {
+      key = "`";
+      codepoint = 96;
+    }
+  ];
+in
 {
   programs.alacritty = {
     enable = true;
@@ -25,7 +155,9 @@
           mods = "Shift";
           action = "Paste";
         }
-      ];
+      ]
+      # Swap ctrl and cmd as much as possible on darwin
+      ++ lib.optionals pkgs.stdenv.isDarwin (commandToControlBindings ++ commandToControlCsiUBindings);
 
       window = lib.optionalAttrs pkgs.stdenv.isDarwin {
         option_as_alt = "OnlyLeft";
