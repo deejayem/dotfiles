@@ -11,10 +11,8 @@ in
 
     settings = {
       font-family = "MesloLGS Nerd Font";
-      font-size = if pkgs.stdenv.isDarwin then 12 else 8;
+      font-size = if pkgs.stdenv.isDarwin then 12.5 else 8;
       copy-on-select = "clipboard";
-      # This is proposed syntax for the future, but for now we achieve this with karabiner
-      #key-remap = [ "ctrl=super" "super=ctrl" ];
       keybind = [
         "shift+insert=paste_from_clipboard"
       ];
@@ -45,7 +43,13 @@ in
       ];
     }
     // optionalAttrs pkgs.stdenv.isDarwin {
+      adjust-cell-height = "1";
+      font-thicken = true;
+      font-thicken-strength = 35;
       macos-option-as-alt = "left";
+      window-colorspace = "display-p3";
+      # This is proposed syntax for the future, but for now we achieve this with karabiner
+      #key-remap = [ "ctrl=super" "super=ctrl" ];
     };
   };
 }
