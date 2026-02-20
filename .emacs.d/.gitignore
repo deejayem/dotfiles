@@ -36,7 +36,7 @@ site-lisp
 straight
 !straight/versions
 elpaca
-elpaca.lock*
+elpaca.lock.*
 eln-cache
 forge-database.sqlite
 sql
