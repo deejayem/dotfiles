@@ -64,6 +64,7 @@
         "2" = [ { app_id = "firefox"; } ];
         "3" = [ { app_id = "emacs"; } ];
         "4" = [ { app_id = "chromium-browser"; } ];
+        "5" = [ { app_id = "brave"; } ];
       };
 
       bars = [

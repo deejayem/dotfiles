@@ -54,6 +54,7 @@
     acpi
     acpitool
     alsa-utils
+    brave
     firefox
     foot
     ghostscript
