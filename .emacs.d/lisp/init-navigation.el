@@ -92,9 +92,20 @@ Or remove all highlighted symbols in the current buffer (with`ARG')."
   (gumshoe-follow-distance 5)
   (gumshoe-slot-schema '(perspective time buffer position line))
   :config
-  (global-gumshoe-mode +1)
+  (global-gumshoe-mode +1))
+
+(use-package persp-gumshoe
+  :after (perspective gumshoe)
+  :demand t
   :bind
   ("C-c '" . gumshoe-peruse-in-persp))
+
+(use-package consult-gumshoe
+  :after (consult gumshoe)
+  :demand t
+  :bind
+  ("C-c #" . consult-gumshoe-peruse-in-buffer)
+  ("C-c M-#" . consult-gumshoe-peruse-in-window))
 
 (use-package goto-chg
   :config
