@@ -51,6 +51,11 @@ in
 
        bind-key £ split-window -h
 
+      ${optionalString pkgs.stdenv.isDarwin ''
+        set -g extended-keys always
+        set -gs extended-keys-format csi-u
+      ''}
+
       ${optionalString isWorkstation ''
         set -ga terminal-overrides ",alacritty:Tc"
 
