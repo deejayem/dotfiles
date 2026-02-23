@@ -73,6 +73,11 @@ in
       SETTINGS_Show_As_Red_Badge = true;
       SETTING_MONITORED_APP_IDS = "com.tinyspeck.slackmacgap";
     };
+    "org.alacritty" = {
+      NSUserKeyEquivalents = {
+        "Hide alacritty" = "\\0";
+      };
+    };
   };
 
   system.activationScripts.postActivation.text = ''
