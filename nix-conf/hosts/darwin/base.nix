@@ -88,7 +88,7 @@ in
     #{ app = "/Applications/Nix Apps/Google Chrome.app"; } # TODO: currently broken
     { app = "/Applications/Google Chrome.app"; }
     { app = "/Applications/Nix Apps/Firefox.app"; }
-    { app = "/Applications/Nix Apps/Brave.app"; }
+    { app = "/Applications/Nix Apps/Brave Browser.app"; }
     { app = "/Applications/Nix Apps/Slack.app"; }
     { app = "/Applications/Nix Apps/Alacritty.app"; }
     { app = "/Applications/Nix Apps/Emacs.app"; }
