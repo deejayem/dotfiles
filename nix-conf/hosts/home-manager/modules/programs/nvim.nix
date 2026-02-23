@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  # Temporary workaround until the next release
+  # TODO: Temporary workaround until the next release (26.05)
   luaConfig = if pkgs.stdenv.isDarwin then "initLua" else "extraLuaConfig";
 in
 {
