@@ -45,9 +45,12 @@ in
     sqlcmd
   ]
   ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
+    ccusage
+    ccusage-codex
     claude-code
     codex
     copilot-language-server
+    opencode
   ]);
 
   # TODO
