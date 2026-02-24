@@ -107,7 +107,6 @@ in
     greedyCasks = true;
     casks = [
       "ankerwork"
-      "aws-vpn-client"
       "karabiner-elements" # services.karabiner-elements.enable = true; causes problems with SentinelOne
       "zoom" # pkgs.zoom-us causes problems with SentinelOne
     ];
