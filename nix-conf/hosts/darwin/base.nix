@@ -41,7 +41,7 @@ in
     ]))
     firefox
     ghostty-bin
-    #google-chrome # TODO currently broken
+    google-chrome
     iterm2
     maccy
     orbstack
@@ -90,8 +90,7 @@ in
   system.defaults.dock.persistent-apps = [
     { app = "/System/Applications/System Settings.app"; }
     { app = "/Applications/Nix Apps/YouTube Music.app"; }
-    #{ app = "/Applications/Nix Apps/Google Chrome.app"; } # TODO: currently broken
-    { app = "/Applications/Google Chrome.app"; }
+    { app = "/Applications/Nix Apps/Google Chrome.app"; }
     { app = "/Applications/Nix Apps/Firefox.app"; }
     { app = "/Applications/Nix Apps/Brave Browser.app"; }
     { app = "/Applications/Nix Apps/Slack.app"; }
@@ -109,7 +108,6 @@ in
     casks = [
       "ankerwork"
       "aws-vpn-client"
-      "google-chrome"
       "karabiner-elements" # services.karabiner-elements.enable = true; causes problems with SentinelOne
       "zoom" # pkgs.zoom-us causes problems with SentinelOne
     ];
