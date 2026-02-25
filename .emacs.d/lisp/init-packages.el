@@ -223,14 +223,19 @@ using this command."
                    (* 30 24 60 60))
             (delete-file old-file))))))
   (advice-add 'elpaca-ui-execute-marks :before #'+elpaca-backup-lock-file)
+  (defvar +elpaca-write-lock-file-after-execute nil)
+  (defun +elpaca-maybe-write-lock-file ()
+    "Write elpaca lock file if flagged by `+elpaca-ui-execute-marks-and-write-lockfile'."
+    (when +elpaca-write-lock-file-after-execute
+      (setq +elpaca-write-lock-file-after-execute nil)
+      (elpaca-write-lock-file
+       (expand-file-name "elpaca.lock" user-emacs-directory))))
+  (add-hook 'elpaca-post-queue-hook #'+elpaca-maybe-write-lock-file)
   (defun +elpaca-ui-execute-marks-and-write-lockfile ()
-    "Execute marks and write lockfile."
+    "Execute marks and write lockfile on completion."
     (interactive)
-    (elpaca-ui-execute-marks)
-    (add-to-list 'elpaca--post-queues-hook
-                 (lambda () (elpaca-write-lock-file
-                             (expand-file-name "elpaca.lock" user-emacs-directory)))
-                 t))
+    (setq +elpaca-write-lock-file-after-execute t)
+    (elpaca-ui-execute-marks))
   :bind (:map elpaca-ui-mode-map
               ("M" . +elpaca-ui-mark-merge-next-package)
               ("X" . +elpaca-ui-execute-marks-and-write-lockfile)))
