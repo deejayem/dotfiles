@@ -204,6 +204,18 @@ using this command."
       (while (and (not (eobp))
                   (eq pkg (elpaca-ui-current-package)))
         (forward-line 1))))
+  (defun +elpaca-backup-unchanged-p (file backups)
+    "Return non-nil if FILE is identical to the most recent entry in BACKUPS."
+    (when-let* ((latest (car (last backups))))
+      (zerop (call-process "diff" nil nil nil "-q" file latest))))
+  (defun +elpaca-cleanup-old-backups (backups max-age-days)
+    "Delete files in BACKUPS older than MAX-AGE-DAYS."
+    (let ((max-age-secs (* max-age-days 24 60 60)))
+      (dolist (file backups)
+        (when (> (float-time (time-since (file-attribute-modification-time
+                                          (file-attributes file))))
+                 max-age-secs)
+          (delete-file file)))))
   (defun +elpaca-backup-lock-file (&rest _)
     "Backup elpaca lock file before executing marked packages."
     (when-let* ((lock-file (expand-file-name "elpaca.lock" user-emacs-directory))
@@ -211,17 +223,16 @@ using this command."
       (let* ((state-dir (or (getenv "XDG_STATE_HOME")
                             (expand-file-name ".local/state/" "~")))
              (backup-dir (expand-file-name "lock-backups/elpaca/" state-dir))
-             (timestamp (format-time-string "%Y-%m-%dT%H-%M-%S"))
-             (backup-file (expand-file-name
-                           (concat "elpaca.lock." timestamp) backup-dir)))
-        (make-directory backup-dir t)
-        (copy-file lock-file backup-file t)
-        (message "Backed up elpaca.lock to %s" backup-file)
-        (dolist (old-file (directory-files backup-dir t "\\`elpaca\\.lock\\."))
-          (when (> (float-time (time-since (file-attribute-modification-time
-                                            (file-attributes old-file))))
-                   (* 30 24 60 60))
-            (delete-file old-file))))))
+             (backups (directory-files backup-dir t "\\`elpaca\\.lock\\.")))
+        (unless (+elpaca-backup-unchanged-p lock-file backups)
+          (let ((backup-file (expand-file-name
+                              (concat "elpaca.lock."
+                                      (format-time-string "%Y-%m-%dT%H-%M-%S"))
+                              backup-dir)))
+            (make-directory backup-dir t)
+            (copy-file lock-file backup-file t)
+            (message "Backed up elpaca.lock to %s" backup-file)))
+        (+elpaca-cleanup-old-backups backups 30))))
   (advice-add 'elpaca-ui-execute-marks :before #'+elpaca-backup-lock-file)
   (defvar +elpaca-write-lock-file-after-execute nil)
   (defun +elpaca-maybe-write-lock-file ()
@@ -230,12 +241,16 @@ using this command."
       (setq +elpaca-write-lock-file-after-execute nil)
       (elpaca-write-lock-file
        (expand-file-name "elpaca.lock" user-emacs-directory))))
-  (add-hook 'elpaca-post-queue-hook #'+elpaca-maybe-write-lock-file)
+  (advice-add 'elpaca-ui--post-execute :after #'+elpaca-maybe-write-lock-file)
   (defun +elpaca-ui-execute-marks-and-write-lockfile ()
     "Execute marks and write lockfile on completion."
     (interactive)
     (setq +elpaca-write-lock-file-after-execute t)
     (elpaca-ui-execute-marks))
+  (setf (alist-get '+elpaca-ui-execute-marks-and-write-lockfile
+                   elpaca-log-command-queries nil nil #'elpaca--log-find-command)
+        (alist-get 'elpaca-ui-execute-marks
+                   elpaca-log-command-queries nil nil #'elpaca--log-find-command))
   :bind (:map elpaca-ui-mode-map
               ("M" . +elpaca-ui-mark-merge-next-package)
               ("X" . +elpaca-ui-execute-marks-and-write-lockfile)))
