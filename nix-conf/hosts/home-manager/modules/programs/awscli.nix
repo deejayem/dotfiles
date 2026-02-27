@@ -62,6 +62,27 @@ in
           asp "$profile" "$@"
         fi
       '';
+    } // lib.optionalAttrs pkgs.stdenv.isDarwin {
+      aws-open = ''
+        local profile="''${1:-$AWS_PROFILE}"
+        [[ -n "$profile" ]] || { print -u2 "aws-open: no profile specified and AWS_PROFILE not set"; return 2; }
+
+        local start_url account_id role_name
+        start_url=$(${aws} configure get sso_start_url --profile "$profile") || { print -u2 "aws-open: cannot read sso_start_url for $profile"; return 1; }
+        account_id=$(${aws} configure get sso_account_id --profile "$profile") || { print -u2 "aws-open: cannot read sso_account_id for $profile"; return 1; }
+        role_name=$(${aws} configure get sso_role_name --profile "$profile") || { print -u2 "aws-open: cannot read sso_role_name for $profile"; return 1; }
+
+        open "''${start_url}/#/console?account_id=''${account_id}&role_name=''${role_name}"
+      '';
     };
+
+    initContent = lib.mkIf pkgs.stdenv.isDarwin ''
+      _aws-open() {
+        local -a profiles
+        profiles=( ''${(f)"$(${aws} configure list-profiles 2>/dev/null)"} )
+        compadd -a profiles
+      }
+      compdef _aws-open aws-open
+    '';
   };
 }

@@ -90,6 +90,11 @@ in
     regenAwsSecret
   ];
 
+  programs.zsh.shellAliases = {
+    pacs-open = ''open "$(pacs-aws -l -f)"'';
+    pacs-incognito = ''open -na "Google Chrome" --args --incognito "$(pacs-aws -l -f)"'';
+  };
+
   home.sessionVariables = {
     AWS_DEFAULT_SSO_REGION = "us-east-1";
   };
