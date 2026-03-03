@@ -64,6 +64,7 @@ in
     #python310Packages.sqlparse
     redis
     sqls
+    util-linux
     #vimpc
     watch
 
