@@ -12,6 +12,7 @@ final: prev: {
     };
   };
 
+} // prev.lib.optionalAttrs prev.stdenv.isDarwin {
   haskellPackages = prev.haskellPackages.override {
     overrides = hfinal: hprev: {
       warp = prev.haskell.lib.dontCheck hprev.warp;
