@@ -20,4 +20,17 @@ final: prev: {
       nodejs = prev.nodejs_22;
     };
   };
+
+  haskellPackages = prev.haskellPackages.override {
+    overrides = hfinal: hprev: {
+      warp = prev.haskell.lib.dontCheck hprev.warp;
+    };
+  };
+  less = prev.less.overrideAttrs (finalAttrs: _: {
+    version = "692";
+    src = prev.fetchurl {
+      url = "https://www.greenwoodsoftware.com/less/less-${finalAttrs.version}.tar.gz";
+      hash = "sha256-YTAPYDeY7PHXeGVweJ8P8/WhrPB1pvufdWg30WbjfRQ=";
+    };
+  });
 }
