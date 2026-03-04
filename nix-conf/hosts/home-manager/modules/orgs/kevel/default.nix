@@ -47,6 +47,7 @@ in
   ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
     ccusage
     ccusage-codex
+    ccusage-opencode
     claude-code
     codex
     copilot-language-server
