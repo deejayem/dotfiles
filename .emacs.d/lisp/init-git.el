@@ -294,6 +294,7 @@
   (magit-diff-paint-whitespace-lines 'all)
   (magit-diff-refine-ignore-whitespace nil)
   (magit-diff-highlight-trailing t)
+  (magit-process-connection-type (not (eq system-type 'darwin)))
   (magit-git-executable (or (executable-find (file-truename "~/.nix-profile/bin/git"))
                             (executable-find (file-truename (concat "/etc/profiles/per-user/" (user-login-name) "/bin/git"))))))
 
