@@ -604,9 +604,7 @@ The leading # added by other consult commands is removed."
         ("i" . +become-consult-imenu)
         ("^" . consult-ripgrep-parent)
         ("u" . consult-ripgrep-unrestricted)
-        ("c" . consult-ripgrep-case-sensitive))
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
+        ("c" . consult-ripgrep-case-sensitive)))
 
 (use-package consult-todo
   ;; TODO use consult-todo-project when it works
