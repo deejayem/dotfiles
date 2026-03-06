@@ -51,18 +51,34 @@ pkgs.writeShellScriptBin "check-versions" ''
 
   w=18
 
-  row() {
-    local name="$1" nixpkgs="$2" local="$3" latest="$4"
-    printf '%-10s ' "$name"
-    color_ver "$nixpkgs" "$latest" "$w"
-    printf ' '
-    color_ver "$local" "$latest" "$w"
-    printf ' %s\n' "$latest"
+  hline() {
+    local left="$1" mid="$2" right="$3"
+    printf '%s' "$left"
+    printf '─%.0s' $(seq 1 $((w+2))); printf '%s' "$mid"
+    printf '─%.0s' $(seq 1 $((w+2))); printf '%s' "$mid"
+    printf '─%.0s' $(seq 1 $((w+2))); printf '%s' "$mid"
+    printf '─%.0s' $(seq 1 $((w+2))); printf '%s\n' "$right"
   }
 
-  printf "''${bold}%-10s %-''${w}s %-''${w}s %s''${reset}\n" PACKAGE NIXPKGS LOCAL LATEST
+  header() {
+    printf "│ ''${bold}%-''${w}s''${reset} │ ''${bold}%-''${w}s''${reset} │ ''${bold}%-''${w}s''${reset} │ ''${bold}%-''${w}s''${reset} │\n" PACKAGE NIXPKGS LOCAL LATEST
+  }
+
+  row() {
+    local name="$1" nixpkgs="$2" local="$3" latest="$4"
+    printf '│ %-*s │ ' "$w" "$name"
+    color_ver "$nixpkgs" "$latest" "$w"
+    printf ' │ '
+    color_ver "$local" "$latest" "$w"
+    printf ' │ %-*s │\n' "$w" "$latest"
+  }
+
+  hline '┌' '┬' '┐'
+  header
+  hline '├' '┼' '┤'
   row chrome  "$nixpkgs_chrome"  "$local_chrome"  "$latest_chrome"
   row firefox "$nixpkgs_firefox" "$local_firefox" "$latest_firefox"
   row slack   "$nixpkgs_slack"   "$local_slack"   "$latest_slack"
   row zoom    "$nixpkgs_zoom"    "$local_zoom"    "$latest_zoom"
+  hline '└' '┴' '┘'
 ''
