@@ -31,6 +31,7 @@ in
     cdktn-cli
     cli-tools
     coffeescript
+    check-versions
     aws-instance-info
     git-remote-codecommit
     lmdb-cli
