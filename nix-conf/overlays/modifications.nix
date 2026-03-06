@@ -13,11 +13,11 @@ final: prev: {
   };
 
 } // prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) {
-  slack = prev.slack.overrideAttrs (_: {
-    version = "4.48.99";
+  slack = prev.slack.overrideAttrs (finalAttrs: _: {
+    version = "4.48.100";
     src = prev.fetchurl {
-      url = "https://downloads.slack-edge.com/desktop-releases/mac/arm64/4.48.99/Slack-4.48.99-macOS.dmg";
-      hash = "sha256-aY76XpYIrr9MWWDj8Z4RsRAAoHl9PZ/NEXhqaLVBOAg=";
+      url = "https://downloads.slack-edge.com/desktop-releases/mac/arm64/${finalAttrs.version}/Slack-${finalAttrs.version}-macOS.dmg";
+      hash = "sha256-vzgxVBRncNQ4mchSgbe9vm3kEiPXHeMlhm3Xq4COi7A=";
     };
   });
 } // prev.lib.optionalAttrs prev.stdenv.isDarwin {
