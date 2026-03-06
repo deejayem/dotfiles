@@ -20,6 +20,14 @@ final: prev: {
       hash = "sha256-vzgxVBRncNQ4mchSgbe9vm3kEiPXHeMlhm3Xq4COi7A=";
     };
   });
+  zoom-us = prev.zoom-us.overrideAttrs (finalAttrs: _: {
+    version = "6.7.7.76486";
+    src = prev.fetchurl {
+      url = "https://zoom.us/client/${finalAttrs.version}/zoomusInstallerFull.pkg?archType=arm64";
+      name = "zoomusInstallerFull.pkg";
+      hash = "sha256-Wl8nghOfwGYxwzVjCScMeuiowhKLPYV04cagOpnzGUs=";
+    };
+  });
 } // prev.lib.optionalAttrs prev.stdenv.isDarwin {
   haskellPackages = prev.haskellPackages.override {
     overrides = hfinal: hprev: {
