@@ -55,6 +55,11 @@
         {
           formatter = pkgs.nixfmt-tree;
 
+          packages = import ./pkgs {
+            inherit pkgs;
+            lib = pkgs.lib;
+          };
+
           legacyPackages = builtins.mapAttrs (
             name: overlay:
             (import inputs.nixpkgs {
