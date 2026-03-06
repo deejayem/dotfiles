@@ -47,6 +47,7 @@ in
     gh
     gh-dash
     gnused
+    gnugrep
     less
     lesspipe
     mac-app-util
