@@ -23,14 +23,10 @@ pkgs.writeShellScriptBin "check-versions" ''
     ${nix} eval --raw "$1" 2>/dev/null
   }
 
+  yellow=$'\033[33m'
+
   color_ver() {
-    local ver="$1" latest="$2" width="$3"
-    local color
-    if [[ "$ver" == "$latest" ]]; then
-      color="$green"
-    else
-      color="$red"
-    fi
+    local ver="$1" latest="$2" width="$3" color="$4"
     printf '%b%-*s%b' "$color" "$width" "$ver" "$reset"
   }
 
@@ -65,11 +61,19 @@ pkgs.writeShellScriptBin "check-versions" ''
   }
 
   row() {
-    local name="$1" nixpkgs="$2" local="$3" latest="$4"
+    local name="$1" nixpkgs="$2" local_v="$3" latest="$4"
+    local nixpkgs_color local_color
+    if [[ "$local_v" == "$latest" ]]; then
+      local_color="$green"
+      nixpkgs_color=$(if [[ "$nixpkgs" == "$latest" ]]; then echo "$green"; else echo "$yellow"; fi)
+    else
+      local_color="$red"
+      nixpkgs_color=$(if [[ "$nixpkgs" == "$latest" ]]; then echo "$green"; else echo "$red"; fi)
+    fi
     printf '│ %-*s │ ' "$w" "$name"
-    color_ver "$nixpkgs" "$latest" "$w"
+    color_ver "$nixpkgs" "$latest" "$w" "$nixpkgs_color"
     printf ' │ '
-    color_ver "$local" "$latest" "$w"
+    color_ver "$local_v" "$latest" "$w" "$local_color"
     printf ' │ %-*s │\n' "$w" "$latest"
   }
 
