@@ -76,12 +76,6 @@ in
     NH_DARWIN_FLAKE = "/etc/nix-darwin";
   };
 
-  nix.settings = {
-    sandbox = true;
-    keep-outputs = true;
-    keep-derivations = true;
-  };
-
   programs.bat.extraPackages = with pkgs.bat-extras; [
     (prettybat.override {
       withClangTools = false;

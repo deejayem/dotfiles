@@ -10,6 +10,9 @@ in
 {
   nix.settings = {
     netrc-file = homeDir + "/.config/nix/netrc";
+    keep-derivations = true;
+    keep-outputs = true;
+    sandbox = "relaxed";
     trusted-users = [
       username
       "@staff"
