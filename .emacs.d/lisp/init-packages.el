@@ -255,5 +255,21 @@ using this command."
               ("M" . +elpaca-ui-mark-merge-next-package)
               ("X" . +elpaca-ui-execute-marks-and-write-lockfile)))
 
+(defun +elpaca-update ()
+  "(Maybe) update menus, and fetch all packages so we can update them."
+  (require 'elpaca-ui)
+  (require 'elpaca-log)
+  (let ((cache (expand-file-name "cache/melpa.eld" elpaca-directory)))
+    (when (or (not (file-exists-p cache))
+              (> (float-time (time-since (file-attribute-modification-time
+                                          (file-attributes cache))))
+                 (* 7 24 60 60)))
+      (elpaca-update-menus)))
+  (setq elpaca--log-request-time (current-time))
+  (elpaca-fetch-all t)
+  (elpaca-log "#latest #update-log" t)
+  (delete-other-windows)
+  (define-key elpaca-ui-mode-map "q" #'save-buffers-kill-terminal))
+
 (provide 'init-packages)
 ;;; init-packages.el ends here
