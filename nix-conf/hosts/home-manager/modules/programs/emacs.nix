@@ -20,4 +20,8 @@ in
         epkgs.multi-vterm
       ];
   };
+
+  programs.zsh.shellAliases = {
+    elpaca-update = "emacs -nw -f +elpaca-update";
+  };
 }
