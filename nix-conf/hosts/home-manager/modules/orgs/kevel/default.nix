@@ -34,6 +34,7 @@ in
     check-versions
     aws-instance-info
     git-remote-codecommit
+    jiratui
     lmdb-cli
     msgpack-tools
     nodejs
