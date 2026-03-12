@@ -160,6 +160,7 @@ in
     };
     siteFunctions = {
       packcat = ''${zstdcat} "$1" | ${sed} '1d;$d' | ${msgpack2json} -c | ${jq} | ${bat}'';
+      tkt = "export TICKET=jira-$1";
     };
   };
 }
