@@ -10,30 +10,40 @@ let
   tail = lib.getExe' pkgs.coreutils "tail";
 in
 pkgs.writeShellScriptBin "check-versions" ''
-  set -euo pipefail
+  set -uo pipefail
 
   flake_dir="''${1:-.}"
 
   green=$'\033[32m'
+  yellow=$'\033[33m'
   red=$'\033[31m'
   bold=$'\033[1m'
   reset=$'\033[0m'
 
+  err="''${red}error''${reset}"
+
   nix_ver() {
-    ${nix} eval --raw "$1" 2>/dev/null
+    ${nix} eval --raw "$1" 2>/dev/null || echo "error"
   }
 
-  yellow=$'\033[33m'
+  fetch_latest() {
+    local result
+    if result=$("$@" 2>/dev/null) && [[ -n "$result" && "$result" != "null" ]]; then
+      echo "$result"
+    else
+      echo "error"
+    fi
+  }
 
   color_ver() {
     local ver="$1" latest="$2" width="$3" color="$4"
     printf '%b%-*s%b' "$color" "$width" "$ver" "$reset"
   }
 
-  latest_chrome=$(${curl} -s 'https://versionhistory.googleapis.com/v1/chrome/platforms/mac_arm64/channels/stable/versions/all/releases?filter=endtime=none,fraction%3E=0.5&order_by=version%20desc' | ${jq} -r '.releases[0].version')
-  latest_firefox=$(${curl} -s https://archive.mozilla.org/pub/firefox/releases/ | ${grep} -oP '[0-9]+\.[0-9.]+(?=/)' | ${sort} -t. -k1,1n -k2,2n -k3,3n | ${tail} -1)
-  latest_slack=$(${curl} -s 'https://slack.com/api/desktop.latestRelease?arch=arm64&variant=dmg' | ${jq} -r .version)
-  latest_zoom=$(${curl} -Ls 'https://zoom.us/rest/download?os=mac' | ${jq} -r '.result.downloadVO.zoomArm64.version')
+  latest_chrome=$(fetch_latest sh -c "${curl} -s 'https://versionhistory.googleapis.com/v1/chrome/platforms/mac_arm64/channels/stable/versions/all/releases?filter=endtime=none,fraction%3E=0.5&order_by=version%20desc' | ${jq} -r '.releases[0].version'")
+  latest_firefox=$(fetch_latest sh -c "${curl} -s https://archive.mozilla.org/pub/firefox/releases/ | ${grep} -oP '[0-9]+\.[0-9.]+(?=/)' | ${sort} -t. -k1,1n -k2,2n -k3,3n | ${tail} -1")
+  latest_slack=$(fetch_latest sh -c "${curl} -s 'https://slack.com/api/desktop.latestRelease?arch=arm64&variant=dmg' | ${jq} -r .version")
+  latest_zoom=$(fetch_latest sh -c "${curl} -Ls 'https://zoom.us/rest/download?os=mac' | ${jq} -r '.result.downloadVO.zoomArm64.version'")
 
   nixpkgs_chrome=$(nix_ver nixpkgs#google-chrome.version)
   nixpkgs_firefox=$(nix_ver nixpkgs#firefox.version)
@@ -63,13 +73,17 @@ pkgs.writeShellScriptBin "check-versions" ''
   row() {
     local name="$1" nixpkgs="$2" local_v="$3" latest="$4"
     local nixpkgs_color local_color
-    if [[ "$local_v" == "$latest" ]]; then
+    if [[ "$latest" == "error" ]]; then
+      nixpkgs_color="$red"; local_color="$red"
+    elif [[ "$local_v" == "$latest" ]]; then
       local_color="$green"
       nixpkgs_color=$(if [[ "$nixpkgs" == "$latest" ]]; then echo "$green"; else echo "$yellow"; fi)
     else
       local_color="$red"
       nixpkgs_color=$(if [[ "$nixpkgs" == "$latest" ]]; then echo "$green"; else echo "$red"; fi)
     fi
+    [[ "$nixpkgs" == "error" ]] && nixpkgs_color="$red"
+    [[ "$local_v" == "error" ]] && local_color="$red"
     printf '│ %-*s │ ' "$w" "$name"
     color_ver "$nixpkgs" "$latest" "$w" "$nixpkgs_color"
     printf ' │ '
