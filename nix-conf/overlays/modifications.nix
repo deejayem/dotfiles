@@ -12,13 +12,6 @@ final: prev: {
     };
   };
 
-  jiratui = prev.jiratui.overridePythonAttrs (oldAttrs: {
-    postPatch = (oldAttrs.postPatch or "") + ''
-      substituteInPlace pyproject.toml \
-        --replace-fail "uv_build>=0.9.2,<0.10.0" uv_build
-    '';
-  });
-
 } // prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) {
   slack = prev.slack.overrideAttrs (finalAttrs: _: {
     version = "4.48.100";
