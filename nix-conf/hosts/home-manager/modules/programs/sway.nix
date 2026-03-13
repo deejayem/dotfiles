@@ -149,7 +149,7 @@
       #keyboard-state > label.locked {
         background: transparent;
       }
-  '';
+    '';
   };
 
   programs.foot = {

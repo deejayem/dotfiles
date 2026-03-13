@@ -31,7 +31,6 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-
   meta = {
     description = "A mac app to help monitor your app badges";
     homepage = "https://github.com/xiaogdgenuine/Doll";

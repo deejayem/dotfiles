@@ -157,13 +157,17 @@ in
         }
       ]
       # Swap ctrl and cmd as much as possible on darwin
-      ++ lib.optionals pkgs.stdenv.isDarwin (commandToControlBindings ++ commandToControlCsiUBindings ++ [
-        {
-          key = "Space";
-          mods = "Command";
-          chars = "\\u0000";
-        }
-      ]);
+      ++ lib.optionals pkgs.stdenv.isDarwin (
+        commandToControlBindings
+        ++ commandToControlCsiUBindings
+        ++ [
+          {
+            key = "Space";
+            mods = "Command";
+            chars = "\\u0000";
+          }
+        ]
+      );
 
       window = lib.optionalAttrs pkgs.stdenv.isDarwin {
         option_as_alt = "OnlyLeft";

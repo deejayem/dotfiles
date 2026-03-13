@@ -26,34 +26,36 @@ in
     "$HOME/.npm-global/bin"
   ];
 
-  home.packages = with pkgs; [
-    aws-cdk-cli
-    cdktn-cli
-    cli-tools
-    coffeescript
-    check-versions
-    aws-instance-info
-    git-remote-codecommit
-    lmdb-cli
-    msgpack-tools
-    nodejs
-    opentofu
-    pacs
-    python3
-    ruby
-    tailscale
-    terraform
-    sqlcmd
-  ]
-  ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
-    ccusage
-    ccusage-codex
-    ccusage-opencode
-    claude-code
-    codex
-    copilot-language-server
-    opencode
-  ]);
+  home.packages =
+    with pkgs;
+    [
+      aws-cdk-cli
+      cdktn-cli
+      cli-tools
+      coffeescript
+      check-versions
+      aws-instance-info
+      git-remote-codecommit
+      lmdb-cli
+      msgpack-tools
+      nodejs
+      opentofu
+      pacs
+      python3
+      ruby
+      tailscale
+      terraform
+      sqlcmd
+    ]
+    ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
+      ccusage
+      ccusage-codex
+      ccusage-opencode
+      claude-code
+      codex
+      copilot-language-server
+      opencode
+    ]);
 
   # TODO
   home.file = {

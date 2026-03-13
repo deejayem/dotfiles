@@ -4,4 +4,3 @@
 
   programs.ripgrep-all.enable = config.host.role == "workstation";
 }
-

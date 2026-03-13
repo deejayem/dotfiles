@@ -62,7 +62,8 @@ in
           asp "$profile" "$@"
         fi
       '';
-    } // lib.optionalAttrs pkgs.stdenv.isDarwin {
+    }
+    // lib.optionalAttrs pkgs.stdenv.isDarwin {
       aws-open = ''
         local profile="''${1:-$AWS_PROFILE}"
         [[ -n "$profile" ]] || { print -u2 "aws-open: no profile specified and AWS_PROFILE not set"; return 2; }
