@@ -51,10 +51,13 @@ in
       ccusage
       ccusage-codex
       ccusage-opencode
+      ccusage-pi
       claude-code
       codex
+      copilot-cli
       copilot-language-server
       opencode
+      pi
     ]);
 
   # TODO
