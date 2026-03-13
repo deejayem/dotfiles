@@ -4,15 +4,6 @@
 ;; Most of it is taken from the READMEs and wikis of those packages
 ;;; Code:
 
-(defun +elpaca-unload-dabbrev (e)
-  (and (featurep 'dabbrev) (unload-feature 'dabbrev t))
-  (elpaca--continue-build e))
-
-(defun +elpaca-dabbrev-build-steps ()
-  (append (butlast (if (file-exists-p (expand-file-name "dabbrev" elpaca-builds-directory))
-                       elpaca--pre-built-steps elpaca-build-steps))
-          (list '+elpaca-unload-dabbrev 'elpaca--activate-package)))
-
 (use-feature dabbrev
   :custom
   (dabbrev-case-distinction nil)
