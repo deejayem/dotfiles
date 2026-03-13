@@ -64,18 +64,17 @@
 
 (elpaca diminish)
 
-;; Temporary workaround for packages needing newer version of seq (https://github.com/progfolio/elpaca/issues/216#issuecomment-1868444883))
-(defun +elpaca-unload-seq (e)
-  (and (featurep 'seq) (unload-feature 'seq t))
-  (elpaca--continue-build e))
+(defmacro +elpaca-upgrade-builtin (package)
+  "Install PACKAGE with elpaca, unloading the builtin version first."
+  (let ((fn (intern (format "+elpaca-unload-%s" package))))
+    `(progn
+       (defun ,fn (e)
+         (and (featurep ',package) (unload-feature ',package t))
+         (elpaca--continue-build e))
+       (elpaca `(,',package :build (:before elpaca-activate ,',fn))))))
 
-(elpaca `(seq :build (:before elpaca-activate +elpaca-unload-seq)))
-
-(defun +elpaca-unload-transient (e)
-  (and (featurep 'transient) (unload-feature 'transient t))
-  (elpaca--continue-build e))
-
-(elpaca `(transient :build (:before elpaca-activate +elpaca-unload-transient)))
+(+elpaca-upgrade-builtin seq)
+(+elpaca-upgrade-builtin transient)
 
 ;; Block until current queue processed.
 (elpaca-wait)
