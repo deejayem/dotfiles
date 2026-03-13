@@ -9,6 +9,7 @@ let
   jq = lib.getExe pkgs.jq;
   nix = lib.getExe pkgs.nix;
   nixCollectGarbage = lib.getExe' pkgs.nix "nix-collect-garbage";
+  nixPrefetchUrl = lib.getExe' pkgs.nix "nix-prefetch-url";
   sed = lib.getExe pkgs.gnused;
 in
 {
@@ -61,6 +62,8 @@ in
       df -h
       date
     '';
+
+    nix-prefetch-url-sri = ''${nix} hash convert --hash-algo sha256 --to sri $(${nixPrefetchUrl} --type sha256 "$1")'';
 
     nixos-eval = "${nix} eval --json $NH_FLAKE#nixosConfigurations.$HOST.config.$1 | ${jq}";
 
