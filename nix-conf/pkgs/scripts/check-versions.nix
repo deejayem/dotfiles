@@ -45,18 +45,21 @@ pkgs.writeShellScriptBin "check-versions" ''
   }
 
   # Fetch latest versions
+  latest_brave=$(fetch_latest sh -c "${curl} -s 'https://api.github.com/repos/brave/brave-browser/releases/latest' | ${jq} -r '.tag_name | ltrimstr(\"v\")'")
   latest_chrome=$(fetch_latest sh -c "${curl} -s 'https://versionhistory.googleapis.com/v1/chrome/platforms/mac_arm64/channels/stable/versions/all/releases?filter=endtime=none,fraction%3E=0.5&order_by=version%20desc' | ${jq} -r '.releases[0].version'")
   latest_firefox=$(fetch_latest sh -c "${curl} -s https://archive.mozilla.org/pub/firefox/releases/ | ${grep} -oP '[0-9]+\.[0-9.]+(?=/)' | ${sort} -t. -k1,1n -k2,2n -k3,3n | ${tail} -1")
   latest_slack=$(fetch_latest sh -c "${curl} -s 'https://slack.com/api/desktop.latestRelease?arch=arm64&variant=dmg' | ${jq} -r .version")
   latest_zoom=$(fetch_latest sh -c "${curl} -Ls 'https://zoom.us/rest/download?os=mac' | ${jq} -r '.result.downloadVO.zoomArm64.version'")
 
   # Fetch nixpkgs versions
+  nixpkgs_brave=$(nix_ver nixpkgs#brave.version)
   nixpkgs_chrome=$(nix_ver nixpkgs#google-chrome.version)
   nixpkgs_firefox=$(nix_ver nixpkgs#firefox.version)
   nixpkgs_slack=$(nix_ver nixpkgs#slack.version)
   nixpkgs_zoom=$(nix_ver nixpkgs#zoom-us.version)
 
   # Fetch local versions
+  local_brave=$(nix_ver "''${flake_dir}#modifications.brave.version")
   local_chrome=$(nix_ver "''${flake_dir}#modifications.google-chrome.version")
   local_firefox=$(nix_ver "''${flake_dir}#modifications.firefox.version")
   local_slack=$(nix_ver "''${flake_dir}#modifications.slack.version")
@@ -101,6 +104,7 @@ pkgs.writeShellScriptBin "check-versions" ''
   hline '┌' '┬' '┐'
   header
   hline '├' '┼' '┤'
+  row brave   "$nixpkgs_brave"   "$local_brave"   "$latest_brave"
   row chrome  "$nixpkgs_chrome"  "$local_chrome"  "$latest_chrome"
   row firefox "$nixpkgs_firefox" "$local_firefox" "$latest_firefox"
   row slack   "$nixpkgs_slack"   "$local_slack"   "$latest_slack"
@@ -109,6 +113,15 @@ pkgs.writeShellScriptBin "check-versions" ''
 
   # Prefetch hashes for packages that need updating
   needs_update=false
+
+  if [[ "$local_brave" != "$latest_brave" && "$latest_brave" != "error" ]]; then
+    needs_update=true
+    echo ""
+    echo "''${bold}brave ''${latest_brave}:''${reset}"
+    brave_url="https://github.com/brave/brave-browser/releases/download/v''${latest_brave}/brave-v''${latest_brave}-darwin-arm64.zip"
+    echo "  ''${dim}url:  $brave_url''${reset}"
+    echo "  ''${dim}hash: $(prefetch_sri "$brave_url")''${reset}"
+  fi
 
   if [[ "$local_chrome" != "$latest_chrome" && "$latest_chrome" != "error" ]]; then
     needs_update=true
