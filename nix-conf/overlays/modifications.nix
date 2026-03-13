@@ -17,10 +17,11 @@ final: prev:
 // prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) {
   google-chrome = prev.google-chrome.overrideAttrs (
     finalAttrs: _: {
-      version = "146.0.7680.72";
+      version = "146.0.7680.76";
+      slug = "adgzhtm53eqdw4h4wn64ebox7o6q";
       src = prev.fetchurl {
-        url = "http://dl.google.com/release2/chrome/geomnvhpdzrdrct4xeyekmx3aq_${finalAttrs.version}/GoogleChrome-${finalAttrs.version}.dmg";
-        hash = "sha256-st6vm+/ATQmpeMiJVY0PEYtN/zXhxnYRy3s2/MrfoO4=";
+        url = "http://dl.google.com/release2/chrome/${finalAttrs.slug}_${finalAttrs.version}/GoogleChrome-${finalAttrs.version}.dmg";
+        hash = "sha256-nC8y6992wlx6DcN48glkeoZFSze1vNkbsqENmqC5nrQ=";
       };
     }
   );
