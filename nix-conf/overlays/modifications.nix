@@ -6,13 +6,6 @@ final: prev:
       ./atuin-session-host-filter.patch
     ];
   });
-
-  firebase-tools = prev.firebase-tools.override {
-    buildNpmPackage = prev.buildNpmPackage.override {
-      nodejs = prev.nodejs_22;
-    };
-  };
-
 }
 // prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) {
   brave = prev.brave.overrideAttrs (
