@@ -195,6 +195,13 @@
   (append-to-list* 'beacon-dont-blink-major-modes 'cider-repl-mode 'eshell-mode 'shell-mode 'vterm-mode 'term-mode 'ansi-term-mode)
   (beacon-mode 1))
 
+(use-package winpulse
+  :defer 5
+  :custom
+  (winpulse-brightness 40)
+  (winpulse-duration 0.5)
+  (winpulse-ignore-minibuffer-focus t))
+
 (use-package helpful
   :bind (("C-h f" . helpful-function)
          ("C-h F" . helpful-callable)
