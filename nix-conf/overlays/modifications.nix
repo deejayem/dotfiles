@@ -32,10 +32,10 @@ final: prev:
 // prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) {
   slack = prev.slack.overrideAttrs (
     finalAttrs: _: {
-      version = "4.48.100";
+      version = "4.48.102";
       src = prev.fetchurl {
         url = "https://downloads.slack-edge.com/desktop-releases/mac/arm64/${finalAttrs.version}/Slack-${finalAttrs.version}-macOS.dmg";
-        hash = "sha256-vzgxVBRncNQ4mchSgbe9vm3kEiPXHeMlhm3Xq4COi7A=";
+        hash = "sha256-mnoNnyv6sU6WLiPsWWPuUL686MQ/vxnGokfdWOSO8b4=";
       };
     }
   );
