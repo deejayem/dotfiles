@@ -30,6 +30,16 @@ final: prev:
   );
 }
 // prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) {
+  google-chrome = prev.google-chrome.overrideAttrs (
+    finalAttrs: _: {
+      version = "146.0.7680.154";
+      slug = "aduhru4wjcwjo2cuql7gnsdev6hq";
+      src = prev.fetchurl {
+        url = "http://dl.google.com/release2/chrome/${finalAttrs.slug}_${finalAttrs.version}/GoogleChrome-${finalAttrs.version}.dmg";
+        hash = "sha256-u/i8fYn53BbQGFlBFTEayNpSQoeNPBJEBXr2KFArgW8=";
+      };
+    }
+  );
   slack = prev.slack.overrideAttrs (
     finalAttrs: _: {
       version = "4.48.102";
