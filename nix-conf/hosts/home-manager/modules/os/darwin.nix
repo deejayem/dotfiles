@@ -40,6 +40,7 @@ in
   home.packages = with pkgs; [
     cacert
     caddy
+    colima
     coreutils
     diffutils
     envsubst
@@ -50,6 +51,7 @@ in
     gnugrep
     less
     lesspipe
+    lima
     mac-app-util
     #mopidy-with-extensions
     #mpdscribble
