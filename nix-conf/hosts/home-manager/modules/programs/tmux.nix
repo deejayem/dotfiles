@@ -63,6 +63,9 @@ in
         set-option -g status-fg '#aaaaaa'
         set-option -g status-left-length 50
         set-option -g status-right " %a, %b %d - %H:%M "
+
+        # Use M-z when applications need C-x
+        bind-key -n M-z send-keys C-x
       ''}
 
       ${optionalString isServer ''
