@@ -200,7 +200,9 @@
   :custom
   (winpulse-brightness 40)
   (winpulse-duration 0.5)
-  (winpulse-ignore-minibuffer-focus t))
+  (winpulse-ignore-minibuffer-focus t)
+  :config
+  (winpulse-mode +1))
 
 (use-package helpful
   :bind (("C-h f" . helpful-function)
