@@ -30,6 +30,15 @@ final: prev:
   );
 }
 // prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) {
+  brave = prev.brave.overrideAttrs (
+    finalAttrs: _: {
+      version = "1.88.134";
+      src = prev.fetchurl {
+        url = "https://github.com/brave/brave-browser/releases/download/v${finalAttrs.version}/brave-v${finalAttrs.version}-darwin-arm64.zip";
+        hash = "sha256-Q3wpSLj7yUPkaua01sMvShVFaJ4m0KTN+i7/zSS4WVw=";
+      };
+    }
+  );
   google-chrome = prev.google-chrome.overrideAttrs (
     finalAttrs: _: {
       version = "146.0.7680.154";
