@@ -3,9 +3,12 @@ final: prev:
 {
   atuin = prev.atuin.overrideAttrs (oldAttrs: {
     patches = (oldAttrs.patches or [ ]) ++ [
-      (if prev.lib.versionAtLeast prev.atuin.version "18.13.0"
-      then ./atuin-session-host-filter-unstable.patch
-      else ./atuin-session-host-filter.patch)
+      (
+        if prev.lib.versionAtLeast prev.atuin.version "18.13.0" then
+          ./atuin-session-host-filter-unstable.patch
+        else
+          ./atuin-session-host-filter.patch
+      )
     ];
   });
   babashka = prev.babashka.override {
