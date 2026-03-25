@@ -34,20 +34,20 @@ final: prev:
 // prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) {
   brave = prev.brave.overrideAttrs (
     finalAttrs: _: {
-      version = "1.88.134";
+      version = "1.88.136";
       src = prev.fetchurl {
         url = "https://github.com/brave/brave-browser/releases/download/v${finalAttrs.version}/brave-v${finalAttrs.version}-darwin-arm64.zip";
-        hash = "sha256-Q3wpSLj7yUPkaua01sMvShVFaJ4m0KTN+i7/zSS4WVw=";
+        hash = "sha256-Jf/dQy8o87iytsWcTUpPlYTOcdvnzJjlkH1M6y+x9Dw=";
       };
     }
   );
   google-chrome = prev.google-chrome.overrideAttrs (
     finalAttrs: _: {
-      version = "146.0.7680.154";
-      slug = "aduhru4wjcwjo2cuql7gnsdev6hq";
+      version = "146.0.7680.165";
+      slug = "acieaz5gurxr6um2wu2e5hogjueq";
       src = prev.fetchurl {
         url = "http://dl.google.com/release2/chrome/${finalAttrs.slug}_${finalAttrs.version}/GoogleChrome-${finalAttrs.version}.dmg";
-        hash = "sha256-u/i8fYn53BbQGFlBFTEayNpSQoeNPBJEBXr2KFArgW8=";
+        hash = "sha256-g9smFwpu8F3WrYX+eUkYuEdhzR2rSAzt8/nVPG8xaEg=";
       };
     }
   );
@@ -62,12 +62,41 @@ final: prev:
   );
   zoom-us = prev.zoom-us.overrideAttrs (
     finalAttrs: _: {
-      version = "6.7.7.76486";
+      version = "7.0.0.77593";
       src = prev.fetchurl {
         url = "https://zoom.us/client/${finalAttrs.version}/zoomusInstallerFull.pkg?archType=arm64";
         name = "zoomusInstallerFull.pkg";
-        hash = "sha256-Wl8nghOfwGYxwzVjCScMeuiowhKLPYV04cagOpnzGUs=";
+        hash = "sha256-YSUaM8YAJHigm4M9W34/bD164M8f/hbhtcmHyUwFN20=";
       };
     }
   );
+}
+// prev.lib.optionalAttrs prev.stdenv.isDarwin {
+  firefox-unwrapped =
+    let
+      version = "149.0";
+    in
+    import (prev.path + "/pkgs/applications/networking/browsers/firefox/packages/firefox.nix") {
+      inherit (final)
+        stdenv
+        lib
+        callPackage
+        fetchurl
+        nixosTests
+        ;
+      buildMozillaMach =
+        args:
+        final.buildMozillaMach (
+          args
+          // {
+            inherit version;
+            packageVersion = version;
+            src = prev.fetchurl {
+              url = "mirror://mozilla/firefox/releases/${version}/source/firefox-${version}.source.tar.xz";
+              sha512 = "0d3g59b04xnrjmc75zq53d4csdwj1vys7nfc8b8srcvn1k3fig6g6f14pxcpb823682i6sc9cc49gyifi49rs03ly2hvdwgffkp3n6d";
+            };
+          }
+        );
+    };
+  firefox = final.wrapFirefox final.firefox-unwrapped { };
 }
