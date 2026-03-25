@@ -58,6 +58,10 @@ in
 
       ${optionalString isWorkstation ''
         set -ga terminal-overrides ",alacritty:Tc"
+        set -as terminal-features ",alacritty:clipboard"
+
+        set -s set-clipboard on
+        set -g allow-passthrough on
 
         set-option -g status-bg '#666666'
         set-option -g status-fg '#aaaaaa'
