@@ -19,7 +19,7 @@
                   (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el"
                             "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
                  :source "MELPA" :id affe :type git :protocol https :inherit t
-                 :depth treeless :ref "295e2fb26a2de66e13c0f8414d1ada5b090a1011"))
+                 :depth treeless :ref "6e06b8efcd5b57160ba267e42cbf3b982a4b89a1"))
  (aggressive-indent :source "elpaca-menu-lock-file" :recipe
                     (:package "aggressive-indent" :repo
                               "Malabarba/aggressive-indent-mode" :fetcher github
@@ -175,7 +175,7 @@
                   (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el"
                             "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
                  :source "MELPA" :id cape :type git :protocol https :inherit t
-                 :depth treeless :ref "a326a0575fe5ca574f6607557dbb8bd6ce83dbbd"))
+                 :depth treeless :ref "e608ccb4c19caabae3fe37d71e41891feec23601"))
  (caser :source "elpaca-menu-lock-file" :recipe
         (:source nil :package "caser" :id caser :host github :repo
                  "emacsmirror/caser" :type git :protocol https :inherit t :depth
@@ -189,7 +189,7 @@
                                   casual-re-builder)
                    :files (:defaults "docs/images") :source "MELPA" :id casual
                    :type git :protocol https :inherit t :depth treeless :ref
-                   "0b04ad703efad2a53a3c756c02784e819d0f8b4e"))
+                   "c8d6ec4165220d2de9fca742f3be254deec312c1"))
  (casual-avy :source "elpaca-menu-lock-file" :recipe
              (:package "casual-avy" :fetcher github :repo
                        "kickingvegas/casual-avy" :files
@@ -241,7 +241,7 @@
                          :fetcher github :files ("clojure-mode.el") :source
                          "MELPA" :id clojure-mode :type git :protocol https
                          :inherit t :depth treeless :ref
-                         "6456b5dda70fe73cd5bce6dc7cd33f53f4a92126"))
+                         "c3b039ecf85e343edbc67c5856322654381dbc3e"))
  (closql :source "elpaca-menu-lock-file" :recipe
          (:package "closql" :fetcher github :repo "magit/closql" :files
                    ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
@@ -314,7 +314,7 @@
                                         "README*" "*-pkg.el"))
                              :source "MELPA" :id consult-flycheck :type git
                              :protocol https :inherit t :depth treeless :ref
-                             "9fe96c4b75c8566170ad41a04c3849d2e2606104"))
+                             "21c74a96e787606f8572453b17f6912c3755be42"))
  (consult-git-log-grep :source "elpaca-menu-lock-file" :recipe
                        (:package "consult-git-log-grep" :fetcher github :repo
                                  "ghosty141/consult-git-log-grep" :files
@@ -571,7 +571,7 @@
                  (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el"
                            "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
                 :source "MELPA" :id eca :type git :protocol https :inherit t
-                :depth treeless :ref "216f4517e02a288d172a906fbed11728bd370431"))
+                :depth treeless :ref "a18106b02bf7f2e17cee5ee02313e49cb09ae11c"))
  (editorconfig :source "elpaca-menu-lock-file" :recipe
                (:package "editorconfig" :fetcher github :repo
                          "editorconfig/editorconfig-emacs" :old-names
@@ -609,7 +609,7 @@
    "elpaca-menu-lock-file" :recipe
    (:source nil :package "elpaca" :id elpaca :repo
             "https://github.com/progfolio/elpaca.git" :ref
-            "8ed83477f74bcae5019f0542fc5f774d8e20c041" :depth 1 :inherit ignore
+            "66e1303ae5aa76dcf84e5c974e39f093d5e19dbc" :depth 1 :inherit ignore
             :files (:defaults "elpaca-test.el" (:exclude "extensions")) :build
             (:not elpaca-activate) :type git :protocol https))
  (elpaca-use-package :source "elpaca-menu-lock-file" :recipe
@@ -620,7 +620,7 @@
                                (:not elpaca-build-docs) :source
                                "Elpaca extensions" :id elpaca-use-package :type
                                git :protocol https :inherit t :depth treeless
-                               :ref "8ed83477f74bcae5019f0542fc5f774d8e20c041"))
+                               :ref "66e1303ae5aa76dcf84e5c974e39f093d5e19dbc"))
  (elsa :source "elpaca-menu-lock-file" :recipe
        (:package "elsa" :fetcher github :repo "emacs-elsa/Elsa" :files
                  (:defaults "bin") :source "MELPA" :id elsa :type git :protocol
@@ -652,7 +652,7 @@
                              "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
                   :source "MELPA" :id envrc :type git :protocol https :inherit t
                   :depth treeless :ref
-                  "f44353c42c0794cdc6629c83a923d1689f33469f"))
+                  "60820285aeed4f87969d663a1c14a905c7bb763a"))
  (erefactor :source "elpaca-menu-lock-file" :recipe
             (:package "erefactor" :repo "mhayashi1120/Emacs-erefactor" :fetcher
                       github :files
@@ -759,7 +759,7 @@
                                 "*-pkg.el"))
                      :source "MELPA" :id flycheck :type git :protocol https
                      :inherit t :depth treeless :ref
-                     "fea21359413f59b15f36ef2e237399341237259f"))
+                     "0e5eb8300d32fd562724216c19eaf199ee1451ab"))
  (flycheck-clj-kondo :source "elpaca-menu-lock-file" :recipe
                      (:package "flycheck-clj-kondo" :fetcher github :repo
                                "borkdude/flycheck-clj-kondo" :files
@@ -854,7 +854,7 @@
        (:package "ghub" :fetcher github :repo "magit/ghub" :files
                  ("lisp/*.el" "docs/*.texi" ".dir-locals.el") :source "MELPA"
                  :id ghub :type git :protocol https :inherit t :depth treeless
-                 :ref "42ebf0971f7d2702a71c9461ec235b1ca136aded"))
+                 :ref "3866c821eea83060603d28528af1700ff6a9b318"))
  (git-link :source "elpaca-menu-lock-file" :recipe
            (:package "git-link" :fetcher github :repo "sshaw/git-link" :files
                      ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
@@ -917,7 +917,7 @@
                                "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
                     :source "MELPA" :id goggles :type git :protocol https
                     :inherit t :depth treeless :ref
-                    "81adff62ca58aeead1f8c25ec64f1d4ddbc80f5e"))
+                    "73040c4dc8fe946d3657accb5dc4ed4065abd348"))
  (goto-chg :source "elpaca-menu-lock-file" :recipe
            (:package "goto-chg" :repo "emacs-evil/goto-chg" :fetcher github
                      :files
@@ -954,7 +954,7 @@
                              "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
                   :source "MELPA" :id gptel :type git :protocol https :inherit t
                   :depth treeless :ref
-                  "bbfbd711fae64b079f7057d71772805edeb00a3d"))
+                  "0239c93d478f5faef47d59a0d53175551791a64d"))
  (gumshoe :source "elpaca-menu-lock-file" :recipe
           (:package "gumshoe" :fetcher github :repo "Overdr0ne/gumshoe" :files
                     ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
@@ -1214,7 +1214,7 @@
            (:package "lsp-mode" :repo "emacs-lsp/lsp-mode" :fetcher github
                      :files (:defaults "clients/*.*") :source "MELPA" :id
                      lsp-mode :type git :protocol https :inherit t :depth
-                     treeless :ref "197f56bf7a38b564cc5dec26d66b5f494da39783"))
+                     treeless :ref "9a2513cb40cb7daac87efcc63f35c7e066681808"))
  (lsp-treemacs :source "elpaca-menu-lock-file" :recipe
                (:package "lsp-treemacs" :repo "emacs-lsp/lsp-treemacs" :fetcher
                          github :files (:defaults "icons") :source "MELPA" :id
@@ -1238,7 +1238,7 @@
                    (:exclude "lisp/magit-section.el"))
                   :source "MELPA" :id magit :type git :protocol https :inherit t
                   :depth treeless :ref
-                  "c7b0342dc71fdc32c49a68168018b386746b3e5c"))
+                  "d99366ff80778edc614ca28e06ec2b6f3ef48b33"))
  (magit-delta :source "elpaca-menu-lock-file" :recipe
               (:package "magit-delta" :fetcher github :repo
                         "dandavison/magit-delta" :files
@@ -1272,7 +1272,7 @@
                            "magit-section-pkg.el")
                           :source "MELPA" :id magit-section :type git :protocol
                           https :inherit t :depth treeless :ref
-                          "c7b0342dc71fdc32c49a68168018b386746b3e5c"))
+                          "d99366ff80778edc614ca28e06ec2b6f3ef48b33"))
  (marginalia :source "elpaca-menu-lock-file" :recipe
              (:package "marginalia" :repo "minad/marginalia" :fetcher github
                        :files
@@ -1298,7 +1298,7 @@
                                      "README*" "*-pkg.el"))
                           :source "MELPA" :id markdown-mode :type git :protocol
                           https :inherit t :depth treeless :ref
-                          "877d943cc344661c85b222a6c60737f4cc816084"))
+                          "182640f79c3ed66f82f0419f130dffc173ee9464"))
  (mcp :source "elpaca-menu-lock-file" :recipe
       (:package "mcp" :fetcher github :repo "lizqwerscott/mcp.el" :files
                 ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir"
@@ -1419,6 +1419,11 @@
                           :source "MELPA" :id ob-restclient :type git :protocol
                           https :inherit t :depth treeless :ref
                           "94dd9cd98ff50717135ed5089afb378616faf11a"))
+ (opencode :source "elpaca-menu-lock-file" :recipe
+           (:source nil :package "opencode" :id opencode :repo
+                    "https://codeberg.org/sczi/opencode.el.git" :type git
+                    :protocol https :inherit t :depth treeless :ref
+                    "0b5b538c73fd4c163b5e04c01b468ba7106cf96b"))
  (operate-on-number :source "elpaca-menu-lock-file" :recipe
                     (:package "operate-on-number" :fetcher github :repo
                               "knu/operate-on-number.el" :files
@@ -1446,14 +1451,10 @@
                       :inherit t :depth treeless :ref
                       "3a2a32181f7a5bd7b633e40d89de771a5dd88cc7"))
  (org :source "elpaca-menu-lock-file" :recipe
-      (:package "org" :pre-build
-                (progn
-                  (require 'elpaca-menu-org)
-                  (setq elpaca-menu-org-make-manual t) (elpaca-menu-org--build))
-                :host github :repo "emacsmirror/org" :autoloads
+      (:package "org" :host github :repo "emacsmirror/org" :autoloads
                 "org-loaddefs.el" :depth treeless :build
-                ((:not (elpaca-build-autoloads))
-                 (:after elpaca-git--checkout-ref elpaca-menu-org--build))
+                ((:not elpaca-build-autoloads)
+                 (:before elpaca-build-link elpaca-menu-org--build))
                 :files (:defaults ("etc/styles/" "etc/styles/*" "doc/*.texi"))
                 :source "Org" :id org :type git :protocol https :inherit t :ref
                 "7ed519bfa57cbfea637893f5a29c229e356eee40"))
@@ -1534,6 +1535,28 @@
                     :source "MELPA" :id pfuture :type git :protocol https
                     :inherit t :depth treeless :ref
                     "19b53aebbc0f2da31de6326c495038901bffb73c"))
+ (plz :source "elpaca-menu-lock-file" :recipe
+      (:package "plz" :repo ("https://github.com/alphapapa/plz.el.git" . "plz")
+                :tar "0.9.1" :host gnu :files ("*" (:exclude ".git" "LICENSE"))
+                :source "GNU ELPA" :id plz :type git :protocol https :inherit t
+                :depth treeless :ref "e2d07838e3b64ee5ebe59d4c3c9011adefb7b58e"))
+ (plz-event-source :source "elpaca-menu-lock-file" :recipe
+                   (:package "plz-event-source" :repo
+                             ("https://github.com/r0man/plz-event-source"
+                              . "plz-event-source")
+                             :tar "0.1.3" :host gnu :files
+                             ("*" (:exclude ".git")) :source "GNU ELPA" :id
+                             plz-event-source :type git :protocol https :inherit
+                             t :depth treeless :ref
+                             "de89214ce14e2b82cbfdc30e1adcf3e77b1f250a"))
+ (plz-media-type :source "elpaca-menu-lock-file" :recipe
+                 (:package "plz-media-type" :repo
+                           ("https://github.com/r0man/plz-media-type"
+                            . "plz-media-type")
+                           :tar "0.2.4" :host gnu :files ("*" (:exclude ".git"))
+                           :source "GNU ELPA" :id plz-media-type :type git
+                           :protocol https :inherit t :depth treeless :ref
+                           "b1127982d53affff082447030cda6e8ead3899cb"))
  (polymode :source "elpaca-menu-lock-file" :recipe
            (:package "polymode" :fetcher github :repo "polymode/polymode" :files
                      ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
@@ -1728,7 +1751,7 @@
                                    "*-pkg.el"))
                         :source "MELPA" :id shell-maker :type git :protocol
                         https :inherit t :depth treeless :ref
-                        "55f829d179608a3c4b11e86427713d5be7c4bb58"))
+                        "808bede99dc2c2d27c3dc69d5f363aade40e6f87"))
  (simple-modeline :source "elpaca-menu-lock-file" :recipe
                   (:package "simple-modeline" :repo "gexplorer/simple-modeline"
                             :fetcher github :files
@@ -1909,7 +1932,7 @@
                       :source "MELPA" :id transient :build
                       (:before elpaca-activate +elpaca-unload-transient) :type
                       git :protocol https :inherit t :depth treeless :ref
-                      "c8e4251fd165acd32e014e6310f2219991bea357"))
+                      "63f907237d248681c876eff59d624bff9c936876"))
  (transpose-frame :source "elpaca-menu-lock-file" :recipe
                   (:package "transpose-frame" :fetcher github :repo
                             "emacsorphanage/transpose-frame" :files

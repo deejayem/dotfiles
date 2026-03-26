@@ -43,6 +43,10 @@
 (elpaca `(,@elpaca-order))
 ;; End of elpaca installer block
 
+;; Use the lock file, except when running the update script
+(unless (member "+elpaca-update" command-line-args)
+  (setq elpaca-lock-file (expand-file-name "elpaca.lock" user-emacs-directory)))
+
 ;; Install use-package support
 (elpaca elpaca-use-package
   ;; Enable use-package :ensure support for Elpaca.
