@@ -83,9 +83,6 @@
 ;; Block until current queue processed.
 (elpaca-wait)
 
-(add-to-list 'elpaca-ignored-dependencies 'project)
-(add-to-list 'elpaca-ignored-dependencies 'xref)
-
 ;; https://github.com/progfolio/elpaca/wiki/Logging#auto-hiding-the-elpaca-log-buffer
 (defvar +elpaca-hide-log-commands '(eval-buffer eval-region eval-defun eval-last-sexp org-ctrl-c-ctrl-c eros-eval-defun eros-eval-last-sexp elisp-eval-region-or-buffer)
   "List of commands for which a successfully processed log is auto hidden.")
