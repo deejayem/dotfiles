@@ -15,6 +15,7 @@ in
       nvim-autopairs
       nvim-lastplace
       nvim-surround
+      orgmode
       plenary-nvim
       telescope-nvim
       vim-better-whitespace
