@@ -1,4 +1,8 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
+let
+  atuin = lib.getExe pkgs.atuin;
+  date = lib.getExe' pkgs.coreutils "date";
+in
 {
   programs.atuin = {
     daemon.enable = true;
@@ -20,6 +24,19 @@
       update_check = false;
     };
   };
+
+  programs.zsh.siteFunctions.atuin-to-zsh-extended-history = ''
+    ${atuin} history list --format '{time}\t{command}' -r true --print0 | while IFS= read -r -d $'\0' line; do
+      time=''${line%%$'\t'*}
+      command=''${line#*$'\t'}
+
+      epoch=$(${date} -d "$time" +%s 2>/dev/null) || continue
+
+      command=''${command//$'\n'/$'\\\n'}
+
+      print -r -- ": ''${epoch}:0;''${command}"
+    done
+  '';
 
   programs.zsh.initContent = lib.mkAfter ''
     bindkey '^[r' atuin-search
