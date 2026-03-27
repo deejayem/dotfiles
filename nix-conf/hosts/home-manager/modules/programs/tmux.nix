@@ -13,7 +13,7 @@ in
   programs.tmux = {
     enable = true;
     terminal = "tmux-256color";
-    prefix = if isServer then "C-a" else "C-x";
+    prefix = if isServer then "C-a" else "\"C-\\\\\"";
     plugins =
       with pkgs;
       [
@@ -68,8 +68,6 @@ in
         set-option -g status-left-length 50
         set-option -g status-right " %a, %b %d - %H:%M "
 
-        # Use M-z when applications need C-x
-        bind-key -n M-z send-keys C-x
       ''}
 
       ${optionalString isServer ''
