@@ -45,6 +45,7 @@ in
       ruby
       tailscale
       terraform
+      sandbox
       sqlcmd
     ]
     ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
@@ -53,9 +54,12 @@ in
       ccusage-opencode
       ccusage-pi
       claude-code
+      claude-code-acp
       codex
+      codex-acp
       copilot-cli
       copilot-language-server
+      llm
       opencode
       openspec
       pi

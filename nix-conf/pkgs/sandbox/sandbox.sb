@@ -1,0 +1,158 @@
+; vim:ft=scheme
+(version 1)
+(deny default)
+
+;; sandbox.sb — Seatbelt profile for AI coding agents and their tooling
+;; Adapted from github:aldur/sandboxed-ai (MIT license)
+;;
+;; Parameters (passed via sandbox-exec -D):
+;;   HOME        — user home directory (read access for dotfiles)
+;;   WORKSPACE   — project directory (read + write)
+;;   TOOL_STATE  — tool-specific state directory (read + write)
+
+(import "system.sb")
+(import "com.apple.corefoundation.sb")
+
+;; ── Process ──────────────────────────────────────────────
+(allow signal (target self))
+(allow process-info-pidinfo)
+(allow process-info-setcontrol)
+(allow process-fork)
+
+;; Allow executing binaries from the nix store (opencode, claude,
+;; codex, git, make, mvn, jdk, z3, fray, etc.) plus standard
+;; shell interpreters.
+(allow process-exec
+  (subpath "/nix")
+  (literal "/usr/bin/env")
+  (literal "/bin/bash")
+  (literal "/bin/zsh")
+  (literal "/bin/sh"))
+
+;; ── Sysctl ───────────────────────────────────────────────
+(allow sysctl-read
+  (sysctl-name "hw.ncpu")
+  (sysctl-name "hw.memsize")
+  (sysctl-name "hw.pagesize")
+  (sysctl-name "hw.activecpu")
+  (sysctl-name "hw.logicalcpu")
+  (sysctl-name "hw.logicalcpu_max")
+  (sysctl-name "hw.physicalcpu")
+  (sysctl-name "hw.physicalcpu_max")
+  (sysctl-name "kern.osrelease")
+  (sysctl-name "kern.osversion")
+  (sysctl-name "kern.hostname")
+  (sysctl-name "kern.ostype")
+  (sysctl-name "kern.version"))
+
+(allow sysctl-read sysctl-write
+  (sysctl-name "kern.maxfilesperproc"))
+
+;; ── System libs (dyld, macOS frameworks) ─────────────────
+(allow file-read*
+  (subpath "/usr/lib")
+  (subpath "/System/Library/Frameworks")
+  (subpath "/System/Library/PrivateFrameworks")
+  (subpath "/System/Library/Caches/com.apple.dyld")
+  (subpath "/Library/Apple/usr/lib")
+  (literal "/dev/null")
+  (literal "/dev/zero")
+  (literal "/dev/random")
+  (literal "/dev/urandom"))
+
+;; ── Nix store (read + executable mapping) ────────────────
+(allow file-read* file-map-executable
+  (subpath "/nix"))
+
+;; ── NSTemporaryDirectory ──────────────────────────────────
+;; Apple frameworks (Metal, CoreFoundation) use
+;; confstr(_CS_DARWIN_USER_TEMP_DIR) which resolves to
+;; /private/var/folders/.../T/. file-map-executable is needed
+;; for Metal shader compilation.
+(allow file-read* file-write* file-map-executable file-lock
+  (subpath "/private/var/folders"))
+
+;; ── Path traversal (stat on parent directories) ─────────
+;; SQLite and other tools need to stat() ancestor directories
+;; when resolving absolute paths. Metadata only — not reading
+;; file contents.
+(allow file-read-metadata
+  (subpath "/Users"))
+
+;; ── Logging ──────────────────────────────────────────────
+(allow file-write*
+  (literal "/dev/stdout")
+  (literal "/dev/stderr"))
+
+;; ── Network: all outbound TCP ────────────────────────────
+;; Required for LLM provider APIs (Anthropic, OpenAI, etc.)
+(allow network-outbound
+  (remote tcp))
+
+;; ── DNS resolution ───────────────────────────────────────
+(allow network-outbound
+  (literal "/private/var/run/mDNSResponder"))
+(allow mach-lookup
+  (global-name "com.apple.dnssd.service"))
+
+;; ── Network config + TLS ─────────────────────────────────
+(allow file-read*
+  (literal "/private/etc/ssl/cert.pem")
+  (literal "/private/etc/ssl/certs")
+  (subpath "/private/etc/ssl/certs")
+  (literal "/private/etc/hosts")
+  (literal "/private/etc/resolv.conf")
+  (literal "/Library/Preferences/com.apple.networkd.plist"))
+
+;; ── Tool state directory ─────────────────────────────────
+(allow file-read* file-write*
+  (subpath (param "TOOL_STATE")))
+
+;; ── xcode-select (git toolchain detection) ───────────────
+(allow file-read* file-read-metadata
+  (literal "/private/var/select/developer_dir")
+  (subpath "/Library/Developer/CommandLineTools")
+  (subpath "/Applications/Xcode.app/Contents/Developer"))
+
+;; ── Mach (IPC) ───────────────────────────────────────────
+(allow mach-lookup
+  (global-name "com.apple.system.opendirectoryd.membership")
+  (global-name "com.apple.CoreServices.coreservicesd")
+  (global-name "com.apple.SystemConfiguration.configd")
+  ;; Terminal / TUI rawmode
+  (global-name "com.apple.iohideventsystem")
+  (global-name "com.apple.windowserver.active"))
+
+;; ── IOKit (terminal keyboard input) ──────────────────────
+(allow iokit-open
+  (iokit-user-client-class "IOHIDLibUserClient")
+  (iokit-user-client-class "IOHIDEventSystemUserClient"))
+
+;; ── TTY (TUI rawmode) ────────────────────────────────────
+(allow file-read* file-write* file-ioctl
+  (subpath "/dev/tty")
+  (subpath "/dev/pty")
+  (regex #"^/dev/ttys[0-9]+$"))
+
+;; ── Workspace: full read + write ─────────────────────────
+(allow file-read* file-write*
+  (subpath (param "WORKSPACE")))
+
+;; ── Home directory (read-only) ───────────────────────────
+;; Tools read dotfiles (.gitconfig, .opencode/, .claude/, etc.)
+(allow file-read*
+  (subpath (param "HOME")))
+
+;; ── Shared memory + semaphores ───────────────────────────
+(allow ipc-posix-shm-read-data ipc-posix-shm-write-data ipc-posix-shm-write-create
+  (ipc-posix-name-prefix "com.apple."))
+
+(allow ipc-posix-sem-open
+       ipc-posix-sem-post
+       ipc-posix-sem-wait)
+
+;; ── System libs (locale + timezone) ──────────────────────
+(allow file-read*
+  (subpath "/usr/share/locale")
+  (subpath "/usr/share/zoneinfo")
+  (subpath "/private/var/db/timezone"))
