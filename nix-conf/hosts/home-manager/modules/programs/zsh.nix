@@ -14,11 +14,6 @@ in
 {
   home.packages = with pkgs; [ zsh-completions ];
 
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-
   programs.zsh = {
     enable = true;
     enableCompletion = true;

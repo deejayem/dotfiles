@@ -17,6 +17,7 @@ in
     ./home-secrets
     ./programs/atuin.nix
     ./programs/bat.nix
+    ./programs/direnv.nix
     ./programs/ea.nix
     ./programs/emacs.nix
     ./programs/eza.nix
