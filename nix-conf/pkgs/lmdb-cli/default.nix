@@ -2,8 +2,8 @@
   lib,
   buildNpmPackage,
   fetchFromPrivateGitHub,
-  nodejs_20,
   lmdb,
+  nodejs_22,
   ...
 }:
 buildNpmPackage {
@@ -17,7 +17,7 @@ buildNpmPackage {
     narHash = "sha256-6oh+j7FmXM1PT9n0HgkpIeqnlTGpxmMHu2bfD633uz8=";
   };
 
-  nodejs = nodejs_20;
+  nodejs = nodejs_22;
 
   npmDepsHash = "sha256-fF52CSlVOEuAlP19iyBe2daC86fBjY/jduQhc07k0Fw=";
 
