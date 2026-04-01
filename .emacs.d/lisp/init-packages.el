@@ -68,14 +68,19 @@
 
 (elpaca diminish)
 
-(defmacro +elpaca-upgrade-builtin (package)
-  "Install PACKAGE with elpaca, unloading the builtin version first."
-  (let ((fn (intern (format "+elpaca-unload-%s" package))))
-    `(progn
-       (defun ,fn (e)
-         (and (featurep ',package) (unload-feature ',package t))
-         (elpaca--continue-build e))
-       (elpaca `(,',package :build (:before elpaca-activate ,',fn))))))
+(defun +elpaca-unload-feature (e &optional feature)
+  "Unload FEATURE or the feature matching E's ID."
+  (when-let* ((feature (or feature (elpaca<-id e)))
+              ((featurep feature)))
+    (unload-feature feature t))
+  (elpaca--continue-build e))
+
+(defmacro +elpaca-upgrade-builtin (package &optional feature)
+  "Install PACKAGE with elpaca, unloading the builtin version (optionally as FEATURE) first."
+  `(elpaca `(,',package
+             :build (:before elpaca-activate
+                             ,(lambda (e)
+                                (+elpaca-unload-feature e ',(or feature package)))))))
 
 (+elpaca-upgrade-builtin seq)
 (+elpaca-upgrade-builtin transient)
