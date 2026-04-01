@@ -41,6 +41,7 @@ in
       nodejs
       opentofu
       pacs
+      poppler-utils
       python3
       ruby
       tailscale
