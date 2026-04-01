@@ -46,11 +46,11 @@ final: prev:
   );
   google-chrome = prev.google-chrome.overrideAttrs (
     finalAttrs: _: {
-      version = "146.0.7680.165";
+      version = "146.0.7680.178";
       slug = "acieaz5gurxr6um2wu2e5hogjueq";
       src = prev.fetchurl {
         url = "http://dl.google.com/release2/chrome/${finalAttrs.slug}_${finalAttrs.version}/GoogleChrome-${finalAttrs.version}.dmg";
-        hash = "sha256-g9smFwpu8F3WrYX+eUkYuEdhzR2rSAzt8/nVPG8xaEg=";
+        hash = "sha256-aGqEFAzQZLy85hbsjhgYr5eFYgCaMhOiUG00wSlANHk=";
       };
     }
   );
