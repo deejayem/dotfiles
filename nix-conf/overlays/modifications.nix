@@ -11,28 +11,6 @@ final: prev:
       )
     ];
   });
-  babashka = prev.babashka.override {
-    clojureToolsBabashka =
-      let
-        version = "1.12.4.1597";
-      in
-      prev.babashka.clojure-tools.overrideAttrs (_: {
-        inherit version;
-        src = prev.fetchurl {
-          url = "https://github.com/clojure/brew-install/releases/download/${version}/clojure-tools-${version}.tar.gz";
-          hash = "sha256-DgEvXVExaexDTLoonh/fVS5nHjgekL6BlFYLM9X6wkM=";
-        };
-      });
-  };
-  babashka-unwrapped = prev.babashka-unwrapped.overrideAttrs (
-    finalAttrs: _: {
-      version = "1.12.217";
-      src = prev.fetchurl {
-        url = "https://github.com/babashka/babashka/releases/download/v${finalAttrs.version}/babashka-${finalAttrs.version}-standalone.jar";
-        sha256 = "sha256-5Nnzx2chre+h0SnM5spwiR9r4gjlyfc2FbgYa0spM34=";
-      };
-    }
-  );
 }
 // prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) {
   brave = prev.brave.overrideAttrs (
