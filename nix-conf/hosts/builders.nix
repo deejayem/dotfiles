@@ -140,11 +140,29 @@ let
           [ ]
       ) hosts
     );
+
+  mkHostMetadata =
+    hosts:
+    builtins.mapAttrs (hostname: cfg: {
+      os =
+        if cfg ? nixos then
+          "nixos"
+        else if cfg ? darwin then
+          "darwin"
+        else
+          null;
+
+      version = cfg.version;
+      username = cfg.username;
+      homeName = "${cfg.username}@${hostname}";
+      nixpkgsInput = "nixpkgs-${cfg.version}";
+    }) hosts;
 in
 {
   mkConfigurations = versions: hosts: {
     nixosConfigurations = mkNixosConfigurations versions hosts;
     darwinConfigurations = mkDarwinConfigurations versions hosts;
     homeConfigurations = mkHomeConfigurations versions hosts;
+    hostMetadata = mkHostMetadata hosts;
   };
 }
