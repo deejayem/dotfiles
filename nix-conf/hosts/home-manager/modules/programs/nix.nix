@@ -26,6 +26,7 @@ in
     unstable.nixfmt
 
     hm-changes-report
+    preview-channel-diff
     system-changes-report
     (pkgs.nixos-update.override { inherit inputs version; })
   ];
