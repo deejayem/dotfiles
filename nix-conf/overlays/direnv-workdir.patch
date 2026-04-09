@@ -1,0 +1,83 @@
+diff --git a/internal/cmd/const.go b/internal/cmd/const.go
+index 174190c..5d31a0a 100644
+--- a/internal/cmd/const.go
++++ b/internal/cmd/const.go
+@@ -6,6 +6,7 @@ const (
+ 	DIRENV_BASH   = "DIRENV_BASH"
+ 	DIRENV_DEBUG  = "DIRENV_DEBUG"
+ 
++	DIRENV_WORKDIR = "DIRENV_WORKDIR"
+ 	DIRENV_DIR     = "DIRENV_DIR"
+ 	DIRENV_FILE    = "DIRENV_FILE"
+ 	DIRENV_WATCHES = "DIRENV_WATCHES"
+diff --git a/internal/cmd/env_diff.go b/internal/cmd/env_diff.go
+index 61d8eaf..b344580 100644
+--- a/internal/cmd/env_diff.go
++++ b/internal/cmd/env_diff.go
+@@ -13,6 +13,7 @@ var IgnoredKeys = map[string]bool{
+ 	"DIRENV_BASH":   true,
+ 
+ 	// should only be available inside of the .envrc or .env
++	"DIRENV_WORKDIR": true,
+ 	"DIRENV_IN_ENVRC": true,
+ 
+ 	"COMP_WORDBREAKS": true, // Avoids segfaults in bash
+diff --git a/internal/cmd/env_diff_test.go b/internal/cmd/env_diff_test.go
+index 9050d97..a889094 100644
+--- a/internal/cmd/env_diff_test.go
++++ b/internal/cmd/env_diff_test.go
+@@ -41,6 +41,9 @@ func TestIgnoredEnv(t *testing.T) {
+ 	if !IgnoredEnv(DIRENV_BASH) {
+ 		t.Fail()
+ 	}
++	if !IgnoredEnv(DIRENV_WORKDIR) {
++		t.Fail()
++	}
+ 	if IgnoredEnv(DIRENV_DIFF) {
+ 		t.Fail()
+ 	}
+diff --git a/internal/cmd/rc.go b/internal/cmd/rc.go
+index 4167ecf..9d97e25 100644
+--- a/internal/cmd/rc.go
++++ b/internal/cmd/rc.go
+@@ -209,6 +209,7 @@ func (rc *RC) Load(previousEnv Env) (newEnv Env, err error) {
+ 	wd := config.WorkDir
+ 	direnv := config.SelfPath
+ 	newEnv = previousEnv.Copy()
++	newEnv[DIRENV_WORKDIR] = wd
+ 	newEnv[DIRENV_WATCHES] = rc.times.Marshal()
+ 	defer func() {
+ 		// Record directory changes even if load is disallowed or fails
+diff --git a/test/direnv-test-common.sh b/test/direnv-test-common.sh
+index 509e856..a3d763f 100755
+--- a/test/direnv-test-common.sh
++++ b/test/direnv-test-common.sh
+@@ -168,6 +168,13 @@ test_start "in-envrc"
+   test_eq "$es" "1"
+ test_stop
+ 
++test_start "workdir"
++  cd child
++  direnv_eval
++  test_eq "$ENVRC_PWD" "$TEST_DIR/scenarios/workdir"
++  test_eq "$WORKDIR_FROM_DIRENV" "$TEST_DIR/scenarios/workdir/child"
++test_stop
++
+ test_start "missing-file-source-env"
+   direnv_eval
+ test_stop
+diff --git a/test/scenarios/workdir/.envrc b/test/scenarios/workdir/.envrc
+new file mode 100644
+index 0000000..08384d3
+--- /dev/null
++++ b/test/scenarios/workdir/.envrc
+@@ -0,0 +1,2 @@
++export ENVRC_PWD=$PWD
++export WORKDIR_FROM_DIRENV=$DIRENV_WORKDIR
+diff --git a/test/scenarios/workdir/child/.keep b/test/scenarios/workdir/child/.keep
+new file mode 100644
+index 0000000..8b13789
+--- /dev/null
++++ b/test/scenarios/workdir/child/.keep
+@@ -0,0 +1 @@
++

@@ -14,6 +14,11 @@ in
       )
     ];
   });
+  direnv = prev.direnv.overrideAttrs (oldAttrs: {
+    patches = (oldAttrs.patches or [ ]) ++ [
+      ./direnv-workdir.patch
+    ];
+  });
 }
 // prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) {
   brave = prev.brave.overrideAttrs (
