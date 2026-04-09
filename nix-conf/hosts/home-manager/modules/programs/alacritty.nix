@@ -155,6 +155,11 @@ in
           mods = "Shift";
           action = "Paste";
         }
+        {
+          key = "Return";
+          mods = "Shift";
+          chars = "\\u001b[13;2u";
+        }
       ]
       # Swap ctrl and cmd as much as possible on darwin
       ++ lib.optionals pkgs.stdenv.isDarwin (
