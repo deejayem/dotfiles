@@ -11,6 +11,7 @@ let
   nixCollectGarbage = lib.getExe' pkgs.nix "nix-collect-garbage";
   nixPrefetchUrl = lib.getExe' pkgs.nix "nix-prefetch-url";
   sed = lib.getExe pkgs.gnused;
+  os = if pkgs.stdenv.isDarwin then "darwin" else "nixos";
 in
 {
   home.packages = with pkgs; [
@@ -28,7 +29,7 @@ in
     hm-changes-report
     preview-channel-diff
     system-changes-report
-    (pkgs.nixos-update.override { inherit inputs version; })
+    (pkgs.nix-update.override { inherit inputs os version; })
   ];
 
   programs.zsh.siteFunctions = {

@@ -156,6 +156,7 @@ let
       username = cfg.username;
       homeName = "${cfg.username}@${hostname}";
       nixpkgsInput = "nixpkgs-${cfg.version}";
+      homeManagerInput = "home-manager-${cfg.version}";
     }) hosts;
 in
 {

@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 
@@ -70,8 +69,6 @@ in
     util-linux
     #vimpc
     watch
-
-    (pkgs.darwin-update.override { inherit inputs; })
   ];
 
   home.sessionVariables = {
