@@ -9,6 +9,7 @@
 ;;   HOME        — user home directory (read access for dotfiles)
 ;;   WORKSPACE   — project directory (read + write)
 ;;   TOOL_STATE  — tool-specific state directory (read + write)
+;;   CACHE_DIR   — cache directory, e.g. ~/.cache (read + write)
 
 (import "system.sb")
 (import "com.apple.corefoundation.sb")
@@ -106,7 +107,13 @@
 
 ;; ── Tool state directory ─────────────────────────────────
 (allow file-read* file-write*
-  (subpath (param "TOOL_STATE")))
+  (subpath (param "TOOL_STATE"))
+  (subpath (param "CACHE_DIR")))
+
+;; ── OpenCode config (read + write) ───────────────────────
+;; Uses regex since string-append with params fails on macOS 26.
+(allow file-read* file-write*
+  (regex #"^/Users/djm/\.config/opencode(/.*)?$"))
 
 ;; ── xcode-select (git toolchain detection) ───────────────
 (allow file-read* file-read-metadata
@@ -138,10 +145,27 @@
 (allow file-read* file-write*
   (subpath (param "WORKSPACE")))
 
-;; ── Home directory (read-only) ───────────────────────────
-;; Tools read dotfiles (.gitconfig, .opencode/, .claude/, etc.)
+;; ── Home directory (selective read) ───────────────────────
+;; Grant read to HOME but DENY access to sensitive paths.
+;; In SBPL, more-specific rules win regardless of order, and
+;; deny beats allow at equal specificity.
+;;
+;; NOTE: string-append with params silently fails on macOS 26,
+;; so we use regex with a hardcoded home prefix instead.
 (allow file-read*
   (subpath (param "HOME")))
+
+;; ── Deny sensitive paths ─────────────────────────────────
+;; SSH private keys (the main exfiltration threat)
+(deny file-read*
+  (regex #"^/Users/djm/\.ssh/id_"))
+
+;; Cloud provider credentials
+(deny file-read*
+  (subpath "/Users/djm/.config/gcloud")
+  (subpath "/Users/djm/.config/gh")
+  (subpath "/Users/djm/.config/sops")
+  (literal "/Users/djm/.config/nix/netrc"))
 
 ;; ── Shared memory + semaphores ───────────────────────────
 (allow ipc-posix-shm-read-data ipc-posix-shm-write-data ipc-posix-shm-write-create

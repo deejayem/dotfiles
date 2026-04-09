@@ -19,14 +19,13 @@ writeShellScriptBin "sandbox" ''
         echo "Usage: sandbox [-w DIR] <command> [args...]"
         echo ""
         echo "Run a command under a macOS Seatbelt sandbox."
+        echo "Designed for OpenCode but works with any command."
         echo ""
         echo "Options:"
         echo "  -w, --workspace DIR   Workspace directory (default: \$PWD)"
         echo ""
         echo "Examples:"
         echo "  sandbox opencode"
-        echo "  sandbox claude"
-        echo "  sandbox codex"
         echo "  sandbox -w ~/src/myproject opencode"
         echo "  sandbox make test"
         exit 0
@@ -46,25 +45,25 @@ writeShellScriptBin "sandbox" ''
   # ── Resolve workspace to absolute path ──────────────────
   WORKSPACE="$(cd "$WORKSPACE" && pwd)"
 
-  # ── Tool state directory ────────────────────────────────
-  # Known tools get their canonical state dir; everything
-  # else gets a generic fallback.
-  case "$TOOL" in
-    opencode) TOOL_STATE="''${XDG_DATA_HOME:-$HOME/.local/share}/opencode" ;;
-    claude)   TOOL_STATE="$HOME/.claude" ;;
-    codex)    TOOL_STATE="$HOME/.codex" ;;
-    *)        TOOL_STATE="$HOME/.local/share/sandbox" ;;
-  esac
-  mkdir -p "$TOOL_STATE"
+  # ── Tool state directories ───────────────────────────────
+  # ~/.local covers share/<tool>, state/<tool>/locks, etc.
+  # ~/.cache covers opencode caches and version checks.
+  TOOL_STATE="$HOME/.local"
+  CACHE_DIR="$HOME/.cache"
+  mkdir -p "$TOOL_STATE" "$CACHE_DIR"
 
   # ── Raise fd limit (coding agents use many) ─────────────
   ulimit -n 2147483646 2>/dev/null || true
 
   # ── Launch under sandbox-exec ───────────────────────────
+  # cd into workspace BEFORE exec so that getcwd() succeeds
+  # inside the sandbox (PWD outside allowed paths causes hangs).
+  cd "$WORKSPACE"
   exec sandbox-exec \
     -D HOME="$HOME" \
     -D WORKSPACE="$WORKSPACE" \
     -D TOOL_STATE="$TOOL_STATE" \
+    -D CACHE_DIR="$CACHE_DIR" \
     -f "${sandboxSb}" \
     "$TOOL" "$@"
 ''
