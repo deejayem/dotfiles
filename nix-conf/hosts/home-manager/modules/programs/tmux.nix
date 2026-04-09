@@ -12,6 +12,8 @@ in
 {
   programs.tmux = {
     enable = true;
+    escapeTime = 300;
+    focusEvents = true;
     terminal = "tmux-256color";
     prefix = if isServer then "C-a" else "\"C-\\\\\"";
     plugins =
