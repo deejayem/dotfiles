@@ -5,6 +5,8 @@ let
   luaConfig = if pkgs.stdenv.isDarwin then "initLua" else "extraLuaConfig";
 in
 {
+  home.packages = with pkgs; [ tree-sitter ];
+
   programs.neovim = {
     enable = true;
     viAlias = true;
