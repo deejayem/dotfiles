@@ -159,6 +159,9 @@
   (add-to-list 'auto-mode-alist '("\\.markdown\\'" . gfm-mode))
   (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)))
 
+(use-package markdown-indent-mode
+  :hook (markdown-mode . markdown-indent-mode))
+
 ;; (use-package adoc-mode
 ;;   (add-to-list 'auto-mode-alist '("\\.adoc\\'" . adoc-mode))
 ;;   (add-to-list 'auto-mode-alist '("\\.asciidoc\\'" . adoc-mode)))
