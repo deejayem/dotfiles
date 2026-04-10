@@ -146,6 +146,9 @@ in
   };
 
   programs.ssh = {
+    includes = [
+      config.age.secrets."ssh/pi".path
+    ];
     matchBlocks = {
       "*.orb.local" = {
         identityFile = "~/.orbstack/ssh/id_ed25519";
