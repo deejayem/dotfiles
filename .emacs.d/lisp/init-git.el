@@ -311,6 +311,11 @@
   :after magit
   :demand t)
 
+(use-package magit-browse-commit
+  :after magit
+  :demand t
+  :bind (:map magit-blame-read-only-mode-map ("M-o" . magit-browse-commit-at-point)))
+
 (use-package forge
   :after magit
   :bind (:map forge-pullreq-list-mode-map ("C-w" . forge-copy-url-at-point-as-kill)))
