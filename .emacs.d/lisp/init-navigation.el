@@ -38,11 +38,31 @@
       (call-interactively 'avy-goto-char-in-line)
       (copy-region-as-kill beg (point))))
   :bind
-  ("C-'" . avy-goto-char-timer)
-  ("C-;" . avy-goto-char-in-line)
-  ("C-#" . avy-goto-word-1)
+  ;; TODO remove or re-enable
+  ;; ("C-'" . avy-goto-char-timer)
+  ;; ("C-;" . avy-goto-char-in-line)
+  ;; ("C-#" . avy-goto-word-1)
   ("C-c C-'" . avy-copy-as-kill)
   ("C-c C-;" . avy-copy-as-kill-in-line))
+
+(use-package flash
+  :config
+  (set-face-attribute 'flash-label nil
+                      :background "#1a60bf"
+                      :foreground "#ffffff"
+                      :weight 'bold
+                      :box '(:line-width -1 :color "#3580df"))
+
+  (set-face-attribute 'flash-match nil
+                      :underline '(:color "coral1" :style line :line-width 3 :position -1)
+                      :background "#6e4040"
+                      :foreground nil)
+  :custom
+  ;; Setting this (without turning on flash-isearch-mode) means labels aren't shown by default, but C-; toggles them
+  (flash-isearch-enabled t)
+  :bind
+  ("C-'" . flash-jump)
+  ("C-;" . flash-jump-continue))
 
 (use-package casual-avy
   :bind ([control-bracketleft] . casual-avy-tmenu))
