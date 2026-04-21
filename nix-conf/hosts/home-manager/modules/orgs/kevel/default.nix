@@ -31,6 +31,7 @@ in
     [
       aws-cdk-cli
       aws-instance-info
+      bun
       cdktn-cli
       check-versions
       cli-tools
