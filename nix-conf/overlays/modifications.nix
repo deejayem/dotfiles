@@ -39,6 +39,17 @@ in
       };
     }
   );
+  orbstack = prev.orbstack.overrideAttrs (
+    finalAttrs: _: {
+      inherit (v.orbstack) version;
+      src = prev.fetchurl {
+        url = "https://cdn-updates.orbstack.dev/arm64/OrbStack_v${
+          prev.lib.replaceString "-" "_" finalAttrs.version
+        }_arm64.dmg";
+        inherit (v.orbstack) hash;
+      };
+    }
+  );
   slack = prev.slack.overrideAttrs (
     finalAttrs: _: {
       inherit (v.slack) version;

@@ -9,6 +9,9 @@
   firefox.version = "150.0";
   firefox.sha512 = "1qlw6yby3i0l6q9j03h589h9hj04afv3hp1v5kql9b7vz4pz80hgdd0gcz5jgpdv49jrrj975hycwxybwxnvspx6cww65vvdvlfms3p";
 
+  orbstack.version = "2.1.1-20026";
+  orbstack.hash = "sha256-GKQfdZlY4foJUWlrggtUeNPtc1P4ykhv6dAmoafZcgc=";
+
   slack.version = "4.49.81";
   slack.hash = "sha256-V5t1i4GmOrEdIU8TtlCRS2QYitUkoh02YaNzisL+yAs=";
 

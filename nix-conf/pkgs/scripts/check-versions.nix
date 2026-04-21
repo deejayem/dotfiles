@@ -62,18 +62,21 @@ pkgs.writeShellScriptBin "check-versions" ''
   latest_brave=$(fetch_latest sh -c "${curl} -s 'https://api.github.com/repos/brave/brave-browser/releases/latest' | ${jq} -r '.tag_name | ltrimstr(\"v\")'")
   latest_chrome=$(fetch_latest sh -c "${curl} -s 'https://versionhistory.googleapis.com/v1/chrome/platforms/mac_arm64/channels/stable/versions/all/releases?filter=endtime=none,fraction%3E=0.5&order_by=version%20desc' | ${jq} -r '.releases[0].version'")
   latest_firefox=$(fetch_latest sh -c "${curl} -s https://archive.mozilla.org/pub/firefox/releases/ | ${grep} -oP '[0-9]+\.[0-9.]+(?=/)' | ${sort} -t. -k1,1n -k2,2n -k3,3n | ${tail} -1")
+  latest_orbstack=$(fetch_latest sh -c "${curl} -L -I -s 'https://orbstack.dev/download/stable/latest/arm64' | ${grep} -oE 'OrbStack_v[0-9._]+_arm64' | ${sed} 's/OrbStack_v//;s/_arm64//;s/_/-/'")
   latest_slack=$(fetch_latest sh -c "${curl} -s 'https://slack.com/api/desktop.latestRelease?arch=arm64&variant=dmg' | ${jq} -r .version")
   latest_zoom=$(fetch_latest sh -c "${curl} -Ls 'https://zoom.us/rest/download?os=mac' | ${jq} -r '.result.downloadVO.zoomArm64.version'")
 
   nixpkgs_brave=$(nix_ver nixpkgs#brave.version)
   nixpkgs_chrome=$(nix_ver nixpkgs#google-chrome.version)
   nixpkgs_firefox=$(nix_ver nixpkgs#firefox.version)
+  nixpkgs_orbstack=$(nix_ver nixpkgs#orbstack.version)
   nixpkgs_slack=$(nix_ver nixpkgs#slack.version)
   nixpkgs_zoom=$(nix_ver nixpkgs#zoom-us.version)
 
   local_brave=$(nix_ver "''${flake_dir}#modifications.brave.version")
   local_chrome=$(nix_ver "''${flake_dir}#modifications.google-chrome.version")
   local_firefox=$(nix_ver "''${flake_dir}#modifications.firefox.version")
+  local_orbstack=$(nix_ver "''${flake_dir}#modifications.orbstack.version")
   local_slack=$(nix_ver "''${flake_dir}#modifications.slack.version")
   local_zoom=$(nix_ver "''${flake_dir}#modifications.zoom-us.version")
 
@@ -116,11 +119,12 @@ pkgs.writeShellScriptBin "check-versions" ''
   hline '┌' '┬' '┐'
   header
   hline '├' '┼' '┤'
-  row brave   "$nixpkgs_brave"   "$local_brave"   "$latest_brave"
-  row chrome  "$nixpkgs_chrome"  "$local_chrome"  "$latest_chrome"
-  row firefox "$nixpkgs_firefox" "$local_firefox" "$latest_firefox"
-  row slack   "$nixpkgs_slack"   "$local_slack"   "$latest_slack"
-  row zoom    "$nixpkgs_zoom"    "$local_zoom"    "$latest_zoom"
+  row brave    "$nixpkgs_brave"    "$local_brave"    "$latest_brave"
+  row chrome   "$nixpkgs_chrome"   "$local_chrome"   "$latest_chrome"
+  row firefox  "$nixpkgs_firefox"  "$local_firefox"  "$latest_firefox"
+  row orbstack "$nixpkgs_orbstack" "$local_orbstack" "$latest_orbstack"
+  row slack    "$nixpkgs_slack"    "$local_slack"    "$latest_slack"
+  row zoom     "$nixpkgs_zoom"     "$local_zoom"     "$latest_zoom"
   hline '└' '┴' '┘'
 
   declare -a outdated=()
@@ -128,12 +132,14 @@ pkgs.writeShellScriptBin "check-versions" ''
     [[ "$latest_brave" != "error" ]] && outdated+=(brave)
     [[ "$latest_chrome" != "error" ]] && outdated+=(chrome)
     [[ "$latest_firefox" != "error" ]] && outdated+=(firefox)
+    [[ "$latest_orbstack" != "error" ]] && outdated+=(orbstack)
     [[ "$latest_slack" != "error" ]] && outdated+=(slack)
     [[ "$latest_zoom" != "error" ]] && outdated+=(zoom)
   else
     [[ "$local_brave" != "$latest_brave" && "$latest_brave" != "error" ]] && outdated+=(brave)
     [[ "$local_chrome" != "$latest_chrome" && "$latest_chrome" != "error" ]] && outdated+=(chrome)
     [[ "$local_firefox" != "$latest_firefox" && "$latest_firefox" != "error" ]] && outdated+=(firefox)
+    [[ "$local_orbstack" != "$latest_orbstack" && "$latest_orbstack" != "error" ]] && outdated+=(orbstack)
     [[ "$local_slack" != "$latest_slack" && "$latest_slack" != "error" ]] && outdated+=(slack)
     [[ "$local_zoom" != "$latest_zoom" && "$latest_zoom" != "error" ]] && outdated+=(zoom)
   fi
@@ -170,6 +176,13 @@ pkgs.writeShellScriptBin "check-versions" ''
           firefox_url="https://archive.mozilla.org/pub/firefox/releases/''${latest_firefox}/source/firefox-''${latest_firefox}.source.tar.xz"
           echo "  ''${dim}url:   $firefox_url''${reset}"
           echo "  ''${dim}sha512: $(${nix}-prefetch-url --type sha512 "$firefox_url" 2>/dev/null)''${reset}"
+          ;;
+        orbstack)
+          echo ""
+          echo "''${bold}orbstack ''${latest_orbstack}:''${reset}"
+          orbstack_url="https://cdn-updates.orbstack.dev/arm64/OrbStack_v$(echo "$latest_orbstack" | tr '-' '_')_arm64.dmg"
+          echo "  ''${dim}url:  $orbstack_url''${reset}"
+          echo "  ''${dim}hash: $(prefetch_sri "$orbstack_url")''${reset}"
           ;;
         slack)
           echo ""
@@ -240,6 +253,14 @@ pkgs.writeShellScriptBin "check-versions" ''
         firefox_sha512=$(${nix}-prefetch-url --type sha512 "$firefox_url" 2>/dev/null)
         update_field "firefox.version" "$latest_firefox"
         update_field "firefox.sha512" "$firefox_sha512"
+        ;;
+      orbstack)
+        echo ""
+        echo "''${bold}orbstack''${reset}: $local_orbstack -> ''${green}$latest_orbstack''${reset}"
+        orbstack_url="https://cdn-updates.orbstack.dev/arm64/OrbStack_v$(echo "$latest_orbstack" | tr '-' '_')_arm64.dmg"
+        orbstack_hash=$(prefetch_sri "$orbstack_url")
+        update_field "orbstack.version" "$latest_orbstack"
+        update_field "orbstack.hash" "$orbstack_hash"
         ;;
       slack)
         echo ""
