@@ -3,23 +3,23 @@
   buildNpmPackage,
   fetchFromPrivateGitHub,
   lmdb,
-  nodejs_22,
+  nodejs,
   ...
 }:
 buildNpmPackage {
   pname = "lmdb-cli";
-  version = "1.0.0";
+  version = "0.12.0";
 
   src = fetchFromPrivateGitHub {
     owner = "adzerk";
     repo = "lmdb-cli";
-    rev = "dc331107dc374e047e21fb9262c51bf44f5b019d";
-    narHash = "sha256-6oh+j7FmXM1PT9n0HgkpIeqnlTGpxmMHu2bfD633uz8=";
+    rev = "ed7595a58289850c7d126df86e400d9b6d60019b";
+    narHash = "sha256-DC+cWBWy0YEmvFRnP+EqYl+bQ1eklLkDWZxPJIsbJzg=";
   };
 
-  nodejs = nodejs_22;
+  inherit nodejs;
 
-  npmDepsHash = "sha256-fF52CSlVOEuAlP19iyBe2daC86fBjY/jduQhc07k0Fw=";
+  npmDepsHash = "sha256-ote/3y91Ari9YkqzRHhrOO7ftBIxkLU4YS2MV+Z2dIM=";
 
   makeCacheWritable = true;
   dontNpmBuild = true;
