@@ -30,11 +30,11 @@ in
     with pkgs;
     [
       aws-cdk-cli
+      aws-instance-info
       cdktn-cli
+      check-versions
       cli-tools
       coffeescript
-      check-versions
-      aws-instance-info
       git-remote-codecommit
       lmdb-cli
       msgpack-tools
@@ -44,10 +44,10 @@ in
       poppler-utils
       python3
       ruby
-      tailscale
-      terraform
       sandbox
       sqlcmd
+      tailscale
+      terraform
     ]
     ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
       ccusage
