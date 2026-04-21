@@ -2,6 +2,7 @@
 {
   imports = [
     ../modules/base.nix
+    ../modules/services/identd.nix
     ./hardware-configuration.nix
     ./backups.nix
   ];
