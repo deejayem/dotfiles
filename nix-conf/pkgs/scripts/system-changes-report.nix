@@ -5,10 +5,10 @@ let
   system-profiles = "/nix/var/nix/profiles/system-*-link";
 in
 pkgs.writeShellScriptBin "system-changes-report" ''
-  # Disable nvd if there are less than 2 hm profiles.
+  # Skip the diff if there are less than 2 system profiles.
   if [ $(ls -d1v ${system-profiles} 2>/dev/null | wc -l) -lt 2 ]; then
     echo "Skipping changes report..."
   else
-    ${pkgs.nvd}/bin/nvd diff $(ls -d1v ${system-profiles} | tail -2)
+    ${pkgs.dix}/bin/dix $(ls -d1v ${system-profiles} | tail -2)
   fi
 ''

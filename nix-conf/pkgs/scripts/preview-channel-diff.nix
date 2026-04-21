@@ -5,7 +5,7 @@ pkgs.writeShellScriptBin "preview-channel-diff" ''
 
   NIX=${lib.getExe pkgs.nix}
   JQ=${lib.getExe pkgs.jq}
-  NVD=${lib.getExe pkgs.nvd}
+  DIX=${lib.getExe pkgs.dix}
 
   usage() {
     echo "Usage: preview-channel-diff <nixpkgs-revision> [host]" >&2
@@ -66,7 +66,7 @@ pkgs.writeShellScriptBin "preview-channel-diff" ''
 
     echo
     echo "System changes"
-    $NVD diff "$SYSTEM_PROFILE" "$SYSTEM_RESULT"
+    $DIX "$SYSTEM_PROFILE" "$SYSTEM_RESULT"
   else
     echo
     echo "Skipping system changes"
@@ -79,5 +79,5 @@ pkgs.writeShellScriptBin "preview-channel-diff" ''
 
   echo
   echo "Home changes"
-  $NVD diff "$HOME_PROFILE" "$HOME_RESULT"
+  $DIX "$HOME_PROFILE" "$HOME_RESULT"
 ''

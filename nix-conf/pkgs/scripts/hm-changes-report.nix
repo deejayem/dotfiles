@@ -4,10 +4,10 @@
 pkgs.writeShellScriptBin "hm-changes-report" ''
   hm_profiles="$HOME/.local/state/nix/profiles/home-manager-*-link"
 
-  # Disable nvd if there are fewer than 2 hm profiles.
+  # Skip the diff if there are fewer than 2 hm profiles.
   if [ $(ls -d1v $hm_profiles 2>/dev/null | wc -l) -lt 2 ]; then
     echo "Skipping changes report..."
   else
-    ${pkgs.nvd}/bin/nvd diff $(ls -d1v $hm_profiles | tail -2)
+    ${pkgs.dix}/bin/dix $(ls -d1v $hm_profiles | tail -2)
   fi
 ''

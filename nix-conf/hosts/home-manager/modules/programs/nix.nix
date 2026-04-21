@@ -16,6 +16,7 @@ in
 {
   home.packages = with pkgs; [
     comma
+    dix
     nix-info
     nix-prefetch-git
     nix-prefetch-github
