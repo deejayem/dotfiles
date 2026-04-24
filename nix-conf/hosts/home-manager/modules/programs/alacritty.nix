@@ -1,34 +1,45 @@
-{ lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
+  inherit (lib) mkForce;
+
+  nulPlaceholder = "__ALACRITTY_NUL__";
+  esc = builtins.fromJSON ''"\u001b"'';
+  controlChar = hex: builtins.fromJSON ''"\u00${hex}"'';
+
   commandToControlBindings =
     let
       ctrlChars = {
-        A = "\\u0001";
-        B = "\\u0002";
-        C = "\\u0003";
-        D = "\\u0004";
-        E = "\\u0005";
-        F = "\\u0006";
-        G = "\\u0007";
-        H = "\\u0008";
-        I = "\\u0009";
-        J = "\\u000a";
-        K = "\\u000b";
-        L = "\\u000c";
-        M = "\\u000d";
-        N = "\\u000e";
-        O = "\\u000f";
-        P = "\\u0010";
-        Q = "\\u0011";
-        R = "\\u0012";
-        S = "\\u0013";
-        T = "\\u0014";
-        U = "\\u0015";
-        V = "\\u0016";
-        W = "\\u0017";
-        X = "\\u0018";
-        Y = "\\u0019";
-        Z = "\\u001a";
+        A = controlChar "01";
+        B = controlChar "02";
+        C = controlChar "03";
+        D = controlChar "04";
+        E = controlChar "05";
+        F = controlChar "06";
+        G = controlChar "07";
+        H = controlChar "08";
+        I = controlChar "09";
+        J = controlChar "0a";
+        K = controlChar "0b";
+        L = controlChar "0c";
+        M = controlChar "0d";
+        N = controlChar "0e";
+        O = controlChar "0f";
+        P = controlChar "10";
+        Q = controlChar "11";
+        R = controlChar "12";
+        S = controlChar "13";
+        T = controlChar "14";
+        U = controlChar "15";
+        V = controlChar "16";
+        W = controlChar "17";
+        X = controlChar "18";
+        Y = controlChar "19";
+        Z = controlChar "1a";
       };
     in
     lib.mapAttrsToList (key: chars: {
@@ -39,7 +50,7 @@ let
   mkCtrlCsiU = key: codepoint: {
     inherit key;
     mods = "Command";
-    chars = "\\u001b[${toString codepoint};5u";
+    chars = "${esc}[${toString codepoint};5u";
   };
 
   commandToControlCsiUBindings = map (v: mkCtrlCsiU v.key v.codepoint) [
@@ -120,7 +131,7 @@ let
       codepoint = 93;
     }
     {
-      key = "\\\\";
+      key = "\\";
       codepoint = 92;
     }
     {
@@ -158,7 +169,7 @@ in
         {
           key = "Return";
           mods = "Shift";
-          chars = "\\u001b[13;2u";
+          chars = "${esc}[13;2u";
         }
       ]
       # Swap ctrl and cmd as much as possible on darwin
@@ -169,7 +180,7 @@ in
           {
             key = "Space";
             mods = "Command";
-            chars = "\\u0000";
+            chars = nulPlaceholder;
           }
         ]
       );
@@ -218,4 +229,17 @@ in
       };
     };
   };
+
+  xdg.configFile."alacritty/alacritty.toml".source =
+    let
+      toml = pkgs.formats.toml { };
+      generated = toml.generate "alacritty.toml" config.programs.alacritty.settings;
+    in
+    mkForce (
+      pkgs.runCommand "alacritty.toml" { } ''
+        cp ${generated} "$out"
+        substituteInPlace "$out" \
+          --replace-fail "'${nulPlaceholder}'" '"\u0000"'
+      ''
+    );
 }
