@@ -58,6 +58,14 @@ in
         set -gs extended-keys-format csi-u
       ''}
 
+      ${optionalString (pkgs.stdenv.isDarwin && isWorkstation) ''
+        set -as terminal-features ",xterm-ghostty:extkeys"
+        set -as terminal-features ",ghostty:extkeys"
+        # Ghostty on macOS/British-PC reports the physical C-\ prefix key as
+        # C-backquote, so accept that as a second prefix there.
+        set -g prefix2 "C-`"
+      ''}
+
       ${optionalString isWorkstation ''
         set -ga terminal-overrides ",alacritty:Tc"
         set -as terminal-features ",alacritty:clipboard"
