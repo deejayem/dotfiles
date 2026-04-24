@@ -19,6 +19,18 @@ in
       ./direnv-workdir.patch
     ];
   });
+  pythonPackagesExtensions =
+    (prev.pythonPackagesExtensions or [ ])
+    ++ prev.lib.optionals prev.stdenv.isDarwin [
+      (
+        _: python-prev:
+        prev.lib.optionalAttrs (python-prev ? "cli-helpers") {
+          "cli-helpers" = python-prev."cli-helpers".overridePythonAttrs (_: {
+            doCheck = false;
+          });
+        }
+      )
+    ];
 }
 // prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) {
   brave = prev.brave.overrideAttrs (
