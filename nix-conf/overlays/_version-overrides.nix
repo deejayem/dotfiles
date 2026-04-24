@@ -1,10 +1,10 @@
 {
-  brave.version = "1.89.137";
-  brave.hash = "sha256-Ffc9se0j9ULZsZQktWzrUgBiLyC5QR1jAPg6IcHoOTI=";
+  brave.version = "1.89.143";
+  brave.hash = "sha256-rPozAtmeZ/XccmZwj8WvNox44ImI0GjNqgYQ3cZbaT4=";
 
-  google-chrome.version = "147.0.7727.102";
-  google-chrome.slug = "adh7lit4ohn55bd2cyoftxkjiixa";
-  google-chrome.hash = "sha256-eslLqiI5DtExI1Hq31wYBNQGu4LktzeW/7Z+R/kPGzo=";
+  google-chrome.version = "147.0.7727.117";
+  google-chrome.slug = "hlfggraqploqe3bea7acbi5wei";
+  google-chrome.hash = "sha256-GCdZAiqNSDcC6qgsJGS5renRrl3kLoH4X9VHX7aLXTw=";
 
   firefox.version = "150.0";
   firefox.sha512 = "1qlw6yby3i0l6q9j03h589h9hj04afv3hp1v5kql9b7vz4pz80hgdd0gcz5jgpdv49jrrj975hycwxybwxnvspx6cww65vvdvlfms3p";
