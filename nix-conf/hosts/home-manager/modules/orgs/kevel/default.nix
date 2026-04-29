@@ -55,8 +55,8 @@ in
       ccusage-codex
       ccusage-opencode
       ccusage-pi
+      claude-agent-acp
       claude-code
-      claude-code-acp
       codex
       codex-acp
       copilot-cli

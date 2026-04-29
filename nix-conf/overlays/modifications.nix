@@ -108,8 +108,4 @@ in
           );
       };
   firefox = final.wrapFirefox final.firefox-unwrapped { };
-  vscode = prev.vscode.overrideAttrs (_: {
-    # Work round preFixup/glibc/darwin issue
-    preFixup = "";
-  });
 }
