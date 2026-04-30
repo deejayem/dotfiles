@@ -1,6 +1,6 @@
 {
-  brave.version = "1.89.143";
-  brave.hash = "sha256-rPozAtmeZ/XccmZwj8WvNox44ImI0GjNqgYQ3cZbaT4=";
+  brave.version = "1.89.145";
+  brave.hash = "sha256-A5SGxb+r0wEbdo7ZkUrwm6zVr86+vpOvtfBpZivmNoE=";
 
   google-chrome.version = "147.0.7727.138";
   google-chrome.slug = "ackheqvxll25dzx6s76qfgpa4oxa";
