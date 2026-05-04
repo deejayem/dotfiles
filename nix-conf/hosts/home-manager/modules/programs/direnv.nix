@@ -11,6 +11,11 @@ in
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+    config = {
+      whitelist = {
+        exact = [ "${config.home.homeDirectory}/src" ];
+      };
+    };
   };
 
   home.file."src/.envrc".text = ''
