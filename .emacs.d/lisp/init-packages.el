@@ -84,6 +84,7 @@
 
 (+elpaca-upgrade-builtin seq)
 (+elpaca-upgrade-builtin transient)
+(+elpaca-upgrade-builtin compat)
 
 ;; Block until current queue processed.
 (elpaca-wait)
