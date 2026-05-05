@@ -236,10 +236,19 @@ in
       generated = toml.generate "alacritty.toml" config.programs.alacritty.settings;
     in
     mkForce (
+      # Support go-toml and remarshall
       pkgs.runCommand "alacritty.toml" { } ''
         cp ${generated} "$out"
-        substituteInPlace "$out" \
-          --replace-fail "'${nulPlaceholder}'" '"\u0000"'
+        if grep -Fq "'${nulPlaceholder}'" "$out"; then
+          substituteInPlace "$out" \
+            --replace-fail "'${nulPlaceholder}'" '"\u0000"'
+        elif grep -Fq "\"${nulPlaceholder}\"" "$out"; then
+          substituteInPlace "$out" \
+            --replace-fail "\"${nulPlaceholder}\"" '"\u0000"'
+        else
+          echo "expected ${nulPlaceholder} placeholder not found in generated Alacritty config" >&2
+          exit 1
+        fi
       ''
     );
 }
