@@ -12,15 +12,15 @@
 
 let
   pname = "pacs-client";
-  version = "1.1.1";
+  version = "1.3.0";
 
   baseSrc = fetchPrivateNpm {
     registry = "github";
     owner = "adzerk";
     name = pname;
     inherit version;
-    downloadId = "37bf89763e7cb87cc9daa946aaccef97dd75ce6b";
-    narHash = "sha256-leWP4bccbCF7H+NwK54bYc/YsXtU2GkY40gpkX86I5c=";
+    downloadId = "1385d811c7890fc15572673135862a60417efd72";
+    narHash = "sha256-gl7ITP6HHALSJLfQ7AmOn5jsYol2RzWBb/yOBB3LKzc=";
   };
 
   src = runCommand "${pname}-${version}-src" { } ''
@@ -32,7 +32,7 @@ let
     inherit pname version src;
     pnpm = pnpm_9;
     fetcherVersion = 2;
-    hash = "sha256-wqJ8vtbt1ozRdKF8niigE+4Irm7JInsIONQDOcPOsk0=";
+    hash = "sha256-idV7LezKJBPNCkcJmGaBdK+90ochROtgZDF6UeSBiqw=";
   };
 in
 
