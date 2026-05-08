@@ -80,11 +80,17 @@
 
 (use-feature savehist
   :custom
-  (savehist-additional-variables '(search-ring regexp-search-ring))
+  (savehist-additional-variables '(search-ring regexp-search-ring kill-ring))
   (savehist-autosave-interval 60)
   (savehist-file (expand-file-name "savehist" save-dir))
   (history-length 300)
-  :hook (elpaca-after-init . savehist-mode))
+  :hook
+  (elpaca-after-init . savehist-mode)
+  ;; From https://github.com/doomemacs/doomemacs/blob/5a7e6caf491f1caa1a94a3008f92ae82cad0c0ee/lisp/doom-editor.el#L324-L326
+  (save-hist . (lambda ()
+                 (setq kill-ring
+                       (mapcar #'substring-no-properties
+                               (cl-remove-if-not #'stringp kill-ring))))))
 
 (use-package super-save
   :defer 5
