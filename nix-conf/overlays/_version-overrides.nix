@@ -1,13 +1,13 @@
 {
-  brave.version = "1.89.145";
-  brave.hash = "sha256-A5SGxb+r0wEbdo7ZkUrwm6zVr86+vpOvtfBpZivmNoE=";
+  brave.version = "1.90.121";
+  brave.hash = "sha256-WI5QIym3rMC8z+CcsLG+K4qgEaRiNzIOO7a7Vf45r1M=";
 
-  google-chrome.version = "147.0.7727.138";
-  google-chrome.slug = "ackheqvxll25dzx6s76qfgpa4oxa";
-  google-chrome.hash = "sha256-1WOkBxAs79ByJ3quXgh+ZR64ysIE2/2wMeIhl3sYh5o=";
+  google-chrome.version = "148.0.7778.97";
+  google-chrome.slug = "fqffxmazeqztj7lx2lxedj2iwy";
+  google-chrome.hash = "sha256-lfmEmoovaTcgyvetQnXnlE9dOLI7FRvPu6f6Fcpc7JA=";
 
-  firefox.version = "150.0.1";
-  firefox.sha512 = "1wm2r13q21cqr75ka38yhrrcax1hm541i51m9a0fjbav61a2mlh8y1ldyqcjxq3ig419l7qjq8yqxcv0f0jd0lf4jzi48q06ldhwwdk";
+  firefox.version = "150.0.2";
+  firefox.sha512 = "16rm8jz2gsbmhcvmyq2j8k3jrsidym567x6ah1nkscshdlvsa437mr4frnf9grn0llwfnfwld2vrni79jpr02kd0gsbxfdfgxpwcbz2";
 
   orbstack.version = "2.1.1-20026";
   orbstack.hash = "sha256-GKQfdZlY4foJUWlrggtUeNPtc1P4ykhv6dAmoafZcgc=";
