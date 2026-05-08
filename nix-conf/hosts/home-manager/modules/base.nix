@@ -68,6 +68,7 @@ in
       ]
     ))
     bandwhich
+    bc
     bottom
     broot
     curl
@@ -97,6 +98,7 @@ in
     pv
     rage
     rlwrap
+    scowl
     sd
     shfmt
     shellcheck
