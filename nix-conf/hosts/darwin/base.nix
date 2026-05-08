@@ -1,11 +1,43 @@
 {
   pkgs,
+  lib,
   system,
   username,
   ...
 }:
 let
   homeDir = "/Users/${username}";
+  # We want pear desktop to remember where it was playing on shutdown,
+  # but we want it to start paused. Currently there is no option for
+  # this: either it automatically resumes playback on startup, or it
+  # forgets what it was playing. So we enabled auto-resume, and the API,
+  # then this script automatically pauses it
+  pearDesktopPauser = pkgs.writeShellScript "pear-desktop-pauser" ''
+    id="pause-on-login"
+    api="http://127.0.0.1:26538"
+    curl=${lib.getExe pkgs.curl}
+    jq=${lib.getExe pkgs.jq}
+
+    token=""
+    for _ in {1..60}; do
+      token=$("$curl" -fsS -X POST "$api/auth/$id" 2>/dev/null | "$jq" -r .accessToken 2>/dev/null)
+      [ -n "$token" ] && [ "$token" != "null" ] && break
+      sleep 1
+    done
+    [ -n "$token" ] && [ "$token" != "null" ] || exit 0
+
+    auth="Authorization: Bearer $token"
+
+    for _ in {1..60}; do
+      paused=$("$curl" -fsS -H "$auth" "$api/api/v1/song" 2>/dev/null | "$jq" -r .isPaused 2>/dev/null)
+      [ "$paused" = "false" ] && break
+      sleep 1
+    done
+
+    "$curl" -fsS -o /dev/null -X POST -H "$auth" "$api/api/v1/pause" || true
+    "$curl" -fsS -o /dev/null -X POST -H "$auth" -H "Content-Type: application/json" \
+      -d '{"seconds":0}' "$api/api/v1/seek-to" || true
+  '';
 in
 {
   nix.settings = {
@@ -62,6 +94,14 @@ in
     pkgs.meslo-lgs-nf
     pkgs.fira-code
   ];
+
+  launchd.user.agents.pear-desktop-pauser = {
+    serviceConfig = {
+      Label = "com.djm.pear-desktop-pauser";
+      ProgramArguments = [ "${pearDesktopPauser}" ];
+      RunAtLoad = true;
+    };
+  };
 
   services.tailscale = {
     enable = true;
