@@ -52,9 +52,6 @@ in
     ]
     ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
       ccusage
-      ccusage-codex
-      ccusage-opencode
-      ccusage-pi
       claude-agent-acp
       claude-code
       codex
