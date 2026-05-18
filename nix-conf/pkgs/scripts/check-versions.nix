@@ -6,6 +6,7 @@ let
   jq = lib.getExe pkgs.jq;
   nix = lib.getExe pkgs.nix;
   sed = lib.getExe pkgs.gnused;
+  seq = lib.getExe' pkgs.coreutils "seq";
   sort = lib.getExe' pkgs.coreutils "sort";
   tail = lib.getExe' pkgs.coreutils "tail";
   uuidgen = lib.getExe' pkgs.util-linux "uuidgen";
@@ -15,6 +16,7 @@ pkgs.writeShellScriptBin "check-versions" ''
   set -uo pipefail
 
   mode="check"
+  allow_downgrade=false
   flake_dir=""
 
   for arg in "$@"; do
@@ -22,7 +24,8 @@ pkgs.writeShellScriptBin "check-versions" ''
       -u|--update) mode="update" ;;
       -i|--interactive) mode="interactive" ;;
       -f|--force) mode="force" ;;
-      -*) echo "Usage: check-versions [-u|--update|-i|--interactive|-f|--force] [flake-dir]" >&2; exit 1 ;;
+      -d|--allow-downgrade) allow_downgrade=true ;;
+      -*) echo "Usage: check-versions [-u|--update|-i|--interactive|-f|--force] [-d|--allow-downgrade] [flake-dir]" >&2; exit 1 ;;
       *) flake_dir="$arg" ;;
     esac
   done
@@ -33,6 +36,7 @@ pkgs.writeShellScriptBin "check-versions" ''
   green=$'\033[32m'
   yellow=$'\033[33m'
   red=$'\033[31m'
+  blue=$'\033[34m'
   bold=$'\033[1m'
   dim=$'\033[2m'
   reset=$'\033[0m'
@@ -57,6 +61,26 @@ pkgs.writeShellScriptBin "check-versions" ''
   color_ver() {
     local ver="$1" latest="$2" width="$3" color="$4"
     printf '%b%-*s%b' "$color" "$width" "$ver" "$reset"
+  }
+
+  # Returns 0 (true) if $1 >= $2 (version comparison)
+  version_ge() {
+    [[ "$1" == "$2" ]] || [[ "$(printf '%s\n%s\n' "$1" "$2" | ${sort} -V | ${tail} -1)" == "$1" ]]
+  }
+
+  # Returns 0 (true) if a package should be updated, considering mode and downgrade policy
+  should_update() {
+    local local_v="$1" latest="$2"
+    [[ "$latest" == "error" ]] && return 1
+    if [[ "$local_v" == "$latest" ]]; then
+      # Same version: only refresh in force mode
+      [[ "$mode" == "force" ]]
+    elif version_ge "$latest" "$local_v"; then
+      return 0  # upgrade available
+    else
+      # Downgrade: only if explicitly allowed
+      [[ "$allow_downgrade" == "true" ]]
+    fi
   }
 
   latest_brave=$(fetch_latest sh -c "${curl} -s 'https://api.github.com/repos/brave/brave-browser/releases/latest' | ${jq} -r '.tag_name | ltrimstr(\"v\")'")
@@ -85,10 +109,10 @@ pkgs.writeShellScriptBin "check-versions" ''
   hline() {
     local left="$1" mid="$2" right="$3"
     printf '%s' "$left"
-    printf '─%.0s' $(seq 1 $((w+2))); printf '%s' "$mid"
-    printf '─%.0s' $(seq 1 $((w+2))); printf '%s' "$mid"
-    printf '─%.0s' $(seq 1 $((w+2))); printf '%s' "$mid"
-    printf '─%.0s' $(seq 1 $((w+2))); printf '%s\n' "$right"
+    printf '─%.0s' $(${seq} 1 $((w+2))); printf '%s' "$mid"
+    printf '─%.0s' $(${seq} 1 $((w+2))); printf '%s' "$mid"
+    printf '─%.0s' $(${seq} 1 $((w+2))); printf '%s' "$mid"
+    printf '─%.0s' $(${seq} 1 $((w+2))); printf '%s\n' "$right"
   }
 
   header() {
@@ -100,15 +124,21 @@ pkgs.writeShellScriptBin "check-versions" ''
     local nixpkgs_color local_color
     if [[ "$latest" == "error" ]]; then
       nixpkgs_color="$red"; local_color="$red"
-    elif [[ "$local_v" == "$latest" ]]; then
-      local_color="$green"
-      nixpkgs_color=$(if [[ "$nixpkgs" == "$latest" ]]; then echo "$green"; else echo "$yellow"; fi)
     else
-      local_color="$red"
-      nixpkgs_color=$(if [[ "$nixpkgs" == "$latest" ]]; then echo "$green"; else echo "$red"; fi)
+      # Color for local
+      if [[ "$local_v" == "error" ]]; then local_color="$red"
+      elif [[ "$local_v" == "$latest" ]]; then local_color="$green"
+      elif version_ge "$local_v" "$latest"; then local_color="$blue"
+      else local_color="$red"
+      fi
+      # Color for nixpkgs
+      if [[ "$nixpkgs" == "error" ]]; then nixpkgs_color="$red"
+      elif [[ "$nixpkgs" == "$latest" ]]; then nixpkgs_color="$green"
+      elif version_ge "$nixpkgs" "$latest"; then nixpkgs_color="$blue"
+      elif version_ge "$local_v" "$latest"; then nixpkgs_color="$yellow"
+      else nixpkgs_color="$red"
+      fi
     fi
-    [[ "$nixpkgs" == "error" ]] && nixpkgs_color="$red"
-    [[ "$local_v" == "error" ]] && local_color="$red"
     printf '│ %-*s │ ' "$w" "$name"
     color_ver "$nixpkgs" "$latest" "$w" "$nixpkgs_color"
     printf ' │ '
@@ -128,21 +158,12 @@ pkgs.writeShellScriptBin "check-versions" ''
   hline '└' '┴' '┘'
 
   declare -a outdated=()
-  if [[ "$mode" == "force" ]]; then
-    [[ "$latest_brave" != "error" ]] && outdated+=(brave)
-    [[ "$latest_chrome" != "error" ]] && outdated+=(chrome)
-    [[ "$latest_firefox" != "error" ]] && outdated+=(firefox)
-    [[ "$latest_orbstack" != "error" ]] && outdated+=(orbstack)
-    [[ "$latest_slack" != "error" ]] && outdated+=(slack)
-    [[ "$latest_zoom" != "error" ]] && outdated+=(zoom)
-  else
-    [[ "$local_brave" != "$latest_brave" && "$latest_brave" != "error" ]] && outdated+=(brave)
-    [[ "$local_chrome" != "$latest_chrome" && "$latest_chrome" != "error" ]] && outdated+=(chrome)
-    [[ "$local_firefox" != "$latest_firefox" && "$latest_firefox" != "error" ]] && outdated+=(firefox)
-    [[ "$local_orbstack" != "$latest_orbstack" && "$latest_orbstack" != "error" ]] && outdated+=(orbstack)
-    [[ "$local_slack" != "$latest_slack" && "$latest_slack" != "error" ]] && outdated+=(slack)
-    [[ "$local_zoom" != "$latest_zoom" && "$latest_zoom" != "error" ]] && outdated+=(zoom)
-  fi
+  should_update "$local_brave"    "$latest_brave"    && outdated+=(brave)
+  should_update "$local_chrome"   "$latest_chrome"   && outdated+=(chrome)
+  should_update "$local_firefox"  "$latest_firefox"  && outdated+=(firefox)
+  should_update "$local_orbstack" "$latest_orbstack" && outdated+=(orbstack)
+  should_update "$local_slack"    "$latest_slack"    && outdated+=(slack)
+  should_update "$local_zoom"     "$latest_zoom"     && outdated+=(zoom)
 
   if [[ ''${#outdated[@]} -eq 0 ]]; then
     echo ""
@@ -203,9 +224,29 @@ pkgs.writeShellScriptBin "check-versions" ''
     exit 0
   fi
 
+  change_summary() {
+    local pkg="$1"
+    local local_var="local_$pkg" latest_var="latest_$pkg"
+    local local_v="''${!local_var}" latest="''${!latest_var}"
+    if [[ "$local_v" == "$latest" ]]; then
+      printf "%s: %s ''${dim}(refresh)''${reset}" "$pkg" "$local_v"
+    elif version_ge "$latest" "$local_v"; then
+      printf "%s: %s -> ''${green}%s''${reset}" "$pkg" "$local_v" "$latest"
+    else
+      printf "%s: %s -> ''${yellow}%s (downgrade)''${reset}" "$pkg" "$local_v" "$latest"
+    fi
+  }
+
   if [[ "$mode" == "interactive" ]]; then
     echo ""
-    printf "Update ''${#outdated[@]} package(s)? [y/N] "
+    echo "The following changes will be applied:"
+    for pkg in "''${outdated[@]}"; do
+      printf '  '
+      change_summary "$pkg"
+      printf '\n'
+    done
+    echo ""
+    printf "Proceed? [y/N] "
     read -r answer
     if [[ "$answer" != [yY]* ]]; then
       echo "Aborted."
