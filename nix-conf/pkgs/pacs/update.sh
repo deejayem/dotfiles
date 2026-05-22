@@ -76,7 +76,7 @@ sed -i \
 set_pnpm_deps_hash "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
 
 set +e
-out="$(cd "$dir/../.." && nix build -L --no-link .#additions.pacs.pnpmDeps 2>&1)"
+out="$(cd "$dir/../.." && nix build --no-link .#additions.pacs.pnpmDeps 2>&1)"
 status=$?
 set -e
 
