@@ -32,89 +32,103 @@ in
       )
     ];
 }
-// prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) {
-  brave = prev.brave.overrideAttrs (
-    finalAttrs: _: {
-      inherit (v.brave) version;
-      src = prev.fetchurl {
-        url = "https://github.com/brave/brave-browser/releases/download/v${finalAttrs.version}/brave-v${finalAttrs.version}-darwin-arm64.zip";
-        inherit (v.brave) hash;
-      };
-    }
-  );
-  google-chrome = prev.google-chrome.overrideAttrs (
-    finalAttrs: _: {
-      inherit (v.google-chrome) version slug;
-      src = prev.fetchurl {
-        url = "http://dl.google.com/release2/chrome/${finalAttrs.slug}_${finalAttrs.version}/GoogleChrome-${finalAttrs.version}.dmg";
-        inherit (v.google-chrome) hash;
-      };
-    }
-  );
-  orbstack = prev.orbstack.overrideAttrs (
-    finalAttrs: _: {
-      inherit (v.orbstack) version;
-      src = prev.fetchurl {
-        url = "https://cdn-updates.orbstack.dev/arm64/OrbStack_v${
-          prev.lib.replaceString "-" "_" finalAttrs.version
-        }_arm64.dmg";
-        inherit (v.orbstack) hash;
-      };
-    }
-  );
-  slack = prev.slack.overrideAttrs (
-    finalAttrs: _: {
-      inherit (v.slack) version;
-      src = prev.fetchurl {
-        url = "https://downloads.slack-edge.com/desktop-releases/mac/arm64/${finalAttrs.version}/Slack-${finalAttrs.version}-macOS.dmg";
-        inherit (v.slack) hash;
-      };
-    }
-  );
-  zoom-us = prev.zoom-us.overrideAttrs (
-    finalAttrs: _: {
-      inherit (v.zoom-us) version;
-      src = prev.fetchurl {
-        url = "https://zoom.us/client/${finalAttrs.version}/zoomusInstallerFull.pkg?archType=arm64";
-        name = "zoomusInstallerFull.pkg";
-        inherit (v.zoom-us) hash;
-      };
-    }
-  );
-}
-// prev.lib.optionalAttrs prev.stdenv.isDarwin {
-  elinks = prev.elinks.overrideAttrs (oldAttrs: {
-    postPatch = (oldAttrs.postPatch or "") + ''
-      substituteInPlace configure.ac \
-        --replace-fail "AM_GNU_GETTEXT" "AM_GNU_GETTEXT([external])" \
-        --replace-fail "AC_DEFINE([HAVE_ALLOCA])" "AC_DEFINE([HAVE_ALLOCA], [1], [Define if alloca is available.])"
-      substituteInPlace Makefile.config.in \
-        --replace-fail "\$(PATHPREFIX)@MKINSTALLDIRS@" "mkdir -p"
-    '';
-  });
-  firefox-unwrapped =
-    import (prev.path + "/pkgs/applications/networking/browsers/firefox/packages/firefox.nix")
-      {
-        inherit (final)
-          stdenv
-          lib
-          callPackage
-          fetchurl
-          nixosTests
-          ;
-        buildMozillaMach =
-          args:
-          final.buildMozillaMach (
-            args
-            // {
-              version = v.firefox.version;
-              packageVersion = v.firefox.version;
-              src = prev.fetchurl {
-                url = "mirror://mozilla/firefox/releases/${v.firefox.version}/source/firefox-${v.firefox.version}.source.tar.xz";
-                inherit (v.firefox) sha512;
-              };
-            }
-          );
-      };
-  firefox = final.wrapFirefox final.firefox-unwrapped { };
-}
+// prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) (
+  prev.lib.optionalAttrs (v.brave != null) {
+    brave = prev.brave.overrideAttrs (
+      finalAttrs: _: {
+        inherit (v.brave) version;
+        src = prev.fetchurl {
+          url = "https://github.com/brave/brave-browser/releases/download/v${finalAttrs.version}/brave-v${finalAttrs.version}-darwin-arm64.zip";
+          inherit (v.brave) hash;
+        };
+      }
+    );
+  }
+  // prev.lib.optionalAttrs (v.google-chrome != null) {
+    google-chrome = prev.google-chrome.overrideAttrs (
+      finalAttrs: _: {
+        inherit (v.google-chrome) version slug;
+        src = prev.fetchurl {
+          url = "http://dl.google.com/release2/chrome/${finalAttrs.slug}_${finalAttrs.version}/GoogleChrome-${finalAttrs.version}.dmg";
+          inherit (v.google-chrome) hash;
+        };
+      }
+    );
+  }
+  // prev.lib.optionalAttrs (v.orbstack != null) {
+    orbstack = prev.orbstack.overrideAttrs (
+      finalAttrs: _: {
+        inherit (v.orbstack) version;
+        src = prev.fetchurl {
+          url = "https://cdn-updates.orbstack.dev/arm64/OrbStack_v${
+            prev.lib.replaceString "-" "_" finalAttrs.version
+          }_arm64.dmg";
+          inherit (v.orbstack) hash;
+        };
+      }
+    );
+  }
+  // prev.lib.optionalAttrs (v.slack != null) {
+    slack = prev.slack.overrideAttrs (
+      finalAttrs: _: {
+        inherit (v.slack) version;
+        src = prev.fetchurl {
+          url = "https://downloads.slack-edge.com/desktop-releases/mac/arm64/${finalAttrs.version}/Slack-${finalAttrs.version}-macOS.dmg";
+          inherit (v.slack) hash;
+        };
+      }
+    );
+  }
+  // prev.lib.optionalAttrs (v.zoom-us != null) {
+    zoom-us = prev.zoom-us.overrideAttrs (
+      finalAttrs: _: {
+        inherit (v.zoom-us) version;
+        src = prev.fetchurl {
+          url = "https://zoom.us/client/${finalAttrs.version}/zoomusInstallerFull.pkg?archType=arm64";
+          name = "zoomusInstallerFull.pkg";
+          inherit (v.zoom-us) hash;
+        };
+      }
+    );
+  }
+)
+// prev.lib.optionalAttrs prev.stdenv.isDarwin (
+  {
+    elinks = prev.elinks.overrideAttrs (oldAttrs: {
+      postPatch = (oldAttrs.postPatch or "") + ''
+        substituteInPlace configure.ac \
+          --replace-fail "AM_GNU_GETTEXT" "AM_GNU_GETTEXT([external])" \
+          --replace-fail "AC_DEFINE([HAVE_ALLOCA])" "AC_DEFINE([HAVE_ALLOCA], [1], [Define if alloca is available.])"
+        substituteInPlace Makefile.config.in \
+          --replace-fail "\$(PATHPREFIX)@MKINSTALLDIRS@" "mkdir -p"
+      '';
+    });
+  }
+  // prev.lib.optionalAttrs (v.firefox != null) {
+    firefox-unwrapped =
+      import (prev.path + "/pkgs/applications/networking/browsers/firefox/packages/firefox.nix")
+        {
+          inherit (final)
+            stdenv
+            lib
+            callPackage
+            fetchurl
+            nixosTests
+            ;
+          buildMozillaMach =
+            args:
+            final.buildMozillaMach (
+              args
+              // {
+                version = v.firefox.version;
+                packageVersion = v.firefox.version;
+                src = prev.fetchurl {
+                  url = "mirror://mozilla/firefox/releases/${v.firefox.version}/source/firefox-${v.firefox.version}.source.tar.xz";
+                  inherit (v.firefox) sha512;
+                };
+              }
+            );
+        };
+    firefox = final.wrapFirefox final.firefox-unwrapped { };
+  }
+)

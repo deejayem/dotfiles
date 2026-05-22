@@ -68,6 +68,41 @@ pkgs.writeShellScriptBin "check-versions" ''
     [[ "$1" == "$2" ]] || [[ "$(printf '%s\n%s\n' "$1" "$2" | ${sort} -V | ${tail} -1)" == "$1" ]]
   }
 
+  # Update a field within a nested-style entry, e.g. update_field "brave.version" "1.0"
+  # Will be a no-op if the package is currently set to null.
+  update_field() {
+    local path="$1" value="$2"
+    local pkg="''${path%%.*}" key="''${path#*.}"
+    ${sed} -i "/^  $pkg = {/,/^  };/ s|^\(    $key = \)\"[^\"]*\";|\1\"$value\";|" "$overrides_file"
+  }
+
+  # Replace a non-null entry block with `pkg = null;`
+  null_entry() {
+    local pkg="$1"
+    ${sed} -i "/^  $pkg = {/,/^  };/c\\
+\  $pkg = null;" "$overrides_file"
+  }
+
+  # Read the override version directly from the file (returns "null", "missing", or the version)
+  override_version() {
+    local pkg="$1"
+    ${nix} eval --raw --impure --expr "
+      let v = import $overrides_file;
+      in if !(v ? \"$pkg\") then \"missing\"
+         else if v.\"$pkg\" == null then \"null\"
+         else v.\"$pkg\".version
+    " 2>/dev/null || echo "missing"
+  }
+
+  # Returns "true" if the override has preserve = true (won't be auto-nulled)
+  override_preserved() {
+    local pkg="$1"
+    ${nix} eval --impure --expr "
+      let v = import $overrides_file;
+      in if v ? \"$pkg\" && v.\"$pkg\" != null then (v.\"$pkg\".preserve or false) else false
+    " 2>/dev/null
+  }
+
   # Returns 0 (true) if a package should be updated, considering mode and downgrade policy
   should_update() {
     local local_v="$1" latest="$2"
@@ -165,7 +200,44 @@ pkgs.writeShellScriptBin "check-versions" ''
   should_update "$local_slack"    "$latest_slack"    && outdated+=(slack)
   should_update "$local_zoom"     "$latest_zoom"     && outdated+=(zoom)
 
-  if [[ ''${#outdated[@]} -eq 0 ]]; then
+  # Compute auto-null candidates: active overrides where nixpkgs has caught up.
+  # Skipped in check mode (would need to read the file) and force mode (force is
+  # explicitly about refreshing, not deactivating).
+  declare -a to_null=()
+  should_null() {
+    local short="$1" override_key="$2"
+    local nixpkgs_var="nixpkgs_$short"
+    local latest_var="latest_$short"
+    local nixpkgs_v="''${!nixpkgs_var}"
+    local latest_v="''${!latest_var}"
+    [[ "$nixpkgs_v" == "error" || "$latest_v" == "error" ]] && return 1
+    local ov
+    ov=$(override_version "$override_key")
+    case "$ov" in
+      null|missing|error) return 1 ;;
+    esac
+    [[ "$(override_preserved "$override_key")" == "true" ]] && return 1
+    # Null only when nixpkgs has caught up to both our override and the latest version.
+    version_ge "$nixpkgs_v" "$ov" && version_ge "$nixpkgs_v" "$latest_v"
+  }
+  if [[ "$mode" != "check" && "$mode" != "force" ]]; then
+    should_null brave    brave         && to_null+=(brave)
+    should_null chrome   google-chrome && to_null+=(chrome)
+    should_null firefox  firefox       && to_null+=(firefox)
+    should_null orbstack orbstack      && to_null+=(orbstack)
+    should_null slack    slack         && to_null+=(slack)
+    should_null zoom     zoom-us       && to_null+=(zoom)
+    # If a package is being nulled, don't also try to update it
+    declare -a filtered_outdated=()
+    for pkg in "''${outdated[@]}"; do
+      skip=false
+      for n in "''${to_null[@]}"; do [[ "$n" == "$pkg" ]] && skip=true && break; done
+      $skip || filtered_outdated+=("$pkg")
+    done
+    outdated=("''${filtered_outdated[@]}")
+  fi
+
+  if [[ ''${#outdated[@]} -eq 0 && ''${#to_null[@]} -eq 0 ]]; then
     echo ""
     echo "''${green}All packages up to date.''${reset}"
     exit 0
@@ -245,6 +317,9 @@ pkgs.writeShellScriptBin "check-versions" ''
       change_summary "$pkg"
       printf '\n'
     done
+    for pkg in "''${to_null[@]}"; do
+      printf "  %s: ''${dim}null (nixpkgs caught up)''${reset}\n" "$pkg"
+    done
     echo ""
     printf "Proceed? [y/N] "
     read -r answer
@@ -258,11 +333,6 @@ pkgs.writeShellScriptBin "check-versions" ''
     echo "error: $overrides_file not found" >&2
     exit 1
   fi
-
-  update_field() {
-    local key="$1" value="$2"
-    ${sed} -i "s|^\(  $key = \)\".*\";|\1\"$value\";|" "$overrides_file"
-  }
 
   for pkg in "''${outdated[@]}"; do
     case "$pkg" in
@@ -320,6 +390,20 @@ pkgs.writeShellScriptBin "check-versions" ''
         update_field "zoom-us.hash" "$zoom_hash"
         ;;
     esac
+  done
+
+  for pkg in "''${to_null[@]}"; do
+    case "$pkg" in
+      brave)    key=brave ;;
+      chrome)   key=google-chrome ;;
+      firefox)  key=firefox ;;
+      orbstack) key=orbstack ;;
+      slack)    key=slack ;;
+      zoom)     key=zoom-us ;;
+    esac
+    echo ""
+    echo "''${bold}$pkg''${reset}: nulling override (nixpkgs caught up)"
+    null_entry "$key"
   done
 
   echo ""
