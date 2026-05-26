@@ -245,7 +245,7 @@
                    (:exclude ".dir-locals.el"))
                   :old-names (nrepl) :source "MELPA" :id cider :type git
                   :protocol https :inherit t :depth treeless :ref
-                  "7736f5ea0f390787a4f77343bdbece9af3708f41"))
+                  "05fa6ba936c00edd9edc292a02b59e7812c28b7b"))
  (clj-refactor :source "elpaca-menu-lock-file" :recipe
                (:package "clj-refactor" :fetcher github :repo
                          "clojure-emacs/clj-refactor.el" :files
@@ -643,7 +643,7 @@
           (:package "emacsql" :fetcher github :repo "magit/emacsql" :files
                     (:defaults "README.md" "sqlite") :source "MELPA" :id emacsql
                     :type git :protocol https :inherit t :depth treeless :ref
-                    "182e66219568277c0afd130d4ee2844a9d3d3fc1"))
+                    "7ee5c9d5c5b9b3d922153147539b7ed39971af9d"))
  (embark :source "elpaca-menu-lock-file" :recipe
          (:package "embark" :repo "oantolin/embark" :fetcher github :files
                    ("embark.el" "embark-org.el" "embark.texi") :source "MELPA"
@@ -904,7 +904,7 @@
                                  "*-pkg.el"))
                       :source "MELPA" :id git-modes :type git :protocol https
                       :inherit t :depth treeless :ref
-                      "8c6e5b01feddd0c3da624941c8a4b20bb60f3656"))
+                      "9fc447e409ad78dd11ae7f9c5436ee1631380b3f"))
  (git-timemachine :source "elpaca-menu-lock-file" :recipe
                   (:package "git-timemachine" :fetcher codeberg :repo
                             "pidu/git-timemachine" :files
@@ -1058,7 +1058,7 @@
                                "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
                     :source "MELPA" :id hl-todo :type git :protocol https
                     :inherit t :depth treeless :ref
-                    "38040e1b1fd8c0dfe41356ce001883300124f876"))
+                    "9a147b9a306471d156dbf8f53af7724061806f80"))
  (ht :source "elpaca-menu-lock-file" :recipe
      (:package "ht" :fetcher github :repo "Wilfred/ht.el" :files
                ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo" "doc/dir"
@@ -1356,7 +1356,7 @@
                           (:defaults "mono-complete-backend-word-predict.py")
                           :source "MELPA" :id mono-complete :type git :protocol
                           https :inherit t :depth treeless :ref
-                          "7d3d5656269f290a8ebec772d877d95cc815939b"))
+                          "51a521f3b69100388a22500c59f887c6e6cf56bd"))
  (move-text :source "elpaca-menu-lock-file" :recipe
             (:package "move-text" :fetcher github :repo "emacsfodder/move-text"
                       :files
@@ -1712,7 +1712,7 @@
                (:exclude ".dir-locals.el" "test.el" "tests.el" "*-test.el"
                          "*-tests.el" "LICENSE" "README*" "*-pkg.el"))
               :source "MELPA" :id s :type git :protocol https :inherit t :depth
-              treeless :ref "7393fa6fa305403e628058c0ec78c35d610fab05"))
+              treeless :ref "dda84d38fffdaf0c9b12837b504b402af910d01d"))
  (sass-mode :source "elpaca-menu-lock-file" :recipe
             (:package "sass-mode" :repo "nex3/sass-mode" :fetcher github :files
                       ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
@@ -2034,7 +2034,7 @@
           (:package "vertico" :repo "minad/vertico" :files
                     (:defaults "extensions/*") :fetcher github :source "MELPA"
                     :id vertico :type git :protocol https :inherit t :depth
-                    treeless :ref "6e45be6105819297da8472dd8f37a38eb4a0b6e5"))
+                    treeless :ref "ccc1864aeed3d8b7f0bc8000087d6840b4d8ca8e"))
  (web-mode :source "elpaca-menu-lock-file" :recipe
            (:package "web-mode" :repo "fxbois/web-mode" :fetcher github :files
                      ("*.el" "*.el.in" "dir" "*.info" "*.texi" "*.texinfo"
