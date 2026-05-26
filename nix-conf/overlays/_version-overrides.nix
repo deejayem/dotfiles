@@ -1,12 +1,12 @@
 {
-  brave = {
-    version = "1.90.124";
-    hash = "sha256-u3KmZffPQpHzS9IxZ7UsL7D6ETGJxExil20vmD6flMo=";
-  };
+  brave = null;
 
   google-chrome = null;
 
-  firefox = null;
+  firefox = {
+    version = "151.0.2";
+    sha512 = "0wxfb2hbn1w175ba4v1yv2n5fxf00v625cv4nf669haazy3ci0iv40n8xsnxgfgm8sg08521zcgi7xz6c0f8nx4m6cjfjimxm9qjc47";
+  };
 
   orbstack = null;
 
