@@ -93,18 +93,7 @@ in
   }
 )
 // prev.lib.optionalAttrs prev.stdenv.isDarwin (
-  {
-    elinks = prev.elinks.overrideAttrs (oldAttrs: {
-      postPatch = (oldAttrs.postPatch or "") + ''
-        substituteInPlace configure.ac \
-          --replace-fail "AM_GNU_GETTEXT" "AM_GNU_GETTEXT([external])" \
-          --replace-fail "AC_DEFINE([HAVE_ALLOCA])" "AC_DEFINE([HAVE_ALLOCA], [1], [Define if alloca is available.])"
-        substituteInPlace Makefile.config.in \
-          --replace-fail "\$(PATHPREFIX)@MKINSTALLDIRS@" "mkdir -p"
-      '';
-    });
-  }
-  // prev.lib.optionalAttrs (v.firefox != null) {
+  prev.lib.optionalAttrs (v.firefox != null) {
     firefox-unwrapped =
       import (prev.path + "/pkgs/applications/networking/browsers/firefox/packages/firefox.nix")
         {
