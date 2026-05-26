@@ -76,6 +76,26 @@ pkgs.writeShellScriptBin "check-versions" ''
       ${sed} -i "/^  $pkg = {/,/^  };/ s|^\(    $key = \)\"[^\"]*\";|\1\"$value\";|" "$overrides_file"
     }
 
+    # Write/restore an entry as an active block. Handles both null and active states.
+    # Usage: write_entry "pkg" "key1" "val1" "key2" "val2" ...
+    write_entry() {
+      local pkg="$1"; shift
+      if ${grep} -qE "^  $pkg = null;" "$overrides_file"; then
+        local content="  $pkg = {"
+        while [[ $# -gt 0 ]]; do
+          content+="\n    $1 = \"$2\";"
+          shift 2
+        done
+        content+="\n  };"
+        ${sed} -i "s|^  $pkg = null;|$content|" "$overrides_file"
+      else
+        while [[ $# -gt 0 ]]; do
+          update_field "$pkg.$1" "$2"
+          shift 2
+        done
+      fi
+    }
+
     # Replace a non-null entry block with `pkg = null;`
     null_entry() {
       local pkg="$1"
@@ -341,8 +361,7 @@ pkgs.writeShellScriptBin "check-versions" ''
           echo "''${bold}brave''${reset}: $local_brave -> ''${green}$latest_brave''${reset}"
           brave_url="https://github.com/brave/brave-browser/releases/download/v''${latest_brave}/brave-v''${latest_brave}-darwin-arm64.zip"
           brave_hash=$(prefetch_sri "$brave_url")
-          update_field "brave.version" "$latest_brave"
-          update_field "brave.hash" "$brave_hash"
+          write_entry "brave" "version" "$latest_brave" "hash" "$brave_hash"
           ;;
         chrome)
           echo ""
@@ -353,41 +372,35 @@ pkgs.writeShellScriptBin "check-versions" ''
           chrome_url="$(echo "$response" | ${xmllint} --xpath "string(//url[contains(@codebase, 'http://dl.google.com/release2')]/@codebase)" -)$(echo "$response" | ${xmllint} --xpath "string(//package/@name)" -)"
           chrome_slug=$(echo "$chrome_url" | ${grep} -oP '(?<=chrome/)[^_]+')
           chrome_hash=$(prefetch_sri "$chrome_url")
-          update_field "google-chrome.version" "$latest_chrome"
-          update_field "google-chrome.slug" "$chrome_slug"
-          update_field "google-chrome.hash" "$chrome_hash"
+          write_entry "google-chrome" "version" "$latest_chrome" "slug" "$chrome_slug" "hash" "$chrome_hash"
           ;;
         firefox)
           echo ""
           echo "''${bold}firefox''${reset}: $local_firefox -> ''${green}$latest_firefox''${reset}"
           firefox_url="https://archive.mozilla.org/pub/firefox/releases/''${latest_firefox}/source/firefox-''${latest_firefox}.source.tar.xz"
           firefox_sha512=$(${nix}-prefetch-url --type sha512 "$firefox_url" 2>/dev/null)
-          update_field "firefox.version" "$latest_firefox"
-          update_field "firefox.sha512" "$firefox_sha512"
+          write_entry "firefox" "version" "$latest_firefox" "sha512" "$firefox_sha512"
           ;;
         orbstack)
           echo ""
           echo "''${bold}orbstack''${reset}: $local_orbstack -> ''${green}$latest_orbstack''${reset}"
           orbstack_url="https://cdn-updates.orbstack.dev/arm64/OrbStack_v$(echo "$latest_orbstack" | tr '-' '_')_arm64.dmg"
           orbstack_hash=$(prefetch_sri "$orbstack_url")
-          update_field "orbstack.version" "$latest_orbstack"
-          update_field "orbstack.hash" "$orbstack_hash"
+          write_entry "orbstack" "version" "$latest_orbstack" "hash" "$orbstack_hash"
           ;;
         slack)
           echo ""
           echo "''${bold}slack''${reset}: $local_slack -> ''${green}$latest_slack''${reset}"
           slack_url="https://downloads.slack-edge.com/desktop-releases/mac/arm64/''${latest_slack}/Slack-''${latest_slack}-macOS.dmg"
           slack_hash=$(prefetch_sri "$slack_url")
-          update_field "slack.version" "$latest_slack"
-          update_field "slack.hash" "$slack_hash"
+          write_entry "slack" "version" "$latest_slack" "hash" "$slack_hash"
           ;;
         zoom)
           echo ""
           echo "''${bold}zoom''${reset}: $local_zoom -> ''${green}$latest_zoom''${reset}"
           zoom_url="https://zoom.us/client/''${latest_zoom}/zoomusInstallerFull.pkg?archType=arm64"
           zoom_hash=$(prefetch_sri "$zoom_url" zoomusInstallerFull.pkg)
-          update_field "zoom-us.version" "$latest_zoom"
-          update_field "zoom-us.hash" "$zoom_hash"
+          write_entry "zoom-us" "version" "$latest_zoom" "hash" "$zoom_hash"
           ;;
       esac
     done
