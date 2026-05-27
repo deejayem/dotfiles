@@ -48,6 +48,7 @@ in
     gh-dash
     gnused
     gnugrep
+    gnutar
     less
     lesspipe
     lima
