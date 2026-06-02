@@ -147,11 +147,11 @@ in
     includes = [
       config.age.secrets."ssh/pi".path
     ];
-    matchBlocks = {
+    settings = {
       "*.orb.local" = {
-        identityFile = "~/.orbstack/ssh/id_ed25519";
-        forwardAgent = true;
-        sendEnv = [
+        IdentityFile = "~/.orbstack/ssh/id_ed25519";
+        ForwardAgent = "yes";
+        SendEnv = [
           "AWS_*"
           "ADZERK_*"
         ];

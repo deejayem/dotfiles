@@ -101,24 +101,22 @@ in
   };
 
   programs.ssh = {
-    matchBlocks = {
+    settings = {
       "i-*" = {
-        user = "ubuntu";
-        proxyCommand = "ssh-ssm.sh %h %r";
-        identityFile = "~/.ssh/ssm-ssh-tmp";
-        userKnownHostsFile = "/dev/null";
-        forwardAgent = true;
-        serverAliveInterval = 5;
-        sendEnv = [
+        User = "ubuntu";
+        ProxyCommand = "ssh-ssm.sh %h %r";
+        IdentityFile = "~/.ssh/ssm-ssh-tmp";
+        UserKnownHostsFile = "/dev/null";
+        ForwardAgent = "yes";
+        ServerAliveInterval = 5;
+        SendEnv = [
           "AWS_*"
           "ADZERK_*"
         ];
-        extraOptions = {
-          "ConnectTimeout" = "30";
-          "BatchMode" = "yes";
-          "LogLevel" = "QUIET";
-          "StrictHostKeyChecking" = "no";
-        };
+        ConnectTimeout = "30";
+        BatchMode = "yes";
+        LogLevel = "QUIET";
+        StrictHostKeyChecking = "no";
       };
     };
   };

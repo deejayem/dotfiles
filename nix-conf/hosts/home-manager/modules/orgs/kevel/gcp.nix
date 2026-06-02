@@ -16,20 +16,20 @@ in
   ];
 
   programs.ssh = {
-    matchBlocks = {
+    settings = {
       "gcp1-*" = {
-        forwardAgent = true;
-        proxyCommand = "${gcp-iap-proxy-bin} %n %p";
-        serverAliveInterval = 5;
-        sendEnv = [
+        ForwardAgent = "yes";
+        ProxyCommand = "${gcp-iap-proxy-bin} %n %p";
+        ServerAliveInterval = 5;
+        SendEnv = [
           "ADZERK_*"
         ];
       };
       "pg1-*" = {
-        forwardAgent = true;
-        proxyCommand = "${gcp-iap-proxy-bin} %n %p";
-        serverAliveInterval = 5;
-        sendEnv = [
+        ForwardAgent = "yes";
+        ProxyCommand = "${gcp-iap-proxy-bin} %n %p";
+        ServerAliveInterval = 5;
+        SendEnv = [
           "ADZERK_*"
         ];
       };

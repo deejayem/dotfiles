@@ -15,75 +15,73 @@ in
       "~/.ssh/config_local"
       config.age.secrets."ssh/oci".path
     ];
-    matchBlocks = {
+    settings = {
       "*" = {
-        addKeysToAgent = "yes";
-        forwardAgent = true;
-        user = "djm";
+        AddKeysToAgent = "yes";
+        ForwardAgent = "yes";
+        User = "djm";
       }
       // optionalAttrs pkgs.stdenv.isDarwin {
-        extraOptions = {
-          "UseKeychain" = "yes";
-        };
+        UseKeychain = "yes";
       };
       "djm.ovh" = {
-        hostname = "v.djm.ovh";
-        port = 2222;
+        HostName = "v.djm.ovh";
+        Port = 2222;
       };
       "devio" = {
-        hostname = "devio.us";
-        user = "deejayem";
-        port = 2222;
+        HostName = "devio.us";
+        User = "deejayem";
+        Port = 2222;
       };
       "sdf" = {
-        hostname = "sdf.org";
-        user = "deejayem";
+        HostName = "sdf.org";
+        User = "deejayem";
       };
       "sdfeu" = {
-        hostname = "sdf-eu.org";
-        user = "deejayem";
+        HostName = "sdf-eu.org";
+        User = "deejayem";
       };
       "grex" = {
-        hostname = "grex.org";
-        user = "deejayem";
+        HostName = "grex.org";
+        User = "deejayem";
       };
       "blinkenshell" = {
-        hostname = "ssh.blinkenshell.org";
-        port = 2222;
+        HostName = "ssh.blinkenshell.org";
+        Port = 2222;
       };
       "hashbang" = {
-        hostname = "de1.hashbang.sh";
+        HostName = "de1.hashbang.sh";
       };
       "tilde.institute" = {
-        hostname = "tilde.institute";
+        HostName = "tilde.institute";
       };
       "tilde.team" = {
-        hostname = "tilde.team";
+        HostName = "tilde.team";
       };
       "ctrl-c.club" = {
-        hostname = "ctrl-c.club";
+        HostName = "ctrl-c.club";
       };
       "github.com" = {
-        hostname = "github.com";
-        user = "git";
-        identityFile = "~/.ssh/id_ed25519";
-        identitiesOnly = true;
+        HostName = "github.com";
+        User = "git";
+        IdentityFile = "~/.ssh/id_ed25519";
+        IdentitiesOnly = "yes";
       };
       "hb-backup" = {
-        hostname = "de1.hashbang.sh";
-        identityFile = "~/.ssh/hb_backup_key";
-        identitiesOnly = true;
+        HostName = "de1.hashbang.sh";
+        IdentityFile = "~/.ssh/hb_backup_key";
+        IdentitiesOnly = "yes";
       };
       "bs-backup" = {
-        hostname = "ssh.blinkenshell.org";
-        port = 2222;
-        identityFile = "~/.ssh/bs_backup_key";
-        identitiesOnly = true;
+        HostName = "ssh.blinkenshell.org";
+        Port = 2222;
+        IdentityFile = "~/.ssh/bs_backup_key";
+        IdentitiesOnly = "yes";
       };
       "tt-backup" = {
-        hostname = "tilde.team";
-        identityFile = "~/.ssh/tt_backup_key";
-        identitiesOnly = true;
+        HostName = "tilde.team";
+        IdentityFile = "~/.ssh/tt_backup_key";
+        IdentitiesOnly = "yes";
       };
     };
   };
