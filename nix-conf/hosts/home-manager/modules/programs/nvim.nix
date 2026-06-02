@@ -1,9 +1,5 @@
 { pkgs, ... }:
 
-let
-  # TODO: Temporary workaround until the next release (26.05)
-  luaConfig = if pkgs.stdenv.isDarwin then "initLua" else "extraLuaConfig";
-in
 {
   home.packages = with pkgs; [ tree-sitter ];
 
@@ -49,7 +45,7 @@ in
       ))
     ];
 
-    ${luaConfig} = ''
+    initLua = ''
       vim.opt.termguicolors = true
       vim.cmd('colorscheme molokai')
       vim.cmd('highlight Normal ctermfg=white ctermbg=black')
