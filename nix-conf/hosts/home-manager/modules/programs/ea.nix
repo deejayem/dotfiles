@@ -5,8 +5,7 @@
 }:
 let
   bat = lib.getExe pkgs.bat;
-  # TODO this can just be lib.getExe pkgs.ea when 26.05 is released
-  ea = lib.getExe' pkgs.ea "ea";
+  ea = lib.getExe pkgs.ea;
 in
 {
   home.packages = [
