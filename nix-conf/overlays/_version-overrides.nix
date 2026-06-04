@@ -4,7 +4,11 @@
     hash = "sha256-pJFvRP8GKTv+b2OSaAhiabIXxSJjelZPsYROTuHw0qo=";
   };
 
-  google-chrome = null;
+  google-chrome = {
+    version = "149.0.7827.54";
+    slug = "dk75rnebngodpmukle2jjrfx6u";
+    hash = "sha256-O48opD0Ea336/mbs5RFjBITjf8MWOL2BAuf6gX+pnmo=";
+  };
 
   firefox = {
     version = "151.0.3";
