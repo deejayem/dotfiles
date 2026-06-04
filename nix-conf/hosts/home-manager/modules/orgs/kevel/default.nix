@@ -36,6 +36,7 @@ in
       check-versions
       cli-tools
       coffeescript
+      context7-mcp
       git-remote-codecommit
       lmdb-cli
       msgpack-tools
