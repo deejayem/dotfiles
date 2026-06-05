@@ -63,7 +63,6 @@
     playerctl
     rofi
     sway
-    vdhcoapp
     ungoogled-chromium
     wayland
     wl-clipboard
