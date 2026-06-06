@@ -156,7 +156,7 @@
     enable = true;
     settings = {
       main.font = "MesloLGS NF:size=8";
-      colors = {
+      colors-dark = {
         background = "000000";
         foreground = "bbbbbb";
         regular0 = "000000"; # black
