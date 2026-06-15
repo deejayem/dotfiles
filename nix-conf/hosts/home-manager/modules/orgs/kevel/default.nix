@@ -37,6 +37,7 @@ in
       cli-tools
       coffeescript
       context7-mcp
+      datadog-pup
       git-remote-codecommit
       lmdb-cli
       msgpack-tools
