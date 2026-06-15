@@ -27,9 +27,11 @@ in
 
     unstable.nixfmt
 
-    hm-changes-report
+    home-changes-report
+    home-diff-closures
     preview-channel-diff
     system-changes-report
+    system-diff-closures
     (pkgs.nix-update.override { inherit inputs os version; })
   ];
 
