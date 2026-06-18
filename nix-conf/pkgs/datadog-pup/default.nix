@@ -15,12 +15,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
     hash = "sha256-Q92ulh4Sv177te2/xu0nac5NqwHO54EEwHa97i439mY=";
   };
 
-  cargoLock = {
-    lockFile = ./Cargo.lock;
-    outputHashes = {
-      "datadog-api-client-0.31.0" = "sha256-UzI8d1oYToULy0YZ9Rckk2m6sXxBq4IcOWd9bFuS8Gc=";
-    };
-  };
+  cargoHash = "sha256-ZwS8fgjPr/UcAmItpl3qXUvlAdVz8rWQrXskeubC5t0=";
 
   # Upstream's test build is broken (src/commands/auth.rs references an
   # undefined `token` function), so the binary builds but `cargo test` fails.
