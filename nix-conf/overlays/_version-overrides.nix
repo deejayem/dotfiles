@@ -1,21 +1,25 @@
 {
   brave = {
-    version = "1.91.172";
-    hash = "sha256-tSQls5xcP0Z80flXrxZjKiiYOi2W0qQ9CD7h8XFhNiI=";
+    version = "1.91.175";
+    hash = "sha256-alVhPVmXZ41CI5ou77xk0QepFvyyJqJs8yexDVo1rzY=";
   };
 
-  google-chrome = null;
+  google-chrome = {
+    version = "149.0.7827.156";
+    slug = "acfqxa67egsofsrqnco2a4sd4pta";
+    hash = "sha256-fd7IqNxvaMO28Yhlc4gk8M+P7Sq+ZrplRXbnrxPDcvw=";
+  };
 
   firefox = {
-    version = "152.0";
-    sha512 = "3mqqdw0bj0jmnihz7rlpw47whi3vy5dypdh7a95gbk71zdlik515v1xwh0q04bck6ag4av62065r3idc4pnjpiqyglkw1h4f0vdyyic";
+    version = "152.0.1";
+    sha512 = "0x5bivxmrzhllvdylbbymv339vjg8p9x3azwc5lhc159ccldqpl5h6nx9vflfqibc8v75lvmhzybw3hrrp7s7mjl8708xyriqa9a9cv";
   };
 
   orbstack = null;
 
   slack = {
-    version = "4.50.128";
-    hash = "sha256-EJFPULSLqXLu9dbLvIIQk/9R50haxum/P3bDxRtjZRM=";
+    version = "4.50.140";
+    hash = "sha256-n5eNz4HDXDsiyLlYxArRLDTx09/ozt2ivnvRUhFMaUM=";
   };
 
   zoom-us = null;
