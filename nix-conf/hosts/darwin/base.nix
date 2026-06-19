@@ -127,6 +127,9 @@ in
     echo "Restarting Doll"
     pkill Doll || true
     open -a "/Applications/Nix Apps/Doll.app"
+    echo "Restarting Slack"
+    pkill Slack || true
+    open -a "/Applications/Nix Apps/Slack.app"
   '';
 
   system.defaults.dock.autohide = true;
