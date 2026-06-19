@@ -32,7 +32,7 @@ in
     preview-channel-diff
     system-changes-report
     system-diff-closures
-    (pkgs.nix-update.override { inherit inputs os version; })
+    (pkgs.system-update.override { inherit inputs os version; })
   ];
 
   programs.zsh.siteFunctions = {

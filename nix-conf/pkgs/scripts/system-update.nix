@@ -1,9 +1,9 @@
 {
   lib,
   pkgs,
-  inputs ? throw "nix-update requires inputs",
-  os ? throw "nix-update requires os",
-  version ? throw "nix-update requires version",
+  inputs ? throw "system-update requires inputs",
+  os ? throw "system-update requires os",
+  version ? throw "system-update requires version",
   ...
 }:
 
@@ -11,7 +11,7 @@ let
   nixpkgsInput = "nixpkgs-${version}";
   homeManagerInput = "home-manager-${version}";
 in
-pkgs.writeShellScriptBin "nix-update" ''
+pkgs.writeShellScriptBin "system-update" ''
   set -euo pipefail
 
   NIX_CONF="''${NH_FLAKE:-$HOME/dotfiles/nix-conf}"
