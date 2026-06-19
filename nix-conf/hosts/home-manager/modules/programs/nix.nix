@@ -17,15 +17,21 @@ in
   home.packages = with pkgs; [
     comma
     dix
+    editorconfig-checker
+    keep-sorted
     nix-info
     nix-prefetch-git
     nix-prefetch-github
     nix-search
-    nixpkgs-hammering
+    nix-update
     nixpkgs-reviewFull
     nvd
 
     unstable.nixfmt
+    unstable.nixf-diagnose
+    unstable.nixpkgs-hammering
+    unstable.nixpkgs-lint
+    unstable.statix
 
     home-changes-report
     home-diff-closures
