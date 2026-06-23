@@ -11,8 +11,8 @@
   };
 
   firefox = {
-    version = "152.0.1";
-    sha512 = "0x5bivxmrzhllvdylbbymv339vjg8p9x3azwc5lhc159ccldqpl5h6nx9vflfqibc8v75lvmhzybw3hrrp7s7mjl8708xyriqa9a9cv";
+    version = "152.0.2";
+    sha512 = "01nn18rxs6v4jlbjzmg6jdlq7axhw4ihkff8avi1nkp60z6jqmjgckj4njrmpy9ghwjkvq0zi1smw0f9fvsf5sqmhg7bmfgzzzlrrg4";
   };
 
   orbstack = null;
@@ -22,5 +22,8 @@
     hash = "sha256-n5eNz4HDXDsiyLlYxArRLDTx09/ozt2ivnvRUhFMaUM=";
   };
 
-  zoom-us = null;
+  zoom-us = {
+    version = "7.1.0.83064";
+    hash = "sha256-HReyDktQ+EiHM857kgvzQD8tSHtSFYrAfv1YSTVFCLw=";
+  };
 }
