@@ -63,7 +63,6 @@ in
     pgformatter
     #pms
     postgresql
-    podman
     #python310Packages.sqlparse
     redis
     sqls
