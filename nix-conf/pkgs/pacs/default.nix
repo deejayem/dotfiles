@@ -5,7 +5,7 @@
   fetchPrivateNpm,
   runCommand,
   nodejs_24,
-  pnpm_9,
+  pnpm_10,
   pnpmConfigHook,
   makeWrapper,
 }:
@@ -30,9 +30,9 @@ let
 
   pnpmDeps = fetchPnpmDeps {
     inherit pname version src;
-    pnpm = pnpm_9;
+    pnpm = pnpm_10;
     fetcherVersion = 3;
-    hash = "sha256-EDQIORc/NjpW4qD+nHYF0Db1Bz6ixr/xs+bVOKsouzU=";
+    hash = "sha256-8hiwRYClr59Jk5r3eig0TFyg730dilvf3j7/N7WW8Hg=";
   };
 in
 
@@ -41,7 +41,7 @@ stdenv.mkDerivation {
 
   nativeBuildInputs = [
     nodejs_24
-    pnpm_9
+    pnpm_10
     pnpmConfigHook
     makeWrapper
   ];

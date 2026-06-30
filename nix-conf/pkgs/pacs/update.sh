@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p coreutils curl gnugrep gnused jq nodejs_24 pnpm_9 nixfmt
+#!nix-shell -i bash -p coreutils curl gnugrep gnused jq nodejs_24 pnpm_10 nixfmt
 #shellcheck shell=bash
 
 set -eu -o pipefail
