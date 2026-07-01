@@ -32,7 +32,7 @@ let
     inherit pname version src;
     pnpm = pnpm_10;
     fetcherVersion = 3;
-    hash = "sha256-8hiwRYClr59Jk5r3eig0TFyg730dilvf3j7/N7WW8Hg=";
+    hash = "sha256-047cvMJplGhUmqpf+ahNkP0Dk+Te2Wb7HYVKaeqK1xk=";
   };
 in
 
