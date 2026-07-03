@@ -1,12 +1,16 @@
 {
-  brave = null;
-
-  google-chrome = null;
-
-  firefox = {
-    version = "152.0.4";
-    sha512 = "2dg65vk29lmxxb7ciaq8q6d4dp3bpwqn0521sy2154jgcxpid5qsfvmmj9682lyx1x9i2xfz6f6s6cbk3yv5nwmmw17k2gvm2mn4mhc";
+  brave = {
+    version = "1.92.134";
+    hash = "sha256-K1p5mAYfEDJNZFSmoOQV7kHNsA5RQuyUl3T2KVsNcbw=";
   };
+
+  google-chrome = {
+    version = "150.0.7871.47";
+    slug = "ad2pojsfcj6hr5telal5kk4t6gua";
+    hash = "sha256-1VTMVSBLfSRp9CxPaRkmdgAC0H5KNuZNWywTGLSphUI=";
+  };
+
+  firefox = null;
 
   orbstack = null;
 
@@ -15,8 +19,5 @@
     hash = "sha256-f5oYi8NPKXWpDcowFYMUjptbQs4V9hK2bm1TuaQeJn0=";
   };
 
-  zoom-us = {
-    version = "7.1.0.83064";
-    hash = "sha256-HReyDktQ+EiHM857kgvzQD8tSHtSFYrAfv1YSTVFCLw=";
-  };
+  zoom-us = null;
 }
