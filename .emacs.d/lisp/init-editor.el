@@ -166,6 +166,7 @@
   (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode)))
 
 (use-package markdown-indent-mode
+  :diminish
   :hook (markdown-mode . markdown-indent-mode))
 
 ;; (use-package adoc-mode
