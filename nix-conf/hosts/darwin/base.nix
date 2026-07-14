@@ -45,6 +45,10 @@ in
     keep-derivations = true;
     keep-outputs = true;
     sandbox = "relaxed";
+    extra-sandbox-paths = [
+      "/private/etc/ssl/certs/"
+      "/private/etc/static/ssl/certs/"
+    ];
     trusted-users = [
       username
       "@staff"
