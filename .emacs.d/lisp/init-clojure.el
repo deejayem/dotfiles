@@ -215,6 +215,12 @@
     '(";" "Pretty print last sexp to comment" cider-pprint-eval-last-sexp-to-comment))
   (transient-append-suffix 'cider-insert-menu "n"
     '("p" "Pretty print last sexp to REPL" cider-pprint-eval-last-sexp-to-repl))
+  (transient-append-suffix 'cider-insert-menu '(0 -1)
+    ["Inspect"
+     ("i e" "Last sexp" cider-inspect-last-sexp)
+     ("i f" "Defun at point" cider-inspect-defun-at-point)
+     ("i l" "Last result" cider-inspect-last-result)
+     ("i v" "Expression" cider-inspect-expr)])
 
   :bind
   (:map cider-mode-map
