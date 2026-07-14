@@ -211,11 +211,15 @@
       (delete-other-windows)))
   (advice-add #'cider-close-ancillary-buffers :after #'fix-duplicate-windows)
 
+  (transient-append-suffix 'cider-insert-menu "v"
+    '(";" "Pretty print last sexp to comment" cider-pprint-eval-last-sexp-to-comment))
+  (transient-append-suffix 'cider-insert-menu "n"
+    '("p" "Pretty print last sexp to REPL" cider-pprint-eval-last-sexp-to-repl))
+
   :bind
   (:map cider-mode-map
         ("C-c M-l" . cider-load-file)
         ("C-c M-b" . cider-interrupt)
-        ("C-c C-j C-;" . cider-pprint-eval-last-sexp-to-comment)
         ("C-c C-M-p" . cider-pprint-eval-last-sexp-to-repl)
         ("C-x M-i e" . cider-inspect-last-sexp)
         ("C-x M-i f" . cider-inspect-defun-at-point)
