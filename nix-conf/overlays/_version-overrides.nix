@@ -1,12 +1,16 @@
 {
-  brave = null;
-
-  google-chrome = null;
-
-  firefox = {
-    version = "152.0.6";
-    sha512 = "2qfc4xv44c67k9mjbi9jyg2kl0rn5fpw7pyf0p63y67zp6fnmllz4nhxkkhq51ff97ba059kif4rg6kdndrvm1q3ihzn1vhgn1pgn64";
+  brave = {
+    version = "1.92.140";
+    hash = "sha256-g7R8Sz3apcIMrQX6xqWiz0MMDru4hQQj5Uauq59BE/o=";
   };
+
+  google-chrome = {
+    version = "150.0.7871.129";
+    slug = "ggb3e3myl2poiiaqd2bbvqlrqa";
+    hash = "sha256-ym9rF6yrGMSibQDM4gKlAbOsIHnV1tPxyNq9KNLnR0I=";
+  };
+
+  firefox = null;
 
   orbstack = null;
 
