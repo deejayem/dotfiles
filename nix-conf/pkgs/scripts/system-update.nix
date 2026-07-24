@@ -10,9 +10,18 @@
 let
   nixpkgsInput = "nixpkgs-${version}";
   homeManagerInput = "home-manager-${version}";
+  check-versions = pkgs.callPackage ./check-versions.nix { };
 in
 pkgs.writeShellScriptBin "system-update" ''
   set -euo pipefail
+
+  RUN_CHECK_VERSIONS=false
+  for arg in "$@"; do
+    case "$arg" in
+      -c|--check-versions) RUN_CHECK_VERSIONS=true ;;
+      *) echo "Usage: system-update [-c|--check-versions]" >&2; exit 1 ;;
+    esac
+  done
 
   NIX_CONF="''${NH_FLAKE:-$HOME/dotfiles/nix-conf}"
   FLAKE_LOCK="$NIX_CONF/flake.lock"
@@ -23,6 +32,8 @@ pkgs.writeShellScriptBin "system-update" ''
   JQ=${lib.getExe pkgs.jq}
   NH=${lib.getExe pkgs.nh}
   NIX=${lib.getExe pkgs.nix}
+  CHECK_VERSIONS=${lib.getExe check-versions}
+  SHA256SUM=${lib.getExe' pkgs.coreutils "sha256sum"}
 
   BACKUP_DIR="''${XDG_STATE_HOME:-$HOME/.local/state}/lock-backups/flake"
   mkdir -p "$BACKUP_DIR"
@@ -60,6 +71,22 @@ pkgs.writeShellScriptBin "system-update" ''
   if [ "$CURRENT_HM_REV" != "$LOCKFILE_HM_REV" ]; then
     echo "home-manager revision changed: $CURRENT_HM_REV -> $LOCKFILE_HM_REV"
     HOME_NEEDS_UPDATE=true
+  fi
+
+  if [ "$RUN_CHECK_VERSIONS" = true ]; then
+    OVERRIDES_FILE="$NIX_CONF/overlays/_version-overrides.nix"
+    OVERRIDES_BEFORE=$($SHA256SUM "$OVERRIDES_FILE" 2>/dev/null || true)
+    $CHECK_VERSIONS "$NIX_CONF" -i
+    OVERRIDES_AFTER=$($SHA256SUM "$OVERRIDES_FILE" 2>/dev/null || true)
+    # A version-override change may not move any flake input, so force a
+    # rebuild when the overrides file was actually modified.
+    if [ "$OVERRIDES_BEFORE" != "$OVERRIDES_AFTER" ]; then
+      echo "Version overrides changed; rebuilding."
+      if [ -n "$OS" ]; then
+        OS_NEEDS_UPDATE=true
+      fi
+      HOME_NEEDS_UPDATE=true
+    fi
   fi
 
   case "$OS" in
