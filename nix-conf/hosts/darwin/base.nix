@@ -93,6 +93,11 @@ in
     _1password-gui
   ];
 
+  environment.etc."ssh/ssh_config.d/999-no-locale-for-ssm.conf".text = ''
+    Host i-*
+      SendEnv -LANG -LC_*
+  '';
+
   fonts.packages = [
     pkgs.aporetic
     pkgs.meslo-lgs-nf
