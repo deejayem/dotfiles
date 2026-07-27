@@ -1,8 +1,8 @@
 diff --git a/crates/atuin-client/src/database.rs b/crates/atuin-client/src/database.rs
-index 7aa095f7..fb8e4615 100644
+index 7c63368..338e107 100644
 --- a/crates/atuin-client/src/database.rs
 +++ b/crates/atuin-client/src/database.rs
-@@ -350,6 +350,16 @@ impl Database for Sqlite {
+@@ -367,6 +367,16 @@ impl Database for Sqlite {
                      }
                      &mut query
                  }
@@ -19,7 +19,7 @@ index 7aa095f7..fb8e4615 100644
                  FilterMode::Directory => query.and_where_eq("cwd", quote(&context.cwd)),
                  FilterMode::Workspace => query.and_where_like_left("cwd", &git_root),
              };
-@@ -481,6 +491,16 @@ impl Database for Sqlite {
+@@ -498,6 +508,16 @@ impl Database for Sqlite {
                  }
                  &mut sql
              }
@@ -37,20 +37,20 @@ index 7aa095f7..fb8e4615 100644
              FilterMode::Workspace => sql.and_where_like_left("cwd", git_root),
          };
 diff --git a/crates/atuin-client/src/settings.rs b/crates/atuin-client/src/settings.rs
-index 1c35e6eb..45a5c170 100644
+index 745bd2f..4580db3 100644
 --- a/crates/atuin-client/src/settings.rs
 +++ b/crates/atuin-client/src/settings.rs
-@@ -84,6 +84,9 @@ pub enum FilterMode {
- 
+@@ -114,6 +114,9 @@ pub enum FilterMode {
+
      #[serde(rename = "session-preload")]
      SessionPreload = 5,
 +
 +    #[serde(rename = "session-host")]
 +    SessionHost = 6,
  }
- 
+
  impl FilterMode {
-@@ -95,6 +98,7 @@ impl FilterMode {
+@@ -125,6 +128,7 @@ impl FilterMode {
              FilterMode::Directory => "DIRECTORY",
              FilterMode::Workspace => "WORKSPACE",
              FilterMode::SessionPreload => "SESSION+",
@@ -58,7 +58,7 @@ index 1c35e6eb..45a5c170 100644
          }
      }
  }
-@@ -517,6 +521,7 @@ impl Default for Search {
+@@ -774,6 +778,7 @@ impl Default for Search {
                  FilterMode::Host,
                  FilterMode::Session,
                  FilterMode::SessionPreload,
@@ -66,7 +66,7 @@ index 1c35e6eb..45a5c170 100644
                  FilterMode::Workspace,
                  FilterMode::Directory,
              ],
-@@ -1096,6 +1101,7 @@ impl Settings {
+@@ -1461,6 +1466,7 @@ impl Settings {
                      "workspace",
                      "directory",
                      "session-preload",
@@ -74,11 +74,23 @@ index 1c35e6eb..45a5c170 100644
                  ],
              )?
              .set_default("theme.name", "default")?
+diff --git a/crates/atuin-daemon/src/client.rs b/crates/atuin-daemon/src/client.rs
+index 2f492f6..2fbb5d0 100644
+--- a/crates/atuin-daemon/src/client.rs
++++ b/crates/atuin-daemon/src/client.rs
+@@ -229,6 +229,7 @@ impl From<FilterMode> for RpcFilterMode {
+             FilterMode::Directory => RpcFilterMode::Directory,
+             FilterMode::Workspace => RpcFilterMode::Workspace,
+             FilterMode::SessionPreload => RpcFilterMode::SessionPreload,
++            FilterMode::SessionHost => RpcFilterMode::Session,
+         }
+     }
+ }
 diff --git a/crates/atuin/src/command/client/search/engines/skim.rs b/crates/atuin/src/command/client/search/engines/skim.rs
-index cb7ce24f..2a436be4 100644
+index 7d9feb4..01a2c15 100644
 --- a/crates/atuin/src/command/client/search/engines/skim.rs
 +++ b/crates/atuin/src/command/client/search/engines/skim.rs
-@@ -122,6 +122,51 @@ async fn fuzzy_search(
+@@ -131,6 +131,51 @@ async fn fuzzy_search(
                      }
                  }
              }

@@ -114,11 +114,11 @@ index 7d9feb4..01a2c15 100644
 +                    }
 +
 +                    let Ok(uuid) = uuid::Uuid::parse_str(&context.session) else {
-+                        log::warn!("failed to parse session id '{}'", context.session);
++                        tracing::warn!("failed to parse session id '{}'", context.session);
 +                        continue;
 +                    };
 +                    let Some(timestamp) = uuid.get_timestamp() else {
-+                        log::warn!(
++                        tracing::warn!(
 +                            "failed to get timestamp from uuid '{}'",
 +                            uuid.as_hyphenated()
 +                        );
@@ -128,7 +128,7 @@ index 7d9feb4..01a2c15 100644
 +                    let Ok(session_start) = time::OffsetDateTime::from_unix_timestamp_nanos(
 +                        i128::from(seconds) * 1_000_000_000 + i128::from(nanos),
 +                    ) else {
-+                        log::warn!(
++                        tracing::warn!(
 +                            "failed to create OffsetDateTime from second: {seconds}, nanosecond: {nanos}"
 +                        );
 +                        continue;
