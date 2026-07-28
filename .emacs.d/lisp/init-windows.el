@@ -214,5 +214,12 @@ Modified from `iflipb-kill-buffer'."
   ("<f11>" . iflipb-next-buffer)
   ("<f10>" . iflibp-abort))
 
+(use-package dimmer
+  :defer 10
+  :config
+  (dimmer-configure-which-key)
+  (dimmer-mode t)
+  :custom (dimmer-fraction 0.1))
+
 (provide 'init-windows)
 ;;; init-windows.el ends here
