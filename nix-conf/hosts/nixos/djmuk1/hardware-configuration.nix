@@ -6,7 +6,9 @@
     efiInstallAsRemovable = true;
     device = "nodev";
   };
-  fileSystems."/boot" = {
+
+  boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  fileSystems."/boot/efi" = {
     device = "/dev/disk/by-uuid/0D60-CDE2";
     fsType = "vfat";
   };
