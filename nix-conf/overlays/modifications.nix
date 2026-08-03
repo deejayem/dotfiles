@@ -32,7 +32,7 @@ in
       )
     ];
 }
-// prev.lib.optionalAttrs (prev.stdenv.isDarwin && prev.stdenv.isAarch64) (
+// prev.lib.optionalAttrs prev.stdenv.isDarwin (
   prev.lib.optionalAttrs (v.brave != null) {
     brave = prev.brave.overrideAttrs (
       finalAttrs: _: {
@@ -43,6 +43,33 @@ in
         };
       }
     );
+  }
+  // prev.lib.optionalAttrs (v.firefox != null) {
+    firefox-unwrapped =
+      import (prev.path + "/pkgs/applications/networking/browsers/firefox/packages/firefox.nix")
+        {
+          inherit (final)
+            stdenv
+            lib
+            callPackage
+            fetchurl
+            nixosTests
+            ;
+          buildMozillaMach =
+            args:
+            final.buildMozillaMach (
+              args
+              // {
+                version = v.firefox.version;
+                packageVersion = v.firefox.version;
+                src = prev.fetchurl {
+                  url = "mirror://mozilla/firefox/releases/${v.firefox.version}/source/firefox-${v.firefox.version}.source.tar.xz";
+                  inherit (v.firefox) sha512;
+                };
+              }
+            );
+        };
+    firefox = final.wrapFirefox final.firefox-unwrapped { };
   }
   // prev.lib.optionalAttrs (v.google-chrome != null) {
     google-chrome = prev.google-chrome.overrideAttrs (
@@ -90,34 +117,5 @@ in
         };
       }
     );
-  }
-)
-// prev.lib.optionalAttrs prev.stdenv.isDarwin (
-  prev.lib.optionalAttrs (v.firefox != null) {
-    firefox-unwrapped =
-      import (prev.path + "/pkgs/applications/networking/browsers/firefox/packages/firefox.nix")
-        {
-          inherit (final)
-            stdenv
-            lib
-            callPackage
-            fetchurl
-            nixosTests
-            ;
-          buildMozillaMach =
-            args:
-            final.buildMozillaMach (
-              args
-              // {
-                version = v.firefox.version;
-                packageVersion = v.firefox.version;
-                src = prev.fetchurl {
-                  url = "mirror://mozilla/firefox/releases/${v.firefox.version}/source/firefox-${v.firefox.version}.source.tar.xz";
-                  inherit (v.firefox) sha512;
-                };
-              }
-            );
-        };
-    firefox = final.wrapFirefox final.firefox-unwrapped { };
   }
 )
