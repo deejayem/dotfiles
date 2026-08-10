@@ -15,6 +15,10 @@ in
     gcloud-with-firestore
   ];
 
+  home.activation.gcloudKnownHostsDevNull = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    run ln -sfn /dev/null "$HOME/.ssh/google_compute_known_hosts"
+  '';
+
   programs.ssh = {
     settings = {
       "gcp1-*" = {
