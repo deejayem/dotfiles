@@ -1,19 +1,19 @@
 {
   brave = {
-    version = "1.93.134";
-    hash = "sha256-0xf6LZ7tbmW8I3rDIt64yOl1v59YpBL0N/QZQLCcb0w=";
+    version = "1.93.136";
+    hash = "sha256-x8qEXimCjYohSlsd+WoO3l2BWdUqOmlYOtBMM+nWhp8=";
   };
 
   google-chrome = null;
 
   firefox = null;
 
-  orbstack = {
-    version = "2.2.3-20963";
-    hash = "sha256-fKd4aPOg19n1ez+YYVqtMMxZ0jzIS7/xP3iEbfC0k9Q=";
-  };
+  orbstack = null;
 
-  slack = null;
+  slack = {
+    version = "4.51.185";
+    hash = "sha256-nONnzU7kuexJS9+Ep1keg6vYvQg3p7rLDZElah8fX6o=";
+  };
 
   zoom-us = null;
 }
