@@ -47,7 +47,8 @@ in
   programs.home-manager.enable = true;
 
   home.username = username;
-  home.homeDirectory = if pkgs.stdenv.isDarwin then "/Users/${username}" else "/home/${username}";
+  home.homeDirectory =
+    if pkgs.stdenv.hostPlatform.isDarwin then "/Users/${username}" else "/home/${username}";
 
   home.sessionPath = [
     "$HOME/bin"
@@ -123,7 +124,7 @@ in
   programs.gpg.enable = true;
 
   # Temporary workaround
-  launchd.agents.sops-nix = pkgs.lib.mkIf pkgs.stdenv.isDarwin {
+  launchd.agents.sops-nix = pkgs.lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
     enable = true;
     config = {
       EnvironmentVariables = {

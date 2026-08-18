@@ -40,8 +40,8 @@ in
             set -g @thumbs-unique enabled
             set -g @thumbs-position right
             set -g @thumbs-contrast 1
-            #${optionalString pkgs.stdenv.isLinux "set -g @thumbs-upcase-command 'xargs xdg-open {}'"}
-            #${optionalString pkgs.stdenv.isDarwin "set -g @thumbs-upcase-command 'xargs open {}'"}
+            #${optionalString pkgs.stdenv.hostPlatform.isLinux "set -g @thumbs-upcase-command 'xargs xdg-open {}'"}
+            #${optionalString pkgs.stdenv.hostPlatform.isDarwin "set -g @thumbs-upcase-command 'xargs open {}'"}
           '';
         }
       ];
@@ -53,12 +53,12 @@ in
 
        bind-key £ split-window -h
 
-      ${optionalString pkgs.stdenv.isDarwin ''
+      ${optionalString pkgs.stdenv.hostPlatform.isDarwin ''
         set -g extended-keys always
         set -gs extended-keys-format csi-u
       ''}
 
-      ${optionalString (pkgs.stdenv.isDarwin && isWorkstation) ''
+      ${optionalString (pkgs.stdenv.hostPlatform.isDarwin && isWorkstation) ''
         set -as terminal-features ",xterm-ghostty:extkeys"
         set -as terminal-features ",ghostty:extkeys"
         # Ghostty on macOS/British-PC reports the physical C-\ prefix key as
@@ -98,11 +98,11 @@ in
         set -g status-right "#[fg=blue]%a%d/%m#[fg=yellow]%H:%M:%S"
       ''}
 
-       ${optionalString (pkgs.stdenv.isLinux && isWorkstation) ''
+       ${optionalString (pkgs.stdenv.hostPlatform.isLinux && isWorkstation) ''
          bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "${lib.getExe' pkgs.wl-clipboard "wl-copy"}"
          bind-key C-y run "${lib.getExe' pkgs.wl-clipboard "wl-paste"} --no-newline | tmux load-buffer - ; tmux paste-buffer"
        ''}
-       ${optionalString pkgs.stdenv.isDarwin ''
+       ${optionalString pkgs.stdenv.hostPlatform.isDarwin ''
          bind-key -T copy-mode y send-keys -X copy-pipe-and-cancel "pbcopy"
          bind-key C-y run "pbpaste | tmux load-buffer - ; tmux paste-buffer"
        ''}

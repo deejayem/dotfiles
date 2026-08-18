@@ -11,7 +11,7 @@ in
 {
   programs.emacs = {
     # On darwin this is installed via nix-darwin
-    enable = lib.mkIf pkgs.stdenv.isLinux true;
+    enable = lib.mkIf pkgs.stdenv.hostPlatform.isLinux true;
     package = if isWorkstation then pkgs.emacs-pgtk else pkgs.emacs-nox;
     extraPackages =
       epkgs:

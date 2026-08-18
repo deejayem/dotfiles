@@ -11,7 +11,7 @@ let
   nixCollectGarbage = lib.getExe' pkgs.nix "nix-collect-garbage";
   nixPrefetchUrl = lib.getExe' pkgs.nix "nix-prefetch-url";
   sed = lib.getExe pkgs.gnused;
-  os = if pkgs.stdenv.isDarwin then "darwin" else "nixos";
+  os = if pkgs.stdenv.hostPlatform.isDarwin then "darwin" else "nixos";
 in
 {
   home.packages = with pkgs; [

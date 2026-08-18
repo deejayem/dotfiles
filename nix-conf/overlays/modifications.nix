@@ -21,7 +21,7 @@ in
   });
   pythonPackagesExtensions =
     (prev.pythonPackagesExtensions or [ ])
-    ++ prev.lib.optionals prev.stdenv.isDarwin [
+    ++ prev.lib.optionals prev.stdenv.hostPlatform.isDarwin [
       (
         _: python-prev:
         prev.lib.optionalAttrs (python-prev ? "cli-helpers") {
@@ -32,7 +32,7 @@ in
       )
     ];
 }
-// prev.lib.optionalAttrs prev.stdenv.isDarwin (
+// prev.lib.optionalAttrs prev.stdenv.hostPlatform.isDarwin (
   prev.lib.optionalAttrs (v.brave != null) {
     brave = prev.brave.overrideAttrs (
       finalAttrs: _: {

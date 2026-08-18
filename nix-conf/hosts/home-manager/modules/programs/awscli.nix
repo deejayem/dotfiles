@@ -63,7 +63,7 @@ in
         fi
       '';
     }
-    // lib.optionalAttrs pkgs.stdenv.isDarwin {
+    // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
       aws-open = ''
         local profile="''${1:-$AWS_PROFILE}"
         [[ -n "$profile" ]] || { print -u2 "aws-open: no profile specified and AWS_PROFILE not set"; return 2; }
@@ -77,7 +77,7 @@ in
       '';
     };
 
-    initContent = lib.mkIf pkgs.stdenv.isDarwin ''
+    initContent = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin ''
       _aws-open() {
         local -a profiles
         profiles=( ''${(f)"$(${aws} configure list-profiles 2>/dev/null)"} )

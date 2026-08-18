@@ -144,7 +144,7 @@ in
   programs.alacritty = {
     enable = true;
     # On darwin we will install this with nix-darwin instead
-    package = if pkgs.stdenv.isDarwin then null else pkgs.alacritty;
+    package = if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.alacritty;
     settings = {
 
       terminal.shell = {
@@ -173,7 +173,7 @@ in
         }
       ]
       # Swap ctrl and cmd as much as possible on darwin
-      ++ lib.optionals pkgs.stdenv.isDarwin (
+      ++ lib.optionals pkgs.stdenv.hostPlatform.isDarwin (
         commandToControlBindings
         ++ commandToControlCsiUBindings
         ++ [
@@ -185,7 +185,7 @@ in
         ]
       );
 
-      window = lib.optionalAttrs pkgs.stdenv.isDarwin {
+      window = lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
         option_as_alt = "OnlyLeft";
       };
 

@@ -7,11 +7,11 @@ in
     enable = true;
     enableZshIntegration = true;
     # On darwin we will install this with nix-darwin instead
-    package = if pkgs.stdenv.isDarwin then null else pkgs.ghostty;
+    package = if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.ghostty;
 
     settings = {
       font-family = "MesloLGS Nerd Font";
-      font-size = if pkgs.stdenv.isDarwin then 12.5 else 8;
+      font-size = if pkgs.stdenv.hostPlatform.isDarwin then 12.5 else 8;
       copy-on-select = "clipboard";
       keybind = [
         "shift+insert=paste_from_clipboard"
@@ -42,7 +42,7 @@ in
         "15=#feffff" # Bright White
       ];
     }
-    // optionalAttrs pkgs.stdenv.isDarwin {
+    // optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
       adjust-cell-height = "1";
       font-thicken = true;
       font-thicken-strength = 35;

@@ -21,7 +21,7 @@ in
         ForwardAgent = "yes";
         User = "djm";
       }
-      // optionalAttrs pkgs.stdenv.isDarwin {
+      // optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
         UseKeychain = "yes";
       };
       "djm.ovh" = {
