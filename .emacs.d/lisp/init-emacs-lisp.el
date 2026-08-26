@@ -11,6 +11,8 @@
 
 (use-feature emacs
   :custom
+  ;; Mark as trusted content to prevent flycheck being disabled
+  (trusted-content '("~/dotfiles/.emacs.d/"))
   ;; These don't really belong here, but do affect ielm
   (comint-prompt-read-only t)
   (comint-buffer-maximum-size 2048)
