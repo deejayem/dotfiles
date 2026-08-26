@@ -87,6 +87,7 @@ in
     notify_failure = ''( osascript -e 'display notification "The command failed" with title "Failure"' && afplay /System/Library/Sounds/Sosumi.aiff && say failed  )'';
     notify = "notify_success || notify_failure";
     ltn = "lein test && notify";
+    pbjoin = ''pbpaste | perl -0pe 's/ ?\\\r?\n[ \t]*/ /g' | pbcopy'';
   };
 
   programs.zsh = {
