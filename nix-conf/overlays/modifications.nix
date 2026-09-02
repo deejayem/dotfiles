@@ -15,19 +15,6 @@ in
       )
     ];
   });
-  nodejs-slim_26 = prev.nodejs-slim_26.overrideAttrs (oldAttrs: {
-    checkFlags = map (
-      flag:
-      if prev.lib.hasPrefix "CI_SKIP_TESTS=" flag then
-        prev.lib.concatStringsSep "," [
-          flag
-          "test-dgram-connect-sync"
-          "test-process-title"
-        ]
-      else
-        flag
-    ) (oldAttrs.checkFlags or [ ]);
-  });
   direnv = prev.direnv.overrideAttrs (oldAttrs: {
     patches = (oldAttrs.patches or [ ]) ++ [
       ./direnv-workdir.patch
