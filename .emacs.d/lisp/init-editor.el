@@ -114,6 +114,8 @@
   :hook (elpaca-after-init . recentf-mode))
 
 (use-package flycheck
+  :custom
+  (flycheck-global-modes '(not lisp-interaction-mode))
   :config
   (global-flycheck-mode))
 
