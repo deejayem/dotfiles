@@ -65,6 +65,7 @@ in
       copilot-cli
       copilot-language-server
       llm
+      omp
       opencode
       openspec
       pi
