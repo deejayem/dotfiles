@@ -39,6 +39,7 @@ in
       coffeescript
       context7-mcp
       datadog-pup
+      eslint
       git-remote-codecommit
       lmdb-cli
       msgpack-tools
@@ -52,6 +53,7 @@ in
       sqlcmd
       tailscale
       terraform
+      typescript-language-server
     ]
     ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
       ccusage

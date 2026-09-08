@@ -92,6 +92,7 @@ in
     libqalculate
     lscolors
     lynx
+    markdownlint-cli2
     mercurial
     mu
     pass
