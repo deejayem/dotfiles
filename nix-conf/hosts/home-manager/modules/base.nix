@@ -70,6 +70,7 @@ in
     ))
     bandwhich
     bc
+    bell
     bottom
     broot
     curl
