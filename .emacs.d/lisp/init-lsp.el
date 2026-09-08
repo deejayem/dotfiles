@@ -22,7 +22,7 @@
 (use-package lsp-mode
   :diminish
   :hook
-  ((clojure-mode sql-mode nix-mode coffee-mode) . lsp)
+  ((clojure-mode sql-mode nix-mode coffee-mode typescript-mode) . lsp)
   (lsp-lens-mode . really-diminish-lsp-lens-mode)
   (lsp-completion-mode . my/lsp-mode-setup-completion)
   (lsp-after-apply-edits . save-buffer)
@@ -58,6 +58,7 @@
         lsp-treemacs-theme "Iconless"
         lsp-completion-provider :none ;; use corfu
         lsp-references-exclude-definition t
+        lsp-clients-typescript-prefer-use-project-ts-server t
         ;; user cider for indendation and eldoc
         lsp-enable-indentation nil
         lsp-eldoc-enable-hover nil)
