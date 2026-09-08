@@ -35,6 +35,7 @@ in
       cdktn-cli
       check-versions
       cli-tools
+      codex-transcript-viewer
       coffeescript
       context7-mcp
       datadog-pup
