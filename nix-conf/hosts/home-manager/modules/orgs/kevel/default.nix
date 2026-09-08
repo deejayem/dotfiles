@@ -29,6 +29,7 @@ in
   home.packages =
     with pkgs;
     [
+      acli
       aws-cdk-cli
       aws-instance-info
       bun

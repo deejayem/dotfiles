@@ -10,6 +10,7 @@
       pkg:
       builtins.elem (lib.getName pkg) [
         "1password"
+        "acli"
         "aspell-dict-en-science"
         "claude-code"
         "copilot-language-server"
