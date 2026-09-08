@@ -91,7 +91,6 @@
   (yaml-mode . subword-mode))
 
 (use-package dockerfile-mode)
-(use-package docker-compose-mode)
 
 (use-package terraform-mode)
 
