@@ -1,8 +1,6 @@
-diff --git a/crates/atuin-client/src/database.rs b/crates/atuin-client/src/database.rs
-index ee8b970..6547bea 100644
 --- a/crates/atuin-client/src/database.rs
 +++ b/crates/atuin-client/src/database.rs
-@@ -540,6 +540,16 @@ impl Database for Sqlite {
+@@ -587,6 +587,16 @@
                      }
                      &mut query
                  }
@@ -10,8 +8,8 @@ index ee8b970..6547bea 100644
 +                    query.and_where_eq("session", quote(&context.session));
 +                    if let Some(session_start) = session_start {
 +                        query.or_where(format!(
-+                            "hostname = {} and timestamp < {session_start}",
-+                            quote(&context.hostname)
++                            "{} and timestamp < {session_start}",
++                            origin_sql_filter(&context.cmd_origin)
 +                        ));
 +                    }
 +                    &mut query
@@ -19,7 +17,7 @@ index ee8b970..6547bea 100644
                  FilterMode::Directory => query.and_where_eq("cwd", quote(&context.cwd)),
                  FilterMode::Workspace => query.and_where_like_left("cwd", &git_root),
              };
-@@ -655,6 +665,16 @@ impl Database for Sqlite {
+@@ -705,6 +715,16 @@
                  }
                  &mut sql
              }
@@ -27,8 +25,8 @@ index ee8b970..6547bea 100644
 +                sql.and_where_eq("session", quote(&context.session));
 +                if let Some(session_start) = session_start {
 +                    sql.or_where(format!(
-+                        "lower(hostname) = {} and timestamp < {session_start}",
-+                        quote(context.hostname.to_lowercase())
++                        "{} and timestamp < {session_start}",
++                        origin_sql_filter(&context.cmd_origin)
 +                    ));
 +                }
 +                &mut sql
@@ -36,11 +34,9 @@ index ee8b970..6547bea 100644
              FilterMode::Directory => sql.and_where_eq("cwd", quote(&context.cwd)),
              FilterMode::Workspace => sql.and_where_like_left("cwd", git_root),
          };
-diff --git a/crates/atuin-client/src/settings.rs b/crates/atuin-client/src/settings.rs
-index 40a07ec..7f472d0 100644
 --- a/crates/atuin-client/src/settings.rs
 +++ b/crates/atuin-client/src/settings.rs
-@@ -130,6 +130,9 @@ pub enum FilterMode {
+@@ -136,6 +136,9 @@
  
      #[serde(rename = "session-preload")]
      SessionPreload = 5,
@@ -50,15 +46,15 @@ index 40a07ec..7f472d0 100644
  }
  
  impl FilterMode {
-@@ -141,6 +144,7 @@ impl FilterMode {
-             FilterMode::Directory => "DIRECTORY",
-             FilterMode::Workspace => "WORKSPACE",
-             FilterMode::SessionPreload => "SESSION+",
-+            FilterMode::SessionHost => "SESSION*",
+@@ -148,6 +151,7 @@
+             Self::Directory => "DIRECTORY",
+             Self::Workspace => "WORKSPACE",
+             Self::SessionPreload => "SESSION+",
++            Self::SessionHost => "SESSION*",
          }
      }
  }
-@@ -772,6 +776,7 @@ impl Default for Search {
+@@ -755,6 +759,7 @@
                  FilterMode::Host,
                  FilterMode::Session,
                  FilterMode::SessionPreload,
@@ -66,23 +62,21 @@ index 40a07ec..7f472d0 100644
                  FilterMode::Workspace,
                  FilterMode::Directory,
              ],
-@@ -1546,6 +1551,7 @@ impl Settings {
-                     "workspace",
-                     "directory",
-                     "session-preload",
-+                    "session-host",
-                 ],
-             )?
+@@ -1554,6 +1559,7 @@
+                 "workspace",
+                 "directory",
+                 "session-preload",
++                "session-host",
+             ])?
              .set_default("theme.name", "default")?
-diff --git a/crates/atuin-daemon/src/client.rs b/crates/atuin-daemon/src/client.rs
-index a37fa57..2e7c0d1 100644
+             .set_default("theme.debug", None::<bool>)?
 --- a/crates/atuin-daemon/src/client.rs
 +++ b/crates/atuin-daemon/src/client.rs
-@@ -272,6 +272,7 @@ impl From<FilterMode> for RpcFilterMode {
-             FilterMode::Directory => RpcFilterMode::Directory,
-             FilterMode::Workspace => RpcFilterMode::Workspace,
-             FilterMode::SessionPreload => RpcFilterMode::SessionPreload,
-+            FilterMode::SessionHost => RpcFilterMode::Session,
+@@ -287,6 +287,7 @@
+             FilterMode::Directory => Self::Directory,
+             FilterMode::Workspace => Self::Workspace,
+             FilterMode::SessionPreload => Self::SessionPreload,
++            FilterMode::SessionHost => Self::Session,
          }
      }
  }
