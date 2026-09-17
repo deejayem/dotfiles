@@ -39,9 +39,10 @@ in
       finalAttrs: _: {
         inherit (v.brave) version;
         src = prev.fetchurl {
-          url = "https://github.com/brave/brave-browser/releases/download/v${finalAttrs.version}/brave-v${finalAttrs.version}-darwin-arm64.zip";
+          url = "https://github.com/brave/brave-browser/releases/download/v${finalAttrs.version}/Brave-Browser-arm64.dmg";
           inherit (v.brave) hash;
         };
+        sourceRoot = "Brave Browser.app";
       }
     );
   }

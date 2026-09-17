@@ -269,7 +269,7 @@ pkgs.writeShellScriptBin "check-versions" ''
           brave)
             echo ""
             echo "''${bold}brave ''${latest_brave}:''${reset}"
-            brave_url="https://github.com/brave/brave-browser/releases/download/v''${latest_brave}/brave-v''${latest_brave}-darwin-arm64.zip"
+            brave_url="https://github.com/brave/brave-browser/releases/download/v''${latest_brave}/Brave-Browser-arm64.dmg"
             echo "  ''${dim}url:  $brave_url''${reset}"
             echo "  ''${dim}hash: $(prefetch_sri "$brave_url")''${reset}"
             ;;
@@ -359,7 +359,7 @@ pkgs.writeShellScriptBin "check-versions" ''
         brave)
           echo ""
           echo "''${bold}brave''${reset}: $local_brave -> ''${green}$latest_brave''${reset}"
-          brave_url="https://github.com/brave/brave-browser/releases/download/v''${latest_brave}/brave-v''${latest_brave}-darwin-arm64.zip"
+          brave_url="https://github.com/brave/brave-browser/releases/download/v''${latest_brave}/Brave-Browser-arm64.dmg"
           brave_hash=$(prefetch_sri "$brave_url")
           write_entry "brave" "version" "$latest_brave" "hash" "$brave_hash"
           ;;
