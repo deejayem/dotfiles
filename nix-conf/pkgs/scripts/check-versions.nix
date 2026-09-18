@@ -41,8 +41,19 @@ pkgs.writeShellScriptBin "check-versions" ''
     dim=$'\033[2m'
     reset=$'\033[0m'
 
+    # Use nixpkgs from the lockfile, not from the currently activated generation
+    nixpkgs_ref=$(${nix} flake metadata "$flake_dir" --json 2>/dev/null | ${jq} -r '
+      .locks.nodes as $n
+      | ($n.root.inputs.nixpkgs | if type == "array" then .[0] else . end) as $k
+      | $n[$k].locked
+      | .url // "\(.type):\(.owner)/\(.repo)/\(.rev)"
+    ')
+    declare -a nixpkgs_override=()
+    [[ -n "$nixpkgs_ref" && "$nixpkgs_ref" != "null" ]] &&
+      nixpkgs_override=(--override-flake nixpkgs "$nixpkgs_ref")
+
     nix_ver() {
-      ${nix} eval --raw "$1" 2>/dev/null || echo "error"
+      ${nix} eval "''${nixpkgs_override[@]}" --raw "$1" 2>/dev/null || echo "error"
     }
 
     fetch_latest() {
