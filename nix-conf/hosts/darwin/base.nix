@@ -136,6 +136,18 @@ in
     echo "Restarting Doll"
     pkill Doll || true
     open -a "/Applications/Nix Apps/Doll.app"
+
+    # Sign app bundles to fix tcc issues; currently just firefox, but written as a loop in case there are others
+    # shellcheck disable=SC2043
+    for app in Firefox; do
+      bundle="/Applications/Nix Apps/$app.app"
+      [ -d "$bundle" ] || continue
+      /usr/bin/codesign --verify "$bundle" 2>/dev/null && continue
+      echo "Re-signing $app.app"
+      chmod -R u+w "$bundle"
+      /usr/bin/codesign --force --deep --sign - "$bundle" 2>&1 | sed 's/^/  /'
+      chmod -R a-w "$bundle"
+    done
   '';
 
   system.defaults.dock.autohide = true;
