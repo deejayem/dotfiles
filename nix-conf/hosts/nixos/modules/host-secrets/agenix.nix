@@ -15,9 +15,7 @@ let
     hostDir = ../../${hostname}/secrets;
   };
 
-  agenixPkg = inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
-    ageBin = lib.getExe pkgs.rage;
-  };
+  agenixPkg = import ../../../lib/agenix-package.nix { inherit lib pkgs inputs; };
 in
 {
   imports = [ inputs.agenix.nixosModules.default ];

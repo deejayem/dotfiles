@@ -10,9 +10,7 @@ let
 
   sshKey = "${config.home.homeDirectory}/.ssh/agenix";
   rage = lib.getExe pkgs.rage;
-  agenixPkg = inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
-    ageBin = rage;
-  };
+  agenixPkg = import ../../../lib/agenix-package.nix { inherit lib pkgs inputs; };
   agenixCli = lib.getExe' agenixPkg "agenix";
 
   secrets = secretsLib.discoverHomeSecrets {
