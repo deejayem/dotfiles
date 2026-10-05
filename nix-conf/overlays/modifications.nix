@@ -97,6 +97,11 @@ in
       }
     );
   }
+  // {
+    pear-desktop = prev.pear-desktop.overrideAttrs {
+      dontStrip = true;
+    };
+  }
   // prev.lib.optionalAttrs (v.slack != null) {
     slack = prev.slack.overrideAttrs (
       finalAttrs: _: {
