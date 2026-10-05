@@ -71,7 +71,12 @@ in
               }
             );
         };
-    firefox = final.wrapFirefox final.firefox-unwrapped { };
+  }
+  // {
+    # Without this, tcc on macos 27 stops firefox from reading its profile directory
+    firefox = (final.wrapFirefox final.firefox-unwrapped { }).overrideAttrs (oldAttrs: {
+      nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ final.makeBinaryWrapper ];
+    });
   }
   // prev.lib.optionalAttrs (v.google-chrome != null) {
     google-chrome = prev.google-chrome.overrideAttrs (
