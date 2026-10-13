@@ -138,15 +138,34 @@ in
     open -a "/Applications/Nix Apps/Doll.app"
 
     # Sign app bundles to fix tcc issues; currently just firefox, but written as a loop in case there are others
+    signatures=/var/lib/nix-darwin/app-signatures
+    mkdir -p "$signatures"
+
     # shellcheck disable=SC2043
     for app in Firefox; do
       bundle="/Applications/Nix Apps/$app.app"
       [ -d "$bundle" ] || continue
-      /usr/bin/codesign --verify "$bundle" 2>/dev/null && continue
-      echo "Re-signing $app.app"
-      chmod -R u+w "$bundle"
-      /usr/bin/codesign --force --deep --sign - "$bundle" 2>&1 | sed 's/^/  /'
-      chmod -R a-w "$bundle"
+
+      if ! /usr/bin/codesign --verify "$bundle" 2>/dev/null; then
+        echo "Re-signing $app.app"
+        chmod -R u+w "$bundle"
+        /usr/bin/codesign --force --deep --sign - "$bundle" 2>&1 | sed 's/^/  /'
+        chmod -R a-w "$bundle"
+      fi
+
+      # When there's a new version (i.e. the cdhash changes), we have to reset/clear the approval,
+      # otherwise macos gets confused (and re-disables firefox each time we try to launch it)
+      bundleId=$(/usr/bin/defaults read "$bundle/Contents/Info" CFBundleIdentifier 2>/dev/null || true)
+      cdHash=$(/usr/bin/codesign -dvvv "$bundle" 2>&1 | sed -n 's/^CDHash=//p' || true)
+      stamp="$signatures/$app.cdhash"
+      if [ -n "$bundleId" ] && [ -n "$cdHash" ] && [ "$cdHash" != "$(cat "$stamp" 2>/dev/null || true)" ]; then
+        if [ -s "$stamp" ]; then
+          echo "$app.app signature changed; clearing its app-data TCC record"
+          /bin/launchctl asuser "$(/usr/bin/id -u ${username})" /usr/bin/sudo -u ${username} \
+            /usr/bin/tccutil reset SystemPolicyAppDataDetailed "$bundleId" >/dev/null 2>&1 || true
+        fi
+        printf '%s\n' "$cdHash" > "$stamp"
+      fi
     done
   '';
 
