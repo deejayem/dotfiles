@@ -1,24 +1,25 @@
 {
   brave = {
-    version = "1.97.56";
-    hash = "sha256-PaH7bos2nJ3RFSr99NPLJMs8YhX6vFIPi/98u4fwhYc=";
+    version = "1.98.62";
+    hash = "sha256-b1o57leoZSONZEG5gAzZXXC8yxsaGPRpMjBN2gTIX6w=";
   };
 
-  google-chrome = null;
-
-  firefox = {
-    version = "158.0";
-    sha512 = "1h7jbs6sjya80q6has0g7xfigkcmwh4vzgh3vhh213ayki4rwkk9xv3ixavj2xp5gz5v2j6hhndr1j72jyskphlvdhl08ss6bfgzf0l";
+  google-chrome = {
+    version = "156.0.8078.80";
+    slug = "hmx6fwnspbytmrtkulm2cctvey";
+    hash = "sha256-+AU0DHP15WkSTQ/V4MC5o+uoG3YBYZjqdwOzScAAbZo=";
   };
+
+  firefox = null;
 
   orbstack = {
-    version = "2.2.4-21120";
-    hash = "sha256-8MaY5wnJn7Puh/ksOgRFxrj1oQ1qDt1PTUYZJdGUuGo=";
+    version = "2.2.5-21124";
+    hash = "sha256-8riH0moh4KEhR+sAUpd4J5Syb0Yfd8a5zftX9XatXm0=";
   };
 
   slack = {
-    version = "4.52.178";
-    hash = "sha256-ilvXWbkUeMGfI97vHyG4cKXDxVtjHjNBvjLxwpcmAzE=";
+    version = "4.53.276";
+    hash = "sha256-8qChIDi3897ldCznzqop2vODY97AkknxKBLJwPlgMoo=";
   };
 
   zoom-us = null;
