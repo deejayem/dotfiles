@@ -14,6 +14,10 @@ in
           ./atuin-session-host-filter.patch
       )
     ];
+    # The file watcher tests need FSEvents, which the darwin sandbox blocks
+    sandboxProfile = (oldAttrs.sandboxProfile or "") + ''
+      (allow mach-lookup (global-name "com.apple.FSEvents"))
+    '';
   });
   direnv = prev.direnv.overrideAttrs (oldAttrs: {
     patches = (oldAttrs.patches or [ ]) ++ [
