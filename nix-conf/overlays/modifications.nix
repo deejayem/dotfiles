@@ -29,6 +29,13 @@ in
       )
     ];
   });
+  git-remote-codecommit =
+    if
+      prev.awscli.version == "1.44.21" && prev.python3Packages.botocore.version != "1.42.31"
+    then
+      prev.git-remote-codecommit.overridePythonAttrs { doCheck = false; }
+    else
+      prev.git-remote-codecommit;
   pythonPackagesExtensions =
     (prev.pythonPackagesExtensions or [ ])
     ++ prev.lib.optionals prev.stdenv.hostPlatform.isDarwin [
