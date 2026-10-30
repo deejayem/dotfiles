@@ -21,7 +21,12 @@ in
   });
   direnv = prev.direnv.overrideAttrs (oldAttrs: {
     patches = (oldAttrs.patches or [ ]) ++ [
-      ./direnv-workdir.patch
+      (
+        if prev.lib.versionAtLeast prev.direnv.version "2.38.0" then
+          ./direnv-workdir-unstable.patch
+        else
+          ./direnv-workdir.patch
+      )
     ];
   });
   pythonPackagesExtensions =
