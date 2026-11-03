@@ -123,16 +123,6 @@ in
       dontStrip = true;
     };
   }
-  // {
-    redis =
-      if
-        prev.lib.versionAtLeast prev.redis.version "8.10.3"
-        && prev.lib.hasInfix "CommandLineTools" (prev.redis.postPatch or "")
-      then
-        prev.redis.overrideAttrs { postPatch = ""; }
-      else
-        prev.redis;
-  }
   // prev.lib.optionalAttrs (v.slack != null) {
     slack = prev.slack.overrideAttrs (
       finalAttrs: _: {
