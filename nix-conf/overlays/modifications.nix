@@ -36,18 +36,6 @@ in
       prev.git-remote-codecommit.overridePythonAttrs { doCheck = false; }
     else
       prev.git-remote-codecommit;
-  pythonPackagesExtensions =
-    (prev.pythonPackagesExtensions or [ ])
-    ++ prev.lib.optionals prev.stdenv.hostPlatform.isDarwin [
-      (
-        _: python-prev:
-        prev.lib.optionalAttrs (python-prev ? "cli-helpers") {
-          "cli-helpers" = python-prev."cli-helpers".overridePythonAttrs (_: {
-            doCheck = false;
-          });
-        }
-      )
-    ];
 }
 // prev.lib.optionalAttrs prev.stdenv.hostPlatform.isDarwin (
   prev.lib.optionalAttrs (v.brave != null) {
