@@ -54,6 +54,7 @@ in
       sqlcmd
       tailscale
       terraform
+      twg-cli
       typescript-language-server
     ]
     ++ (with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [

@@ -1,9 +1,12 @@
 { lib, pkgs }:
 
 let
+  chmod = lib.getExe' pkgs.coreutils "chmod";
   curl = lib.getExe pkgs.curl;
   grep = lib.getExe pkgs.gnugrep;
   jq = lib.getExe pkgs.jq;
+  mktemp = lib.getExe' pkgs.coreutils "mktemp";
+  mv = lib.getExe' pkgs.coreutils "mv";
   nix = lib.getExe pkgs.nix;
   sed = lib.getExe pkgs.gnused;
   seq = lib.getExe' pkgs.coreutils "seq";
@@ -32,6 +35,7 @@ pkgs.writeShellScriptBin "check-versions" ''
 
     flake_dir="''${flake_dir:-.}"
     overrides_file="$flake_dir/overlays/_version-overrides.nix"
+    twg_package_file="$flake_dir/pkgs/twg-cli/default.nix"
 
     green=$'\033[32m'
     yellow=$'\033[33m'
@@ -67,6 +71,19 @@ pkgs.writeShellScriptBin "check-versions" ''
 
     prefetch_sri() {
       ${nix} hash convert --hash-algo sha256 --to sri "$(${nix}-prefetch-url --type sha256 "$1" ''${2:+--name "$2"} 2>/dev/null)"
+    }
+
+    # Fetch every platform before changing the local package's version or hashes.
+    twg_sources() {
+      local version="$1" platforms platform url hash
+      platforms=$(${sed} -n 's/^ *platform = "\([^"]*\)";$/\1/p' "$twg_package_file") || return 1
+      [[ -n "$platforms" ]] || return 1
+      for platform in $platforms; do
+        url="https://teamwork-graph.atlassian.com/cli/twg-$platform-v$version"
+        hash=$(prefetch_sri "$url") || return 1
+        [[ "$hash" =~ ^sha256-[A-Za-z0-9+/]{43}=$ ]] || return 1
+        printf '%s %s\n' "$platform" "$hash"
+      done
     }
 
     color_ver() {
@@ -155,6 +172,7 @@ pkgs.writeShellScriptBin "check-versions" ''
     latest_orbstack=$(fetch_latest sh -c "${curl} -L -I -s 'https://orbstack.dev/download/stable/latest/arm64' | ${grep} -oE 'OrbStack_v[0-9._]+_arm64' | ${sed} 's/OrbStack_v//;s/_arm64//;s/_/-/'")
     latest_slack=$(fetch_latest sh -c "${curl} -s 'https://slack.com/api/desktop.latestRelease?arch=arm64&variant=dmg' | ${jq} -r .version")
     latest_zoom=$(fetch_latest sh -c "${curl} -Ls 'https://zoom.us/rest/download?os=mac' | ${jq} -r '.result.downloadVO.zoomArm64.version'")
+    latest_twg=$(fetch_latest sh -c "${curl} -fsSL --max-time 30 'https://teamwork-graph.atlassian.com/cli/manifest.json' | ${jq} -er '.version | select(type == \"string\") | select(test(\"^[0-9]+[.][0-9]+[.][0-9]+$\"))'")
 
     nixpkgs_brave=$(nix_ver nixpkgs#brave.version)
     nixpkgs_chrome=$(nix_ver nixpkgs#google-chrome.version)
@@ -169,6 +187,7 @@ pkgs.writeShellScriptBin "check-versions" ''
     local_orbstack=$(nix_ver "''${flake_dir}#modifications.orbstack.version")
     local_slack=$(nix_ver "''${flake_dir}#modifications.slack.version")
     local_zoom=$(nix_ver "''${flake_dir}#modifications.zoom-us.version")
+    local_twg=$(fetch_latest ${sed} -n 's/^  version = "\([^"]*\)";$/\1/p' "$twg_package_file")
 
     w=18
 
@@ -198,7 +217,8 @@ pkgs.writeShellScriptBin "check-versions" ''
         else local_color="$red"
         fi
         # Color for nixpkgs
-        if [[ "$nixpkgs" == "error" ]]; then nixpkgs_color="$red"
+        if [[ "$nixpkgs" == "-" ]]; then nixpkgs_color="$dim"
+        elif [[ "$nixpkgs" == "error" ]]; then nixpkgs_color="$red"
         elif [[ "$nixpkgs" == "$latest" ]]; then nixpkgs_color="$green"
         elif version_ge "$nixpkgs" "$latest"; then nixpkgs_color="$blue"
         elif version_ge "$local_v" "$latest"; then nixpkgs_color="$yellow"
@@ -221,6 +241,7 @@ pkgs.writeShellScriptBin "check-versions" ''
     row orbstack "$nixpkgs_orbstack" "$local_orbstack" "$latest_orbstack"
     row slack    "$nixpkgs_slack"    "$local_slack"    "$latest_slack"
     row zoom     "$nixpkgs_zoom"     "$local_zoom"     "$latest_zoom"
+    row twg-cli  "-"                 "$local_twg"      "$latest_twg"
     hline '└' '┴' '┘'
 
     declare -a outdated=()
@@ -230,6 +251,7 @@ pkgs.writeShellScriptBin "check-versions" ''
     should_update "$local_orbstack" "$latest_orbstack" && outdated+=(orbstack)
     should_update "$local_slack"    "$latest_slack"    && outdated+=(slack)
     should_update "$local_zoom"     "$latest_zoom"     && outdated+=(zoom)
+    should_update "$local_twg"      "$latest_twg"      && outdated+=(twg)
 
     # Compute auto-null candidates: active overrides where nixpkgs has caught up.
     # Skipped in check mode (would need to read the file) and force mode (force is
@@ -322,6 +344,11 @@ pkgs.writeShellScriptBin "check-versions" ''
             echo "  ''${dim}url:  $zoom_url''${reset}"
             echo "  ''${dim}hash: $(prefetch_sri "$zoom_url" zoomusInstallerFull.pkg)''${reset}"
             ;;
+          twg)
+            echo ""
+            echo "''${bold}twg-cli ''${latest_twg}:''${reset}"
+            twg_sources "$latest_twg" || { echo "error: could not fetch TWG sources" >&2; exit 1; }
+            ;;
         esac
       done
       exit 0
@@ -413,6 +440,20 @@ pkgs.writeShellScriptBin "check-versions" ''
           zoom_hash=$(prefetch_sri "$zoom_url" zoomusInstallerFull.pkg)
           write_entry "zoom-us" "version" "$latest_zoom" "hash" "$zoom_hash"
           ;;
+        twg)
+          echo ""
+          echo "''${bold}twg-cli''${reset}: $local_twg -> ''${green}$latest_twg''${reset}"
+          sources=$(twg_sources "$latest_twg") || { echo "error: could not fetch TWG sources" >&2; exit 1; }
+          declare -a twg_edits=(-e "s|^  version = \"[^\"]*\";|  version = \"$latest_twg\";|")
+          while read -r platform hash; do
+            twg_edits+=(-e "/^ *platform = \"$platform\";/,/^ *};/ s|^\( *hash = \)\"[^\"]*\";|\1\"$hash\";|")
+          done <<< "$sources"
+          sources_tmp=$(${mktemp} "$twg_package_file.XXXXXX") || exit 1
+          ${sed} "''${twg_edits[@]}" "$twg_package_file" > "$sources_tmp" &&
+            ${chmod} --reference="$twg_package_file" "$sources_tmp" &&
+            ${mv} "$sources_tmp" "$twg_package_file" || exit 1
+          echo "''${green}Updated $twg_package_file''${reset}"
+          ;;
       esac
     done
 
@@ -431,5 +472,5 @@ pkgs.writeShellScriptBin "check-versions" ''
     done
 
     echo ""
-    echo "''${green}Updated $overrides_file''${reset}"
+    echo "''${green}Updated selected package versions.''${reset}"
 ''

@@ -19,6 +19,7 @@
         "orbstack"
         "slack"
         "terraform"
+        "twg-cli"
         "vscode"
         "zoom"
       ];
