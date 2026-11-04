@@ -1,7 +1,11 @@
 {
   brave = null;
 
-  google-chrome = null;
+  google-chrome = {
+    version = "157.0.8103.39";
+    slug = "lj4mgpdwdwirchvgzajx46etji";
+    hash = "sha256-xM2afDW2CuBd238ew/zkkRY24brQysuZ4aLqH/IBMQU=";
+  };
 
   firefox = {
     version = "159.0.1";
@@ -14,8 +18,8 @@
   };
 
   slack = {
-    version = "4.53.276";
-    hash = "sha256-8qChIDi3897ldCznzqop2vODY97AkknxKBLJwPlgMoo=";
+    version = "4.53.280";
+    hash = "sha256-yKMpp0U2OD+4BGVXQO9xeWUuh0Sd4ljxqMpd/11m2/Q=";
   };
 
   zoom-us = {
