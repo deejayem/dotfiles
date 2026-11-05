@@ -1,11 +1,5 @@
 {
-  brave = null;
-
-  google-chrome = {
-    version = "157.0.8103.39";
-    slug = "lj4mgpdwdwirchvgzajx46etji";
-    hash = "sha256-xM2afDW2CuBd238ew/zkkRY24brQysuZ4aLqH/IBMQU=";
-  };
+  google-chrome = null;
 
   firefox = null;
 

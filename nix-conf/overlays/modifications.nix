@@ -38,19 +38,7 @@ in
       prev.git-remote-codecommit;
 }
 // prev.lib.optionalAttrs prev.stdenv.hostPlatform.isDarwin (
-  prev.lib.optionalAttrs (v.brave != null) {
-    brave = prev.brave.overrideAttrs (
-      finalAttrs: _: {
-        inherit (v.brave) version;
-        src = prev.fetchurl {
-          url = "https://github.com/brave/brave-browser/releases/download/v${finalAttrs.version}/Brave-Browser-arm64.dmg";
-          inherit (v.brave) hash;
-        };
-        sourceRoot = "Brave Browser.app";
-      }
-    );
-  }
-  // prev.lib.optionalAttrs (v.firefox != null) {
+  prev.lib.optionalAttrs (v.firefox != null) {
     firefox-unwrapped =
       import (prev.path + "/pkgs/applications/networking/browsers/firefox/packages/firefox.nix")
         {

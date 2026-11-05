@@ -7,6 +7,7 @@ let
   jq = lib.getExe pkgs.jq;
   mktemp = lib.getExe' pkgs.coreutils "mktemp";
   mv = lib.getExe' pkgs.coreutils "mv";
+  paste = lib.getExe' pkgs.coreutils "paste";
   nix = lib.getExe pkgs.nix;
   sed = lib.getExe pkgs.gnused;
   seq = lib.getExe' pkgs.coreutils "seq";
@@ -35,6 +36,7 @@ pkgs.writeShellScriptBin "check-versions" ''
 
     flake_dir="''${flake_dir:-.}"
     overrides_file="$flake_dir/overlays/_version-overrides.nix"
+    brave_sources_file="$flake_dir/pkgs/brave/sources.nix"
     twg_package_file="$flake_dir/pkgs/twg-cli/default.nix"
 
     green=$'\033[32m'
@@ -73,7 +75,24 @@ pkgs.writeShellScriptBin "check-versions" ''
       ${nix} hash convert --hash-algo sha256 --to sri "$(${nix}-prefetch-url --type sha256 "$1" ''${2:+--name "$2"} 2>/dev/null)"
     }
 
-    # Fetch every platform before changing the local package's version or hashes.
+    # Fetch every platform before changing a local package's version or hashes.
+    # Each *_sources function prints "key hash" lines.
+
+    # brave: pair each system with its url template from sources.nix.
+    brave_sources() {
+      local version="$1" system url hash
+      [[ -f "$brave_sources_file" ]] || return 1
+      while read -r system url; do
+        [[ -n "$system" && -n "$url" ]] || return 1
+        url=$(echo "$url" | ${sed} 's/[$]{version}/'"$version"'/g')
+        hash=$(prefetch_sri "$url") || return 1
+        [[ "$hash" =~ ^sha256-[A-Za-z0-9+/]{43}=$ ]] || return 1
+        printf '%s %s\n' "$system" "$hash"
+      done < <(${paste} -d' ' \
+        <(${sed} -n 's/^    \([a-z0-9_]*-[a-z]*\) = {$/\1/p' "$brave_sources_file") \
+        <(${sed} -n 's/^ *url = "\(.*\)";$/\1/p' "$brave_sources_file"))
+    }
+
     twg_sources() {
       local version="$1" platforms platform url hash
       platforms=$(${sed} -n 's/^ *platform = "\([^"]*\)";$/\1/p' "$twg_package_file") || return 1
@@ -96,7 +115,7 @@ pkgs.writeShellScriptBin "check-versions" ''
       [[ "$1" == "$2" ]] || [[ "$(printf '%s\n%s\n' "$1" "$2" | ${sort} -V | ${tail} -1)" == "$1" ]]
     }
 
-    # Update a field within a nested-style entry, e.g. update_field "brave.version" "1.0"
+    # Update a field within a nested-style entry, e.g. update_field "slack.version" "1.0"
     # Will be a no-op if the package is currently set to null.
     update_field() {
       local path="$1" value="$2"
@@ -166,27 +185,26 @@ pkgs.writeShellScriptBin "check-versions" ''
       fi
     }
 
-    latest_brave=$(fetch_latest sh -c "${curl} -s 'https://api.github.com/repos/brave/brave-browser/releases/latest' | ${jq} -r '.tag_name | ltrimstr(\"v\")'")
     latest_chrome=$(fetch_latest sh -c "${curl} -s 'https://versionhistory.googleapis.com/v1/chrome/platforms/mac_arm64/channels/stable/versions/all/releases?filter=endtime=none,fraction%3E=0.5&order_by=version%20desc' | ${jq} -r '.releases[0].version'")
     latest_firefox=$(fetch_latest sh -c "${curl} -s https://archive.mozilla.org/pub/firefox/releases/ | ${grep} -oP '[0-9]+\.[0-9.]+(?=/)' | ${sort} -t. -k1,1n -k2,2n -k3,3n | ${tail} -1")
     latest_orbstack=$(fetch_latest sh -c "${curl} -L -I -s 'https://orbstack.dev/download/stable/latest/arm64' | ${grep} -oE 'OrbStack_v[0-9._]+_arm64' | ${sed} 's/OrbStack_v//;s/_arm64//;s/_/-/'")
     latest_slack=$(fetch_latest sh -c "${curl} -s 'https://slack.com/api/desktop.latestRelease?arch=arm64&variant=dmg' | ${jq} -r .version")
     latest_zoom=$(fetch_latest sh -c "${curl} -Ls 'https://zoom.us/rest/download?os=mac' | ${jq} -r '.result.downloadVO.zoomArm64.version'")
+    latest_brave=$(fetch_latest sh -c "${curl} -s 'https://api.github.com/repos/brave/brave-browser/releases/latest' | ${jq} -r '.tag_name | ltrimstr(\"v\")'")
     latest_twg=$(fetch_latest sh -c "${curl} -fsSL --max-time 30 'https://teamwork-graph.atlassian.com/cli/manifest.json' | ${jq} -er '.version | select(type == \"string\") | select(test(\"^[0-9]+[.][0-9]+[.][0-9]+$\"))'")
 
-    nixpkgs_brave=$(nix_ver nixpkgs#brave.version)
     nixpkgs_chrome=$(nix_ver nixpkgs#google-chrome.version)
     nixpkgs_firefox=$(nix_ver nixpkgs#firefox.version)
     nixpkgs_orbstack=$(nix_ver nixpkgs#orbstack.version)
     nixpkgs_slack=$(nix_ver nixpkgs#slack.version)
     nixpkgs_zoom=$(nix_ver nixpkgs#zoom-us.version)
 
-    local_brave=$(nix_ver "''${flake_dir}#modifications.brave.version")
     local_chrome=$(nix_ver "''${flake_dir}#modifications.google-chrome.version")
     local_firefox=$(nix_ver "''${flake_dir}#modifications.firefox.version")
     local_orbstack=$(nix_ver "''${flake_dir}#modifications.orbstack.version")
     local_slack=$(nix_ver "''${flake_dir}#modifications.slack.version")
     local_zoom=$(nix_ver "''${flake_dir}#modifications.zoom-us.version")
+    local_brave=$(fetch_latest ${sed} -n 's/^  version = "\([^"]*\)";$/\1/p' "$brave_sources_file")
     local_twg=$(fetch_latest ${sed} -n 's/^  version = "\([^"]*\)";$/\1/p' "$twg_package_file")
 
     w=18
@@ -235,22 +253,22 @@ pkgs.writeShellScriptBin "check-versions" ''
     hline '┌' '┬' '┐'
     header
     hline '├' '┼' '┤'
-    row brave    "$nixpkgs_brave"    "$local_brave"    "$latest_brave"
     row chrome   "$nixpkgs_chrome"   "$local_chrome"   "$latest_chrome"
     row firefox  "$nixpkgs_firefox"  "$local_firefox"  "$latest_firefox"
     row orbstack "$nixpkgs_orbstack" "$local_orbstack" "$latest_orbstack"
     row slack    "$nixpkgs_slack"    "$local_slack"    "$latest_slack"
     row zoom     "$nixpkgs_zoom"     "$local_zoom"     "$latest_zoom"
+    row brave    "-"                 "$local_brave"    "$latest_brave"
     row twg-cli  "-"                 "$local_twg"      "$latest_twg"
     hline '└' '┴' '┘'
 
     declare -a outdated=()
-    should_update "$local_brave"    "$latest_brave"    && outdated+=(brave)
     should_update "$local_chrome"   "$latest_chrome"   && outdated+=(chrome)
     should_update "$local_firefox"  "$latest_firefox"  && outdated+=(firefox)
     should_update "$local_orbstack" "$latest_orbstack" && outdated+=(orbstack)
     should_update "$local_slack"    "$latest_slack"    && outdated+=(slack)
     should_update "$local_zoom"     "$latest_zoom"     && outdated+=(zoom)
+    should_update "$local_brave"    "$latest_brave"    && outdated+=(brave)
     should_update "$local_twg"      "$latest_twg"      && outdated+=(twg)
 
     # Compute auto-null candidates: active overrides where nixpkgs has caught up.
@@ -274,7 +292,6 @@ pkgs.writeShellScriptBin "check-versions" ''
       version_ge "$nixpkgs_v" "$ov" && version_ge "$nixpkgs_v" "$latest_v"
     }
     if [[ "$mode" != "check" && "$mode" != "force" ]]; then
-      should_null brave    brave         && to_null+=(brave)
       should_null chrome   google-chrome && to_null+=(chrome)
       should_null firefox  firefox       && to_null+=(firefox)
       should_null orbstack orbstack      && to_null+=(orbstack)
@@ -299,13 +316,6 @@ pkgs.writeShellScriptBin "check-versions" ''
     if [[ "$mode" == "check" ]]; then
       for pkg in "''${outdated[@]}"; do
         case "$pkg" in
-          brave)
-            echo ""
-            echo "''${bold}brave ''${latest_brave}:''${reset}"
-            brave_url="https://github.com/brave/brave-browser/releases/download/v''${latest_brave}/Brave-Browser-arm64.dmg"
-            echo "  ''${dim}url:  $brave_url''${reset}"
-            echo "  ''${dim}hash: $(prefetch_sri "$brave_url")''${reset}"
-            ;;
           chrome)
             echo ""
             echo "''${bold}chrome ''${latest_chrome}:''${reset}"
@@ -343,6 +353,11 @@ pkgs.writeShellScriptBin "check-versions" ''
             zoom_url="https://zoom.us/client/''${latest_zoom}/zoomusInstallerFull.pkg?archType=arm64"
             echo "  ''${dim}url:  $zoom_url''${reset}"
             echo "  ''${dim}hash: $(prefetch_sri "$zoom_url" zoomusInstallerFull.pkg)''${reset}"
+            ;;
+          brave)
+            echo ""
+            echo "''${bold}brave ''${latest_brave}:''${reset}"
+            brave_sources "$latest_brave" || { echo "error: could not fetch brave sources" >&2; exit 1; }
             ;;
           twg)
             echo ""
@@ -394,13 +409,6 @@ pkgs.writeShellScriptBin "check-versions" ''
 
     for pkg in "''${outdated[@]}"; do
       case "$pkg" in
-        brave)
-          echo ""
-          echo "''${bold}brave''${reset}: $local_brave -> ''${green}$latest_brave''${reset}"
-          brave_url="https://github.com/brave/brave-browser/releases/download/v''${latest_brave}/Brave-Browser-arm64.dmg"
-          brave_hash=$(prefetch_sri "$brave_url")
-          write_entry "brave" "version" "$latest_brave" "hash" "$brave_hash"
-          ;;
         chrome)
           echo ""
           echo "''${bold}chrome''${reset}: $local_chrome -> ''${green}$latest_chrome''${reset}"
@@ -440,6 +448,20 @@ pkgs.writeShellScriptBin "check-versions" ''
           zoom_hash=$(prefetch_sri "$zoom_url" zoomusInstallerFull.pkg)
           write_entry "zoom-us" "version" "$latest_zoom" "hash" "$zoom_hash"
           ;;
+        brave)
+          echo ""
+          echo "''${bold}brave''${reset}: $local_brave -> ''${green}$latest_brave''${reset}"
+          sources=$(brave_sources "$latest_brave") || { echo "error: could not fetch brave sources" >&2; exit 1; }
+          declare -a brave_edits=(-e "s|^  version = \"[^\"]*\";|  version = \"$latest_brave\";|")
+          while read -r system hash; do
+            brave_edits+=(-e "/^    $system = {/,/^    };/ s|^\( *hash = \)\"[^\"]*\";|\1\"$hash\";|")
+          done <<< "$sources"
+          sources_tmp=$(${mktemp} "$brave_sources_file.XXXXXX") || exit 1
+          ${sed} "''${brave_edits[@]}" "$brave_sources_file" > "$sources_tmp" &&
+            ${chmod} --reference="$brave_sources_file" "$sources_tmp" &&
+            ${mv} "$sources_tmp" "$brave_sources_file" || exit 1
+          echo "''${green}Updated $brave_sources_file''${reset}"
+          ;;
         twg)
           echo ""
           echo "''${bold}twg-cli''${reset}: $local_twg -> ''${green}$latest_twg''${reset}"
@@ -459,7 +481,6 @@ pkgs.writeShellScriptBin "check-versions" ''
 
     for pkg in "''${to_null[@]}"; do
       case "$pkg" in
-        brave)    key=brave ;;
         chrome)   key=google-chrome ;;
         firefox)  key=firefox ;;
         orbstack) key=orbstack ;;
