@@ -37,6 +37,17 @@ in
     ]; # FZF_CTRL_R_OPTS
   };
 
+  programs.tmux.plugins =
+    lib.optional (lib.versionAtLeast pkgs.fzf-git-sh.version "0-unstable-2026-10-17")
+      (
+        pkgs.tmuxPlugins.mkTmuxPlugin {
+          pluginName = "fzf-git";
+          rtpFilePath = "fzf-git.tmux";
+          inherit (pkgs.fzf-git-sh) version;
+          src = "${pkgs.fzf-git-sh}/share/fzf-git-sh";
+        }
+      );
+
   programs.zsh = {
     shellAliases = {
       ".," = "dotcomma";

@@ -53,6 +53,9 @@ in
 
        bind-key £ split-window -h
 
+       # Bound to g by default, but we use that for fzf-git-sh's tmux plugin (in fzf.nix)
+       bind-key G switch-client -T move
+
       ${optionalString pkgs.stdenv.hostPlatform.isDarwin ''
         set -g extended-keys always
         set -gs extended-keys-format csi-u
