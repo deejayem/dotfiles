@@ -99,7 +99,8 @@ in
     pv
     rage
     rlwrap
-    scowl
+    # Let aspell take priorioty over scowl to fix conflicts
+    (lib.lowPrio scowl)
     sd
     shfmt
     shellcheck
