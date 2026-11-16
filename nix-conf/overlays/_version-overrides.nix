@@ -1,14 +1,7 @@
 {
-  brave = {
-    version = "1.99.57";
-    hash = "sha256-kik0sjPd7PpJqdxWKdQEaf2wstWcSVR2l+6g7sQIdxE=";
-  };
+  brave = null;
 
-  google-chrome = {
-    version = "157.0.8103.79";
-    slug = "adnzqttux77ny5bapr5n3fiap5cq";
-    hash = "sha256-7tFSLYya1ehrUedt8Br0UcfCSAzbDQCph5TlRvkkikY=";
-  };
+  google-chrome = null;
 
   firefox = null;
 
