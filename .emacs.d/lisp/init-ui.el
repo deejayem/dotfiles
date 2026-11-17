@@ -155,7 +155,7 @@
   :config
   (show-paren-mode +1))
 
-(use-package which-key
+(use-feature which-key
   :defer 5
   :diminish
   :config (which-key-mode +1))
