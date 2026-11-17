@@ -65,5 +65,9 @@
                ("M-[" . multi-vterm-prev)
                ("M-]" . multi-vterm-next))))
 
+(use-package ghostel
+  :custom-face
+  (ghostel-default ((t (:family "MesloLGS NF")))))
+
 (provide 'init-shell)
 ;;; init-shell.el ends here
