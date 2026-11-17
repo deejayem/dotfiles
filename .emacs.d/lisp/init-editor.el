@@ -123,7 +123,11 @@
   :diminish
   :config
   (when (string-suffix-p "aspell" ispell-program-name)
-    (setq ispell-extra-args '("--sug-mode=ultra")))
+    (setq ispell-extra-args '("--sug-mode=ultra"
+                              "--run-together"
+                              "--run-together-min=3"
+                              "--run-together-limit=4"
+                              "--camel-case")))
   (unbind-key "C-," flyspell-mode-map)
   (unbind-key "C-." flyspell-mode-map)
   ;;(unbind-key "C-;" flyspell-mode-map)
