@@ -60,5 +60,10 @@
 (use-package typescript-mode
   :custom (typescript-indent-level 2))
 
+(use-package add-node-modules-path
+  :custom
+  (add-node-modules-path-command '("echo \"$(npm prefix)/node_modules/.bin\""))
+  :hook ((typescript-mode js2-mode) . add-node-modules-path))
+
 (provide 'init-web)
 ;;; init-web.el ends here
