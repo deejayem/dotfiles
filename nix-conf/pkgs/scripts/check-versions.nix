@@ -178,6 +178,7 @@ pkgs.writeShellScriptBin "check-versions" ''
       fi
     }
 
+    latest_1password=$(fetch_latest sh -c "${curl} -s 'https://app-updates.agilebits.com/check/2/99/aarch64/OPM8/en/0/A1/N' | ${jq} -r 'select(.available == \"1\") | .version'")
     latest_brave=$(fetch_latest sh -c "${curl} -s 'https://api.github.com/repos/brave/brave-browser/releases/latest' | ${jq} -r '.tag_name | ltrimstr(\"v\")'")
     latest_chrome=$(fetch_latest sh -c "${curl} -s 'https://versionhistory.googleapis.com/v1/chrome/platforms/mac_arm64/channels/stable/versions/all/releases?filter=endtime=none,fraction%3E=0.5&order_by=version%20desc' | ${jq} -r '.releases[0].version'")
     latest_librewolf=$(fetch_latest sh -c "${curl} -s 'https://librewolf.dev/api/v1/repos/librewolf/source/tags?page=1&limit=1' | ${jq} -r '.[0].name'")
@@ -186,6 +187,7 @@ pkgs.writeShellScriptBin "check-versions" ''
     latest_zoom=$(fetch_latest sh -c "${curl} -Ls 'https://zoom.us/rest/download?os=mac' | ${jq} -r '.result.downloadVO.zoomArm64.version'")
     latest_twg=$(fetch_latest sh -c "${curl} -fsSL --max-time 30 'https://teamwork-graph.atlassian.com/cli/manifest.json' | ${jq} -er '.version | select(type == \"string\") | select(test(\"^[0-9]+[.][0-9]+[.][0-9]+$\"))'")
 
+    nixpkgs_1password=$(nix_ver nixpkgs#_1password-gui.version)
     nixpkgs_brave=$(nix_ver nixpkgs#brave.version)
     nixpkgs_chrome=$(nix_ver nixpkgs#google-chrome.version)
     nixpkgs_librewolf=$(nix_ver nixpkgs#librewolf.version)
@@ -193,6 +195,7 @@ pkgs.writeShellScriptBin "check-versions" ''
     nixpkgs_slack=$(nix_ver nixpkgs#slack.version)
     nixpkgs_zoom=$(nix_ver nixpkgs#zoom-us.version)
 
+    local_1password=$(nix_ver "''${flake_dir}#modifications._1password-gui.version")
     local_brave=$(nix_ver "''${flake_dir}#modifications.brave.version")
     local_chrome=$(nix_ver "''${flake_dir}#modifications.google-chrome.version")
     local_librewolf=$(nix_ver "''${flake_dir}#modifications.librewolf.version")
@@ -247,6 +250,7 @@ pkgs.writeShellScriptBin "check-versions" ''
     hline '┌' '┬' '┐'
     header
     hline '├' '┼' '┤'
+    row 1password "$nixpkgs_1password" "$local_1password" "$latest_1password"
     row brave    "$nixpkgs_brave"    "$local_brave"    "$latest_brave"
     row chrome   "$nixpkgs_chrome"   "$local_chrome"   "$latest_chrome"
     row librewolf "$nixpkgs_librewolf" "$local_librewolf" "$latest_librewolf"
@@ -257,6 +261,7 @@ pkgs.writeShellScriptBin "check-versions" ''
     hline '└' '┴' '┘'
 
     declare -a outdated=()
+    should_update "$local_1password" "$latest_1password" && outdated+=(1password)
     should_update "$local_brave"    "$latest_brave"    && outdated+=(brave)
     should_update "$local_chrome"   "$latest_chrome"   && outdated+=(chrome)
     should_update "$local_librewolf" "$latest_librewolf" && outdated+=(librewolf)
@@ -286,6 +291,7 @@ pkgs.writeShellScriptBin "check-versions" ''
       version_ge "$nixpkgs_v" "$ov" && version_ge "$nixpkgs_v" "$latest_v"
     }
     if [[ "$mode" != "check" && "$mode" != "force" ]]; then
+      should_null 1password _1password-gui && to_null+=(1password)
       should_null brave    brave         && to_null+=(brave)
       should_null chrome   google-chrome && to_null+=(chrome)
       should_null librewolf librewolf    && to_null+=(librewolf)
@@ -311,6 +317,13 @@ pkgs.writeShellScriptBin "check-versions" ''
     if [[ "$mode" == "check" ]]; then
       for pkg in "''${outdated[@]}"; do
         case "$pkg" in
+          1password)
+            echo ""
+            echo "''${bold}1password ''${latest_1password}:''${reset}"
+            onepassword_url="https://downloads.1password.com/mac/1Password-''${latest_1password}-aarch64.zip"
+            echo "  ''${dim}url:  $onepassword_url''${reset}"
+            echo "  ''${dim}hash: $(prefetch_sri "$onepassword_url")''${reset}"
+            ;;
           brave)
             echo ""
             echo "''${bold}brave ''${latest_brave}:''${reset}"
@@ -408,6 +421,13 @@ pkgs.writeShellScriptBin "check-versions" ''
 
     for pkg in "''${outdated[@]}"; do
       case "$pkg" in
+        1password)
+          echo ""
+          echo "''${bold}1password''${reset}: $local_1password -> ''${green}$latest_1password''${reset}"
+          onepassword_url="https://downloads.1password.com/mac/1Password-''${latest_1password}-aarch64.zip"
+          onepassword_hash=$(prefetch_sri "$onepassword_url")
+          write_entry "_1password-gui" "version" "$latest_1password" "hash" "$onepassword_hash"
+          ;;
         brave)
           echo ""
           echo "''${bold}brave''${reset}: $local_brave -> ''${green}$latest_brave''${reset}"
@@ -474,6 +494,7 @@ pkgs.writeShellScriptBin "check-versions" ''
 
     for pkg in "''${to_null[@]}"; do
       case "$pkg" in
+        1password) key=_1password-gui ;;
         brave)    key=brave ;;
         chrome)   key=google-chrome ;;
         librewolf) key=librewolf ;;

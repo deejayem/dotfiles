@@ -1,4 +1,9 @@
 {
+  _1password-gui = {
+    version = "8.12.46";
+    hash = "sha256-f0TuyualJAl0i6Xta5TWs4OUn2KOLMzT0eR5j6MEYfw=";
+  };
+
   brave = null;
 
   google-chrome = null;

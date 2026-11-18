@@ -36,7 +36,18 @@ in
       prev.git-remote-codecommit;
 }
 // prev.lib.optionalAttrs prev.stdenv.hostPlatform.isDarwin (
-  prev.lib.optionalAttrs (v.brave != null) {
+  prev.lib.optionalAttrs (v._1password-gui != null) {
+    _1password-gui = prev._1password-gui.overrideAttrs (
+      finalAttrs: _: {
+        inherit (v._1password-gui) version;
+        src = prev.fetchurl {
+          url = "https://downloads.1password.com/mac/1Password-${finalAttrs.version}-aarch64.zip";
+          inherit (v._1password-gui) hash;
+        };
+      }
+    );
+  }
+  // prev.lib.optionalAttrs (v.brave != null) {
     brave = prev.brave.overrideAttrs (
       finalAttrs: _: {
         inherit (v.brave) version;
