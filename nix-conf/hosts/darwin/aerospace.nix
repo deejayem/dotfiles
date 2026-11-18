@@ -10,7 +10,7 @@
           "1" = "secondary"; # Emacs
           "2" = "main"; # YouTube Music
           "3" = "main"; # Chrome
-          "4" = "main"; # Firefox
+          "4" = "main"; # LibreWolf
           "5" = "main"; # Slack
           "6" = "main"; # Alacritty
           "7" = "main"; # Zoom
@@ -36,7 +36,7 @@
             run = [ "move-node-to-workspace 3" ];
           }
           {
-            "if".app-id = "org.mozilla.firefox";
+            "if".app-id = "org.nixos.librewolf";
             run = [ "move-node-to-workspace 4" ];
           }
           {
@@ -77,7 +77,7 @@
           "${mod}-1" = "workspace 1"; # Emacs
           "${mod}-2" = "workspace 2"; # YouTube Music
           "${mod}-3" = "workspace 3"; # Chrome
-          "${mod}-4" = "workspace 4"; # Firefox
+          "${mod}-4" = "workspace 4"; # LibreWolf
           "${mod}-5" = "workspace 5"; # Slack
           "${mod}-6" = "workspace 6"; # Alacritty
           "${mod}-7" = "workspace 7"; # Zoom

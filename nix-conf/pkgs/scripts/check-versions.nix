@@ -73,6 +73,18 @@ pkgs.writeShellScriptBin "check-versions" ''
       ${nix} hash convert --hash-algo sha256 --to sri "$(${nix}-prefetch-url --type sha256 "$1" ''${2:+--name "$2"} 2>/dev/null)"
     }
 
+    # LibreWolf tags are <firefox version>-<release>; it needs both its own
+    # source tree and the matching Firefox source tarball.
+    librewolf_urls() {
+      librewolf_firefox="''${1%-*}"
+      librewolf_url="https://librewolf.dev/librewolf/source/archive/$1.tar.gz"
+      librewolf_firefox_url="https://archive.mozilla.org/pub/firefox/releases/$librewolf_firefox/source/firefox-$librewolf_firefox.source.tar.xz"
+    }
+
+    prefetch_unpacked_sri() {
+      ${nix} hash convert --hash-algo sha256 --to sri "$(${nix}-prefetch-url --unpack --type sha256 "$1" 2>/dev/null)"
+    }
+
     # Fetch every platform before changing the local package's version or hashes.
     twg_sources() {
       local version="$1" platforms platform url hash
@@ -168,7 +180,7 @@ pkgs.writeShellScriptBin "check-versions" ''
 
     latest_brave=$(fetch_latest sh -c "${curl} -s 'https://api.github.com/repos/brave/brave-browser/releases/latest' | ${jq} -r '.tag_name | ltrimstr(\"v\")'")
     latest_chrome=$(fetch_latest sh -c "${curl} -s 'https://versionhistory.googleapis.com/v1/chrome/platforms/mac_arm64/channels/stable/versions/all/releases?filter=endtime=none,fraction%3E=0.5&order_by=version%20desc' | ${jq} -r '.releases[0].version'")
-    latest_firefox=$(fetch_latest sh -c "${curl} -s https://archive.mozilla.org/pub/firefox/releases/ | ${grep} -oP '[0-9]+\.[0-9.]+(?=/)' | ${sort} -t. -k1,1n -k2,2n -k3,3n | ${tail} -1")
+    latest_librewolf=$(fetch_latest sh -c "${curl} -s 'https://librewolf.dev/api/v1/repos/librewolf/source/tags?page=1&limit=1' | ${jq} -r '.[0].name'")
     latest_orbstack=$(fetch_latest sh -c "${curl} -L -I -s 'https://orbstack.dev/download/stable/latest/arm64' | ${grep} -oE 'OrbStack_v[0-9._]+_arm64' | ${sed} 's/OrbStack_v//;s/_arm64//;s/_/-/'")
     latest_slack=$(fetch_latest sh -c "${curl} -s 'https://slack.com/api/desktop.latestRelease?arch=arm64&variant=dmg' | ${jq} -r .version")
     latest_zoom=$(fetch_latest sh -c "${curl} -Ls 'https://zoom.us/rest/download?os=mac' | ${jq} -r '.result.downloadVO.zoomArm64.version'")
@@ -176,14 +188,14 @@ pkgs.writeShellScriptBin "check-versions" ''
 
     nixpkgs_brave=$(nix_ver nixpkgs#brave.version)
     nixpkgs_chrome=$(nix_ver nixpkgs#google-chrome.version)
-    nixpkgs_firefox=$(nix_ver nixpkgs#firefox.version)
+    nixpkgs_librewolf=$(nix_ver nixpkgs#librewolf.version)
     nixpkgs_orbstack=$(nix_ver nixpkgs#orbstack.version)
     nixpkgs_slack=$(nix_ver nixpkgs#slack.version)
     nixpkgs_zoom=$(nix_ver nixpkgs#zoom-us.version)
 
     local_brave=$(nix_ver "''${flake_dir}#modifications.brave.version")
     local_chrome=$(nix_ver "''${flake_dir}#modifications.google-chrome.version")
-    local_firefox=$(nix_ver "''${flake_dir}#modifications.firefox.version")
+    local_librewolf=$(nix_ver "''${flake_dir}#modifications.librewolf.version")
     local_orbstack=$(nix_ver "''${flake_dir}#modifications.orbstack.version")
     local_slack=$(nix_ver "''${flake_dir}#modifications.slack.version")
     local_zoom=$(nix_ver "''${flake_dir}#modifications.zoom-us.version")
@@ -237,7 +249,7 @@ pkgs.writeShellScriptBin "check-versions" ''
     hline '├' '┼' '┤'
     row brave    "$nixpkgs_brave"    "$local_brave"    "$latest_brave"
     row chrome   "$nixpkgs_chrome"   "$local_chrome"   "$latest_chrome"
-    row firefox  "$nixpkgs_firefox"  "$local_firefox"  "$latest_firefox"
+    row librewolf "$nixpkgs_librewolf" "$local_librewolf" "$latest_librewolf"
     row orbstack "$nixpkgs_orbstack" "$local_orbstack" "$latest_orbstack"
     row slack    "$nixpkgs_slack"    "$local_slack"    "$latest_slack"
     row zoom     "$nixpkgs_zoom"     "$local_zoom"     "$latest_zoom"
@@ -247,7 +259,7 @@ pkgs.writeShellScriptBin "check-versions" ''
     declare -a outdated=()
     should_update "$local_brave"    "$latest_brave"    && outdated+=(brave)
     should_update "$local_chrome"   "$latest_chrome"   && outdated+=(chrome)
-    should_update "$local_firefox"  "$latest_firefox"  && outdated+=(firefox)
+    should_update "$local_librewolf" "$latest_librewolf" && outdated+=(librewolf)
     should_update "$local_orbstack" "$latest_orbstack" && outdated+=(orbstack)
     should_update "$local_slack"    "$latest_slack"    && outdated+=(slack)
     should_update "$local_zoom"     "$latest_zoom"     && outdated+=(zoom)
@@ -276,7 +288,7 @@ pkgs.writeShellScriptBin "check-versions" ''
     if [[ "$mode" != "check" && "$mode" != "force" ]]; then
       should_null brave    brave         && to_null+=(brave)
       should_null chrome   google-chrome && to_null+=(chrome)
-      should_null firefox  firefox       && to_null+=(firefox)
+      should_null librewolf librewolf    && to_null+=(librewolf)
       should_null orbstack orbstack      && to_null+=(orbstack)
       should_null slack    slack         && to_null+=(slack)
       should_null zoom     zoom-us       && to_null+=(zoom)
@@ -316,12 +328,14 @@ pkgs.writeShellScriptBin "check-versions" ''
             echo "  ''${dim}url:  $chrome_url''${reset}"
             echo "  ''${dim}hash: $(prefetch_sri "$chrome_url")''${reset}"
             ;;
-          firefox)
+          librewolf)
             echo ""
-            echo "''${bold}firefox ''${latest_firefox}:''${reset}"
-            firefox_url="https://archive.mozilla.org/pub/firefox/releases/''${latest_firefox}/source/firefox-''${latest_firefox}.source.tar.xz"
-            echo "  ''${dim}url:   $firefox_url''${reset}"
-            echo "  ''${dim}sha512: $(${nix}-prefetch-url --type sha512 "$firefox_url" 2>/dev/null)''${reset}"
+            echo "''${bold}librewolf ''${latest_librewolf}:''${reset}"
+            librewolf_urls "$latest_librewolf"
+            echo "  ''${dim}url:    $librewolf_url''${reset}"
+            echo "  ''${dim}hash:   $(prefetch_unpacked_sri "$librewolf_url")''${reset}"
+            echo "  ''${dim}url:    $librewolf_firefox_url''${reset}"
+            echo "  ''${dim}sha512: $(${nix}-prefetch-url --type sha512 "$librewolf_firefox_url" 2>/dev/null)''${reset}"
             ;;
           orbstack)
             echo ""
@@ -412,12 +426,13 @@ pkgs.writeShellScriptBin "check-versions" ''
           chrome_hash=$(prefetch_sri "$chrome_url")
           write_entry "google-chrome" "version" "$latest_chrome" "slug" "$chrome_slug" "hash" "$chrome_hash"
           ;;
-        firefox)
+        librewolf)
           echo ""
-          echo "''${bold}firefox''${reset}: $local_firefox -> ''${green}$latest_firefox''${reset}"
-          firefox_url="https://archive.mozilla.org/pub/firefox/releases/''${latest_firefox}/source/firefox-''${latest_firefox}.source.tar.xz"
-          firefox_sha512=$(${nix}-prefetch-url --type sha512 "$firefox_url" 2>/dev/null)
-          write_entry "firefox" "version" "$latest_firefox" "sha512" "$firefox_sha512"
+          echo "''${bold}librewolf''${reset}: $local_librewolf -> ''${green}$latest_librewolf''${reset}"
+          librewolf_urls "$latest_librewolf"
+          librewolf_hash=$(prefetch_unpacked_sri "$librewolf_url")
+          librewolf_firefox_sha512=$(${nix}-prefetch-url --type sha512 "$librewolf_firefox_url" 2>/dev/null)
+          write_entry "librewolf" "version" "$latest_librewolf" "hash" "$librewolf_hash" "firefoxVersion" "$librewolf_firefox" "firefoxSha512" "$librewolf_firefox_sha512"
           ;;
         orbstack)
           echo ""
@@ -461,7 +476,7 @@ pkgs.writeShellScriptBin "check-versions" ''
       case "$pkg" in
         brave)    key=brave ;;
         chrome)   key=google-chrome ;;
-        firefox)  key=firefox ;;
+        librewolf) key=librewolf ;;
         orbstack) key=orbstack ;;
         slack)    key=slack ;;
         zoom)     key=zoom-us ;;

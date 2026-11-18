@@ -48,38 +48,6 @@ in
       }
     );
   }
-  // prev.lib.optionalAttrs (v.firefox != null) {
-    firefox-unwrapped =
-      import (prev.path + "/pkgs/applications/networking/browsers/firefox/packages/firefox.nix")
-        {
-          inherit (final)
-            stdenv
-            lib
-            callPackage
-            fetchurl
-            nixosTests
-            ;
-          buildMozillaMach =
-            args:
-            final.buildMozillaMach (
-              args
-              // {
-                version = v.firefox.version;
-                packageVersion = v.firefox.version;
-                src = prev.fetchurl {
-                  url = "mirror://mozilla/firefox/releases/${v.firefox.version}/source/firefox-${v.firefox.version}.source.tar.xz";
-                  inherit (v.firefox) sha512;
-                };
-              }
-            );
-        };
-  }
-  // {
-    # Without this, tcc on macos 27 stops firefox from reading its profile directory
-    firefox = (final.wrapFirefox final.firefox-unwrapped { }).overrideAttrs (oldAttrs: {
-      nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [ final.makeBinaryWrapper ];
-    });
-  }
   // prev.lib.optionalAttrs (v.google-chrome != null) {
     google-chrome = prev.google-chrome.overrideAttrs (
       finalAttrs: _: {
@@ -90,6 +58,36 @@ in
         };
       }
     );
+  }
+  // prev.lib.optionalAttrs (v.librewolf != null) {
+    # nixpkgs reads the sources from src.json via a nested callPackage, so
+    # swap out what librewolf.nix gets when it calls ./src.nix.
+    librewolf-unwrapped =
+      let
+        src = {
+          packageVersion = v.librewolf.version;
+          source = final.fetchFromForgejo {
+            domain = "librewolf.dev";
+            owner = "librewolf";
+            repo = "source";
+            rev = v.librewolf.version;
+            inherit (v.librewolf) hash;
+          };
+          firefox = final.fetchurl {
+            version = v.librewolf.firefoxVersion;
+            url = "mirror://mozilla/firefox/releases/${v.librewolf.firefoxVersion}/source/firefox-${v.librewolf.firefoxVersion}.source.tar.xz";
+            sha512 = v.librewolf.firefoxSha512;
+          };
+        };
+      in
+      final.callPackage (prev.path + "/pkgs/by-name/li/librewolf-unwrapped/package.nix") {
+        callPackage =
+          fn: args:
+          if baseNameOf (toString fn) == "librewolf.nix" then
+            final.callPackage fn (args // { callPackage = _: _: src; })
+          else
+            final.callPackage fn args;
+      };
   }
   // prev.lib.optionalAttrs (v.orbstack != null) {
     orbstack = prev.orbstack.overrideAttrs (

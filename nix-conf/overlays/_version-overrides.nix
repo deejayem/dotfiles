@@ -3,9 +3,11 @@
 
   google-chrome = null;
 
-  firefox = {
-    version = "160.0.1";
-    sha512 = "1qa7kmfzn4hbjkav70bvnp991sgzj8vzbkv0r9n3wvj7z3ywn9wzmc6166gjdhkczk4ki7fn95il15cw5596yrxx2wi15pgbaw758p7";
+  librewolf = {
+    version = "160.0.1-1";
+    hash = "sha256-X4y/QfhPrWxHt9GR12gFxFfgKgnAT3r5ArQl227t2DA=";
+    firefoxVersion = "160.0.1";
+    firefoxSha512 = "1qa7kmfzn4hbjkav70bvnp991sgzj8vzbkv0r9n3wvj7z3ywn9wzmc6166gjdhkczk4ki7fn95il15cw5596yrxx2wi15pgbaw758p7";
   };
 
   orbstack = {
