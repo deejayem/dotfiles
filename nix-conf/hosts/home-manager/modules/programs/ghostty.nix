@@ -10,7 +10,7 @@ in
     package = if pkgs.stdenv.hostPlatform.isDarwin then null else pkgs.ghostty;
 
     settings = {
-      font-family = "MesloLGS Nerd Font";
+      font-family = "MesloLGS NF";
       font-size = if pkgs.stdenv.hostPlatform.isDarwin then 12.5 else 8;
       copy-on-select = "clipboard";
       keybind = [
@@ -44,6 +44,8 @@ in
     }
     // optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
       adjust-cell-height = "1";
+      # Already the default on Linux
+      alpha-blending = "linear-corrected";
       font-thicken = true;
       font-thicken-strength = 35;
       macos-option-as-alt = "left";
