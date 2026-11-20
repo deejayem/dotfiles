@@ -10,22 +10,22 @@ let
   sources = {
     aarch64-darwin = {
       platform = "darwin-arm64";
-      hash = "sha256-lQE0Q82rDsClMMnKRRb42fqfldtXg9dltlBcTW6QQ88=";
+      hash = "sha256-6VuShal/PXmkrhEiJkpD9yUidAlE3i3I/xuSN2QYkm0=";
     };
     aarch64-linux = {
       platform = "linux-arm64";
-      hash = "sha256-iy5GLl9u/c/QhSB7Jgex+dTXTVvXJiD3d4mT5krStKw=";
+      hash = "sha256-ms6gEn6bwS+Gh9qBQ0/mHkV4rn3eVW3eYm0+yqtFNQw=";
     };
     x86_64-linux = {
       platform = "linux-x64";
-      hash = "sha256-Es3NSVl+98KnpLDIlIvHCBEvtZAevOPlSYMXG2JAVZU=";
+      hash = "sha256-KJ6AT/rlT+lY0L4+qDdNyAan40HTzzTl/sqBrQwfQb8=";
     };
   };
   source = sources.${stdenvNoCC.hostPlatform.system};
 in
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "twg-cli";
-  version = "1.4.5";
+  version = "1.4.6";
 
   src = fetchurl {
     url = "https://teamwork-graph.atlassian.com/cli/twg-${source.platform}-v${finalAttrs.version}";
