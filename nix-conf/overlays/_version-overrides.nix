@@ -4,16 +4,14 @@
     hash = "sha256-f0TuyualJAl0i6Xta5TWs4OUn2KOLMzT0eR5j6MEYfw=";
   };
 
-  brave = null;
+  brave = {
+    version = "1.100.58";
+    hash = "sha256-Dib7TGTELOemsaHA4hhNM0ZosMUVY7zwgxQ35LmSCz8=";
+  };
 
   google-chrome = null;
 
-  librewolf = {
-    version = "160.0.1-1";
-    hash = "sha256-X4y/QfhPrWxHt9GR12gFxFfgKgnAT3r5ArQl227t2DA=";
-    firefoxVersion = "160.0.1";
-    firefoxSha512 = "1qa7kmfzn4hbjkav70bvnp991sgzj8vzbkv0r9n3wvj7z3ywn9wzmc6166gjdhkczk4ki7fn95il15cw5596yrxx2wi15pgbaw758p7";
-  };
+  librewolf = null;
 
   orbstack = {
     version = "2.2.5-21124";

@@ -77,6 +77,7 @@ in
       let
         src = {
           packageVersion = v.librewolf.version;
+          inherit (v.librewolf) firefoxVersion;
           source = final.fetchFromForgejo {
             domain = "librewolf.dev";
             owner = "librewolf";
